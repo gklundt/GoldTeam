@@ -9,5 +9,6 @@ public class GoldTeam {
         System.out.println("Hello World");
         // Fix breaking changes in your own branch
         // work, etc.
+        System.out.println("I'm a coding fool");
     }
 }
