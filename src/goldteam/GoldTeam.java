@@ -10,5 +10,6 @@ public class GoldTeam {
         // Fix breaking changes in your own branch
         // work, etc.
         System.out.println("I'm a coding fool");
+        // Please don't break the code.
     }
 }
