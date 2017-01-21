@@ -7,8 +7,7 @@ public class GoldTeam {
      */
     public static void main(String[] args) {
         System.out.println("Hello World");
-        // Make changes
-        Some bad
-                //some ok
+        // Fix breaking changes in your own branch
+        // work, etc.
     }
 }
