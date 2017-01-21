@@ -7,9 +7,6 @@ public class GoldTeam {
      */
     public static void main(String[] args) {
         System.out.println("Hello World");
-        // Fix breaking changes in your own branch
-        // work, etc.
         System.out.println("I'm a coding fool");
-        // Please don't break the code.
     }
 }
