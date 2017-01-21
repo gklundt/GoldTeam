@@ -7,6 +7,6 @@ public class GoldTeam {
      */
     public static void main(String[] args) {
         System.out.println("Hello World");
-        System.out.println("I'm a coding fool");
+        // I'm going to make some more changes.
     }
 }
