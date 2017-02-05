@@ -1,6 +1,6 @@
 package goldteam.domain;
 
-public interface InventoryModifier extends Modifier {
+public interface DepletableModifier extends Modifier {
 
     public Delta getCountDelta();
 

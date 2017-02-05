@@ -1,6 +1,6 @@
 package goldteam.domain;
 
-public interface AttackModifier extends Modifier {
+public interface AttackableModifier extends Modifier {
 
     public Delta getShieldDelta();
 

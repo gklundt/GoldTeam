@@ -1,6 +1,6 @@
 package goldteam.domain;
 
-public interface MovementModifier extends Modifier {
+public interface MovableModifier extends Modifier {
 
     public void setVelocityDelta(Delta delta);
 

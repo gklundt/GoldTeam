@@ -6,7 +6,7 @@ package goldteam.domain;
  * The initial trajectory should be a unit vector
  * @author gordon
  */
-public interface Archer {
+public interface Archer extends Fighter {
 
     public void ready();
 

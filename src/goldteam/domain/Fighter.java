@@ -1,6 +1,6 @@
 package goldteam.domain;
 
-public interface Fighter {
+interface Fighter {
 
     public Integer getStrength();
 
