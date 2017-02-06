@@ -10,12 +10,11 @@ public class GoldTeam {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        PanelManager pm = GamePanelManager.getGamePanelManager();
-        JPanel optionsPanel = new OptionsPanel();
-        pm.addPanel(GamePanelManager.OPTIONS_PANEL, optionsPanel);
-        
-        JFrame frame = new GameWindow(pm);
+
+        Bootstrap bootstrap = new Bootstrap();
+        bootstrap.initialize();
+        JFrame frame = bootstrap.<JFrame>resolve("GameWindow");
 
     }
+
 }

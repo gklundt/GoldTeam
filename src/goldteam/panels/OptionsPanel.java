@@ -5,35 +5,38 @@
  */
 package goldteam.panels;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeListener;
+import javax.swing.Action;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 /**
  *
  * @author gordon
  */
-public class OptionsPanel extends JPanel {
+public final class OptionsPanel extends ManagedPanel {
 
-    public OptionsPanel() {
-        LayoutManager mgr = new GridLayout(1,1);
+    public OptionsPanel(PanelManager panelManager) {
+        super(panelManager);
+        LayoutManager mgr = new GridBagLayout();
         super.setLayout(mgr);
-        super.add(TestPanel());
-        //super.setPreferredSize(new Dimension(800, 600));
-        
-
+        super.add(TestButton());
     }
 
-    private JButton TestPanel() {
-        
+    public JButton TestButton() {
         JButton ret = new JButton("something");
-        ret.addActionListener((e) -> mork());
+        ret.addActionListener(l -> stupidAction());
         return ret;
     }
 
-    private void mork() {
-
+    private void stupidAction() {
+        panelManager.setActivePanel(GamePanelManager.TEST_GRAPHICS_PANEL);
     }
-
 }
