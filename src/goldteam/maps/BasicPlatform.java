@@ -19,11 +19,6 @@ public class BasicPlatform extends GameObject implements Platform {
     }
 
     @Override
-    public void Render() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Double getDurabilityPercentage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
