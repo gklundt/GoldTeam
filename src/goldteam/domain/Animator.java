@@ -6,11 +6,12 @@
 package goldteam.domain;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 /**
- *
+ * Animator
  * @author gordon
  */
 public interface Animator {
-    public void PaintNextImage(AnimationState state, Graphics graphics);
+    public void NextImage(AnimationState state, Graphics g);
 }

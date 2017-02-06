@@ -1,13 +1,13 @@
 package goldteam;
 
-import goldteam.panels.*;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class GoldTeam {
 
     /**
      * @param args the command line arguments
+     * Start of application.
+     * Use the bootstrap to create objects used in the game.
      */
     public static void main(String[] args) {
 

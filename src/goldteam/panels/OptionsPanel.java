@@ -5,16 +5,8 @@
  */
 package goldteam.panels;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
-
 import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.beans.PropertyChangeListener;
-import javax.swing.Action;
 import javax.swing.JButton;
 
 /**
@@ -31,7 +23,7 @@ public final class OptionsPanel extends ManagedPanel {
     }
 
     public JButton TestButton() {
-        JButton ret = new JButton("something");
+        JButton ret = new JButton("Open TestGraphicsPanel");
         ret.addActionListener(l -> stupidAction());
         return ret;
     }

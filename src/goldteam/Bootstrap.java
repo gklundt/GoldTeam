@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package goldteam;
 
 import goldteam.panels.*;
@@ -11,7 +6,14 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 /**
- *
+ * Bootstrap Container.
+ * This bootstrap is a container for pre-assembled interfaces.  We will use
+ * containers to construct objects needed for further use.  This container
+ * resolver should prevent the need to create objects inside a class.  Ideally,
+ * dependencies should be resolved from a container and injected into a 
+ * constructor.
+ * 
+ * Consider this the "composition root" of the application.
  * @author gordon
  */
 class Bootstrap {
