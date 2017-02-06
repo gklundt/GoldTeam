@@ -3,28 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package goldteam.domain;
+package goldteam.hud;
 
+import goldteam.domain.*;
 
-public class GameEngineImpl implements GameEngine {
+/**
+ *
+ * @author gordon
+ */
+public class BasicHudItem extends GameObject implements AttackableWatcher {
 
     @Override
-    public void processInput() {
+    public void Update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void update() {
+    public void Render() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void render() {
+    public Attackable getWatcher() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isActive() {
+    public void setWatcher(Attackable target) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

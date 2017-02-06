@@ -6,28 +6,16 @@
 package goldteam.maps;
 
 import goldteam.domain.*;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageProducer;
-import java.awt.image.Raster;
-import java.io.File;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
  *
  * @author gordon
  */
-public class BasicLevelMap extends GameObject implements Movable, Collidable {
-
-    public BasicLevelMap() {
-        this.positionVector = new Point();
-    }
+public class BasicLevelGoal extends GameObject 
+        implements Objective, Collidable
+{
 
     @Override
     public void Update() {
@@ -40,17 +28,12 @@ public class BasicLevelMap extends GameObject implements Movable, Collidable {
     }
 
     @Override
-    public DoubleVector getVelocityVector() {
+    public boolean IsReached() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setVelocityScalarDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getVelocity() {
+    public void setReached(Boolean reached) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -73,5 +56,5 @@ public class BasicLevelMap extends GameObject implements Movable, Collidable {
     public ArrayList<GameObject> getColliders() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }

@@ -6,28 +6,12 @@
 package goldteam.maps;
 
 import goldteam.domain.*;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageProducer;
-import java.awt.image.Raster;
-import java.io.File;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
 
 /**
  *
  * @author gordon
  */
-public class BasicLevelMap extends GameObject implements Movable, Collidable {
-
-    public BasicLevelMap() {
-        this.positionVector = new Point();
-    }
+public class BasicPlatform extends GameObject implements Platform {
 
     @Override
     public void Update() {
@@ -40,38 +24,43 @@ public class BasicLevelMap extends GameObject implements Movable, Collidable {
     }
 
     @Override
-    public DoubleVector getVelocityVector() {
+    public Double getDurabilityPercentage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setVelocityScalarDelta(Delta delta) {
+    public void setDurabilityPercentage(Double durabilityPercentage) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Integer getVelocity() {
+    public Double getDecayRate() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Polygon getPolygon() {
+    public void setDecayRate(Double decayRate) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setCollider(GameObject obj, CollisionPlane direction) {
+    public boolean isSolidTop() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void removeCollider(GameObject obj) {
+    public boolean isSolidBottom() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<GameObject> getColliders() {
+    public void setSolidTop(Boolean isSolidTop) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void setSolidBottom(Boolean isSolidBottom) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
