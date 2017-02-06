@@ -1,13 +1,15 @@
 package goldteam.panels;
 
-import java.awt.Color;
+import goldteam.animators.GhostAnimation;
+import goldteam.characters.Ghost;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JRootPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -25,16 +27,24 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        GraphicsConfiguration gf = getGraphicsConfiguration();
-        Graphics2D g2d = (Graphics2D)g;
-        g2d.setColor(Color.black);
-        g2d.fill(gf.getBounds());
-        g2d.draw(gf.getBounds());
+//        GraphicsConfiguration gf = getGraphicsConfiguration();
+//        Graphics2D g2d = (Graphics2D)g;
+//        g2d.setColor(Color.black);
+//        g2d.fill(gf.getBounds());
+//        g2d.draw(gf.getBounds());
     }
 
     private void updateListeners() {
         addKeyListener(this);
         addMouseListener(this);
+        GraphicsConfiguration gf = getGraphicsConfiguration();
+        JRootPane jrp = getRootPane();
+        Ghost g = new Ghost();
+        GhostAnimation ga = new GhostAnimation(g, jrp.getSize(), "assets/GameGhostStripe.png",24);
+        add(ga);
+        
+        validate();
+        ga.setVisible(true);
     }
 
     @Override

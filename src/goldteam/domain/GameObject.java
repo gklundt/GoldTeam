@@ -16,4 +16,8 @@ public abstract class GameObject {
     public abstract void Update();
 
     public abstract void Render();
+
+    public Point PositionVector() {
+        return this.positionVector;
+    }
 }

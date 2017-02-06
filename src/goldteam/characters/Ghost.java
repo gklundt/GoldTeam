@@ -13,20 +13,24 @@ import java.util.ArrayList;
  * a Controllable Character.
  * @author gordon
  */
-public class ArcherMan extends GameObject implements 
+public class Ghost extends GameObject implements 
         Attackable,     /* Shield and Health accessors */
-        Brawler,        /* Strength accessor (from Fighter) and strike action */
-        Archer,         /* Strength accessor (from Fighter) and ready/aim/fire routines */
+        Weapon,         /* Adds damage to a movable object */
         Collidable,     /* Information for Collision detection */
-        Controllable,   /* Process Keyboard and Mouse events */
-        Movable,        /* Vectors and scalar for movement */
-        Spawnable,      /* Respawn details */
-        Depletable      /* Life Counter */
+        Movable        /* Vectors and scalar for movement */
 {
+
+    private final DoubleVector velocityVector;
+    
+    public Ghost(){
+        this.positionVector = new Point (100,80);
+        this.velocityVector = new DoubleVector(1.0,0.0);
+    }
 
     @Override
     public void Update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.positionVector.x += this.getVelocityVector().x;
+        this.positionVector.y += this.getVelocityVector().y;
     }
 
     @Override
@@ -55,36 +59,6 @@ public class ArcherMan extends GameObject implements
     }
 
     @Override
-    public void strike() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void ready() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void aim() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void fire() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getStrength() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setStrengthDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Polygon getPolygon() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -105,18 +79,8 @@ public class ArcherMan extends GameObject implements
     }
 
     @Override
-    public void processKeyInput(KeyEvent keyEvent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void processMouseInput(MouseEvent mouseEvent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public DoubleVector getVelocityVector() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.velocityVector;
     }
 
     @Override
@@ -126,46 +90,31 @@ public class ArcherMan extends GameObject implements
 
     @Override
     public Integer getVelocity() {
+        return 1;
+    }
+
+    @Override
+    public Double getForce() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Point getStartVector() {
+    public void setForceDelta(Delta delta) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Point setStartVector() {
+    public DoubleVector getStrikeVector() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Integer getRespawnTime() {
+    public void setStrikeVector(DoubleVector strikeVector) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setRespawnTime(Integer seconds) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setSafeTime(Integer seconds) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getSafeTime() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setCountDelta(Delta delta) {
+    public void setStrikeScalarDelta(Delta delta) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
