@@ -14,30 +14,32 @@ import javax.swing.JPanel;
  * @author gordon
  */
 public class GamePanelManager implements PanelManager {
-    public static final String OPTIONS_PANEL = "OPTIONS_PANEL";
 
-    private ArrayList<PanelManagerListener> listeners;
-    private HashMap<String, JPanel> panels;
+    public static final String OPTIONS_PANEL = "OPTIONS_PANEL";
+    public static final String TEST_GRAPHICS_PANEL = "TEST_GRAPHICS_PANEL";
+
+    private final ArrayList<PanelManagerListener> listeners;
+    private final HashMap<String, JPanel> panels;
     private String activePanel;
 
     private static GamePanelManager instance;
-    
-    private GamePanelManager(){
+
+    private GamePanelManager() {
         this.panels = new HashMap<>();
         this.listeners = new ArrayList<>();
     }
-    
-    public static GamePanelManager getGamePanelManager(){
-        if (instance == null){
+
+    public static GamePanelManager getGamePanelManager() {
+        if (instance == null) {
             instance = new GamePanelManager();
         }
         return instance;
     }
-            
+
     @Override
     public void addPanel(String name, JPanel panel) {
         this.panels.put(name, panel);
-        if(this.panels.size() == 1){
+        if (this.panels.size() == 1) {
             this.activePanel = name;
         }
     }
@@ -72,9 +74,11 @@ public class GamePanelManager implements PanelManager {
     @Override
     public void setActivePanel(String panel) {
         for (String p : this.panels.keySet()) {
-            this.activePanel = p;
-            this.notifyListeners();
-            break;
+            if (p.equals(panel)) {
+                this.activePanel = p;
+                this.notifyListeners();
+                break;
+            }
         }
     }
 }
