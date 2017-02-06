@@ -9,9 +9,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
- * Animator
+ * Animateable
  * @author gordon
  */
-public interface Animator {
-    public void NextImage(AnimationState state, Graphics g);
+public interface Animatable {
+    public void setAnimator(AnimationBase animator);
+    public AnimationBase getAnimator();
 }

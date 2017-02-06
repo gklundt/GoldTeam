@@ -5,9 +5,13 @@ package goldteam.domain;
  * @author gordon
  */
 public enum AnimationState {
-    WALKING,
-    JUMPING,
+    WALKING_LEFT,
+    WALKING_RIGHT,
+    JUMPING_LEFT,
+    JUMPING_RIGHT,
     DYING,
-    FIGHTING,
-    SHOOTING
+    FIGHTING_LEFT,
+    FIGHTING_RIGHT,
+    SHOOTING_LEFT,
+    SHOOTING_RIGHT
 }

@@ -19,11 +19,6 @@ public class BasicHudItem extends GameObject implements AttackableWatcher {
     }
 
     @Override
-    public void Render() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Attackable getWatcher() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

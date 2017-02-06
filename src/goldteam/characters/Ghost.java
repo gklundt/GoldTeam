@@ -17,25 +17,21 @@ public class Ghost extends GameObject implements
         Attackable,     /* Shield and Health accessors */
         Weapon,         /* Adds damage to a movable object */
         Collidable,     /* Information for Collision detection */
-        Movable        /* Vectors and scalar for movement */
+        Movable,        /* Vectors and scalar for movement */
+        Animatable      /* Getter/Setter for animator */
 {
 
     private final DoubleVector velocityVector;
-    
+    private AnimationBase animator;
     public Ghost(){
         this.positionVector = new Point (100,80);
-        this.velocityVector = new DoubleVector(1.0,0.0);
+        this.velocityVector = new DoubleVector(4.0,0.0);
     }
 
     @Override
     public void Update() {
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
-    }
-
-    @Override
-    public void Render() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -116,6 +112,16 @@ public class Ghost extends GameObject implements
     @Override
     public void setStrikeScalarDelta(Delta delta) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setAnimator(AnimationBase animator) {
+        this.animator = animator;
+    }
+
+    @Override
+    public AnimationBase getAnimator() {
+        return this.animator;
     }
     
 }
