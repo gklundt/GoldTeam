@@ -33,10 +33,6 @@ public class GhostAnimation extends AnimationBase {
      */
     public void update() {
 
-        if (gameObject.PositionVector().x > getSize().width - imgWidth) {
-            super.timer.stop();
-        }
-
         gameObject.Update();
 
         ++currentFrame;    // displays next frame

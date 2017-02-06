@@ -10,6 +10,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.RescaleOp;
@@ -35,9 +37,17 @@ public abstract class AnimationBase extends JComponent implements ActionListener
     protected BufferedImage img; // for the entire image stripe
     protected BufferedImage[] imgArray; // for the entire image stripe
     protected Timer timer;
+    private final AffineTransform af;
+    private final BufferedImageOp  bio;
+    
 
     public AnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile, int frameRate) {
         super();
+
+        this.af = new AffineTransform();
+        //this.bio = new  AffineTransformOp(af,null);
+        this.bio = new  RescaleOp( 1.0f, 0.0f, null);
+
         this.imgFilename = assetFile;
         this.gameObject = gameObject;
         this.timer = new Timer(1000 / frameRate, this);
@@ -106,7 +116,7 @@ public abstract class AnimationBase extends JComponent implements ActionListener
         super.paintComponent(g);
         Graphics2D g2d;
         g2d = (Graphics2D) g;
-        BufferedImageOp bio = new RescaleOp(1.0f, 1.0f, null);
+        
         g2d.drawImage(imgArray[currentFrame], bio, (int) gameObject.PositionVector().x - imgWidth / 2, (int) gameObject.PositionVector().y - imgHeight / 2);
     }
 
