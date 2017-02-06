@@ -29,11 +29,11 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        GraphicsConfiguration gf = getGraphicsConfiguration();
-        Graphics2D g2d = (Graphics2D)g;
-        g2d.setColor(Color.black);
-        g2d.fill(gf.getBounds());
-        g2d.draw(gf.getBounds());
+//        GraphicsConfiguration gf = getGraphicsConfiguration();
+//        Graphics2D g2d = (Graphics2D) g;
+//        g2d.setColor(Color.black);
+//        g2d.fill(gf.getBounds());
+//        g2d.draw(gf.getBounds());
     }
 
     private void updateListeners() {
@@ -41,14 +41,14 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
         addMouseListener(this);
         GraphicsConfiguration gf = getGraphicsConfiguration();
         JRootPane jrp = getRootPane();
-        
+
         Ghost g = new Ghost();
 
-        GhostAnimation ga = new GhostAnimation(g, jrp.getSize(), "assets/GameGhostStripe.png",10);
+        GhostAnimation ga = new GhostAnimation(g, jrp.getSize(), "assets/GameGhostStripe.png", 10);
         g.setAnimator(ga);
 
         add(g.getAnimator());
-        
+
         validate();
         ga.setVisible(true);
     }
