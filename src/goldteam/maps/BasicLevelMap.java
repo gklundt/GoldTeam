@@ -9,6 +9,7 @@ import goldteam.domain.*;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -46,17 +47,22 @@ public class BasicLevelMap extends GameObject implements Movable, Collidable {
     }
 
     @Override
-    public void setCollider(GameObject obj, CollisionPlane direction) {
+    public void setCollider(Collidable obj, CollisionPlane direction) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void removeCollider(GameObject obj) {
+    public void removeCollider(Collidable obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<GameObject> getColliders() {
+    public HashMap<Collidable, CollisionPlane> getColliders() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setVelocityVectorDelta(Delta xDelta, Delta yDelta) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

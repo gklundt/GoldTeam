@@ -6,6 +6,8 @@ public interface Movable {
 
     public void setVelocityScalarDelta(Delta delta);
 
+    public void setVelocityVectorDelta(Delta xDelta, Delta yDelta);
+
     public Integer getVelocity();
 
 }
