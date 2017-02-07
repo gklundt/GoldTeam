@@ -7,10 +7,10 @@ public interface Collidable {
 
     public Polygon getPolygon();
 
-    public void setCollider(GameObject obj, CollisionPlane direction);
+    public void setCollider(Collidable obj, CollisionPlane direction);
 
-    public void removeCollider(GameObject obj);
+    public void removeCollider(Collidable obj);
 
-    public ArrayList<GameObject> getColliders();
+    public HashMap<Collidable, CollisionPlane> getColliders();
 
 }
