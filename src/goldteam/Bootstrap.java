@@ -40,8 +40,8 @@ class Bootstrap {
 
         PanelManager pm = GamePanelManager.getGamePanelManager();
         addOptionsPanel(pm);
-        addTestGraphicsPanel(pm);
-
+        //addTestGraphicsPanel(pm);
+        addTest_HUD_Panel(pm);
         GameWindow gw = new GameWindow(pm);
 
         registerInstance("PanelManager", pm);
@@ -54,6 +54,11 @@ class Bootstrap {
         pm.addPanel(GamePanelManager.TEST_GRAPHICS_PANEL, test);
     }
 
+    private void addTest_HUD_Panel(PanelManager pm) {
+        JPanel test = new Test_HUD_Panel(pm);
+        pm.addPanel(GamePanelManager.TEST_GRAPHICS_PANEL, test);
+    }
+    
     private void addOptionsPanel(PanelManager pm) {
         JPanel optionsPanel = new OptionsPanel(pm);
         pm.addPanel(GamePanelManager.OPTIONS_PANEL, optionsPanel);

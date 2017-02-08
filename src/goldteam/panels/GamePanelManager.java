@@ -10,7 +10,7 @@ import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
- *jw34ebjwejkgrwkgnerg
+ *
  * @author gordon
  */
 public class GamePanelManager implements PanelManager {
