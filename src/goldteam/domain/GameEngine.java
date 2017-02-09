@@ -21,15 +21,9 @@ public interface GameEngine {
 
     public void addClicksListener(ActionListener listener);
     
-    public void updateMap();
-
     public void addMapUpdateTimerListener(ActionListener listener);
 
-    public void updateGraphics();
-
     public void addGraphicsUpdateTimerListener(ActionListener listener);
-
-    public void updateEffects();
 
     public void addEffectsTimerListener(ActionListener listener);
     

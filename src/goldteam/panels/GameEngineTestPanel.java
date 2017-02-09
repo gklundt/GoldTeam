@@ -3,11 +3,7 @@ package goldteam.panels;
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
 import goldteam.gamedata.GameData;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -20,9 +16,9 @@ import javax.swing.event.AncestorListener;
  *
  * @author gordon
  */
-public class TestGraphicsPanel extends ManagedPanel implements KeyListener, MouseListener {
+public class GameEngineTestPanel extends ManagedPanel implements KeyListener, MouseListener {
 
-    public TestGraphicsPanel(PanelManager panelManager) {
+    public GameEngineTestPanel(PanelManager panelManager) {
         super(panelManager);
         super.addAncestorListener(new AncestorListenerImpl());
     }
@@ -33,23 +29,7 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
     }
 
     private void updateListeners() {
-        addKeyListener(this);
-        addMouseListener(this);
-        GraphicsConfiguration gf = getGraphicsConfiguration();
-        JRootPane jrp = getRootPane();
-
-        GameData gd = new GameData();
-        gd.addGraphicsUpdateTimerListener(l -> this.repaint());
-        
-        Ghost g = new Ghost(gd);
-
-        GhostAnimation ga = new GhostAnimation(g, jrp.getSize(), "assets/GameGhostStripe.png", 10);
-        g.setAnimator(ga);
-
-        add(g.getAnimator());
-
         validate();
-        ga.setVisible(true);
     }
 
     @Override

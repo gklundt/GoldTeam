@@ -10,7 +10,8 @@ import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
- *jw34ebjwejkgrwkgnerg
+ * jw34ebjwejkgrwkgnerg
+ *
  * @author gordon
  */
 public class GamePanelManager implements PanelManager {
@@ -18,6 +19,7 @@ public class GamePanelManager implements PanelManager {
     public static final String OPTIONS_PANEL = "OPTIONS_PANEL";
     public static final String TEST_GRAPHICS_PANEL = "TEST_GRAPHICS_PANEL";
     public static final String TEST_HUD_PANEL = "TEST_HUD_PANEL";
+    public static final String TEST_GAME_ENGINE_PANEL = "TEST_GAME_ENGINE_PANEL";
 
     private final ArrayList<PanelManagerListener> listeners;
     private final HashMap<String, JPanel> panels;
@@ -74,9 +76,11 @@ public class GamePanelManager implements PanelManager {
 
     @Override
     public void setActivePanel(String panel) {
+
         for (String p : this.panels.keySet()) {
             if (p.equals(panel)) {
                 this.activePanel = p;
+                this.panels.get(this.activePanel).requestFocus();
                 this.notifyListeners();
                 break;
             }

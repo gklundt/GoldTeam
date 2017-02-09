@@ -3,6 +3,7 @@ package goldteam.characters;
 import goldteam.domain.*;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ public class Ghost extends GameObject implements
     private Integer velocity;
     private final Random random;
 
-    public Ghost() {
+    public Ghost(GameEngine gameEngine) {
+        super(gameEngine);
         this.random = new Random();
         this.initialVelocity = 20;
         this.velocity = this.initialVelocity;
@@ -38,7 +40,8 @@ public class Ghost extends GameObject implements
     }
 
     @Override
-    public void Update() {
+    protected void Update() {
+        
         Double dx = random.nextDouble() * 10;
         Double dy = random.nextDouble() * 10;
 
@@ -110,7 +113,7 @@ public class Ghost extends GameObject implements
 
     @Override
     public void setVelocityScalarDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.velocity += delta.delta.intValue();
     }
 
     @Override
@@ -155,6 +158,41 @@ public class Ghost extends GameObject implements
 
     @Override
     public void setVelocityVectorDelta(Delta xDelta, Delta yDelta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void GraphicsUpdateHandler() {
+        Update();
+    }
+
+    @Override
+    protected void ClickHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void KeyHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void UpdateEffectHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void MapUpdateTimerHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addAttackableListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addCollisionListener(ActionListener listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
