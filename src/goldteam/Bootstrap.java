@@ -67,7 +67,7 @@ class Bootstrap {
     }
 
     private void addTestGameEnginePanel(PanelManager pm) {
-        JPanel testPanel = new OptionsPanel(pm);
+        JPanel testPanel = new GameEngineTestPanel(pm);
         pm.addPanel(GamePanelManager.TEST_GAME_ENGINE_PANEL, testPanel);
     }
 }
