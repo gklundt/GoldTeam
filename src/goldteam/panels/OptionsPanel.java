@@ -19,16 +19,26 @@ public final class OptionsPanel extends ManagedPanel {
         super(panelManager);
         LayoutManager mgr = new GridBagLayout();
         super.setLayout(mgr);
-        super.add(TestButton());
+        JButton[] ret = TestButtons(); //
+        for (JButton ret1 : ret) {
+            super.add(ret1);
+        }
     }
 
-    public JButton TestButton() {
-        JButton ret = new JButton("Open TestGraphicsPanel");
-        ret.addActionListener(l -> stupidAction());
+    public JButton[] TestButtons() {
+        JButton[] ret = new JButton[2];
+        ret[0] = new JButton("Open TestGraphicsPanel");
+        ret[1] = new JButton("Open Test_HUD_Panel");
+        ret[0].addActionListener(l -> stupidAction(ret[0].getText()));
+        ret[1].addActionListener(l -> stupidAction(ret[1].getText()));
+        
         return ret;
     }
 
-    private void stupidAction() {
-        panelManager.setActivePanel(GamePanelManager.TEST_GRAPHICS_PANEL);
+    private void stupidAction(String caption) {
+        if ("Open Test_HUD_Panel".equals(caption))
+            panelManager.setActivePanel(GamePanelManager.TEST_HUD_PANEL);
+        if ("Open TestGraphicsPanel".equals(caption))
+            panelManager.setActivePanel(GamePanelManager.TEST_GRAPHICS_PANEL);
     }
 }
