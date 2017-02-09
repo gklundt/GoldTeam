@@ -7,6 +7,7 @@ package goldteam.maps;
 
 import goldteam.domain.*;
 import java.awt.Polygon;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +18,10 @@ import java.util.HashMap;
 public class BasicLevelGoal extends GameObject 
         implements Objective, Collidable
 {
+
+    public BasicLevelGoal(GameEngine gamedata) {
+        super(gamedata);
+    }
 
     @Override
     public void Update() {
@@ -50,6 +55,36 @@ public class BasicLevelGoal extends GameObject
 
     @Override
     public HashMap<Collidable, CollisionPlane> getColliders() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void GraphicsUpdateHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void ClickHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void KeyHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void UpdateEffectHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void MapUpdateTimerHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addCollisionListener(ActionListener listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

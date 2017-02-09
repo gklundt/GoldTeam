@@ -13,6 +13,10 @@ import goldteam.domain.*;
  */
 public class BasicHudItem extends GameObject implements AttackableWatcher {
 
+    public BasicHudItem(GameEngine gamedata) {
+        super(gamedata);
+    }
+
     @Override
     public void Update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -25,6 +29,31 @@ public class BasicHudItem extends GameObject implements AttackableWatcher {
 
     @Override
     public void setWatcher(Attackable target) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void GraphicsUpdateHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void ClickHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void KeyHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void UpdateEffectHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void MapUpdateTimerHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
