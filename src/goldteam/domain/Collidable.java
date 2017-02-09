@@ -1,6 +1,7 @@
 package goldteam.domain;
 
 import java.awt.Polygon;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 public interface Collidable {
@@ -12,5 +13,7 @@ public interface Collidable {
     public void removeCollider(Collidable obj);
 
     public HashMap<Collidable, CollisionPlane> getColliders();
+    
+    public void addCollisionListener(ActionListener listener);
 
 }

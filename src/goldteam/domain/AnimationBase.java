@@ -5,9 +5,13 @@
  */
 package goldteam.domain;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Paint;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -19,13 +23,14 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.JLayeredPane;
 import javax.swing.Timer;
 
 /**
  *
  * @author gordon
  */
-public abstract class AnimationBase extends JComponent implements ActionListener {
+public abstract class AnimationBase extends JLayeredPane implements ActionListener {
 
     protected final String imgFilename;
     protected final GameObject gameObject;
@@ -38,27 +43,27 @@ public abstract class AnimationBase extends JComponent implements ActionListener
     protected BufferedImage[] imgArray; // for the entire image stripe
     protected Timer timer;
     private final AffineTransform af;
-    private final BufferedImageOp  bio;
-    
+    private final BufferedImageOp bio;
 
     public AnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile, int frameRate) {
         super();
 
         this.af = new AffineTransform();
         //this.bio = new  AffineTransformOp(af,null);
-        this.bio = new  RescaleOp( 1.0f, 0.0f, null);
+        this.bio = new RescaleOp(1.0f, 0.0f, null);
 
         this.imgFilename = assetFile;
         this.gameObject = gameObject;
         this.timer = new Timer(1000 / frameRate, this);
         // Setup GUI
-        super.setPreferredSize(preferredSize);
+        super.setSize(preferredSize);
         this.timer.start();
 
     }
 
     /**
      * Helper method to load image. All frames have the same height and width
+     *
      * @param imgFileName
      * @param numRows
      * @param numCols
@@ -106,7 +111,7 @@ public abstract class AnimationBase extends JComponent implements ActionListener
     /**
      * Update the position based on update routine in GameData
      */
-    public abstract void update();
+    protected abstract void update();
 
     /**
      * Custom painting codes on this JPanel
@@ -114,16 +119,13 @@ public abstract class AnimationBase extends JComponent implements ActionListener
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d;
-        g2d = (Graphics2D) g;
-        
+        Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(imgArray[currentFrame], bio, (int) gameObject.PositionVector().x - imgWidth / 2, (int) gameObject.PositionVector().y - imgHeight / 2);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        update(); // update the position and image
-        repaint(); // Refresh the display
+        update(); // update the image
     }
 
 }

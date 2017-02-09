@@ -1,5 +1,7 @@
 package goldteam.domain;
 
+import java.awt.event.ActionListener;
+
 public interface Attackable {
 
     public Double getShieldValue();
@@ -9,5 +11,7 @@ public interface Attackable {
     public void setShieldDelta(Delta delta);
 
     public void setHealthDelta(Delta delta);
+    
+    public void addAttackableListener(ActionListener listener);
 
 }
