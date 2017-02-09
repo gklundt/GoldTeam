@@ -116,7 +116,7 @@ public abstract class AnimationBase extends JComponent implements ActionListener
         super.paintComponent(g);
         Graphics2D g2d;
         g2d = (Graphics2D) g;
-        
+        System.out.println(gameObject.toString());
         g2d.drawImage(imgArray[currentFrame], bio, (int) gameObject.PositionVector().x - imgWidth / 2, (int) gameObject.PositionVector().y - imgHeight / 2);
     }
 

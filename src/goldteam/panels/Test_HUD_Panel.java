@@ -46,7 +46,7 @@ public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseLi
         Ghost g2 = new Ghost();
         
         GhostAnimation ga1 = new GhostAnimation(g1, jrp.getSize(), "assets/GameGhostStripe.png", 10);
-        GhostAnimation ga2 = new GhostAnimation(g2, jrp.getSize(), "assets/GameGhostStripe.png", 10);
+        GhostAnimation ga2 = new GhostAnimation(g2, jrp.getSize(), "assets/GameGhostStripe_1.png", 10);
         g1.setAnimator(ga1);
         g2.setAnimator(ga2);
 
@@ -56,7 +56,7 @@ public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseLi
         ga1.setVisible(true);
         ga2.setVisible(true);
     }
-
+    
     @Override
     public void keyTyped(KeyEvent e) {
     }

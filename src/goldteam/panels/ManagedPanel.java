@@ -18,4 +18,5 @@ public abstract class ManagedPanel extends JPanel {
     public ManagedPanel(PanelManager panelManager){
         this.panelManager= panelManager;
     }
+    
 }
