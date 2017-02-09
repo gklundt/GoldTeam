@@ -62,6 +62,7 @@ public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseLi
         validate();
 
         Ghost g1 = new Ghost(gd);
+        g1.setVelocityScalarDelta(Delta.create(-15.0d, ModType.FIXED));
         GhostAnimation ga1 = new GhostAnimation(g1, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
         g1.setAnimator(ga1);
 
