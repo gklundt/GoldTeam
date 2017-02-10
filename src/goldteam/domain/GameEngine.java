@@ -27,5 +27,7 @@ public interface GameEngine {
 
     public void addEffectsTimerListener(ActionListener listener);
     
+    public void addCollisionTimer(ActionListener listener);
+    
 
 }
