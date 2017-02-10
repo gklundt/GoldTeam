@@ -13,6 +13,10 @@ import goldteam.domain.*;
  */
 public class BasicPlatform extends GameObject implements Platform {
 
+    public BasicPlatform(GameEngine gamedata) {
+        super(gamedata);
+    }
+
     @Override
     public void Update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -55,6 +59,31 @@ public class BasicPlatform extends GameObject implements Platform {
 
     @Override
     public void setSolidBottom(Boolean isSolidBottom) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void GraphicsUpdateHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void ClickHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void KeyHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void UpdateEffectHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void MapUpdateTimerHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

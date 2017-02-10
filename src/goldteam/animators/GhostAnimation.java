@@ -21,6 +21,7 @@ public class GhostAnimation extends AnimationBase {
      * @param gameObject
      * @param preferredSize
      * @param assetFile
+     * @param frameRate
      */
     public GhostAnimation(GameObject gameObject, Dimension preferredSize, String assetFile, int frameRate) {
         super(gameObject, preferredSize, assetFile, frameRate);
@@ -31,9 +32,8 @@ public class GhostAnimation extends AnimationBase {
     /**
      * Update the position based on update routine in GameData
      */
+    @Override
     public void update() {
-
-        gameObject.Update();
 
         ++currentFrame;    // displays next frame
         if (currentFrame >= numFrames) {

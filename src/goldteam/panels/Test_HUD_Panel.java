@@ -2,16 +2,24 @@ package goldteam.panels;
 
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
 import goldteam.gamedata.GameData;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -20,9 +28,10 @@ import javax.swing.event.AncestorListener;
  *
  * @author gordon
  */
-public class TestGraphicsPanel extends ManagedPanel implements KeyListener, MouseListener {
+public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseListener {
 
-    public TestGraphicsPanel(PanelManager panelManager) {
+    private Component gp;
+    public Test_HUD_Panel(PanelManager panelManager) {
         super(panelManager);
         super.addAncestorListener(new AncestorListenerImpl());
     }
@@ -33,23 +42,43 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
     }
 
     private void updateListeners() {
-        addKeyListener(this);
-        addMouseListener(this);
-        GraphicsConfiguration gf = getGraphicsConfiguration();
         JRootPane jrp = getRootPane();
+        JLayeredPane lp = new JLayeredPane();
 
         GameData gd = new GameData();
-        gd.addGraphicsUpdateTimerListener(l -> this.repaint());
-        
-        Ghost g = new Ghost(gd);
+        gd.addGraphicsUpdateTimerListener(l -> lp.repaint());
 
-        GhostAnimation ga = new GhostAnimation(g, jrp.getSize(), "assets/GameGhostStripe.png", 10);
-        g.setAnimator(ga);
+        lp.setSize(gd.getVisibleDimensions());
+        lp.setOpaque(true);
+        lp.setPreferredSize(gd.getVisibleDimensions());
+        jrp.setContentPane(lp);
 
-        add(g.getAnimator());
+        gp = jrp.getGlassPane();
+        gp.setVisible(true);
+        gp.requestFocus();
+        gp.addKeyListener(this);
+        gp.addMouseListener(this);
 
         validate();
-        ga.setVisible(true);
+
+        Ghost g1 = new Ghost(gd);
+        g1.setVelocityScalarDelta(Delta.create(-15.0d, ModType.FIXED));
+        GhostAnimation ga1 = new GhostAnimation(g1, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
+        g1.setAnimator(ga1);
+
+        Ghost g2 = new Ghost(gd);
+        GhostAnimation ga2 = new GhostAnimation(g2, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
+        g2.setAnimator(ga2);
+
+        lp.add(ga1, lp.highestLayer() + 1);
+        lp.add(ga2, lp.highestLayer() + 1);
+    }
+
+    private void undoGraphics() {
+        gp.removeKeyListener(this);
+        gp.removeMouseListener(this);
+        gp.setVisible(false);
+        validate();
     }
 
     @Override
@@ -59,6 +88,7 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+            undoGraphics();
             panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
         }
     }
@@ -73,6 +103,9 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+
+        }
     }
 
     @Override
@@ -99,7 +132,7 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
 
         @Override
         public void ancestorRemoved(AncestorEvent event) {
-            //updateListeners();
+
         }
 
         @Override
