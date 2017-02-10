@@ -20,6 +20,7 @@ public class GamePanelManager implements PanelManager {
     public static final String TEST_GRAPHICS_PANEL = "TEST_GRAPHICS_PANEL";
     public static final String TEST_HUD_PANEL = "TEST_HUD_PANEL";
     public static final String TEST_GAME_ENGINE_PANEL = "TEST_GAME_ENGINE_PANEL";
+    public static final String TEST_COLLIDERS_PANEL = "TEST_COLLIDERS_PANEL";
 
     private final ArrayList<PanelManagerListener> listeners;
     private final HashMap<String, JPanel> panels;

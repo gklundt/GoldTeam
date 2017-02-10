@@ -39,7 +39,9 @@ public class TestCollidersPanel extends ManagedPanel implements KeyListener, Mou
 
     @Override
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+            panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
+        }
     }
 
     @Override
