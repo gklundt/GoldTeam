@@ -1,10 +1,14 @@
 package goldteam.panels;
 
 import goldteam.animators.GhostAnimation;
+import goldteam.animators.HudAnimation;
 import goldteam.characters.Ghost;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 import goldteam.gamedata.GameData;
+import goldteam.hud.BasicHudItem;
+import goldteam.hud.HeartHudItem;
+import goldteam.hud.ShieldHudItem;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -24,6 +28,11 @@ import javax.swing.event.AncestorListener;
 public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseListener {
 
     private Component gp;
+    private Ghost ghost;
+    private GhostAnimation ghostAnime;
+    private HeartHudItem hearts;
+    private ShieldHudItem shields;
+
     public Test_HUD_Panel(PanelManager panelManager) {
         super(panelManager);
         super.addAncestorListener(new AncestorListenerImpl());
@@ -54,17 +63,26 @@ public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseLi
 
         validate();
 
-        Ghost g1 = new Ghost(gd, new Point(60,60));
+        Ghost g1 = new Ghost(gd, new Point(60, 60));
         g1.setVelocityScalarDelta(Delta.create(-15.0d, ModType.FIXED));
         GhostAnimation ga1 = new GhostAnimation(g1, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
         g1.setAnimator(ga1);
 
-        Ghost g2 = new Ghost(gd, new Point(90,90));
+        Ghost g2 = new Ghost(gd, new Point(90, 90));
         GhostAnimation ga2 = new GhostAnimation(g2, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
         g2.setAnimator(ga2);
 
         lp.add(ga1, lp.highestLayer() + 1);
         lp.add(ga2, lp.highestLayer() + 1);
+        ghost = new Ghost(gd, new Point(60,60));
+        gd.setWatcher(ghost);
+        hearts = new HeartHudItem(gd, new Point(60,60));
+        shields = new ShieldHudItem(gd,new Point(60,60));
+        hearts.setWatcher(ghost);
+        shields.setWatcher(ghost);
+        ghostAnime = new GhostAnimation(ghost, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
+        ghost.setAnimator(ghostAnime);
+        lp.add(ghostAnime, lp.highestLayer() + 1);
     }
 
     private void undoGraphics() {
@@ -80,9 +98,19 @@ public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseLi
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
-            undoGraphics();
-            panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
+        switch (e.getKeyChar()) {
+            case KeyEvent.VK_ESCAPE:
+                undoGraphics();
+                panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
+                break;
+            case KeyEvent.VK_1:
+                hearts.Update(-1);
+                break;
+            case KeyEvent.VK_2:
+                shields.Update(-1);
+                break;
+            default:
+                break;
         }
     }
 
