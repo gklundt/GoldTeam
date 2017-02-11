@@ -18,6 +18,7 @@ public abstract class GameObject {
         this.gamedata.addKeysListener(l -> KeyHandler());
         this.gamedata.addEffectsTimerListener(l -> UpdateEffectHandler());
         this.gamedata.addMapUpdateTimerListener(l -> MapUpdateTimerHandler());
+        this.positionVector = initialPoint;
     }
 
     protected abstract void Update();
