@@ -11,7 +11,7 @@ public abstract class GameObject {
     protected Image image;
     protected GameEngine gamedata;
 
-    public GameObject(GameEngine gamedata) {
+    public GameObject(GameEngine gamedata, Point initialPoint) {
         this.gamedata = gamedata;
         this.gamedata.addGraphicsUpdateTimerListener(l -> GraphicsUpdateHandler());
         this.gamedata.addClicksListener(l -> ClickHandler());

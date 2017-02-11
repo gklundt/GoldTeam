@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -41,7 +42,7 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
         GameData gd = new GameData();
         gd.addGraphicsUpdateTimerListener(l -> this.repaint());
         
-        Ghost g = new Ghost(gd);
+        Ghost g = new Ghost(gd, new Point(60,60));
 
         GhostAnimation ga = new GhostAnimation(g, jrp.getSize(), "assets/GameGhostStripe.png", 10);
         g.setAnimator(ga);

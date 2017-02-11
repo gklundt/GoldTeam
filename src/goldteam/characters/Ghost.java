@@ -4,9 +4,6 @@ import goldteam.domain.*;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -29,12 +26,12 @@ public class Ghost extends GameObject implements
     private Integer velocity;
     private final Random random;
 
-    public Ghost(GameEngine gameEngine) {
-        super(gameEngine);
+    public Ghost(GameEngine gameEngine, Point initialPoint) {
+        super(gameEngine, initialPoint);
         this.random = new Random();
         this.initialVelocity = 20;
         this.velocity = this.initialVelocity;
-        this.positionVector = new Point(100, 80);
+        this.positionVector = initialPoint;
         DoubleVector rawVector = new DoubleVector(random.nextDouble() * 10, random.nextDouble() * 10);
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
     }
@@ -193,6 +190,11 @@ public class Ghost extends GameObject implements
 
     @Override
     public void addCollisionListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addWeaponListener(ActionListener listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

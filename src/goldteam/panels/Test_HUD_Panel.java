@@ -5,20 +5,13 @@ import goldteam.characters.Ghost;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 import goldteam.gamedata.GameData;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.Insets;
-import java.awt.Rectangle;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
 import javax.swing.event.AncestorEvent;
@@ -61,12 +54,12 @@ public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseLi
 
         validate();
 
-        Ghost g1 = new Ghost(gd);
+        Ghost g1 = new Ghost(gd, new Point(60,60));
         g1.setVelocityScalarDelta(Delta.create(-15.0d, ModType.FIXED));
         GhostAnimation ga1 = new GhostAnimation(g1, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
         g1.setAnimator(ga1);
 
-        Ghost g2 = new Ghost(gd);
+        Ghost g2 = new Ghost(gd, new Point(90,90));
         GhostAnimation ga2 = new GhostAnimation(g2, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
         g2.setAnimator(ga2);
 

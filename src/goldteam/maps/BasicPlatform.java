@@ -6,6 +6,7 @@
 package goldteam.maps;
 
 import goldteam.domain.*;
+import java.awt.Point;
 
 /**
  *
@@ -13,8 +14,8 @@ import goldteam.domain.*;
  */
 public class BasicPlatform extends GameObject implements Platform {
 
-    public BasicPlatform(GameEngine gamedata) {
-        super(gamedata);
+    public BasicPlatform(GameEngine gamedata, Point initialPoint) {
+        super(gamedata, initialPoint);
     }
 
     @Override

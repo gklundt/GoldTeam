@@ -26,8 +26,8 @@ public class ArcherMan extends GameObject implements
         Depletable      /* Life Counter */
 {
 
-    public ArcherMan(GameEngine gamedata) {
-        super(gamedata);
+    public ArcherMan(GameEngine gamedata, Point initialPoint) {
+        super(gamedata, initialPoint);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package goldteam.domain;
 
+import java.awt.event.ActionListener;
+
 public interface Weapon {
 
     public Double getForce();
@@ -11,5 +13,7 @@ public interface Weapon {
     public void setStrikeVector(DoubleVector strikeVector);
 
     public void setStrikeScalarDelta(Delta delta);
+    
+    public void addWeaponListener(ActionListener listener);
 
 }

@@ -6,6 +6,7 @@
 package goldteam.hud;
 
 import goldteam.domain.*;
+import java.awt.Point;
 
 /**
  *
@@ -13,8 +14,8 @@ import goldteam.domain.*;
  */
 public class BasicHudItem extends GameObject implements AttackableWatcher {
 
-    public BasicHudItem(GameEngine gamedata) {
-        super(gamedata);
+    public BasicHudItem(GameEngine gamedata, Point initialPoint) {
+        super(gamedata, initialPoint);
     }
 
     @Override
