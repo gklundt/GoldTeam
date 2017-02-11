@@ -5,33 +5,31 @@
  */
 package goldteam.hud;
 
+import goldteam.domain.Animatable;
 import goldteam.domain.Attackable;
+import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameEngine;
+import goldteam.domain.GameObject;
+import goldteam.domain.HudAnimationBase;
 import java.awt.Point;
 
 /**
  *
  * @author Caleb Dunham
  */
-public class ShieldHudItem extends BasicHudItem {
+public class ShieldHudItem extends GameObject implements AttackableWatcher, Animatable<HudAnimationBase> {
     
     public int count;
     private Attackable watchedItem;
+    private HudAnimationBase animator;
     
     public ShieldHudItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
-        count = 5;
     }
     
     @Override
     public void Update() {
-        //graphic render here?
-    }
-    
-    public void Update(int change) {
-        if(count>0)
-            this.count += change;
-        System.out.println("Shield Count: " + count);
+        this.count = this.watchedItem.getHealthValue();
     }
     
     @Override
@@ -41,12 +39,13 @@ public class ShieldHudItem extends BasicHudItem {
 
     @Override
     public void setWatcher(Attackable target) {
-       this.watchedItem=target;
+        this.watchedItem=target;
+        this.count = this.watchedItem.getShieldValue();
+        this.watchedItem.addAttackableListener(l -> Update());
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-        Update();
     }
 
     @Override
@@ -66,6 +65,16 @@ public class ShieldHudItem extends BasicHudItem {
 
     @Override
     protected void MapUpdateTimerHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setAnimator(HudAnimationBase animator) {
+        this.animator = animator;
+    }
+
+    @Override
+    public HudAnimationBase getAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

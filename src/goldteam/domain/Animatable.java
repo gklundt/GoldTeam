@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * Animateable
  * @author gordon
  */
-public interface Animatable {
-    public void setAnimator(AnimationBase animator);
-    public AnimationBase getAnimator();
+public interface Animatable<T> {
+    public void setAnimator(T animator);
+    public T getAnimator();
 }

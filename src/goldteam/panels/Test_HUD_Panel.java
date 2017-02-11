@@ -1,7 +1,8 @@
 package goldteam.panels;
 
 import goldteam.animators.GhostAnimation;
-import goldteam.animators.HudAnimation;
+import goldteam.animators.HeartHudAnimation;
+import goldteam.animators.ShieldHudAnimation;
 import goldteam.characters.Ghost;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
@@ -28,8 +29,7 @@ import javax.swing.event.AncestorListener;
 public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseListener {
 
     private Component gp;
-    private Ghost ghost;
-    private GhostAnimation ghostAnime;
+    private Ghost g1;
     private HeartHudItem hearts;
     private ShieldHudItem shields;
 
@@ -59,30 +59,28 @@ public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseLi
         gp.setVisible(true);
         gp.requestFocus();
         gp.addKeyListener(this);
-        gp.addMouseListener(this);
+        gp.addMouseListener(this); 
 
-        validate();
-
-        Ghost g1 = new Ghost(gd, new Point(60, 60));
+        g1 = new Ghost(gd, new Point(60, 60));
         g1.setVelocityScalarDelta(Delta.create(-15.0d, ModType.FIXED));
         GhostAnimation ga1 = new GhostAnimation(g1, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
         g1.setAnimator(ga1);
-
-        Ghost g2 = new Ghost(gd, new Point(90, 90));
-        GhostAnimation ga2 = new GhostAnimation(g2, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
-        g2.setAnimator(ga2);
-
-        lp.add(ga1, lp.highestLayer() + 1);
-        lp.add(ga2, lp.highestLayer() + 1);
-        ghost = new Ghost(gd, new Point(60,60));
-        gd.setWatcher(ghost);
-        hearts = new HeartHudItem(gd, new Point(60,60));
-        shields = new ShieldHudItem(gd,new Point(60,60));
-        hearts.setWatcher(ghost);
-        shields.setWatcher(ghost);
-        ghostAnime = new GhostAnimation(ghost, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
-        ghost.setAnimator(ghostAnime);
-        lp.add(ghostAnime, lp.highestLayer() + 1);
+        
+        hearts = new HeartHudItem(gd, new Point(100, 100));
+        hearts.setWatcher(g1);
+        HeartHudAnimation hha = new HeartHudAnimation(hearts, gd.getVisibleDimensions(), "assets/heart.png");
+        hearts.setAnimator(hha);
+        
+        shields = new ShieldHudItem(gd, new Point(200, 200));
+        shields.setWatcher(g1);
+        ShieldHudAnimation sha = new ShieldHudAnimation(shields, gd.getVisibleDimensions(), "assets/shield.png");
+        shields.setAnimator(sha);
+        
+        lp.add(ga1, lp.highestLayer());
+        lp.add(hha, lp.highestLayer());
+        lp.add(sha, lp.highestLayer());
+        
+        validate();
     }
 
     private void undoGraphics() {
@@ -104,10 +102,10 @@ public class Test_HUD_Panel extends ManagedPanel implements KeyListener, MouseLi
                 panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
                 break;
             case KeyEvent.VK_1:
-                hearts.Update(-1);
+                g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
                 break;
             case KeyEvent.VK_2:
-                shields.Update(-1);
+                g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED));
                 break;
             default:
                 break;

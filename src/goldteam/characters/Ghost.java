@@ -3,7 +3,9 @@ package goldteam.characters;
 import goldteam.domain.*;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -18,7 +20,7 @@ public class Ghost extends GameObject implements
         Weapon, /* Adds damage to a movable object */
         Collidable, /* Information for Collision detection */
         Movable, /* Vectors and scalar for movement */
-        Animatable, /* Getter/Setter for animator */ 
+        Animatable<AnimationBase>, /* Getter/Setter for animator */ 
         Depletable {
 
     private DoubleVector velocityVector;
@@ -26,6 +28,8 @@ public class Ghost extends GameObject implements
     private final Integer initialVelocity;
     private Integer velocity;
     private final Random random;
+    private Double health, shield;
+    private ArrayList<ActionListener> attackableListeners;
 
     public Ghost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
@@ -35,6 +39,8 @@ public class Ghost extends GameObject implements
         this.positionVector = initialPoint;
         DoubleVector rawVector = new DoubleVector(random.nextDouble() * 10, random.nextDouble() * 10);
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
+        health = shield = 5.0;
+        attackableListeners = new ArrayList<>();
     }
 
     @Override
@@ -66,22 +72,24 @@ public class Ghost extends GameObject implements
 
     @Override
     public int getShieldValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.shield.intValue();
     }
 
     @Override
     public int getHealthValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.health.intValue();
     }
 
     @Override
     public void setShieldDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.shield += delta.delta;
+        this.notifyAttackableListeners();
     }
 
     @Override
     public void setHealthDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.health += delta.delta;
+        this.notifyAttackableListeners();
     }
 
     @Override
@@ -186,7 +194,7 @@ public class Ghost extends GameObject implements
 
     @Override
     public void addAttackableListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.attackableListeners.add(listener);
     }
 
     @Override
@@ -212,4 +220,10 @@ public class Ghost extends GameObject implements
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    private void notifyAttackableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for(ActionListener al : this.attackableListeners) {
+            al.actionPerformed(e);
+        }
+    }
 }
