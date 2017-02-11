@@ -31,14 +31,17 @@ public class GameData implements GameEngine,
     private final Timer mapUpdateTimer;
     private final Timer graphicsUpdateTimer;
     private final Timer effectsUpdateTimer;
+    private final Timer collisionTimer;
 
     public GameData() {
         this.FRAME_RATE = 24;
         this.effectsUpdateTimer = new Timer(1000 / FRAME_RATE, null);
         this.graphicsUpdateTimer = new Timer(1000 / FRAME_RATE, null);
         this.mapUpdateTimer = new Timer(1000 / FRAME_RATE, null);
+        this.collisionTimer = new Timer(1000 / FRAME_RATE, null);
         this.visibleDimensions = new Dimension(800, 600);
         graphicsUpdateTimer.start();
+        collisionTimer.start();
     }
 
     @Override
@@ -111,6 +114,11 @@ public class GameData implements GameEngine,
         if (this.mainCharacter.getCount() < 0) {
             this.isGameRunning = false;
         }
+    }
+
+    @Override
+    public void addCollisionTimer(ActionListener listener) {
+        this.collisionTimer.addActionListener(listener);
     }
 
 }

@@ -109,7 +109,7 @@ public class Ghost extends GameObject implements
 
     @Override
     public DoubleVector getVelocityVector() {
-        return this.velocityVector;
+        return VectorMath.getVelocityVector(this.velocityVector, this.velocity.doubleValue());
     }
 
     @Override

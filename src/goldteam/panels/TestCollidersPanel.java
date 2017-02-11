@@ -1,11 +1,10 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package goldteam.panels;
 
-import goldteam.animators.GhostAnimation;
-import goldteam.characters.Ghost;
-import goldteam.gamedata.GameData;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -17,42 +16,25 @@ import javax.swing.event.AncestorListener;
 
 /**
  *
- * @author gordon
+ * @author fchishti
  */
-public class TestGraphicsPanel extends ManagedPanel implements KeyListener, MouseListener {
+public class TestCollidersPanel extends ManagedPanel implements KeyListener, MouseListener{
 
-    public TestGraphicsPanel(PanelManager panelManager) {
+    public TestCollidersPanel(PanelManager panelManager) {
         super(panelManager);
         super.addAncestorListener(new AncestorListenerImpl());
     }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-    }
-
-    private void updateListeners() {
+    
+        private void updateListeners() {
         addKeyListener(this);
         addMouseListener(this);
         GraphicsConfiguration gf = getGraphicsConfiguration();
         JRootPane jrp = getRootPane();
-
-        GameData gd = new GameData();
-        gd.addGraphicsUpdateTimerListener(l -> this.repaint());
-        
-        Ghost g = new Ghost(gd);
-
-        GhostAnimation ga = new GhostAnimation(g, jrp.getSize(), "assets/GameGhostStripe.png", 10);
-        g.setAnimator(ga);
-
-        add(g.getAnimator());
-
-        validate();
-        ga.setVisible(true);
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -64,29 +46,35 @@ public class TestGraphicsPanel extends ManagedPanel implements KeyListener, Mous
 
     @Override
     public void keyReleased(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    private class AncestorListenerImpl implements AncestorListener {
+    
+        private class AncestorListenerImpl implements AncestorListener {
 
         public AncestorListenerImpl() {
         }
