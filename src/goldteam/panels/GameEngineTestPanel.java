@@ -2,9 +2,12 @@ package goldteam.panels;
 
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
 import goldteam.gamedata.GameData;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -52,16 +55,36 @@ public class GameEngineTestPanel extends ManagedPanel implements KeyListener, Mo
 
         validate();
 
-        Ghost g1 = new Ghost(gd);
-        GhostAnimation ga1 = new GhostAnimation(g1, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
+        for (int i = 1; i <= 4; ++i) {
+            GhostAnimation ga1 = null;
+            switch (i % 4) {
+                case 0:
+                    ga1 = this.createNewGhost(gd, new Point(i, i), 15, "assets/GameGhostStripe.png");
+                    break;
+                case 1:
+                    ga1 = this.createNewGhost(gd, new Point(i, i), 5, "assets/GameGhostStripeRed.png");
+                    break;
+                case 2:
+                    ga1 = this.createNewGhost(gd, new Point(i, i), 10, "assets/GameGhostStripeOrange.png");
+                    break;
+                case 3:
+                    ga1 = this.createNewGhost(gd, new Point(i, i), 20, "assets/GameGhostStripeGreen.png");
+                    break;
+            }
+            lp.add(ga1, lp.highestLayer());
+        }
+
+    }
+
+    private GhostAnimation createNewGhost(GameData gd, Point p, Integer speed, String image) {
+        Ghost g1 = new Ghost(gd, p);
+
+        GhostAnimation ga1 = new GhostAnimation(g1, gd.getVisibleDimensions(), image, 10);
+
+        g1.setVelocityScalarDelta(Delta.create((-0.9 * g1.getVelocity().doubleValue()) + speed, ModType.FIXED));
         g1.setAnimator(ga1);
 
-        Ghost g2 = new Ghost(gd);
-        GhostAnimation ga2 = new GhostAnimation(g2, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
-        g2.setAnimator(ga2);
-
-        lp.add(ga1, lp.highestLayer() + 1);
-        lp.add(ga2, lp.highestLayer() + 1);
+        return ga1;
     }
 
     private void undoGraphics() {

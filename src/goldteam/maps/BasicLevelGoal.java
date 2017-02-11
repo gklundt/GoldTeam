@@ -6,6 +6,7 @@
 package goldteam.maps;
 
 import goldteam.domain.*;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ public class BasicLevelGoal extends GameObject
         implements Objective, Collidable
 {
 
-    public BasicLevelGoal(GameEngine gamedata) {
-        super(gamedata);
+    public BasicLevelGoal(GameEngine gamedata, Point initialPoint) {
+        super(gamedata, initialPoint);
     }
 
     @Override

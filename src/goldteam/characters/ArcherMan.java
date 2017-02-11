@@ -26,17 +26,17 @@ public class ArcherMan extends GameObject implements
         Depletable      /* Life Counter */
 {
 
-    public ArcherMan(GameEngine gamedata) {
-        super(gamedata);
+    public ArcherMan(GameEngine gamedata, Point initialPoint) {
+        super(gamedata, initialPoint);
     }
 
     @Override
-    public Double getShieldValue() {
+    public int getShieldValue() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Double getHealthValue() {
+    public int getHealthValue() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

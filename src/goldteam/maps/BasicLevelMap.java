@@ -18,8 +18,8 @@ import java.util.HashMap;
  */
 public class BasicLevelMap extends GameObject implements Movable, Collidable {
 
-    public BasicLevelMap(GameEngine gamedata) {
-        super(gamedata);
+    public BasicLevelMap(GameEngine gamedata, Point initialPoint) {
+        super(gamedata, initialPoint);
     }
 
 

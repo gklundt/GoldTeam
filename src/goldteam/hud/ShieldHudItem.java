@@ -5,37 +5,47 @@
  */
 package goldteam.hud;
 
-import goldteam.domain.*;
+import goldteam.domain.Animatable;
+import goldteam.domain.Attackable;
+import goldteam.domain.AttackableWatcher;
+import goldteam.domain.GameEngine;
+import goldteam.domain.GameObject;
+import goldteam.domain.HudAnimationBase;
 import java.awt.Point;
 
 /**
  *
- * @author gordon
+ * @author Caleb Dunham
  */
-public class BasicHudItem extends GameObject implements AttackableWatcher {
-
-    public BasicHudItem(GameEngine gamedata, Point initialPoint) {
+public class ShieldHudItem extends GameObject implements AttackableWatcher, Animatable<HudAnimationBase> {
+    
+    public int count;
+    private Attackable watchedItem;
+    private HudAnimationBase animator;
+    
+    public ShieldHudItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
     }
-
+    
     @Override
     public void Update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.count = this.watchedItem.getHealthValue();
     }
-
+    
     @Override
     public Attackable getWatcher() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.watchedItem;
     }
 
     @Override
     public void setWatcher(Attackable target) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.watchedItem=target;
+        this.count = this.watchedItem.getShieldValue();
+        this.watchedItem.addAttackableListener(l -> Update());
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -57,5 +67,14 @@ public class BasicHudItem extends GameObject implements AttackableWatcher {
     protected void MapUpdateTimerHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public void setAnimator(HudAnimationBase animator) {
+        this.animator = animator;
+    }
+
+    @Override
+    public HudAnimationBase getAnimator() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
