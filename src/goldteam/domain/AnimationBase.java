@@ -69,7 +69,9 @@ public abstract class AnimationBase extends JLayeredPane implements ActionListen
             System.err.println("Couldn't find file: " + imgFileName);
         } else {
             try {
+                
                 img = ImageIO.read(imgUrl); // load image via URL
+                
             } catch (IOException ex) {
             }
         }
