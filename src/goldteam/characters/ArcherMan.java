@@ -31,12 +31,12 @@ public class ArcherMan extends GameObject implements
     }
 
     @Override
-    public Double getShieldValue() {
+    public int getShieldValue() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Double getHealthValue() {
+    public int getHealthValue() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

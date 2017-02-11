@@ -21,7 +21,8 @@ public class Ghost extends GameObject implements
         Weapon, /* Adds damage to a movable object */
         Collidable, /* Information for Collision detection */
         Movable, /* Vectors and scalar for movement */
-        Animatable /* Getter/Setter for animator */ {
+        Animatable, /* Getter/Setter for animator */ 
+        Depletable {
 
     private DoubleVector velocityVector;
     private AnimationBase animator;
@@ -67,12 +68,12 @@ public class Ghost extends GameObject implements
     }
 
     @Override
-    public Double getShieldValue() {
+    public int getShieldValue() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Double getHealthValue() {
+    public int getHealthValue() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -193,6 +194,21 @@ public class Ghost extends GameObject implements
 
     @Override
     public void addCollisionListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Integer getCount() {
+        return this.getHealthValue();
+    }
+
+    @Override
+    public void setCountDelta(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addDepletableListener(ActionListener listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

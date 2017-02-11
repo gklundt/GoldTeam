@@ -4,9 +4,9 @@ import java.awt.event.ActionListener;
 
 public interface Attackable {
 
-    public Double getShieldValue();
+    public int getShieldValue();
 
-    public Double getHealthValue();
+    public int getHealthValue();
 
     public void setShieldDelta(Delta delta);
 
