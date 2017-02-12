@@ -8,6 +8,7 @@ package goldteam.panels;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 /**
@@ -19,7 +20,7 @@ public final class OptionsPanel extends ManagedPanel {
     public OptionsPanel(PanelManager panelManager) {
         super(panelManager);
         setSize(new Dimension(800,600));
-        LayoutManager mgr = new GridBagLayout();
+        LayoutManager mgr = new BoxLayout(this, BoxLayout.PAGE_AXIS);
         super.setLayout(mgr);
         JButton[] ret = TestButtons(); //
         for (JButton ret1 : ret) {
