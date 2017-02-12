@@ -20,7 +20,7 @@ public class Ghost extends GameObject implements
         Weapon, /* Adds damage to a movable object */
         Collidable, /* Information for Collision detection */
         Movable, /* Vectors and scalar for movement */
-        Animatable<AnimationBase>, /* Getter/Setter for animator */ 
+        Animatable, /* Getter/Setter for animator */ 
         Depletable {
 
     private DoubleVector velocityVector;

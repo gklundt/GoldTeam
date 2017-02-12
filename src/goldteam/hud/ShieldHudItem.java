@@ -10,18 +10,18 @@ import goldteam.domain.Attackable;
 import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
-import goldteam.domain.HudAnimationBase;
+import goldteam.domain.AnimationBase;
 import java.awt.Point;
 
 /**
  *
  * @author Caleb Dunham
  */
-public class ShieldHudItem extends GameObject implements AttackableWatcher, Animatable<HudAnimationBase> {
+public class ShieldHudItem extends GameObject implements AttackableWatcher, Animatable {
     
     public int count;
     private Attackable watchedItem;
-    private HudAnimationBase animator;
+    private AnimationBase animator;
     
     public ShieldHudItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
@@ -69,12 +69,12 @@ public class ShieldHudItem extends GameObject implements AttackableWatcher, Anim
     }
 
     @Override
-    public void setAnimator(HudAnimationBase animator) {
+    public void setAnimator(AnimationBase animator) {
         this.animator = animator;
     }
 
     @Override
-    public HudAnimationBase getAnimator() {
+    public AnimationBase getAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

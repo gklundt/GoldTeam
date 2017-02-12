@@ -5,7 +5,7 @@
  */
 package goldteam.animators;
 
-import goldteam.domain.AnimationBase;
+import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GameObject;
 import java.awt.Dimension;
 
@@ -13,7 +13,7 @@ import java.awt.Dimension;
  *
  * @author Caleb Dunham
  */
-public class HudAnimation extends AnimationBase {
+public class HudAnimation extends CharacterAnimationBase {
     /**
      * Constructor to set up the GUI components
      *

@@ -5,7 +5,7 @@
  */
 package goldteam.animators;
 
-import goldteam.domain.AnimationBase;
+import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GameObject;
 import java.awt.Dimension;
 
@@ -13,7 +13,7 @@ import java.awt.Dimension;
  *
  * @author gordon
  */
-public class GhostAnimation extends AnimationBase {
+public class GhostAnimation extends CharacterAnimationBase {
 
     /**
      * Constructor to set up the GUI components
