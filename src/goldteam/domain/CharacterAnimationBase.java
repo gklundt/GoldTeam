@@ -9,15 +9,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.RescaleOp;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import javax.imageio.ImageIO;
-import javax.swing.JLayeredPane;
+import javax.imageio.*;
 import javax.swing.Timer;
 
 /**
@@ -65,13 +64,14 @@ public abstract class CharacterAnimationBase extends AnimationBase {
     protected void loadImage(String imgFileName, int numRows, int numCols) {
         ClassLoader cl = getClass().getClassLoader();
         URL imgUrl = cl.getResource(imgFileName);
+        File imgFile = new File(imgFileName);
         if (imgUrl == null) {
             System.err.println("Couldn't find file: " + imgFileName);
         } else {
             try {
                 
                 img = ImageIO.read(imgUrl); // load image via URL
-                
+                img = ImageIO.read(imgFile);
             } catch (IOException ex) {
             }
         }
