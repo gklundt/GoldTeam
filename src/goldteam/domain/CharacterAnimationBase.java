@@ -14,56 +14,51 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import javax.imageio.ImageIO;
+import javax.imageio.*;
 
-/**
- *
- * @author gordon
- */
-public abstract class HudAnimationBase extends AnimationBase {
+public abstract class CharacterAnimationBase extends AnimationBase {
 
     protected final String imgFilename;
-    protected final GameObject gameObject;
+    private final GameObject gameObject;
     private final Animatable animatableGameObject;
 
-    protected int count;
+    private int numCols;
+    protected int currentFrame; // current frame number
+    protected int numFrames;
     protected int imgWidth;
     protected int imgHeight;
-    protected BufferedImage img; // for the entire image stripe
-    protected BufferedImage[] imgArray; // for the entire image stripe
+    private BufferedImage img; // for the entire image stripe
+    private BufferedImage[] imgArray; // for the entire image stripe
     private final AffineTransform af;
 
-    public HudAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
+    public CharacterAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super();
         super.setSize(preferredSize);
         this.imgFilename = assetFile;
         this.gameObject = gameObject;
         this.animatableGameObject = (Animatable) gameObject;
         this.animatableGameObject.addAnimationTimerListener(this);
-        this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0.0, 0.0);
+        this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0, 0);
+
     }
 
-    /**
-     * Helper method to load image. All frames have the same height and width
-     *
-     * @param imgFileName
-     * @param numRows
-     * @param numCols
-     */
-    protected void loadImage(String imgFileName, int numberOfItems, AffineTransform transform) {
+    protected void loadImage(String imgFileName, int numRows, int numCols, AffineTransform imageTransform) {
         ClassLoader cl = getClass().getClassLoader();
         URL imgUrl = cl.getResource(imgFileName);
+
         if (imgUrl == null) {
             System.err.println("Couldn't find file: " + imgFileName);
         } else {
             try {
+
                 img = ImageIO.read(imgUrl); // load image via URL
+
             } catch (IOException ex) {
             }
         }
 
-        int scaleX = ((Double) (img.getWidth() * transform.getScaleX())).intValue();
-        int scaleY = ((Double) (img.getHeight() * transform.getScaleY())).intValue();
+        int scaleX = ((Double) (img.getWidth() * imageTransform.getScaleX())).intValue();
+        int scaleY = ((Double) (img.getHeight() * imageTransform.getScaleY())).intValue();
         Image tmp = img.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
 
         BufferedImage bimage = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
@@ -72,33 +67,43 @@ public abstract class HudAnimationBase extends AnimationBase {
         g2d.dispose();
         img = bimage;
 
-        this.imgHeight = img.getHeight(null);
-        this.imgWidth = img.getWidth(null);
-
-        this.imgArray = new BufferedImage[numberOfItems];
-        for (int i = 0; i < numberOfItems; ++i) {
-            imgArray[i] = img;
+        numFrames = numRows * numCols;
+        this.imgHeight = img.getHeight(null) / numRows;
+        this.imgWidth = img.getWidth(null) / numCols;
+        this.numCols = numCols;
+        currentFrame = 0;
+        this.imgArray = new BufferedImage[numFrames];
+        for (int i = 0; i < numFrames; ++i) {
+            int x1 = getcurrentFrameX();
+            int y1 = getCurrentFrameY();
+            imgArray[i] = img.getSubimage(x1, y1, imgWidth, imgHeight);
+            ++currentFrame;
         }
-        this.count = numberOfItems;
+        currentFrame = 0;
     }
 
-    /**
-     * Custom painting codes on this JPanel
-     */
+    protected int getcurrentFrameX() {
+        return (currentFrame % numCols) * imgWidth;
+    }
+
+    protected int getCurrentFrameY() {
+        return (currentFrame / numCols) * imgHeight;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         Graphics2D g2d = (Graphics2D) g;
-        int dy = gameObject.PositionVector().y;
-        for (int i = 0; i < count; i++) {
-            int dx = gameObject.PositionVector().x + i * imgWidth;
-            af.setTransform(1.0, 0, 0, 1.0, dx, dy);
-            g2d.drawImage(imgArray[i], af, null);
-        }
+        int dx = gameObject.PositionVector().x - imgWidth / 2;
+        int dy = gameObject.PositionVector().y - imgHeight / 2;
+        this.af.setTransform(1.0, 0, 0, 1.0, dx, dy);
+        g2d.drawImage(imgArray[currentFrame], af, null);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         update(); // update the image
     }
+
 }

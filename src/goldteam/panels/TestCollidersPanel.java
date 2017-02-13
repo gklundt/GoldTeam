@@ -5,93 +5,80 @@
  */
 package goldteam.panels;
 
-import java.awt.GraphicsConfiguration;
+import goldteam.GamePanelManager;
+import goldteam.animators.BigGhostAnimation;
+import goldteam.animators.GhostAnimation;
+import goldteam.characters.StationaryGhost;
+import goldteam.domain.CharacterAnimationBase;
+import goldteam.domain.GamePanelBase;
+import goldteam.domain.PanelManager;
+import goldteam.gamedata.GameData;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.JRootPane;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 /**
  *
  * @author fchishti
  */
-public class TestCollidersPanel extends ManagedPanel implements KeyListener, MouseListener{
+public class TestCollidersPanel extends GamePanelBase {
+
+    private StationaryGhost g1;
 
     public TestCollidersPanel(PanelManager panelManager) {
-        super(panelManager);
-        super.addAncestorListener(new AncestorListenerImpl());
+        super(panelManager, new GameData());
+
     }
-    
-        private void updateListeners() {
-        addKeyListener(this);
-        addMouseListener(this);
-        GraphicsConfiguration gf = getGraphicsConfiguration();
-        JRootPane jrp = getRootPane();
+
+    @Override
+    protected void addGameObjects() {
+        g1 = new StationaryGhost(gameData, new Point(200, 400));
+        CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
+        g1.setAnimator(ga1);
+        this.layeredPane.add(ga1, layeredPane.highestLayer());
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+            panelThread.interrupt();
+            undoGraphics();
             panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
+            return;
         }
+
+        int k = e.getKeyCode();
+        if (!check(k)) {
+            addKey(k);
+        }
+
+        g1.processKeyInput(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-        private class AncestorListenerImpl implements AncestorListener {
-
-        public AncestorListenerImpl() {
+        int k = e.getKeyCode();
+        if (check(k)) {
+            removeKey(k);
         }
-
-        @Override
-        public void ancestorAdded(AncestorEvent event) {
-            updateListeners();
-        }
-
-        @Override
-        public void ancestorRemoved(AncestorEvent event) {
-            //updateListeners();
-        }
-
-        @Override
-        public void ancestorMoved(AncestorEvent event) {
-            //updateListeners();
-        }
+        g1.processKeyInput(e);
     }
+
+    private synchronized boolean check(Integer e) {
+        return this.gameData.getHeldKeys().contains(e);
+    }
+
+    private synchronized void addKey(Integer e) {
+        this.gameData.getHeldKeys().add(e);
+    }
+
+    private synchronized void removeKey(Integer e) {
+        this.gameData.getHeldKeys().remove(e);
+    }
+
 }

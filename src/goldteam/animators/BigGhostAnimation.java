@@ -14,7 +14,7 @@ import java.awt.geom.AffineTransform;
  *
  * @author gordon
  */
-public class GhostAnimation extends CharacterAnimationBase {
+public class BigGhostAnimation extends CharacterAnimationBase {
 
     /**
      * Constructor to set up the GUI components
@@ -23,10 +23,10 @@ public class GhostAnimation extends CharacterAnimationBase {
      * @param preferredSize
      * @param assetFile
      */
-    public GhostAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
+    public BigGhostAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         // Setup animation
-        super.loadImage(imgFilename, 2, 4, new AffineTransform(.5, 0, 0, .5, 0, 0));
+        super.loadImage(imgFilename, 2, 4, new AffineTransform(1, 0, 0, 1, 0, 0));
     }
 
     /**

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package goldteam.panels;
+package goldteam.domain;
 
 import javax.swing.JPanel;
 
@@ -11,11 +11,11 @@ import javax.swing.JPanel;
  *
  * @author gordon
  */
-public abstract class ManagedPanel extends JPanel {
+public abstract class ManagedPanelBase extends JPanel {
     
     protected final PanelManager panelManager;
     
-    public ManagedPanel(PanelManager panelManager){
+    public ManagedPanelBase(PanelManager panelManager){
         this.panelManager= panelManager;
     }
 }

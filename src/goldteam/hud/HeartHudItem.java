@@ -7,22 +7,24 @@ package goldteam.hud;
 
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
+import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.Attackable;
 import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.HudAnimationBase;
 import java.awt.Point;
+import java.awt.event.ActionListener;
 
 /**
  *
  * @author Caleb Dunham
  */
-public class HeartHudItem extends GameObject implements AttackableWatcher, Animatable<HudAnimationBase> {
+public class HeartHudItem extends GameObject implements AttackableWatcher, Animatable {
     
     public int count;
     private Attackable watchedItem;
-    private HudAnimationBase animator;
+    private AnimationBase animator;
     
     public HeartHudItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
@@ -71,12 +73,17 @@ public class HeartHudItem extends GameObject implements AttackableWatcher, Anima
     }
 
     @Override
-    public void setAnimator(HudAnimationBase animator) {
+    public void setAnimator(AnimationBase animator) {
         this.animator = animator;
     }
 
     @Override
-    public HudAnimationBase getAnimator() {
+    public AnimationBase getAnimator() {
         return this.animator;
+    }
+
+    @Override
+    public void addAnimationTimerListener(ActionListener listener) {
+        this.gamedata.addAnimationUpdateTimerListener(listener);
     }
 }
