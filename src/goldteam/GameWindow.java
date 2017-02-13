@@ -41,5 +41,6 @@ public final class GameWindow extends JFrame implements PanelManagerListener {
         JPanel p = panelManager.getActivePanel();
         setContentPane(p);
         super.setVisible(true);
+        p.repaint();
     }
 }

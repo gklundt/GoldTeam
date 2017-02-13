@@ -81,10 +81,14 @@ public class StationaryGhost extends GameObject implements
 
     @Override
     protected void Update() {
-        if (this.gamedata.getHeldKeys().isEmpty()) {
-            this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
+
+        try {
+            if (this.gamedata.getHeldKeys().isEmpty()) {
+                this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
+            }
+            this.positionVector.x += this.getVelocityVector().x;
+        } catch (Exception e) {
         }
-        this.positionVector.x += this.getVelocityVector().x;
     }
 
     @Override

@@ -39,6 +39,9 @@ public class TestPanelTemplate extends GamePanelBase {
         GhostAnimation ghostAnimation = new GhostAnimation(ghost, this.gameData.getRunEdgeDimensions(), "assets/GameGhostStripe.png");
         ghost.setAnimator(ghostAnimation);
         this.layeredPane.add(ghostAnimation);
+        
+        
+        
     }
     
     /**
