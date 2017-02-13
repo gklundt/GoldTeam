@@ -64,7 +64,7 @@ public class StationaryGhost extends GameObject implements
         this.random = new Random();
 
         this.initialPoint = initialPoint;
-        this.initialVelocity = 10d;
+        this.initialVelocity = 20d;
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
 

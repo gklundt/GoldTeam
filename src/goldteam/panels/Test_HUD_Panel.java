@@ -34,12 +34,12 @@ public class Test_HUD_Panel extends GamePanelBase {
         ghost.setAnimator(ghostAnimation);
         ghost.setVelocityScalarDelta(Delta.create(0.0d, ModType.FIXED));
 
-        hearts = new HeartHudItem(gameData, new Point(100, 100));
+        hearts = new HeartHudItem(gameData, new Point(10, 10));
         hearts.setWatcher(ghost);
         HeartHudAnimation hha = new HeartHudAnimation(hearts, gameData.getVisibleDimensions(), "assets/heart.png");
         hearts.setAnimator(hha);
 
-        shields = new ShieldHudItem(gameData, new Point(200, 200));
+        shields = new ShieldHudItem(gameData, new Point(10, 30));
         shields.setWatcher(ghost);
         ShieldHudAnimation sha = new ShieldHudAnimation(shields, gameData.getVisibleDimensions(), "assets/shield.png");
         shields.setAnimator(sha);

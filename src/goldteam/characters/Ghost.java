@@ -45,8 +45,8 @@ public class Ghost extends GameObject implements
 
         this.initialPoint = initialPoint;
         this.initialVelocity = 20;
-        this.initialHealth = 5.0d;
-        this.initialShield = 10.0d;
+        this.initialHealth = 20.0d;
+        this.initialShield = 20.0d;
 
         this.positionVector = this.initialPoint;
         this.velocity = this.initialVelocity;

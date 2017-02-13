@@ -6,18 +6,15 @@
 package goldteam.panels;
 
 import goldteam.GamePanelManager;
+import goldteam.animators.BigGhostAnimation;
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.StationaryGhost;
-import goldteam.domain.Delta;
+import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GamePanelBase;
-import goldteam.domain.ModType;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import javax.swing.JLayeredPane;
-import javax.swing.JRootPane;
 
 /**
  *
@@ -35,7 +32,7 @@ public class TestCollidersPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
         g1 = new StationaryGhost(gameData, new Point(200, 400));
-        GhostAnimation ga1 = new GhostAnimation(g1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
+        CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
         g1.setAnimator(ga1);
         this.layeredPane.add(ga1, layeredPane.highestLayer());
     }

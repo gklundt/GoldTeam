@@ -30,7 +30,7 @@ public class ShieldHudAnimation extends HudAnimationBase {
         super(gameObject, preferredSize, assetFile);
         this.gameObj = (AttackableWatcher) gameObject;
         // Setup animation
-        super.loadImage(imgFilename, this.gameObj.getWatcher().getShieldValue(), new AffineTransform(.5, 0, 0, .5, 0, 0));
+        super.loadImage(imgFilename, this.gameObj.getWatcher().getShieldValue(), new AffineTransform(.25, 0, 0, .25, 0, 0));
     }
 
     @Override
