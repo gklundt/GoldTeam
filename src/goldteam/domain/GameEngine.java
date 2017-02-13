@@ -2,6 +2,7 @@ package goldteam.domain;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public interface GameEngine {
 
@@ -13,9 +14,9 @@ public interface GameEngine {
 
     public Dimension getRunEdgeDimensions();
 
-    public int[] getHeldKeys();
+    public ArrayList<Integer> getHeldKeys();
 
-    public int[] getHeldMouse();
+    public ArrayList<Integer> getHeldMouse();
 
     public void addKeysListener(ActionListener listener);
     public void removeKeysListener(ActionListener listener);

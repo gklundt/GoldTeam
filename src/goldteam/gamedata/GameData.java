@@ -5,6 +5,7 @@ import goldteam.domain.DepletableWatcher;
 import goldteam.domain.GameEngine;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.Timer;
 
 /**
@@ -18,8 +19,8 @@ public class GameData implements GameEngine,
     private Dimension mapDimensions;
     private final Dimension visibleDimensions;
     private Dimension runEdgeDimensions;
-    private int[] heldKeys;
-    private int[] heldMouse;
+    private final ArrayList<Integer> heldKeys;
+    private final ArrayList<Integer> heldMouse;
     private Depletable mainCharacter;
 
     private final Timer mapUpdateTimer;
@@ -37,6 +38,9 @@ public class GameData implements GameEngine,
         this.mapUpdateTimer = new Timer(1000 / 24, null);
         this.collisionTimer = new Timer(1000 / 24, null);
     
+        this.heldKeys = new ArrayList<>();
+        this.heldMouse = new ArrayList<>();
+        
         this.visibleDimensions = new Dimension(800, 600);
         this.runEdgeDimensions = new Dimension(600, 400);
         this.mapDimensions = new Dimension(2400, 1800);
@@ -66,12 +70,12 @@ public class GameData implements GameEngine,
     }
 
     @Override
-    public int[] getHeldKeys() {
+    public ArrayList<Integer> getHeldKeys() {
         return this.heldKeys;
     }
 
     @Override
-    public int[] getHeldMouse() {
+    public ArrayList<Integer> getHeldMouse() {
         return this.heldMouse;
     }
 
