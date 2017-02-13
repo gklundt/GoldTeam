@@ -14,6 +14,7 @@ import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.HudAnimationBase;
 import java.awt.Point;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -79,5 +80,10 @@ public class HeartHudItem extends GameObject implements AttackableWatcher, Anima
     @Override
     public AnimationBase getAnimator() {
         return this.animator;
+    }
+
+    @Override
+    public void addAnimationTimerListener(ActionListener listener) {
+        this.gamedata.addAnimationUpdateTimerListener(listener);
     }
 }

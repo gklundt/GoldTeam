@@ -20,49 +20,72 @@ public class Ghost extends GameObject implements
         Weapon, /* Adds damage to a movable object */
         Collidable, /* Information for Collision detection */
         Movable, /* Vectors and scalar for movement */
-        Animatable, /* Getter/Setter for animator */ 
+        Animatable, /* Getter/Setter for animator */
         Depletable {
 
-    private DoubleVector velocityVector;
-    private AnimationBase animator;
-    private final Integer initialVelocity;
-    private Integer velocity;
     private final Random random;
-    private Double health, shield;
-    private ArrayList<ActionListener> attackableListeners;
+
+    private final Integer initialVelocity;
+    private final ArrayList<ActionListener> attackableListeners;
+    private final Double initialHealth;
+    private final Double initialShield;
+    private final Point initialPoint;
+
+    private Double health;
+    private Double shield;
+    private DoubleVector velocityVector;
+    private Integer velocity;
+    private DoubleVector rawVector;
+    
+    private AnimationBase animator;
 
     public Ghost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
         this.random = new Random();
+
+        this.initialPoint = initialPoint;
         this.initialVelocity = 20;
+        this.initialHealth = 5.0d;
+        this.initialShield = 10.0d;
+
+        this.positionVector = this.initialPoint;
         this.velocity = this.initialVelocity;
-        this.positionVector = initialPoint;
-        DoubleVector rawVector = new DoubleVector(random.nextDouble() * 10, random.nextDouble() * 10);
+        this.rawVector = new DoubleVector(random.nextDouble() * 10, random.nextDouble() * 10);
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
-        health = shield = 5.0;
+        
+        this.health = this.initialHealth; 
+        this.shield = this.initialShield;
+
         attackableListeners = new ArrayList<>();
     }
 
     @Override
     protected void Update() {
-        
-        Double dx = random.nextDouble() * 10;
-        Double dy = random.nextDouble() * 10;
+
+        if (this.positionVector == null || this.animator == null) {
+            return;
+        }
+        Double dx = random.nextDouble() * 100;
+        Double dy = random.nextDouble() * 100;
 
         if (this.positionVector.x >= this.animator.getWidth() - 50) {
-            DoubleVector rawVector = new DoubleVector(-1 * dx, dy);
+            rawVector.x = -1 * dx;
+            rawVector.y = dy;
             this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
         }
         if (this.positionVector.y >= this.animator.getHeight() - 50) {
-            DoubleVector rawVector = new DoubleVector(dx, -1 * dy);
+            rawVector.x = dx;
+            rawVector.y = -1 * dy;
             this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
         }
         if (this.positionVector.x <= 50) {
-            DoubleVector rawVector = new DoubleVector(dx, dy);
+            rawVector.x = dx;
+            rawVector.y = -1 * dy;
             this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
         }
         if (this.positionVector.y <= 50) {
-            DoubleVector rawVector = new DoubleVector(dx, dy);
+            rawVector.x = dx;
+            rawVector.y = 1 + dy;
             this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
         }
 
@@ -203,8 +226,10 @@ public class Ghost extends GameObject implements
     }
 
     @Override
-    public void addWeaponListener(ActionListener listener) {}
-    
+    public void addWeaponListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @Override
     public Integer getCount() {
         return this.getHealthValue();
@@ -222,8 +247,13 @@ public class Ghost extends GameObject implements
 
     private void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
-        for(ActionListener al : this.attackableListeners) {
+        for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(e);
         }
+    }
+
+    @Override
+    public void addAnimationTimerListener(ActionListener listener) {
+        this.gamedata.addAnimationUpdateTimerListener(listener);
     }
 }

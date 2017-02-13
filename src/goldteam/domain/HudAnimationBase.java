@@ -8,18 +8,13 @@ package goldteam.domain;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.RescaleOp;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
-import javax.swing.JLayeredPane;
-import javax.swing.Timer;
 
 /**
  *
@@ -29,28 +24,23 @@ public abstract class HudAnimationBase extends AnimationBase {
 
     protected final String imgFilename;
     protected final GameObject gameObject;
+    private final Animatable animatableGameObject;
+
     protected int count;
     protected int imgWidth;
     protected int imgHeight;
     protected BufferedImage img; // for the entire image stripe
     protected BufferedImage[] imgArray; // for the entire image stripe
-
     private final AffineTransform af;
-    private final BufferedImageOp bio;
-    private Timer timer;
-    
+
     public HudAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super();
-
-        this.af = new AffineTransform();
-        this.bio = new  AffineTransformOp(af,null);
-        //this.bio = new RescaleOp(1.0f, 0.0f, null);
+        super.setSize(preferredSize);
         this.imgFilename = assetFile;
         this.gameObject = gameObject;
-        this.timer = new Timer(10, this);
-        // Setup GUI
-        super.setSize(preferredSize);
-        this.timer.start();
+        this.animatableGameObject = (Animatable) gameObject;
+        this.animatableGameObject.addAnimationTimerListener(this);
+        this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0.0, 0.0);
     }
 
     /**
@@ -60,19 +50,27 @@ public abstract class HudAnimationBase extends AnimationBase {
      * @param numRows
      * @param numCols
      */
-    protected void loadImage(String imgFileName, int numberOfItems) {
+    protected void loadImage(String imgFileName, int numberOfItems, AffineTransform transform) {
         ClassLoader cl = getClass().getClassLoader();
         URL imgUrl = cl.getResource(imgFileName);
         if (imgUrl == null) {
             System.err.println("Couldn't find file: " + imgFileName);
         } else {
             try {
-                
                 img = ImageIO.read(imgUrl); // load image via URL
-                
             } catch (IOException ex) {
             }
         }
+
+        int scaleX = ((Double) (img.getWidth() * transform.getScaleX())).intValue();
+        int scaleY = ((Double) (img.getHeight() * transform.getScaleY())).intValue();
+        Image tmp = img.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
+
+        BufferedImage bimage = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bimage.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        img = bimage;
 
         this.imgHeight = img.getHeight(null);
         this.imgWidth = img.getWidth(null);
@@ -91,8 +89,11 @@ public abstract class HudAnimationBase extends AnimationBase {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        for(int i=0; i<count; i++) {
-            g2d.drawImage(imgArray[i], bio, gameObject.PositionVector().x + i*imgWidth, gameObject.PositionVector().y);
+        int dy = gameObject.PositionVector().y;
+        for (int i = 0; i < count; i++) {
+            int dx = gameObject.PositionVector().x + i * imgWidth;
+            af.setTransform(1.0, 0, 0, 1.0, dx, dy);
+            g2d.drawImage(imgArray[i], af, null);
         }
     }
 
@@ -100,5 +101,4 @@ public abstract class HudAnimationBase extends AnimationBase {
     public void actionPerformed(ActionEvent e) {
         update(); // update the image
     }
-
 }

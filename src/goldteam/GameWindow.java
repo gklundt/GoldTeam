@@ -1,42 +1,45 @@
 package goldteam;
 
 import javax.swing.JFrame;
-import goldteam.panels.PanelManager;
-import goldteam.panels.PanelManagerListener;
+import goldteam.domain.PanelManager;
+import goldteam.domain.PanelManagerListener;
 import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
 import javax.swing.JPanel;
 
 /**
- * GameWindow contains all subsequent control panels. Game Window is constructed
- * with a PanelManager and implements its listener. When the Panel Manager's
- * active panel is updated, the GameWindow updates the focus element and loads a
- * new panel
- *
- * @author gordon
- */
-public class GameWindow extends JFrame implements PanelManagerListener {
-    
+ * 
+ * GameWindow contains all subsequent control panels. 
+ * 
+ * Game Window is constructed with a PanelManager and 
+ * implements its listener. 
+ * 
+ * When the Panel Manager's active panel is updated, the GameWindow 
+ * updates the focus element and loads a new panel
+ * 
+ **/
+public final class GameWindow extends JFrame implements PanelManagerListener {
+
     private final PanelManager panelManager;
-    
-    public GameWindow(PanelManager panelManager) {
-        super.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+    public GameWindow(GraphicsConfiguration gc, PanelManager panelManager) {
+        super(gc);
         this.panelManager = panelManager;
         this.panelManager.addPanelManagerListener(() -> panelManagerChanged());
-        super.setLocationRelativeTo(null);
+
+        super.setDefaultCloseOperation(EXIT_ON_CLOSE);
         super.setSize(new Dimension(800, 600));
+        super.setLocationRelativeTo(null);
+        super.setIgnoreRepaint(true);
         super.setContentPane(panelManager.getActivePanel());
         super.setVisible(true);
     }
-    
+
     @Override
     public void panelManagerChanged() {
         setVisible(false);
         JPanel p = panelManager.getActivePanel();
         setContentPane(p);
-        
-        setVisible(true);
-        p.setFocusable(true);
-        p.requestFocus();
+        super.setVisible(true);
     }
-    
 }

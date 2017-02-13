@@ -8,73 +8,65 @@ package goldteam.domain;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.RescaleOp;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.*;
-import javax.swing.Timer;
 
-/**
- *
- * @author gordon
- */
 public abstract class CharacterAnimationBase extends AnimationBase {
 
     protected final String imgFilename;
-    protected final GameObject gameObject;
+    private final GameObject gameObject;
+    private final Animatable animatableGameObject;
+
+    private int numCols;
     protected int currentFrame; // current frame number
-    protected int numCols;
     protected int numFrames;
     protected int imgWidth;
     protected int imgHeight;
-    protected BufferedImage img; // for the entire image stripe
-    protected BufferedImage[] imgArray; // for the entire image stripe
-    protected Timer timer;
+    private BufferedImage img; // for the entire image stripe
+    private BufferedImage[] imgArray; // for the entire image stripe
     private final AffineTransform af;
-    private final BufferedImageOp bio;
 
-    public CharacterAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile, int frameRate) {
+    public CharacterAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super();
-
-        this.af = new AffineTransform();
-        //this.bio = new  AffineTransformOp(af,null);
-        this.bio = new RescaleOp(1.0f, 0.0f, null);
-
+        super.setSize(preferredSize);
         this.imgFilename = assetFile;
         this.gameObject = gameObject;
-        this.timer = new Timer(1000 / frameRate, this);
-        // Setup GUI
-        super.setSize(preferredSize);
-        this.timer.start();
+        this.animatableGameObject = (Animatable) gameObject;
+        this.animatableGameObject.addAnimationTimerListener(this);
+        this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0, 0);
 
     }
 
-    /**
-     * Helper method to load image. All frames have the same height and width
-     *
-     * @param imgFileName
-     * @param numRows
-     * @param numCols
-     */
-    protected void loadImage(String imgFileName, int numRows, int numCols) {
+    protected void loadImage(String imgFileName, int numRows, int numCols, AffineTransform imageTransform) {
         ClassLoader cl = getClass().getClassLoader();
         URL imgUrl = cl.getResource(imgFileName);
-        File imgFile = new File(imgFileName);
+
         if (imgUrl == null) {
             System.err.println("Couldn't find file: " + imgFileName);
         } else {
             try {
-                
+
                 img = ImageIO.read(imgUrl); // load image via URL
-                img = ImageIO.read(imgFile);
+
             } catch (IOException ex) {
             }
         }
+
+        int scaleX = ((Double) (img.getWidth() * imageTransform.getScaleX())).intValue();
+        int scaleY = ((Double) (img.getHeight() * imageTransform.getScaleY())).intValue();
+        Image tmp = img.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
+
+        BufferedImage bimage = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bimage.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        img = bimage;
+
         numFrames = numRows * numCols;
         this.imgHeight = img.getHeight(null) / numRows;
         this.imgWidth = img.getWidth(null) / numCols;
@@ -90,31 +82,23 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         currentFrame = 0;
     }
 
-    /**
-     * Returns the top-left x-coordinate of the given frame number.
-     * @return 
-     */
     protected int getcurrentFrameX() {
         return (currentFrame % numCols) * imgWidth;
     }
 
-    /**
-     * Returns the top-left y-coordinate of the given frame number.
-     * @return 
-     */
     protected int getCurrentFrameY() {
         return (currentFrame / numCols) * imgHeight;
     }
 
-
-    /**
-     * Custom painting codes on this JPanel
-     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(imgArray[currentFrame], bio, (int) gameObject.PositionVector().x - imgWidth / 2, (int) gameObject.PositionVector().y - imgHeight / 2);
+        int dx = gameObject.PositionVector().x - imgWidth / 2;
+        int dy = gameObject.PositionVector().y - imgHeight / 2;
+        this.af.setTransform(1.0, 0, 0, 1.0, dx, dy);
+        g2d.drawImage(imgArray[currentFrame], af, null);
     }
 
     @Override

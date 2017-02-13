@@ -10,6 +10,7 @@ import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameObject;
 import goldteam.domain.HudAnimationBase;
 import java.awt.Dimension;
+import java.awt.geom.AffineTransform;
 
 /**
  *
@@ -23,13 +24,13 @@ public class ShieldHudAnimation extends HudAnimationBase {
      * @param preferredSize
      * @param assetFile
      */
-    private AttackableWatcher gameObj;
+    private final AttackableWatcher gameObj;
     
     public ShieldHudAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         this.gameObj = (AttackableWatcher) gameObject;
         // Setup animation
-        super.loadImage(imgFilename, this.gameObj.getWatcher().getShieldValue());
+        super.loadImage(imgFilename, this.gameObj.getWatcher().getShieldValue(), new AffineTransform(.5, 0, 0, .5, 0, 0));
     }
 
     @Override

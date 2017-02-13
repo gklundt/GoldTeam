@@ -12,6 +12,7 @@ import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.AnimationBase;
 import java.awt.Point;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -76,5 +77,10 @@ public class ShieldHudItem extends GameObject implements AttackableWatcher, Anim
     @Override
     public AnimationBase getAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addAnimationTimerListener(ActionListener listener) {
+        this.gamedata.addAnimationUpdateTimerListener(listener);
     }
 }
