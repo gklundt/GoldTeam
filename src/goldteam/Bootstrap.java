@@ -73,7 +73,7 @@ class Bootstrap {
     }
     
     private void addTestCollidersPanel(PanelManager pm){
-        JPanel testPanel = new GameEngineTestPanel(pm);
+        JPanel testPanel = new TestCollidersPanel(pm);
         pm.addPanel(GamePanelManager.TEST_COLLIDERS_PANEL, testPanel);
     }
 }
