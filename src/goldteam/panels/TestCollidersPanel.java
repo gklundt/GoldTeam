@@ -5,11 +5,20 @@
  */
 package goldteam.panels;
 
+import goldteam.animators.GhostAnimation;
+import goldteam.characters.Ghost;
+import goldteam.characters.StationaryGhost;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
+import goldteam.gamedata.GameData;
+import java.awt.Component;
 import java.awt.GraphicsConfiguration;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -20,16 +29,44 @@ import javax.swing.event.AncestorListener;
  */
 public class TestCollidersPanel extends ManagedPanel implements KeyListener, MouseListener{
 
+    private Component gp;
+    private StationaryGhost g1;
+    
     public TestCollidersPanel(PanelManager panelManager) {
         super(panelManager);
         super.addAncestorListener(new AncestorListenerImpl());
     }
     
-        private void updateListeners() {
-        addKeyListener(this);
-        addMouseListener(this);
-        GraphicsConfiguration gf = getGraphicsConfiguration();
+    private void updateListeners() {
         JRootPane jrp = getRootPane();
+        JLayeredPane lp = new JLayeredPane();
+
+        GameData gd = new GameData();
+        gd.addGraphicsUpdateTimerListener(l -> lp.repaint());
+
+        lp.setSize(gd.getVisibleDimensions());
+        lp.setOpaque(true);
+        lp.setPreferredSize(gd.getVisibleDimensions());
+        jrp.setContentPane(lp);
+
+        gp = jrp.getGlassPane();
+        gp.setVisible(true);
+        gp.requestFocus();
+        gp.addKeyListener(this);
+        gp.addMouseListener(this); 
+
+        g1 = new StationaryGhost(gd, new Point(20, 400));
+        g1.setVelocityScalarDelta(Delta.create(-15.0d, ModType.FIXED));
+        GhostAnimation ga1 = new GhostAnimation(g1, gd.getVisibleDimensions(), "assets/GameGhostStripe.png", 10);
+        g1.setAnimator(ga1);
+        lp.add(ga1, lp.highestLayer());
+    }
+    
+    private void undoGraphics() {
+        gp.removeKeyListener(this);
+        gp.removeMouseListener(this);
+        gp.setVisible(false);
+        validate();
     }
 
     @Override
@@ -41,7 +78,9 @@ public class TestCollidersPanel extends ManagedPanel implements KeyListener, Mou
     public void keyPressed(KeyEvent e) {
         if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
             panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
+            undoGraphics();
         }
+        g1.processKeyInput(e);
     }
 
     @Override
