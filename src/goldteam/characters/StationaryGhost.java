@@ -5,10 +5,12 @@
  */
 package goldteam.characters;
 
+import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.Attackable;
 import goldteam.domain.Collidable;
+import goldteam.domain.Collider;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Controllable;
 import goldteam.domain.Delta;
@@ -19,6 +21,7 @@ import goldteam.domain.GameObject;
 import goldteam.domain.Movable;
 import goldteam.domain.VectorMath;
 import goldteam.domain.Weapon;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -28,6 +31,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
 
 /**
  *
@@ -50,6 +54,7 @@ public class StationaryGhost  extends GameObject implements
     private final Random random;
     private Double health, shield;
     private ArrayList<ActionListener> attackableListeners;
+    private Collider collider;
 
     public StationaryGhost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
@@ -61,6 +66,8 @@ public class StationaryGhost  extends GameObject implements
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
         health = shield = 5.0;
         attackableListeners = new ArrayList<>();
+        collider = new StationaryGhostCollider(new Point(positionVector.x,positionVector.y),
+                new Dimension(100,100));
     }
 
     @Override
@@ -91,7 +98,7 @@ public class StationaryGhost  extends GameObject implements
 
     @Override
     public Polygon getPolygon() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -231,6 +238,7 @@ public class StationaryGhost  extends GameObject implements
         } else if(keyEvent.getKeyCode() == 37){
             this.positionVector.x -= initialVelocity;
         }
+        this.collider.setCollider(positionVector);
     }
 
     @Override
@@ -238,4 +246,7 @@ public class StationaryGhost  extends GameObject implements
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public Collider getCollider(){
+        return this.collider;
+    }
 }

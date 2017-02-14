@@ -43,6 +43,7 @@ public class TestCollidersPanel extends ManagedPanel implements KeyListener, Mou
 
         GameData gd = new GameData();
         gd.addGraphicsUpdateTimerListener(l -> lp.repaint());
+        //gd.addCollisionTimer();
 
         lp.setSize(gd.getVisibleDimensions());
         lp.setOpaque(true);
@@ -113,7 +114,7 @@ public class TestCollidersPanel extends ManagedPanel implements KeyListener, Mou
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-        private class AncestorListenerImpl implements AncestorListener {
+    private class AncestorListenerImpl implements AncestorListener {
 
         public AncestorListenerImpl() {
         }
