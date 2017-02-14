@@ -1,27 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package goldteam.panels;
+package goldteam;
 
+import goldteam.domain.PanelManager;
+import goldteam.domain.PanelManagerListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JPanel;
 
-/**
- * jw34ebjwejkgrwkgnerg
- *
- * @author gordon
- */
 public class GamePanelManager implements PanelManager {
 
+    /* Constants to locate panel managers */
     public static final String OPTIONS_PANEL = "OPTIONS_PANEL";
     public static final String TEST_GRAPHICS_PANEL = "TEST_GRAPHICS_PANEL";
     public static final String TEST_HUD_PANEL = "TEST_HUD_PANEL";
     public static final String TEST_GAME_ENGINE_PANEL = "TEST_GAME_ENGINE_PANEL";
     public static final String TEST_COLLIDERS_PANEL = "TEST_COLLIDERS_PANEL";
+    public static final String TEST_PANEL_TEMPLATE = "TEST_PANEL_TEMPLATE";
 
+    /* Do not edit below */
     private final ArrayList<PanelManagerListener> listeners;
     private final HashMap<String, JPanel> panels;
     private String activePanel;

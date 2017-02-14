@@ -15,8 +15,9 @@ public class VectorMath {
 
     public static DoubleVector getUnitVector(DoubleVector vector) {
         Double mag = Math.sqrt((Math.pow(vector.x, 2.0d) + Math.pow(vector.y, 2.0d)));
-        vector.x = vector.x / mag;
-        vector.y = vector.y / mag;
+
+        vector.x = mag == 0d ? 0 : vector.x / mag;
+        vector.y = mag == 0d ? 0 : vector.y / mag;
         return vector;
     }
 

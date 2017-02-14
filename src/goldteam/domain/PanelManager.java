@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package goldteam.panels;
+package goldteam.domain;
 
+import goldteam.domain.PanelManagerListener;
 import javax.swing.JPanel;
 
-/**
- *
- * @author gordon
- */
 public interface PanelManager {
 
     void addPanel(String name, JPanel panel);

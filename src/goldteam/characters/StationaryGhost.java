@@ -5,12 +5,10 @@
  */
 package goldteam.characters;
 
-import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.Attackable;
 import goldteam.domain.Collidable;
-import goldteam.domain.Collider;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Controllable;
 import goldteam.domain.Delta;
@@ -21,7 +19,6 @@ import goldteam.domain.GameObject;
 import goldteam.domain.Movable;
 import goldteam.domain.VectorMath;
 import goldteam.domain.Weapon;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -31,47 +28,67 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Set;
 
 /**
  *
  * @author faaez
  */
-public class StationaryGhost  extends GameObject implements 
+public class StationaryGhost extends GameObject implements
         Attackable, /* Shield and Health accessors */
         Weapon, /* Adds damage to a movable object */
         Collidable, /* Information for Collision detection */
         Movable, /* Vectors and scalar for movement */
-        Animatable<AnimationBase>, /* Getter/Setter for animator */ 
+        Animatable, /* Getter/Setter for animator */
         Depletable,
-        Controllable
-        {
-    
-    private DoubleVector velocityVector;
-    private AnimationBase animator;
-    private final Integer initialVelocity;
-    private Integer velocity;
+        Controllable {
+
     private final Random random;
-    private Double health, shield;
-    private ArrayList<ActionListener> attackableListeners;
-    private Collider collider;
+
+    private final Double initialVelocity;
+    private final ArrayList<ActionListener> attackableListeners;
+    private final Double initialHealth;
+    private final Double initialShield;
+    private final Point initialPoint;
+
+    private Double health;
+    private Double shield;
+    private DoubleVector velocityVector;
+    private Double velocity;
+    private final DoubleVector rawVector;
+
+    private AnimationBase animator;
 
     public StationaryGhost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
+
         this.random = new Random();
-        this.initialVelocity = 20;
-        this.velocity = this.initialVelocity;
+
+        this.initialPoint = initialPoint;
+        this.initialVelocity = 20d;
+        this.initialHealth = 5.0d;
+        this.initialShield = 10.0d;
+
         this.positionVector = initialPoint;
-        DoubleVector rawVector = new DoubleVector(random.nextDouble() * 10, random.nextDouble() * 10);
+        this.velocity = this.initialVelocity;
+        this.rawVector = new DoubleVector(0d, 0d);
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
-        health = shield = 5.0;
+
+        health = initialHealth;
+        shield = initialShield;
+
         attackableListeners = new ArrayList<>();
-        collider = new StationaryGhostCollider(new Point(positionVector.x,positionVector.y),
-                new Dimension(100,100));
     }
 
     @Override
     protected void Update() {
+
+        try {
+            if (this.gamedata.getHeldKeys().isEmpty()) {
+                this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
+            }
+            this.positionVector.x += this.getVelocityVector().x;
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -98,7 +115,7 @@ public class StationaryGhost  extends GameObject implements
 
     @Override
     public Polygon getPolygon() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -128,7 +145,7 @@ public class StationaryGhost  extends GameObject implements
 
     @Override
     public Integer getVelocity() {
-        return this.velocity;
+        return this.velocity.intValue();
     }
 
     @Override
@@ -207,8 +224,9 @@ public class StationaryGhost  extends GameObject implements
     }
 
     @Override
-    public void addWeaponListener(ActionListener listener) {}
-    
+    public void addWeaponListener(ActionListener listener) {
+    }
+
     @Override
     public Integer getCount() {
         return this.getHealthValue();
@@ -226,27 +244,32 @@ public class StationaryGhost  extends GameObject implements
 
     private void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
-        for(ActionListener al : this.attackableListeners) {
+        for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(e);
         }
     }
 
     @Override
     public void processKeyInput(KeyEvent keyEvent) {
-        if(keyEvent.getKeyCode() == 39){
-            this.positionVector.x += initialVelocity;
-        } else if(keyEvent.getKeyCode() == 37){
-            this.positionVector.x -= initialVelocity;
+        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
+            this.velocity = this.initialVelocity;
+            this.rawVector.x += this.velocity;
         }
-        this.collider.setCollider(positionVector);
+        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_A)) {
+            this.velocity = this.initialVelocity;
+            this.rawVector.x -= this.velocity;
+        }
+        this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
     }
 
     @Override
     public void processMouseInput(MouseEvent mouseEvent) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public Collider getCollider(){
-        return this.collider;
+
+    @Override
+    public void addAnimationTimerListener(ActionListener listener) {
+        this.gamedata.addAnimationUpdateTimerListener(listener);
     }
+
 }
