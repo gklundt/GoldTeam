@@ -7,6 +7,7 @@ package goldteam.hud;
 
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
+import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.Attackable;
 import goldteam.domain.AttackableWatcher;
@@ -85,5 +86,25 @@ public class HeartHudItem extends GameObject implements AttackableWatcher, Anima
     @Override
     public void addAnimationTimerListener(ActionListener listener) {
         this.gamedata.addAnimationUpdateTimerListener(listener);
+    }
+
+    @Override
+    public void addAnimationChangeListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addAnimator(AnimationState state, AnimationBase animator) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyAnimationChangeListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public AnimationBase getRemoveAnimator() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
