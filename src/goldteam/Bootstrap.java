@@ -2,6 +2,7 @@ package goldteam;
 
 import goldteam.panels.GameEngineTestPanel;
 import goldteam.domain.PanelManager;
+import goldteam.panels.TestCharacterPanel;
 import goldteam.panels.TestCollidersPanel;
 import goldteam.panels.TestGraphicsPanel;
 import goldteam.panels.TestPanelTemplate;
