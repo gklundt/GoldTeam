@@ -5,6 +5,7 @@
  */
 package goldteam.characters;
 
+import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
@@ -20,6 +21,7 @@ import goldteam.domain.GameObject;
 import goldteam.domain.Movable;
 import goldteam.domain.VectorMath;
 import goldteam.domain.Weapon;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -78,6 +80,10 @@ public class StationaryGhost extends GameObject implements
         shield = initialShield;
 
         attackableListeners = new ArrayList<>();
+        collider = new StationaryGhostCollider(new Point (this.positionVector.x, 
+                                                this.positionVector.y),
+                                                new Dimension(this.gamedata.getVisibleDimensions().width,
+                                                this.gamedata.getVisibleDimensions().width) );
     }
 
     @Override
@@ -88,6 +94,7 @@ public class StationaryGhost extends GameObject implements
                 this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
             }
             this.positionVector.x += this.getVelocityVector().x;
+            this.collider.setCollider(positionVector);
         } catch (Exception e) {
         }
     }
@@ -279,12 +286,12 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public void addAnimator(AnimationState state, AnimationBase animator) {
+    public void notifyAnimationChangeListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void addAnimator(AnimationState state, AnimationBase animator) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -294,3 +301,4 @@ public class StationaryGhost extends GameObject implements
     }
 
 }
+
