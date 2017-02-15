@@ -2,6 +2,7 @@ package goldteam;
 
 import goldteam.panels.GameEngineTestPanel;
 import goldteam.domain.PanelManager;
+import goldteam.panels.TestCharacterPanel;
 import goldteam.panels.TestCollidersPanel;
 import goldteam.panels.TestGraphicsPanel;
 import goldteam.panels.TestPanelTemplate;
@@ -40,6 +41,7 @@ class Bootstrap {
         addTestGameEnginePanel(pm);
         addTestCollidersPanel(pm);
         addTestPanelTemplate(pm);
+        addTestCharacterPanel(pm);
 
         /* Register game window */
         GameWindow gw = new GameWindow(gc, pm);
@@ -87,6 +89,11 @@ class Bootstrap {
     private void addTestPanelTemplate(PanelManager pm) {
         JPanel testPanel = new TestPanelTemplate(pm);
         pm.addPanel(GamePanelManager.TEST_PANEL_TEMPLATE, testPanel);
+    }
+    
+    private void addTestCharacterPanel(PanelManager pm) {
+        JPanel testPanel = new TestCharacterPanel(pm);
+        pm.addPanel(GamePanelManager.TEST_CHARACTER_PANEL, testPanel);
     }
     
     /* Do not modify below */

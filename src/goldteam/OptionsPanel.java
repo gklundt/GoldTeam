@@ -26,18 +26,20 @@ public final class OptionsPanel extends ManagedPanelBase {
 
     public JButton[] TestButtons() {
 
-        JButton[] ret = new JButton[5];
+        JButton[] ret = new JButton[6];
         ret[0] = new JButton("Open TestGraphicsPanel");
         ret[1] = new JButton("Open Test_HUD_Panel");
         ret[2] = new JButton("Open Test Game Engine Panel");
         ret[3] = new JButton("Open TestColldiersPanel");
         ret[4] = new JButton("Open TestPanelTemplate");
+        ret[5] = new JButton("Open TestCharacterPanel");
 
         ret[0].addActionListener(l -> stupidAction(ret[0].getText()));
         ret[1].addActionListener(l -> stupidAction(ret[1].getText()));
         ret[2].addActionListener(l -> stupidAction(ret[2].getText()));
         ret[3].addActionListener(l -> stupidAction(ret[3].getText()));
         ret[4].addActionListener(l -> stupidAction(ret[4].getText()));
+        ret[5].addActionListener(l -> stupidAction(ret[5].getText()));
 
         return ret;
     }
@@ -57,6 +59,9 @@ public final class OptionsPanel extends ManagedPanelBase {
         }
         if ("Open TestPanelTemplate".equals(caption)) {
             panelManager.setActivePanel(GamePanelManager.TEST_PANEL_TEMPLATE);
+        }
+        if ("Open TestCharacterPanel".equals(caption)) {
+            panelManager.setActivePanel(GamePanelManager.TEST_CHARACTER_PANEL);
         }
     }
 }
