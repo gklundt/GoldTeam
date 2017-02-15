@@ -10,6 +10,7 @@ public abstract class GameObject {
     protected Polygon shape;
     protected Image image;
     protected GameEngine gamedata;
+    protected Collider collider;
 
     public GameObject(GameEngine gamedata, Point initialPoint) {
         this.gamedata = gamedata;
@@ -32,6 +33,10 @@ public abstract class GameObject {
     protected abstract void UpdateEffectHandler();
     
     protected abstract void MapUpdateTimerHandler();
+    
+    public Collider getCollider(){
+        return this.collider;
+    }
 
     public Point PositionVector() {
         return this.positionVector;

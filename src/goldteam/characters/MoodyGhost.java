@@ -5,7 +5,6 @@
  */
 package goldteam.characters;
 
-import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
@@ -21,7 +20,6 @@ import goldteam.domain.GameObject;
 import goldteam.domain.Movable;
 import goldteam.domain.VectorMath;
 import goldteam.domain.Weapon;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -36,7 +34,7 @@ import java.util.Random;
  *
  * @author faaez
  */
-public class StationaryGhost extends GameObject implements
+public class MoodyGhost extends GameObject implements
         Attackable, /* Shield and Health accessors */
         Weapon, /* Adds damage to a movable object */
         Collidable, /* Information for Collision detection */
@@ -58,16 +56,20 @@ public class StationaryGhost extends GameObject implements
     private DoubleVector velocityVector;
     private Double velocity;
     private final DoubleVector rawVector;
-
     private AnimationBase animator;
+    private final HashMap<AnimationState, AnimationBase> animators;
+    private final ArrayList<ActionListener> animationChangeListeners;
+    private AnimationBase removeAnimator;
 
-    public StationaryGhost(GameEngine gameEngine, Point initialPoint) {
+    public MoodyGhost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
+        this.animationChangeListeners = new ArrayList<>();
+        this.animators = new HashMap<>();
 
         this.random = new Random();
 
         this.initialPoint = initialPoint;
-        this.initialVelocity = 20d;
+        this.initialVelocity = 10d;
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
 
@@ -80,10 +82,6 @@ public class StationaryGhost extends GameObject implements
         shield = initialShield;
 
         attackableListeners = new ArrayList<>();
-        collider = new StationaryGhostCollider(new Point (this.positionVector.x, 
-                                                this.positionVector.y),
-                                                new Dimension(this.gamedata.getVisibleDimensions().width,
-                                                this.gamedata.getVisibleDimensions().width) );
     }
 
     @Override
@@ -93,10 +91,36 @@ public class StationaryGhost extends GameObject implements
             if (this.gamedata.getHeldKeys().isEmpty()) {
                 this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
             }
-            this.positionVector.x += this.getVelocityVector().x;
-            this.collider.setCollider(positionVector);
+            Double testX = this.positionVector.x + this.getVelocityVector().x;
+            Double testY = this.positionVector.y + this.getVelocityVector().y;
+            if (( testX > 20) && (testX < (this.gamedata.getVisibleDimensions().width - 20))) {
+                this.positionVector.x += this.getVelocityVector().x;
+                
+            } else {this.velocity = 0d;}
+            if ((testY > 20) && (testY < (this.gamedata.getVisibleDimensions().height - 20))) {
+                this.positionVector.y += this.getVelocityVector().y;
+            } else {this.velocity = 0d;}
         } catch (Exception e) {
         }
+
+        if (this.velocity == 0d) {
+            this.removeAnimator = animator;
+            this.animator = this.animators.get(AnimationState.DEFAULT);
+            this.notifyAnimationChangeListeners();
+        }
+
+        if (this.velocity > 0d && this.velocity <= 12.0) {
+            this.removeAnimator = animator;
+            this.animator = this.animators.get(AnimationState.WALKING_LEFT);
+            this.notifyAnimationChangeListeners();
+        }
+
+        if (this.velocity > 12d) {
+            this.removeAnimator = animator;
+            this.animator = this.animators.get(AnimationState.JUMPING_LEFT);
+            this.notifyAnimationChangeListeners();
+        }
+
     }
 
     @Override
@@ -183,6 +207,7 @@ public class StationaryGhost extends GameObject implements
 
     @Override
     public void setAnimator(AnimationBase animator) {
+        this.animators.put(AnimationState.DEFAULT, animator);
         this.animator = animator;
     }
 
@@ -259,13 +284,22 @@ public class StationaryGhost extends GameObject implements
 
     @Override
     public void processKeyInput(KeyEvent keyEvent) {
+
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
-            this.velocity = this.initialVelocity;
+            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.x += this.velocity;
         }
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_A)) {
-            this.velocity = this.initialVelocity;
+            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.x -= this.velocity;
+        }
+        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_W)) {
+            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+            this.rawVector.y -= this.velocity;
+        }
+        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_S)) {
+            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+            this.rawVector.y += this.velocity;
         }
         this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
     }
@@ -282,23 +316,25 @@ public class StationaryGhost extends GameObject implements
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notifyAnimationChangeListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationChangeListeners.add(listener);
     }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animators.put(state, animator);
+    }
+
+    @Override
+    public void notifyAnimationChangeListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener al : this.animationChangeListeners) {
+            al.actionPerformed(e);
+        }
     }
 
     @Override
     public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.removeAnimator;
     }
 
 }
-
