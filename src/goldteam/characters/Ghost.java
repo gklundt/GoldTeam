@@ -1,6 +1,8 @@
 package goldteam.characters;
 
+import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.*;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -57,6 +59,11 @@ public class Ghost extends GameObject implements
         this.shield = this.initialShield;
 
         attackableListeners = new ArrayList<>();
+        
+        collider = new StationaryGhostCollider(new Point (this.positionVector.x, 
+                                                this.positionVector.y),
+                                                new Dimension(this.gamedata.getVisibleDimensions().width,
+                                                this.gamedata.getVisibleDimensions().width) );
     }
 
     @Override
@@ -91,6 +98,8 @@ public class Ghost extends GameObject implements
 
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
+        
+        this.collider.setCollider(positionVector);
     }
 
     @Override

@@ -5,10 +5,12 @@
  */
 package goldteam.characters;
 
+import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.Attackable;
 import goldteam.domain.Collidable;
+import goldteam.domain.Collider;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Controllable;
 import goldteam.domain.Delta;
@@ -19,6 +21,7 @@ import goldteam.domain.GameObject;
 import goldteam.domain.Movable;
 import goldteam.domain.VectorMath;
 import goldteam.domain.Weapon;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -27,6 +30,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -77,6 +81,10 @@ public class StationaryGhost extends GameObject implements
         shield = initialShield;
 
         attackableListeners = new ArrayList<>();
+        collider = new StationaryGhostCollider(new Point (this.positionVector.x, 
+                                                this.positionVector.y),
+                                                new Dimension(this.gamedata.getVisibleDimensions().width,
+                                                this.gamedata.getVisibleDimensions().width) );
     }
 
     @Override
@@ -87,6 +95,7 @@ public class StationaryGhost extends GameObject implements
                 this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
             }
             this.positionVector.x += this.getVelocityVector().x;
+            this.collider.setCollider(positionVector);
         } catch (Exception e) {
         }
     }
