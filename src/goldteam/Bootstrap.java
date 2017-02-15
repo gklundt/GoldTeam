@@ -42,6 +42,7 @@ class Bootstrap {
         addTestCollidersPanel(pm);
         addTestPanelTemplate(pm);
         addTestAnimSwitchPanel(pm);
+        addTestCharacterPanel(pm);
 
         /* Register game window */
         GameWindow gw = new GameWindow(gc, pm);
@@ -94,6 +95,11 @@ class Bootstrap {
     private void addTestAnimSwitchPanel(PanelManager pm) {
         JPanel testPanel = new TestSwitchAnimPanel(pm);
         pm.addPanel(GamePanelManager.TEST_ANIM_SWITCH_PANEL, testPanel);
+    }
+
+    private void addTestCharacterPanel(PanelManager pm) {
+        JPanel testPanel = new TestCharacterPanel(pm);
+        pm.addPanel(GamePanelManager.TEST_CHARACTER_PANEL, testPanel);
     }
 
     /* Do not modify below */
