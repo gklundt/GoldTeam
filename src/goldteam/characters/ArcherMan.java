@@ -17,6 +17,7 @@ import java.util.HashMap;
  */
 public class ArcherMan extends GameObject implements 
         Attackable,     /* Shield and Health accessors */
+        Animatable,     /* Animations */
         Brawler,        /* Strength accessor (from Fighter) and strike action */
         Archer,         /* Strength accessor (from Fighter) and ready/aim/fire routines */
         Collidable,     /* Information for Collision detection */
@@ -25,9 +26,18 @@ public class ArcherMan extends GameObject implements
         Spawnable,      /* Respawn details */
         Depletable      /* Life Counter */
 {
+    private AnimationBase animator;
+    private boolean right, left, jump, canDoubleJump;
+    private DoubleVector velocityVector;
+    private double velocity = 15d;
+    private int health = 100;
 
-    public ArcherMan(GameEngine gamedata, Point initialPoint) {
+    public ArcherMan(GameEngine gamedata, Point initialPoint)
+    {
         super(gamedata, initialPoint);
+        
+        velocityVector = new DoubleVector();
+        canDoubleJump = true;
     }
 
     @Override
@@ -111,12 +121,14 @@ public class ArcherMan extends GameObject implements
     }
 
     @Override
-    public DoubleVector getVelocityVector() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DoubleVector getVelocityVector()
+    {
+        return this.velocityVector;
     }
 
     @Override
-    public void setVelocityScalarDelta(Delta delta) {
+    public void setVelocityScalarDelta(Delta delta)
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -171,8 +183,9 @@ public class ArcherMan extends GameObject implements
     }
 
     @Override
-    protected void GraphicsUpdateHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected void GraphicsUpdateHandler()
+    {
+        Update();
     }
 
     @Override
@@ -216,7 +229,75 @@ public class ArcherMan extends GameObject implements
     }
 
     @Override
-    protected void Update() {
+    protected void Update()
+    {
+        double velY = velocityVector.y;
+        if(jump && canDoubleJump)
+        {
+            velY = -30;     //Stops Momentum and creats upwards momentup for double jump
+            canDoubleJump = false;
+        }
+        else
+            velY += 3;  //Gravity
+        
+        if(right && ! left)
+            this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(1d, 0d), velocity);
+        else if(left && !right)
+            this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(-1d, 0d), velocity);
+        else
+            this.velocityVector = new DoubleVector();
+        velocityVector.y = velY;
+        this.positionVector.x += this.getVelocityVector().x;
+        this.positionVector.y += this.getVelocityVector().y;
+    }
+
+    @Override
+    public void setAnimator(AnimationBase animator) {
+        this.animator = animator;
+    }
+
+    @Override
+    public AnimationBase getAnimator() {
+        return this.animator;
+    }
+
+    @Override
+    public void addAnimationTimerListener(ActionListener listener) {
+        this.gamedata.addAnimationUpdateTimerListener(listener);
+    }
+    
+    public void setRight(boolean b)
+    {
+        right = b;
+    }
+    
+    public void setLeft(boolean b)
+    {
+        left = b;
+    }
+    
+    public void setJump(boolean b)
+    {
+        jump = b;
+    }
+
+    @Override
+    public void addAnimationChangeListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyAnimationChangeListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addAnimator(AnimationState state, AnimationBase animator) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

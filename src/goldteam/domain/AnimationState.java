@@ -5,6 +5,7 @@ package goldteam.domain;
  * @author gordon
  */
 public enum AnimationState {
+    DEFAULT,
     WALKING_LEFT,
     WALKING_RIGHT,
     JUMPING_LEFT,

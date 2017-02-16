@@ -100,6 +100,4 @@ public class TestCollidersPanel extends GamePanelBase {
     private synchronized void removeKey(Integer e) {
         this.gameData.getHeldKeys().remove(e);
     }
-    
-    
 }

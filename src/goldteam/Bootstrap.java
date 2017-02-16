@@ -2,9 +2,11 @@ package goldteam;
 
 import goldteam.panels.GameEngineTestPanel;
 import goldteam.domain.PanelManager;
+import goldteam.panels.TestCharacterPanel;
 import goldteam.panels.TestCollidersPanel;
 import goldteam.panels.TestGraphicsPanel;
 import goldteam.panels.TestPanelTemplate;
+import goldteam.panels.TestSwitchAnimPanel;
 import goldteam.panels.Test_HUD_Panel;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -40,6 +42,8 @@ class Bootstrap {
         addTestGameEnginePanel(pm);
         addTestCollidersPanel(pm);
         addTestPanelTemplate(pm);
+        addTestAnimSwitchPanel(pm);
+        addTestCharacterPanel(pm);
 
         /* Register game window */
         GameWindow gw = new GameWindow(gc, pm);
@@ -89,6 +93,16 @@ class Bootstrap {
         pm.addPanel(GamePanelManager.TEST_PANEL_TEMPLATE, testPanel);
     }
     
+    private void addTestAnimSwitchPanel(PanelManager pm) {
+        JPanel testPanel = new TestSwitchAnimPanel(pm);
+        pm.addPanel(GamePanelManager.TEST_ANIM_SWITCH_PANEL, testPanel);
+    }
+
+    private void addTestCharacterPanel(PanelManager pm) {
+        JPanel testPanel = new TestCharacterPanel(pm);
+        pm.addPanel(GamePanelManager.TEST_CHARACTER_PANEL, testPanel);
+    }
+
     /* Do not modify below */
     private final HashMap<String, Object> resolver = new HashMap<>();
 

@@ -30,7 +30,6 @@ public final class GameWindow extends JFrame implements PanelManagerListener {
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
         super.setSize(new Dimension(800, 600));
         super.setLocationRelativeTo(null);
-        super.setIgnoreRepaint(true);
         super.setContentPane(panelManager.getActivePanel());
         super.setVisible(true);
     }
@@ -41,6 +40,5 @@ public final class GameWindow extends JFrame implements PanelManagerListener {
         JPanel p = panelManager.getActivePanel();
         setContentPane(p);
         super.setVisible(true);
-        p.repaint();
     }
 }
