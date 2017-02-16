@@ -52,9 +52,11 @@ public class TestCollidersPanel extends GamePanelBase {
         this.layeredPane.add(ga1, layeredPane.highestLayer());
         this.layeredPane.add(ga2, layeredPane.highestLayer());
         
-        this.objects.add(g1);
+        
+        //this.objects.add(g1);
         this.objects.add(g2);
         super.collisionDetector.setObjects(this.objects);
+        super.collisionDetector.setArcher(g1);
     }
 
     @Override

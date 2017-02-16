@@ -5,6 +5,7 @@
  */
 package goldteam.domain;
 
+import java.awt.Polygon;
 import java.util.ArrayList;
 
 /**
@@ -13,34 +14,28 @@ import java.util.ArrayList;
  */
 public class CollisionDetector {
     
-    public ArrayList<GameObject> objects;
+    private ArrayList<GameObject> objects;
+    private GameObject archer;
     
-    public ArrayList<GameObject> checkCollision(){
-        ArrayList<GameObject> intersectedObjects = new ArrayList<>();
-        for(GameObject parentObj : objects){
-            int counter = 1;
-            for(GameObject childObj : objects){
-                /*if(parentObj.getCollider().getCollider().intersects(childObj.getCollider().getCollider()) 
-                        && counter > 1){
-                    System.out.println("Collision Detected between : " + parentObj + " " + childObj);
-                    intersectedObjects.add(parentObj);
-                    intersectedObjects.add(childObj);
-                    counter++;
-                    System.out.println("Collision detected");
-                }*/
-                if(parentObj.getCollider().getCollider().y == childObj.getCollider().getCollider().y
-                    ){
-                    System.out.println("Dtetected===");
-                    //counter++;
+    public void checkCollision(){
+        
+        try{
+            for(GameObject parentObj : objects){
+                if(((Collidable) parentObj).getPolygon().intersects(((Collidable) archer).getPolygon().getBounds())){
+                    System.out.println("Collision detetcted at : " + ((Collidable) parentObj).getPolygon().getBounds() + " " + ((Collidable) archer).getPolygon().getBounds());
+
                 }
-                //System.out.println(parentObj.getCollider().getCollider() + " " + childObj.getCollider().getCollider());
             }
+        } catch (Exception e){
+            
         }
-        //System.out.println(objects);
-        return intersectedObjects;
     }
     
     public void setObjects(ArrayList<GameObject> objects){
         this.objects = objects;
+    }
+    
+    public void setArcher(GameObject archer){
+        this.archer = archer;
     }
 }

@@ -29,6 +29,7 @@ public class Ghost extends GameObject implements
 
     private final Integer initialVelocity;
     private final ArrayList<ActionListener> attackableListeners;
+    private final ArrayList<ActionListener> collidableListeners;
     private final Double initialHealth;
     private final Double initialShield;
     private final Point initialPoint;
@@ -40,6 +41,7 @@ public class Ghost extends GameObject implements
     private DoubleVector rawVector;
     
     private AnimationBase animator;
+    private Polygon collider;
 
     public Ghost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
@@ -57,18 +59,27 @@ public class Ghost extends GameObject implements
         
         this.health = this.initialHealth; 
         this.shield = this.initialShield;
-
-        attackableListeners = new ArrayList<>();
         
-        collider = new StationaryGhostCollider(new Point (this.positionVector.x, 
-                                                this.positionVector.y),
-                                                new Dimension(this.gamedata.getVisibleDimensions().width,
-                                                this.gamedata.getVisibleDimensions().width) );
+        attackableListeners = new ArrayList<>();
+        collidableListeners = new ArrayList<>();
+
+        int [] xPoly = {this.positionVector.x - 10, 
+                        this.positionVector.x + 10,
+                        this.positionVector.x + 10, 
+                        this.positionVector.x - 10
+        };
+        int [] yPoly = {this.positionVector.y - 10, 
+                        this.positionVector.y - 10,
+                        this.positionVector.y + 10,
+                        this.positionVector.y + 10
+        };
+        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        super.shape = collider;
     }
 
     @Override
     protected void Update() {
-
+        
         if (this.positionVector == null || this.animator == null) {
             return;
         }
@@ -99,7 +110,18 @@ public class Ghost extends GameObject implements
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
         
-        this.collider.setCollider(positionVector);
+        /*int deltaX = 0, deltaY = 0;
+        deltaX += this.getVelocityVector().x;
+        deltaY += this.getVelocityVector().y;*/
+            
+        //this.collider.translate(deltaX, deltaY);
+        
+        this.collider.reset();
+        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 10);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 10);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 10);
+        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 10);
+        super.shape = collider;
     }
 
     @Override
@@ -126,7 +148,7 @@ public class Ghost extends GameObject implements
 
     @Override
     public Polygon getPolygon() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.collider;
     }
 
     @Override
@@ -231,7 +253,7 @@ public class Ghost extends GameObject implements
 
     @Override
     public void addCollisionListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.collidableListeners.add(listener);
     }
 
     @Override
@@ -257,6 +279,13 @@ public class Ghost extends GameObject implements
     private void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener al : this.attackableListeners) {
+            al.actionPerformed(e);
+        }
+    }
+    
+    private void notifyCollidableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener al : this.collidableListeners) {
             al.actionPerformed(e);
         }
     }
