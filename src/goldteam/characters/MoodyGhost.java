@@ -252,11 +252,6 @@ public class MoodyGhost extends GameObject implements
     }
 
     @Override
-    public void addCollisionListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void addWeaponListener(ActionListener listener) {
     }
 

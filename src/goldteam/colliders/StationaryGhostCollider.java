@@ -6,7 +6,6 @@
 package goldteam.colliders;
 
 import goldteam.domain.Collider;
-import goldteam.domain.CollisionListener;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;

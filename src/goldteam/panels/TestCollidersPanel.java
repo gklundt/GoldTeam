@@ -6,12 +6,11 @@
 package goldteam.panels;
 
 import goldteam.GamePanelManager;
-import goldteam.animators.BigGhostAnimation;
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
 import goldteam.characters.StationaryGhost;
+import goldteam.colliders.CollisionDetector;
 import goldteam.domain.CharacterAnimationBase;
-import goldteam.domain.Collider;
 import goldteam.domain.GameObject;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
@@ -31,7 +30,6 @@ public class TestCollidersPanel extends GamePanelBase {
     private ArrayList<GameObject> objects;
 
     //private Component gp;
-    
     public TestCollidersPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
 
@@ -39,24 +37,23 @@ public class TestCollidersPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-        objects = new ArrayList<>();
+
         g1 = new StationaryGhost(gameData, new Point(200, 400));
         g2 = new Ghost(gameData, new Point(200, 400));
-        
+
         CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
         CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
-        
+
         g1.setAnimator(ga1);
         g2.setAnimator(ga2);
-        
+
         this.layeredPane.add(ga1, layeredPane.highestLayer());
         this.layeredPane.add(ga2, layeredPane.highestLayer());
-        
-        
-        //this.objects.add(g1);
-        this.objects.add(g2);
-        super.collisionDetector.setObjects(this.objects);
-        super.collisionDetector.setArcher(g1);
+
+        CollisionDetector collisionDetector;
+        collisionDetector = new CollisionDetector(this.gameData);
+        collisionDetector.registerCollidable(g1);
+        collisionDetector.registerCollidable(g2);
     }
 
     @Override

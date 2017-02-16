@@ -255,11 +255,6 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public void addCollisionListener(ActionListener listener) {
-        this.collidableListeners.add(listener);
-    }
-
-    @Override
     public void addWeaponListener(ActionListener listener) {
     }
 
