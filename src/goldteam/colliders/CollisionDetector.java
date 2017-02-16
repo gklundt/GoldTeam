@@ -36,12 +36,15 @@ public class CollisionDetector implements CollisionRegister {
         // call collision listener event on all listeners
         for (Collidable a : collidableObjects) {
             for (Collidable b : collidableObjects) {
-                if (a.getPolygon().getBounds2D().intersects(b.getPolygon().getBounds2D())) {
-                    // Use math to figure out if collision is from top or bottom
-                    // This could go either way.
-                    a.setCollider(b, CollisionPlane.TOP);
-                    b.setCollider(a, CollisionPlane.BOTTOM);
-                    this.notifyColliders(a, b);
+                if (!a.equals(b)) {
+                    if (a.getPolygon().getBounds2D().intersects(b.getPolygon().getBounds2D())) {
+
+                        // Use math to figure out if collision is from top or bottom
+                        // This could go either way.
+                        a.setCollider(b, CollisionPlane.TOP);
+                        b.setCollider(a, CollisionPlane.BOTTOM);
+                        this.notifyColliders(a, b);
+                    }
                 }
             }
         }
