@@ -11,8 +11,6 @@ import goldteam.domain.CollisionPlane;
 import goldteam.domain.CollisionRegister;
 import goldteam.domain.GameEngine;
 import goldteam.gamedata.GameData;
-import java.awt.event.ActionListener;
-import java.awt.geom.Area;
 import java.util.ArrayList;
 
 /**
@@ -57,8 +55,8 @@ public class CollisionDetector implements CollisionRegister {
     }
 
     @Override
-    public void addCollisionListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addCollisionListener(CollisionListener listener) {
+        this.collisionListeners.add(listener);
     }
 
     @Override

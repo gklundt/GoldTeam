@@ -5,8 +5,6 @@
  */
 package goldteam.domain;
 
-import java.awt.event.ActionListener;
-
 /**
  *
  * @author faaez
@@ -14,7 +12,7 @@ import java.awt.event.ActionListener;
 public interface CollisionRegister {
     
     
-    public void addCollisionListener(ActionListener listener);
+    public void addCollisionListener(CollisionListener listener);
     
     public void registerCollidable(Collidable collidable);
     

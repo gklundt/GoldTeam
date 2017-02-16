@@ -10,6 +10,7 @@ import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
 import goldteam.characters.StationaryGhost;
 import goldteam.colliders.CollisionDetector;
+import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GameObject;
 import goldteam.domain.GamePanelBase;
@@ -46,12 +47,17 @@ public class TestCollidersPanel extends GamePanelBase {
 
         g1.setAnimator(ga1);
         g2.setAnimator(ga2);
-
+        
         this.layeredPane.add(ga1, layeredPane.highestLayer());
         this.layeredPane.add(ga2, layeredPane.highestLayer());
 
+        StationaryGhostCollider sg = new StationaryGhostCollider();
+        
         CollisionDetector collisionDetector;
         collisionDetector = new CollisionDetector(this.gameData);
+        
+        collisionDetector.addCollisionListener(sg);
+        
         collisionDetector.registerCollidable(g1);
         collisionDetector.registerCollidable(g2);
     }
