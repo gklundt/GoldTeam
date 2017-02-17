@@ -32,7 +32,6 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected final Runnable panelRunner;
     protected Thread panelThread;
     protected JLayeredPane layeredPane;
-    protected CollisionDetector collisionDetector;
 
     public GamePanelBase(PanelManager panelManager, GameData gameData) {
         super(panelManager);
@@ -128,7 +127,6 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         glassPanel.addKeyListener(this);
         glassPanel.addMouseListener(this);
         
-        collisionDetector = new CollisionDetector();
     }
 
     private void addGameListener() {
@@ -136,9 +134,6 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         gameData.addGraphicsUpdateTimerListener((ActionEvent l) -> {
             layeredPane.repaint();
             Toolkit.getDefaultToolkit().sync();
-        });
-        gameData.addCollisionTimer((ActionEvent l) -> {
-            collisionDetector.checkCollision();
         });
     }
 }

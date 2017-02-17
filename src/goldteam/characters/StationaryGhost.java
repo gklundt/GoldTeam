@@ -5,6 +5,7 @@
  */
 package goldteam.characters;
 
+import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
@@ -251,11 +252,6 @@ public class StationaryGhost extends GameObject implements
     @Override
     public void addAttackableListener(ActionListener listener) {
         this.attackableListeners.add(listener);
-    }
-
-    @Override
-    public void addCollisionListener(ActionListener listener) {
-        this.collidableListeners.add(listener);
     }
 
     @Override

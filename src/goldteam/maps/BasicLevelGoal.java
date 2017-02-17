@@ -8,8 +8,6 @@ package goldteam.maps;
 import goldteam.domain.*;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -83,10 +81,4 @@ public class BasicLevelGoal extends GameObject
     protected void MapUpdateTimerHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void addCollisionListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

@@ -6,10 +6,11 @@
 package goldteam.panels;
 
 import goldteam.GamePanelManager;
-import goldteam.animators.BigGhostAnimation;
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
 import goldteam.characters.StationaryGhost;
+import goldteam.colliders.CollisionDetector;
+import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GameObject;
 import goldteam.domain.GamePanelBase;
@@ -39,7 +40,6 @@ public class TestCollidersPanel extends GamePanelBase {
     //private ArrayList<Platform> platfrom;
 
     //private Component gp;
-    
     public TestCollidersPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
 
@@ -83,18 +83,23 @@ public class TestCollidersPanel extends GamePanelBase {
         lavaPlatform.setAnimator(lpa);
         flatPlatform1.setAnimator(fpa1);
         
-        this.layeredPane.add(ga1, layeredPane.highestLayer());
-        this.layeredPane.add(ga2, layeredPane.highestLayer());
-        
         this.layeredPane.add(fpa, layeredPane.highestLayer());
         this.layeredPane.add(rpa, layeredPane.highestLayer());
         this.layeredPane.add(lpa, layeredPane.highestLayer());
         this.layeredPane.add(fpa1, layeredPane.highestLayer());
         
-        //this.objects.add(g1);
-        this.objects.add(g2);
-        super.collisionDetector.setObjects(this.objects);
-        super.collisionDetector.setArcher(g1);
+        this.layeredPane.add(ga1, layeredPane.highestLayer());
+        this.layeredPane.add(ga2, layeredPane.highestLayer());
+
+        StationaryGhostCollider sg = new StationaryGhostCollider();
+        
+        CollisionDetector collisionDetector;
+        collisionDetector = new CollisionDetector(this.gameData);
+        
+        collisionDetector.addCollisionListener(sg);
+        
+        collisionDetector.registerCollidable(g1);
+        collisionDetector.registerCollidable(g2);
     }
 
     @Override
