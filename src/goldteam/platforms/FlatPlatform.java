@@ -8,22 +8,46 @@ package goldteam.platforms;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
+import goldteam.domain.Collidable;
+import goldteam.domain.CollisionPlane;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.Platform;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 /**
  *
  * @author faaez
  */
-public class FlatPlatform extends GameObject implements Platform, Animatable{
+public class FlatPlatform extends GameObject implements Platform, Animatable, Collidable{
     
     private AnimationBase animator;
+    private Polygon collider;
+    private int width, height;
+    private final HashMap<Collidable, CollisionPlane> colliders;
 
-    public FlatPlatform(GameEngine gamedata, Point initialPoint) {
+    public FlatPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
         super(gamedata, initialPoint);
+        this.width = width;
+        this.height = height;
+        
+        colliders = new HashMap<>();
+        
+        int [] xPoly = {this.positionVector.x, 
+                        this.positionVector.x + this.width, 
+                        this.positionVector.x + this.width,
+                        this.positionVector.x
+        };
+        int [] yPoly = {this.positionVector.y, 
+                        this.positionVector.y,
+                        this.positionVector.y + this.height,
+                        this.positionVector.y + this.height
+        };
+        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        super.shape = collider;
     }
 
     @Override
@@ -129,6 +153,26 @@ public class FlatPlatform extends GameObject implements Platform, Animatable{
     @Override
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Polygon getPolygon() {
+        return this.collider;
+    }
+
+    @Override
+    public void setCollider(Collidable obj, CollisionPlane direction) {
+        colliders.put(obj, direction);
+    }
+
+    @Override
+    public void removeCollider(Collidable obj) {
+        colliders.remove(obj);
+    }
+
+    @Override
+    public HashMap<Collidable, CollisionPlane> getColliders() {
+        return this.colliders;
     }
     
 }

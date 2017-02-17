@@ -67,5 +67,11 @@ public class PlatfromAnimationBase extends AnimationBase{
                      platfromDimensions.width, 
                      platfromDimensions.height
         );
+        try{
+            g2d.setColor(Color.PINK);
+            g2d.drawPolygon(gameObject.shape);
+        } catch (Exception e){
+            
+        }
     }
 }

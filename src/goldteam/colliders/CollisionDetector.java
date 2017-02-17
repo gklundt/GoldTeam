@@ -51,7 +51,7 @@ public class CollisionDetector implements CollisionRegister {
     }
 
     private synchronized void notifyColliders(Collidable a, Collidable b) {
-        System.out.println(String.format("%1$s collided with %2$s", a.getClass().getName(), b.getClass().getName()));
+        //System.out.println(String.format("%1$s collided with %2$s", a.getClass().getName(), b.getClass().getName()));
         collisionListeners.forEach((listener) -> {
             listener.CollisionDetected(a, b);
         });

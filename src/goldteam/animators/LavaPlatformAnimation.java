@@ -9,7 +9,6 @@ import goldteam.domain.GameObject;
 import goldteam.domain.PlatfromAnimationBase;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.Random;
 
 /**
  *
