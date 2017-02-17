@@ -1,8 +1,6 @@
 package goldteam.characters;
 
-import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.*;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;

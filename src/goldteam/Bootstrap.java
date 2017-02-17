@@ -44,7 +44,8 @@ class Bootstrap {
         addTestPanelTemplate(pm);
         addTestAnimSwitchPanel(pm);
         addTestCharacterPanel(pm);
-
+        addTestSoundsPanel(pm);
+        
         /* Register game window */
         GameWindow gw = new GameWindow(gc, pm);
         registerInstance("PanelManager", pm);
@@ -101,6 +102,11 @@ class Bootstrap {
     private void addTestCharacterPanel(PanelManager pm) {
         JPanel testPanel = new TestCharacterPanel(pm);
         pm.addPanel(GamePanelManager.TEST_CHARACTER_PANEL, testPanel);
+    }
+    
+    private void addTestSoundsPanel(PanelManager pm) {
+        JPanel testPanel = new TestCharacterPanel(pm);
+        pm.addPanel(GamePanelManager.TEST_SOUNDS_PANEL, testPanel);
     }
 
     /* Do not modify below */
