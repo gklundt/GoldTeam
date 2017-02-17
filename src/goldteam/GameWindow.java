@@ -3,6 +3,7 @@ package goldteam;
 import javax.swing.JFrame;
 import goldteam.panels.PanelManager;
 import goldteam.panels.PanelManagerListener;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 
@@ -26,6 +27,8 @@ public class GameWindow extends JFrame implements PanelManagerListener {
         super.setSize(new Dimension(800, 600));
         super.setContentPane(panelManager.getActivePanel());
         super.setVisible(true);
+        //super.setBackground(Color.blue);
+        
     }
     
     @Override

@@ -43,6 +43,8 @@ class Bootstrap {
         addTestGraphicsPanel(pm);
         addTest_HUD_Panel(pm);
         addTestGameEnginePanel(pm);
+        addTestCollidersPanel(pm);
+        addTestMapsPanel(pm);
         GameWindow gw = new GameWindow(pm);
 
         registerInstance("PanelManager", pm);
@@ -69,5 +71,10 @@ class Bootstrap {
     private void addTestGameEnginePanel(PanelManager pm) {
         JPanel testPanel = new GameEngineTestPanel(pm);
         pm.addPanel(GamePanelManager.TEST_GAME_ENGINE_PANEL, testPanel);
+    }
+    
+    private void addTestMapsPanel(PanelManager pm){
+        JPanel testPanel = new TestMapsPanel(pm);
+        pm.addPanel(GamePanelManager.TEST_MAPS_PANEL, testPanel);
     }
 }

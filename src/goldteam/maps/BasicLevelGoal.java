@@ -18,9 +18,9 @@ import java.util.HashMap;
 public class BasicLevelGoal extends GameObject 
         implements Objective, Collidable
 {
-
-    public BasicLevelGoal(GameEngine gamedata) {
-        super(gamedata);
+    
+    public BasicLevelGoal(GameEngine gamedata, Point initialPoint) {
+        super(gamedata, initialPoint);
     }
 
     @Override
