@@ -5,7 +5,6 @@
  */
 package goldteam.characters;
 
-import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;

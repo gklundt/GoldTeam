@@ -99,7 +99,6 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         int dy = gameObject.PositionVector().y - imgHeight / 2;
         this.af.setTransform(1.0, 0, 0, 1.0, dx, dy);
         g2d.drawImage(imgArray[currentFrame], af, null);
-        g2d.drawPolygon(this.gameObject.shape);
     }
 
     @Override
