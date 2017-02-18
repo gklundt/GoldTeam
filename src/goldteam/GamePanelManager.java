@@ -17,6 +17,7 @@ public class GamePanelManager implements PanelManager {
     public static final String TEST_PANEL_TEMPLATE = "TEST_PANEL_TEMPLATE";
     public static final String TEST_CHARACTER_PANEL = "TEST_CHARACTER_PANEL";
     public static final String TEST_ANIM_SWITCH_PANEL = "TEST_ANIM_SWITCH_PANEL";
+    public static final String TEST_SOUNDS_PANEL = "TEST_SOUNDS_PANEL";
     public static final String TEST_MAPS_PANEL = "TEST_MAPS_PANEL";
 
     /* Do not edit below */

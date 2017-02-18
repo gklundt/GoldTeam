@@ -7,6 +7,7 @@ import goldteam.panels.TestCollidersPanel;
 import goldteam.panels.TestGraphicsPanel;
 import goldteam.panels.TestMapsPanel;
 import goldteam.panels.TestPanelTemplate;
+import goldteam.panels.TestSoundsPanel;
 import goldteam.panels.TestSwitchAnimPanel;
 import goldteam.panels.Test_HUD_Panel;
 import java.awt.GraphicsConfiguration;
@@ -45,6 +46,7 @@ class Bootstrap {
         addTestPanelTemplate(pm);
         addTestAnimSwitchPanel(pm);
         addTestCharacterPanel(pm);
+        addTestSoundsPanel(pm);
         addTestMapsPanel(pm);
 
         /* Register game window */
@@ -103,6 +105,11 @@ class Bootstrap {
     private void addTestCharacterPanel(PanelManager pm) {
         JPanel testPanel = new TestCharacterPanel(pm);
         pm.addPanel(GamePanelManager.TEST_CHARACTER_PANEL, testPanel);
+    }
+    
+    private void addTestSoundsPanel(PanelManager pm) {
+        JPanel testPanel = new TestSoundsPanel(pm);
+        pm.addPanel(GamePanelManager.TEST_SOUNDS_PANEL, testPanel);
     }
 
     private void addTestMapsPanel(PanelManager pm) {
