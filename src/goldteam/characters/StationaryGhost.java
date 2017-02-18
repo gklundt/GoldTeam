@@ -46,7 +46,8 @@ public class StationaryGhost extends GameObject implements
         Controllable {
 
     private final Random random;
-
+    private boolean collidedLeft;
+    
     private final Double initialVelocity;
     private final ArrayList<ActionListener> attackableListeners;
     private final ArrayList<ActionListener> collidableListeners;
@@ -104,27 +105,31 @@ public class StationaryGhost extends GameObject implements
     @Override
     protected void Update() {
 
-        try {
-            if (this.gamedata.getHeldKeys().isEmpty()) {
-                this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
+        if(collidedLeft == false){
+            try {
+                if (this.gamedata.getHeldKeys().isEmpty()) {
+                    this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
+                }
+
+                this.positionVector.x += this.getVelocityVector().x;
+                
+                 
+                
+                /*int deltaX = 0, deltaY = 0;
+                deltaX += this.getVelocityVector().x;
+                deltaY += this.getVelocityVector().y;*/
+
+                //this.collider.translate(deltaX, deltaY);
+
+                this.collider.reset();
+                this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 10);
+                this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 10);
+                this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 10);
+                this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 10);
+                super.shape = collider;
+
+            } catch (Exception e) {
             }
-            
-            this.positionVector.x += this.getVelocityVector().x;
-            
-            /*int deltaX = 0, deltaY = 0;
-            deltaX += this.getVelocityVector().x;
-            deltaY += this.getVelocityVector().y;*/
-            
-            //this.collider.translate(deltaX, deltaY);
-            
-            this.collider.reset();
-            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 10);
-            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 10);
-            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 10);
-            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 10);
-            super.shape = collider;
-        
-        } catch (Exception e) {
         }
     }
 
@@ -222,7 +227,15 @@ public class StationaryGhost extends GameObject implements
 
     @Override
     public void setVelocityVectorDelta(Delta xDelta, Delta yDelta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /*if(this.velocityVector.x > 0){
+            collidedLeft = true;
+        }*/
+        if(this.velocityVector.x > 0){
+            this.velocityVector.x *= -1d;
+        } else if(this.velocityVector.x < 0){
+            this.velocityVector.x *= 1d;
+        }
+        this.velocity = 5d;
     }
 
     @Override
@@ -290,13 +303,14 @@ public class StationaryGhost extends GameObject implements
 
     @Override
     public void processKeyInput(KeyEvent keyEvent) {
-        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
+        if (collidedLeft == false && this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
             this.velocity = this.initialVelocity;
             this.rawVector.x += this.velocity;
         }
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_A)) {
             this.velocity = this.initialVelocity;
             this.rawVector.x -= this.velocity;
+            collidedLeft = false;
         }
         this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
     }
