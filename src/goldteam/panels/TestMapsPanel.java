@@ -1,7 +1,9 @@
 package goldteam.panels;
 
 import goldteam.GamePanelManager;
+import goldteam.animators.BigGhostAnimation;
 import goldteam.animators.TestMapAnimator;
+import goldteam.characters.Ghost;
 import goldteam.domain.Delta;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.ModType;
@@ -25,11 +27,16 @@ public class TestMapsPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
+        
+        Ghost g = new Ghost(gameData, new Point());
+        BigGhostAnimation bga = new BigGhostAnimation(g, gameData.getRunEdgeDimensions(), "assets/GameGhostStripeGreen.png");
+        g.setAnimator(bga);
+        this.layeredPane.add(bga,15);
 
         tm = new TestMap(gameData, new Point(-1000, -1000));
         TestMapAnimator tma = new TestMapAnimator(tm, gameData.getMapDimensions());
         tm.setAnimator(tma);
-        this.layeredPane.add(tma, layeredPane.highestLayer());
+        this.layeredPane.add(tma,5);
     }
 
     @Override
