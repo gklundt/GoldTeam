@@ -5,6 +5,7 @@ import goldteam.domain.PanelManager;
 import goldteam.panels.TestCharacterPanel;
 import goldteam.panels.TestCollidersPanel;
 import goldteam.panels.TestGraphicsPanel;
+import goldteam.panels.TestMapsPanel;
 import goldteam.panels.TestPanelTemplate;
 import goldteam.panels.TestSwitchAnimPanel;
 import goldteam.panels.Test_HUD_Panel;
@@ -44,6 +45,7 @@ class Bootstrap {
         addTestPanelTemplate(pm);
         addTestAnimSwitchPanel(pm);
         addTestCharacterPanel(pm);
+        addTestMapsPanel(pm);
 
         /* Register game window */
         GameWindow gw = new GameWindow(gc, pm);
@@ -103,6 +105,11 @@ class Bootstrap {
         pm.addPanel(GamePanelManager.TEST_CHARACTER_PANEL, testPanel);
     }
 
+    private void addTestMapsPanel(PanelManager pm) {
+        JPanel testPanel = new TestMapsPanel (pm);
+        pm.addPanel(GamePanelManager.TEST_MAPS_PANEL, testPanel);
+    }
+    
     /* Do not modify below */
     private final HashMap<String, Object> resolver = new HashMap<>();
 
