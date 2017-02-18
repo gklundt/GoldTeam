@@ -9,6 +9,7 @@ import goldteam.domain.GameObject;
 import goldteam.domain.PlatfromAnimationBase;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.AffineTransform;
 
 /**
  *
@@ -19,13 +20,14 @@ public class LavaPlatformAnimation extends PlatfromAnimationBase{
     public LavaPlatformAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         super.setColor(Color.ORANGE);
+        super.loadImage(imgFilename, new AffineTransform(.5, 0, 0, .5, 0, 0));
     }
     
     @Override
     public void update() {
 
         for(int i = 0; i < 3; i++){
-            super.setColor(new Color(255,rand(222,0),0));
+            //super.setColor(new Color(255,rand(222,0),0));
         }
     }
     

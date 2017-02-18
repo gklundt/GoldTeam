@@ -9,20 +9,28 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author faaez
  */
-public class PlatfromAnimationBase extends AnimationBase{
+public abstract class PlatfromAnimationBase extends AnimationBase{
 
     protected final String imgFilename;
     protected final GameObject gameObject;
     private final Animatable animatableGameObject;
     private Dimension platfromDimensions;
     private Color color;
+    private BufferedImage img;
+    protected int imgWidth;
+    protected int imgHeight;
     
     public PlatfromAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile){
         super();
@@ -32,7 +40,6 @@ public class PlatfromAnimationBase extends AnimationBase{
         this.animatableGameObject = (Animatable) gameObject;
         this.animatableGameObject.addAnimationTimerListener(this);
         this.color = Color.BLACK;
-        //this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0.0, 0.0);
     }
     
     public void setDimensions(Dimension platfromDimensions){
@@ -45,6 +52,34 @@ public class PlatfromAnimationBase extends AnimationBase{
     
     public void setColor(Color color){
         this.color = color;
+    }
+    
+    public void loadImage(String imgFileName, AffineTransform transform){
+        if(imgFileName != null){
+            ClassLoader cl = getClass().getClassLoader();
+            URL imgUrl = cl.getResource(imgFileName);
+            if (imgUrl == null) {
+                System.err.println("Couldn't find file: " + imgFileName);
+            } else {
+                try {
+                    img = ImageIO.read(imgUrl); // load image via URL
+                } catch (IOException ex) {
+                }
+            }
+
+            int scaleX = ((Double) (img.getWidth() * transform.getScaleX())).intValue();
+            int scaleY = ((Double) (img.getHeight() * transform.getScaleY())).intValue();
+            Image tmp = img.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
+
+            BufferedImage bimage = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = bimage.createGraphics();
+            g2d.drawImage(tmp, 0, 0, null);
+            g2d.dispose();
+            img = bimage;
+
+            this.imgHeight = img.getHeight(null);
+            this.imgWidth = img.getWidth(null);
+        }
     }
     
     @Override
@@ -62,16 +97,18 @@ public class PlatfromAnimationBase extends AnimationBase{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(this.color);
-        g2d.fillRect(gameObject.positionVector.x,
-                     gameObject.positionVector.y,
-                     platfromDimensions.width, 
-                     platfromDimensions.height
-        );
-        try{
-            g2d.setColor(Color.PINK);
-            g2d.drawPolygon(gameObject.shape);
-        } catch (Exception e){
-            
+        if(this.imgFilename == null){
+            g2d.fillRect(gameObject.positionVector.x,
+                         gameObject.positionVector.y,
+                         platfromDimensions.width, 
+                         platfromDimensions.height
+            );
+        } else{
+           for(int x = this.gameObject.positionVector.x; x < this.gameObject.positionVector.x + this.gameObject.shape.getBounds().width; x += imgWidth){
+                for(int y = this.gameObject.positionVector.y; y < this.gameObject.positionVector.y + this.gameObject.shape.getBounds().height; y += imgHeight){
+                    g2d.drawImage(img, x, y, null);
+                }
+            }
         }
     }
 }

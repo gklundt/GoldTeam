@@ -9,6 +9,7 @@ import goldteam.domain.GameObject;
 import goldteam.domain.PlatfromAnimationBase;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.AffineTransform;
 import java.util.Random;
 
 /**
@@ -20,6 +21,7 @@ public class FlatPlatformAnimation extends PlatfromAnimationBase{
     public FlatPlatformAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         super.setColor(Color.DARK_GRAY);
+        super.loadImage(imgFilename, new AffineTransform(.5, 0, 0, .5, 0, 0));
     }
     
     

@@ -57,22 +57,22 @@ public class TestCollidersPanel extends GamePanelBase {
         g2 = new Ghost(gameData, new Point(200, 400)); 
         
         CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
-        CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
+        CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
         
         flatPlatform = new FlatPlatform(gameData, new Point(0, 412),300,150);
-        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
+        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
         fpa.setDimensions(new Dimension(300,150));
         
         raisedPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width, 300),100,300);
-        FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
+        FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
         rpa.setDimensions(new Dimension(100,300));
         
         lavaPlatform = new LavaPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width, 412), 200, 150);
-        LavaPlatformAnimation lpa = new LavaPlatformAnimation(lavaPlatform, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
+        LavaPlatformAnimation lpa = new LavaPlatformAnimation(lavaPlatform, gameData.getVisibleDimensions(), "assets/lavaTile1.jpg");
         lpa.setDimensions(new Dimension(200,150));
         
         flatPlatform1 = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width + lpa.getDimensions().width, 412),200,150);
-        FlatPlatformAnimation fpa1 = new FlatPlatformAnimation(flatPlatform1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
+        FlatPlatformAnimation fpa1 = new FlatPlatformAnimation(flatPlatform1, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
         fpa1.setDimensions(new Dimension(200,150));
         
         g1.setAnimator(ga1);
@@ -86,8 +86,9 @@ public class TestCollidersPanel extends GamePanelBase {
         //raisedPlatform.setCollider(raisedPlatform, CollisionPlane.LEFT);
         
         this.layeredPane.add(fpa, layeredPane.highestLayer());
-        this.layeredPane.add(rpa, layeredPane.highestLayer());
         this.layeredPane.add(lpa, layeredPane.highestLayer());
+        this.layeredPane.add(rpa, layeredPane.highestLayer());
+        
         this.layeredPane.add(fpa1, layeredPane.highestLayer());
         
         this.layeredPane.add(ga1, layeredPane.highestLayer());
@@ -102,13 +103,16 @@ public class TestCollidersPanel extends GamePanelBase {
         
         collisionDetector.registerCollidable(g1);
         collisionDetector.registerCollidable(g2);
+        
         //-----------------------------------//
+        
         PlatformCollider pc = new PlatformCollider();
         CollisionDetector collisionDetector2;
         collisionDetector2 = new CollisionDetector(this.gameData);
         collisionDetector2.addCollisionListener(pc);
         
         collisionDetector2.registerCollidable(g1);
+        collisionDetector2.registerCollidable(g2);
         collisionDetector2.registerCollidable(flatPlatform);
         collisionDetector2.registerCollidable(raisedPlatform);
         collisionDetector2.registerCollidable(lavaPlatform);

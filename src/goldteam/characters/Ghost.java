@@ -62,15 +62,15 @@ public class Ghost extends GameObject implements
 
         attackableListeners = new ArrayList<>();
 
-        int[] xPoly = {this.positionVector.x - 10,
-            this.positionVector.x + 10,
-            this.positionVector.x + 10,
-            this.positionVector.x - 10
+        int[] xPoly = {this.positionVector.x - 12,
+            this.positionVector.x + 12,
+            this.positionVector.x + 12,
+            this.positionVector.x - 12
         };
-        int[] yPoly = {this.positionVector.y - 10,
-            this.positionVector.y - 10,
-            this.positionVector.y + 10,
-            this.positionVector.y + 10
+        int[] yPoly = {this.positionVector.y - 12,
+            this.positionVector.y - 12,
+            this.positionVector.y + 12,
+            this.positionVector.y + 12
         };
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
@@ -219,7 +219,8 @@ public class Ghost extends GameObject implements
 
     @Override
     public void setVelocityVectorDelta(Delta xDelta, Delta yDelta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.velocityVector.x = xDelta.delta;
+        this.velocityVector.y = yDelta.delta;
     }
 
     @Override
