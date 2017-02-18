@@ -49,12 +49,11 @@ public class TestCollidersPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-        
         //platfrom = new ArrayList<>();
         
         objects = new ArrayList<>();
         g1 = new StationaryGhost(gameData, new Point(200, 400));
-        g2 = new Ghost(gameData, new Point(200, 400)); 
+        g2 = new Ghost(gameData, new Point(200, 400));
         
         CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
         CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");

@@ -19,7 +19,6 @@ public class GoldTeam {
         Runnable r = () -> {
             bootstrap.<JFrame>resolve("GameWindow");
         };
-
         javax.swing.SwingUtilities.invokeLater(r);
     }
 
