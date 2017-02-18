@@ -21,12 +21,11 @@ public class VectorMath {
         return vector;
     }
 
-    public static DoubleVector getUnitVector(Point point) {
-        DoubleVector vector = new DoubleVector(point.getX(), point.getY());
-        Double mag = Math.sqrt((Math.pow(vector.x, 2.0d) + Math.pow(vector.y, 2.0d)));
-        vector.x = vector.x / mag;
-        vector.y = vector.y / mag;
-        return vector;
+    public static DoubleVector getUnitVector(Point pointA, Point pointB) {
+        double dx = pointA.getX() - pointB.getX();
+        double dy = pointA.getY() - pointB.getY();
+        DoubleVector vector = new DoubleVector(dx, dy);
+        return getUnitVector(vector);
     }
 
     public static DoubleVector getScaledVector(DoubleVector vector, Double scalar) {

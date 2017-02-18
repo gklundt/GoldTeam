@@ -1,38 +1,23 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package goldteam.panels;
 
+import goldteam.GamePanelManager;
+import goldteam.animators.TestMapAnimator;
+import goldteam.domain.Delta;
 import goldteam.domain.GamePanelBase;
+import goldteam.domain.ModType;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
-import goldteam.maps.BasicLevelMap;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-import javax.swing.JLayeredPane;
-import java.awt.Graphics;
+import goldteam.maps.TestMap;
 import java.awt.Point;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.KeyEvent;
 
 /**
  *
  * @author Mishal
  */
-public class TestMapsPanel extends GamePanelBase implements KeyListener, MouseListener {
+public class TestMapsPanel extends GamePanelBase {
 
-    private BasicLevelMap layer;
-    private JLayeredPane lp;
-    private Component gp;
-    private Canvas canvas;
+    private TestMap tm;
 
     public TestMapsPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
@@ -40,33 +25,48 @@ public class TestMapsPanel extends GamePanelBase implements KeyListener, MouseLi
 
     @Override
     protected void addGameObjects() {
-        canvas = new Canvas();
-        canvas.setPreferredSize(new Dimension(800, 600));
-        canvas.setMaximumSize(new Dimension(800, 600));
-        canvas.setMinimumSize(new Dimension(800, 600));
-        int[][] i = new int[26][14];
-        try {
-            BasicLevelMap blm = new BasicLevelMap(gameData, new Point(), i);
-        } catch (IOException ex) {
-            Logger.getLogger(TestMapsPanel.class.getName()).log(Level.SEVERE, null, ex);
+
+        tm = new TestMap(gameData, new Point(-1000, -1000));
+        TestMapAnimator tma = new TestMapAnimator(tm, gameData.getMapDimensions());
+        tm.setAnimator(tma);
+        this.layeredPane.add(tma, layeredPane.highestLayer());
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+            panelThread.interrupt();
+            undoGraphics();
+            panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
+            return;
         }
+
+        Delta x = Delta.create(0.0, ModType.FIXED);
+        Delta y = Delta.create(0.0, ModType.FIXED);
+
+        if (e.getKeyCode() == KeyEvent.VK_D) {
+            x.delta = -20.0d;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            x.delta = 20.0d;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+            y.delta = 20.0d;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            y.delta = -20.0d;
+        }
+
+        tm.setVelocityVectorDelta(x, y);
 
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        //layer.LoadTileSheet("assets/block_brick.png");
-//      layer.PositionVector();
-        //layer.DrawLayer(g);
-        //g.fillRect(0, 0, 800, 600);
-        g.setColor(Color.red);
-        g.drawString("Game Start!", 50, 60);
-        g.drawRect(10, 10, 150, 200);
-        g.drawRect(30, 30, 120, 230);
-        //g.clearRect(0, 0, 800, 600);
-//      layer.setVelocityScalarDelta(Delta.create(-15.0d, ModType.FIXED));
+    public void keyReleased(KeyEvent e) {
 
+        Delta x = Delta.create(0.0, ModType.FIXED);
+        Delta y = Delta.create(0.0, ModType.FIXED);
+        tm.setVelocityVectorDelta(x, y);
     }
 
 }
