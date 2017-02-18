@@ -47,6 +47,8 @@ public class Test_HUD_Panel extends GamePanelBase {
         BigGhostAnimation[] bigGhostAnimation = new BigGhostAnimation[5];
         for(int i = 0; i<5; i++) {
             bigGhost[i] = new Ghost(gameData, new Point(600, 600));
+            bigGhost[i].setHealthDelta(Delta.create(-20.0, ModType.FIXED));
+            bigGhost[i].setShieldDelta(Delta.create(-20.0, ModType.FIXED));
             bigGhostAnimation[i] = new BigGhostAnimation(bigGhost[i], gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
             bigGhost[i].setAnimator(bigGhostAnimation[i]);
             bigGhost[i].setVelocityScalarDelta(Delta.create(0.0d, ModType.FIXED));
