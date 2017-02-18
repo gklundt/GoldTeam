@@ -100,6 +100,7 @@ public class StationaryGhost extends GameObject implements
         colliders = new HashMap<>();
     }
 
+    
     @Override
     protected void Update() {
 
