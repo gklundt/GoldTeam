@@ -86,21 +86,22 @@ public class StationaryGhost extends GameObject implements
         attackableListeners = new ArrayList<>();
         collidableListeners = new ArrayList<>();
         
-        int [] xPoly = {this.positionVector.x - 12, 
-                        this.positionVector.x + 12, 
-                        this.positionVector.x + 12,
-                        this.positionVector.x - 12
+        int [] xPoly = {this.positionVector.x - 10, 
+                        this.positionVector.x + 10, 
+                        this.positionVector.x + 10,
+                        this.positionVector.x - 10
         };
-        int [] yPoly = {this.positionVector.y - 12, 
-                        this.positionVector.y - 12,
-                        this.positionVector.y + 12,
-                        this.positionVector.y + 12
+        int [] yPoly = {this.positionVector.y - 10, 
+                        this.positionVector.y - 10,
+                        this.positionVector.y + 10,
+                        this.positionVector.y + 10
         };
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
         colliders = new HashMap<>();
     }
 
+    
     @Override
     protected void Update() {
 
@@ -129,7 +130,7 @@ public class StationaryGhost extends GameObject implements
 
             } catch (Exception e) {
             }
-        } 
+        }
     }
 
     @Override
