@@ -32,6 +32,7 @@ public class TestSoundsPanel extends GamePanelBase {
     
     @Override
     protected void addGameObjects() {
+        GameSounds.sounds[17].play();
         Random x = new Random();
         Random y = new Random();
         for (int i = 1; i <= 6; ++i) {

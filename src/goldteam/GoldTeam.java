@@ -19,7 +19,6 @@ public class GoldTeam {
         Runnable r = () -> {
             bootstrap.<JFrame>resolve("GameWindow");
         };
-        GameSounds.sounds[17].play();
         javax.swing.SwingUtilities.invokeLater(r);
     }
 

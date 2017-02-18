@@ -1,11 +1,10 @@
 package goldteam.domain;
 
-import goldteam.domain.PanelManagerListener;
 import javax.swing.JPanel;
 
 public interface PanelManager {
 
-    void addPanel(String name, JPanel panel);
+    void addPanel(String name, String panel);
 
     JPanel getPanel(String name);
 
