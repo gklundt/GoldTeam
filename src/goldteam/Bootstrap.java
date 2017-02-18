@@ -73,47 +73,56 @@ class Bootstrap {
      *
      */
     private void addTestGraphicsPanel(PanelManager pm) {
-        JPanel testPanel = new TestGraphicsPanel(pm);
+        //JPanel testPanel = new TestGraphicsPanel(pm);
+        String testPanel = TestGraphicsPanel.class.getName();
         pm.addPanel(GamePanelManager.TEST_GRAPHICS_PANEL, testPanel);
     }
 
     private void addTest_HUD_Panel(PanelManager pm) {
-        JPanel testPanel = new Test_HUD_Panel(pm);
+//        JPanel testPanel = new Test_HUD_Panel(pm);
+        String testPanel = Test_HUD_Panel.class.getName();
         pm.addPanel(GamePanelManager.TEST_HUD_PANEL, testPanel);
     }
 
     private void addTestGameEnginePanel(PanelManager pm) {
-        JPanel testPanel = new GameEngineTestPanel(pm);
+//        JPanel testPanel = new GameEngineTestPanel(pm);
+        String testPanel = GameEngineTestPanel.class.getName();
         pm.addPanel(GamePanelManager.TEST_GAME_ENGINE_PANEL, testPanel);
     }
 
     private void addTestCollidersPanel(PanelManager pm) {
-        JPanel testPanel = new TestCollidersPanel(pm);
+//        JPanel testPanel = new TestCollidersPanel(pm);
+        String testPanel = TestCollidersPanel.class.getName();
         pm.addPanel(GamePanelManager.TEST_COLLIDERS_PANEL, testPanel);
     }
 
     private void addTestPanelTemplate(PanelManager pm) {
-        JPanel testPanel = new TestPanelTemplate(pm);
+//        JPanel testPanel = new TestPanelTemplate(pm);
+        String testPanel = TestPanelTemplate.class.getName();
         pm.addPanel(GamePanelManager.TEST_PANEL_TEMPLATE, testPanel);
     }
     
     private void addTestAnimSwitchPanel(PanelManager pm) {
-        JPanel testPanel = new TestSwitchAnimPanel(pm);
+//        JPanel testPanel = new TestSwitchAnimPanel(pm);
+        String testPanel = TestSwitchAnimPanel.class.getName();
         pm.addPanel(GamePanelManager.TEST_ANIM_SWITCH_PANEL, testPanel);
     }
 
     private void addTestCharacterPanel(PanelManager pm) {
-        JPanel testPanel = new TestCharacterPanel(pm);
+//        JPanel testPanel = new TestCharacterPanel(pm);
+        String testPanel = TestCharacterPanel.class.getName();
         pm.addPanel(GamePanelManager.TEST_CHARACTER_PANEL, testPanel);
     }
     
     private void addTestSoundsPanel(PanelManager pm) {
-        JPanel testPanel = new TestSoundsPanel(pm);
+//        JPanel testPanel = new TestSoundsPanel(pm);
+        String testPanel = TestSoundsPanel.class.getName();
         pm.addPanel(GamePanelManager.TEST_SOUNDS_PANEL, testPanel);
     }
 
     private void addTestMapsPanel(PanelManager pm) {
-        JPanel testPanel = new TestMapsPanel (pm);
+        //JPanel testPanel = new TestMapsPanel (pm);
+        String testPanel = TestMapsPanel.class.getName();
         pm.addPanel(GamePanelManager.TEST_MAPS_PANEL, testPanel);
     }
     
@@ -137,8 +146,9 @@ class Bootstrap {
     }
 
     private void addOptionsPanel(PanelManager pm) {
-        JPanel optionsPanel = new OptionsPanel(pm);
-        pm.addPanel(GamePanelManager.OPTIONS_PANEL, optionsPanel);
+//        JPanel optionsPanel = new OptionsPanel(pm);
+        String testPanel = OptionsPanel.class.getName();
+        pm.addPanel(GamePanelManager.OPTIONS_PANEL, testPanel);
     }
 
 }
