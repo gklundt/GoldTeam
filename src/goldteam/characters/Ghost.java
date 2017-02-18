@@ -38,11 +38,14 @@ public class Ghost extends GameObject implements
     private DoubleVector velocityVector;
     private Integer velocity;
     private DoubleVector rawVector;
-    
+
     private AnimationBase animator;
+    private final Polygon collider;
+    private final HashMap<Collidable, CollisionPlane> currentColliders;
 
     public Ghost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
+        this.currentColliders = new HashMap<>();
         this.random = new Random();
 
         this.initialPoint = initialPoint;
@@ -54,16 +57,24 @@ public class Ghost extends GameObject implements
         this.velocity = this.initialVelocity;
         this.rawVector = new DoubleVector(random.nextDouble() * 10, random.nextDouble() * 10);
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
-        
-        this.health = this.initialHealth; 
+
+        this.health = this.initialHealth;
         this.shield = this.initialShield;
 
         attackableListeners = new ArrayList<>();
-        
-        collider = new StationaryGhostCollider(new Point (this.positionVector.x, 
-                                                this.positionVector.y),
-                                                new Dimension(this.gamedata.getVisibleDimensions().width,
-                                                this.gamedata.getVisibleDimensions().width) );
+
+        int[] xPoly = {this.positionVector.x - 10,
+            this.positionVector.x + 10,
+            this.positionVector.x + 10,
+            this.positionVector.x - 10
+        };
+        int[] yPoly = {this.positionVector.y - 10,
+            this.positionVector.y - 10,
+            this.positionVector.y + 10,
+            this.positionVector.y + 10
+        };
+        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        super.shape = collider;
     }
 
     @Override
@@ -98,8 +109,17 @@ public class Ghost extends GameObject implements
 
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
-        
-        this.collider.setCollider(positionVector);
+
+        /*int deltaX = 0, deltaY = 0;
+        deltaX += this.getVelocityVector().x;
+        deltaY += this.getVelocityVector().y;*/
+        //this.collider.translate(deltaX, deltaY);
+        this.collider.reset();
+        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 10);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 10);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 10);
+        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 10);
+        super.shape = collider;
     }
 
     @Override
@@ -126,22 +146,26 @@ public class Ghost extends GameObject implements
 
     @Override
     public Polygon getPolygon() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.collider;
     }
 
     @Override
     public void setCollider(Collidable obj, CollisionPlane direction) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!this.currentColliders.containsKey(obj)) {
+            this.currentColliders.put(obj, direction);
+        }
     }
 
     @Override
     public void removeCollider(Collidable obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.currentColliders.containsKey(obj)) {
+            this.currentColliders.remove(obj);
+        }
     }
 
     @Override
     public HashMap<Collidable, CollisionPlane> getColliders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return currentColliders;
     }
 
     @Override
@@ -227,11 +251,6 @@ public class Ghost extends GameObject implements
     @Override
     public void addAttackableListener(ActionListener listener) {
         this.attackableListeners.add(listener);
-    }
-
-    @Override
-    public void addCollisionListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

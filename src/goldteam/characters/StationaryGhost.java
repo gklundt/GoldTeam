@@ -49,6 +49,7 @@ public class StationaryGhost extends GameObject implements
 
     private final Double initialVelocity;
     private final ArrayList<ActionListener> attackableListeners;
+    private final ArrayList<ActionListener> collidableListeners;
     private final Double initialHealth;
     private final Double initialShield;
     private final Point initialPoint;
@@ -60,7 +61,9 @@ public class StationaryGhost extends GameObject implements
     private final DoubleVector rawVector;
 
     private AnimationBase animator;
-
+    private Polygon collider;
+    private final HashMap<Collidable, CollisionPlane> colliders;
+    
     public StationaryGhost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
 
@@ -80,10 +83,21 @@ public class StationaryGhost extends GameObject implements
         shield = initialShield;
 
         attackableListeners = new ArrayList<>();
-        collider = new StationaryGhostCollider(new Point (this.positionVector.x, 
-                                                this.positionVector.y),
-                                                new Dimension(this.gamedata.getVisibleDimensions().width,
-                                                this.gamedata.getVisibleDimensions().width) );
+        collidableListeners = new ArrayList<>();
+        
+        int [] xPoly = {this.positionVector.x - 10, 
+                        this.positionVector.x + 10, 
+                        this.positionVector.x + 10,
+                        this.positionVector.x - 10
+        };
+        int [] yPoly = {this.positionVector.y - 10, 
+                        this.positionVector.y - 10,
+                        this.positionVector.y + 10,
+                        this.positionVector.y + 10
+        };
+        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        super.shape = collider;
+        colliders = new HashMap<>();
     }
 
     @Override
@@ -93,8 +107,22 @@ public class StationaryGhost extends GameObject implements
             if (this.gamedata.getHeldKeys().isEmpty()) {
                 this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
             }
+            
             this.positionVector.x += this.getVelocityVector().x;
-            this.collider.setCollider(positionVector);
+            
+            /*int deltaX = 0, deltaY = 0;
+            deltaX += this.getVelocityVector().x;
+            deltaY += this.getVelocityVector().y;*/
+            
+            //this.collider.translate(deltaX, deltaY);
+            
+            this.collider.reset();
+            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 10);
+            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 10);
+            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 10);
+            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 10);
+            super.shape = collider;
+        
         } catch (Exception e) {
         }
     }
@@ -123,22 +151,22 @@ public class StationaryGhost extends GameObject implements
 
     @Override
     public Polygon getPolygon() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.collider;
     }
 
     @Override
     public void setCollider(Collidable obj, CollisionPlane direction) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        colliders.put(obj, direction);
     }
 
     @Override
     public void removeCollider(Collidable obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        colliders.remove(obj);
     }
 
     @Override
     public HashMap<Collidable, CollisionPlane> getColliders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.colliders;
     }
 
     @Override
@@ -227,11 +255,6 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public void addCollisionListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void addWeaponListener(ActionListener listener) {
     }
 
@@ -254,6 +277,13 @@ public class StationaryGhost extends GameObject implements
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(e);
+        }
+    }
+    
+    private void notifyCollidableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener cl : this.collidableListeners) {
+            cl.actionPerformed(e);
         }
     }
 

@@ -5,32 +5,18 @@
  */
 package goldteam.colliders;
 
-import goldteam.domain.Collider;
+
+import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
 
 /**
  *
  * @author faaez
  */
-public class StationaryGhostCollider implements Collider{
-
-    private Rectangle collider;
-    
-    public StationaryGhostCollider(Point base, Dimension dimensions){
-        this.collider = new Rectangle(base, dimensions);
-    }
+public class StationaryGhostCollider implements CollisionListener{
 
     @Override
-    public Rectangle getCollider() {
-        return this.collider;
-    }
-
-    @Override
-    public void setCollider(Point base) {
-        this.collider.x = base.x;
-        this.collider.y = base.y;
+    public void CollisionDetected(Collidable a, Collidable b) {
+        System.out.println("Handle the collision if you can!");
     }
 }
