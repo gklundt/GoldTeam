@@ -1,24 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package goldteam;
 
+import goldteam.domain.GameSounds;
 import javax.swing.JFrame;
 
-/**
- *
- * @author gordon
- */
 public class GoldTeam {
 
     /**
-     * @param args the command line arguments
+     * @param args the command line arguments Start of application. Use the
+     * bootstrap to create objects used in the game.
      */
     public static void main(String[] args) {
-        System.out.println("Hello World");
-        // Fixed Something Bad
+
+        /**
+         * Add new panels in goldteam.Bootstrap.java
+         */
+        Bootstrap bootstrap = new Bootstrap();
+        bootstrap.initialize();
+        Runnable r = () -> {
+            bootstrap.<JFrame>resolve("GameWindow");
+        };
+        javax.swing.SwingUtilities.invokeLater(r);
     }
-    
+
 }
