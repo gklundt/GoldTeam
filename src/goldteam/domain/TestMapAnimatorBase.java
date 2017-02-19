@@ -39,8 +39,8 @@ public abstract class TestMapAnimatorBase extends AnimationBase {
         g2d.setPaint(paint);
         g2d.fillRect(dx, dy, this.getWidth(), this.getHeight());
 
-        int dw = 2200;
-        int dh = 1000;
+        int dw = this.getWidth();
+        int dh = this.getHeight();
         int cx = 0;
         int cy = 0;
 
