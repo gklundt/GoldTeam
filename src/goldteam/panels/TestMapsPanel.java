@@ -2,6 +2,7 @@ package goldteam.panels;
 
 import goldteam.GamePanelManager;
 import goldteam.animators.BigGhostAnimation;
+import goldteam.animators.GhostAnimation;
 import goldteam.animators.TestMapAnimator;
 import goldteam.characters.BackgroundPanelGhost;
 import goldteam.characters.Ghost;
@@ -39,7 +40,7 @@ public class TestMapsPanel extends GamePanelBase {
         this.gameData.setMovableCharacter(g2);
 
         BackgroundPanelGhost g1 = new BackgroundPanelGhost(gameData, new Point(gameData.getMapDimensions().width/2, gameData.getMapDimensions().height/2));
-        BigGhostAnimation bga1 = new BigGhostAnimation(g1, gameData.getMapDimensions(), "assets/GameGhostStripe.png");
+        GhostAnimation bga1 = new GhostAnimation(g1, gameData.getMapDimensions(), "assets/GameGhostStripe.png");
         g1.setAnimator(bga1);
         this.layeredPane.add(bga1, 15);
 
