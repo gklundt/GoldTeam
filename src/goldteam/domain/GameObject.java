@@ -36,5 +36,4 @@ public abstract class GameObject {
     public Point PositionVector() {
         return this.positionVector;
     }
-
 }

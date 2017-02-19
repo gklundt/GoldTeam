@@ -2,9 +2,13 @@ package goldteam.panels;
 
 import goldteam.GamePanelManager;
 import goldteam.animators.BigGhostAnimation;
+import goldteam.animators.GhostAnimation;
 import goldteam.animators.TestMapAnimator;
+import goldteam.characters.BackgroundPanelGhost;
 import goldteam.characters.Ghost;
+import goldteam.characters.MainCharacterGhost;
 import goldteam.domain.Delta;
+import goldteam.domain.GameObject;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.ModType;
 import goldteam.domain.PanelManager;
@@ -27,53 +31,22 @@ public class TestMapsPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-        
-        Ghost g = new Ghost(gameData, new Point());
-        BigGhostAnimation bga = new BigGhostAnimation(g, gameData.getRunEdgeDimensions(), "assets/GameGhostStripeGreen.png");
-        g.setAnimator(bga);
-        this.layeredPane.add(bga,15);
 
-        tm = new TestMap(gameData, new Point(-1000, -1000));
+        MainCharacterGhost g2 = new MainCharacterGhost(gameData, new Point(60, 60));
+        BigGhostAnimation bga2 = new BigGhostAnimation(g2, gameData.getRunEdgeDimensions(), "assets/GameGhostStripeRed.png");
+        g2.setAnimator(bga2);
+        this.layeredPane.add(bga2, 20);
+
+        this.gameData.setMovableCharacter(g2);
+
+        BackgroundPanelGhost g1 = new BackgroundPanelGhost(gameData, new Point(gameData.getMapDimensions().width/2, gameData.getMapDimensions().height/2));
+        GhostAnimation bga1 = new GhostAnimation(g1, gameData.getMapDimensions(), "assets/GameGhostStripe.png");
+        g1.setAnimator(bga1);
+        this.layeredPane.add(bga1, 15);
+
+        tm = new TestMap(gameData, new Point(0, 0));
         TestMapAnimator tma = new TestMapAnimator(tm, gameData.getMapDimensions());
         tm.setAnimator(tma);
-        this.layeredPane.add(tma,5);
+        this.layeredPane.add(tma, 5);
     }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
-            panelThread.interrupt();
-            undoGraphics();
-            panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
-            return;
-        }
-
-        Delta x = Delta.create(0.0, ModType.FIXED);
-        Delta y = Delta.create(0.0, ModType.FIXED);
-
-        if (e.getKeyCode() == KeyEvent.VK_D) {
-            x.delta = -20.0d;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            x.delta = 20.0d;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_W) {
-            y.delta = 20.0d;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
-            y.delta = -20.0d;
-        }
-
-        tm.setVelocityVectorDelta(x, y);
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-        Delta x = Delta.create(0.0, ModType.FIXED);
-        Delta y = Delta.create(0.0, ModType.FIXED);
-        tm.setVelocityVectorDelta(x, y);
-    }
-
 }
