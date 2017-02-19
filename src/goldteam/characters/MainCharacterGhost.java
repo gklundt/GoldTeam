@@ -48,7 +48,7 @@ public class MainCharacterGhost extends GameObject implements
         this.random = new Random();
 
         this.initialPoint = initialPoint;
-        this.initialVelocity = 20;
+        this.initialVelocity = 10;
         this.initialHealth = 20.0d;
         this.initialShield = 20.0d;
 
