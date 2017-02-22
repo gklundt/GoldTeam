@@ -5,23 +5,28 @@ import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.ArcherMan;
+import goldteam.characters.Arrow;
 import goldteam.characters.Ghost;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.Delta;
+import goldteam.domain.DoubleVector;
 import goldteam.domain.ModType;
+import goldteam.domain.VectorMath;
 import goldteam.gamedata.GameData;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
-public class TestCharacterPanel extends GamePanelBase {
+public class TestCharacterPanel extends GamePanelBase
+{
 
-    private boolean pressRight, pressLeft, pressJump;
     private ArcherMan ar;
+    private int charge;
     
     public TestCharacterPanel(PanelManager panelManager)
     {
         super(panelManager, new GameData());
-        pressRight = pressLeft = pressJump = false;
+        charge = 0;
     }
 
     @Override
@@ -33,7 +38,16 @@ public class TestCharacterPanel extends GamePanelBase {
         
         CharacterAnimationBase ar1 = null;
         ar1 = this.createNewArcher(gameData, new Point(400, 100), 15, "assets/GameGhostStripe.png");
-        this.layeredPane.add(ar1, layeredPane.highestLayer());
+        this.layeredPane.add(ar1, layeredPane.highestLayer());     
+    }
+    
+    protected CharacterAnimationBase createNewArrow(GameData gd, Point p, DoubleVector speed, String image)
+    {
+        Arrow arrow = new Arrow(gd, (Point)(p.clone()), speed);
+        CharacterAnimationBase ga1;
+        ga1 = new BigGhostAnimation(arrow, gd.getVisibleDimensions(), image);
+        arrow.setAnimator(ga1);
+        return ga1;
     }
 
     protected CharacterAnimationBase createNewArcher(GameData gd, Point p, Integer speed, String image) {
@@ -93,6 +107,23 @@ public class TestCharacterPanel extends GamePanelBase {
                 ar.setJump(false);
                 break;
         }
+    }
+    
+    @Override
+    public void mousePressed(MouseEvent e)
+    {
+        super.mousePressed(e);
+        CharacterAnimationBase arrow = null;
+        DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - ar.PositionVector().getX(), e.getY() - ar.PositionVector().getY()), 25);
+        arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/GameGhostStripe.png");
+        this.layeredPane.add(arrow, layeredPane.highestLayer());
+        charge++;
+    }
+    
+    @Override
+    public void mouseReleased(MouseEvent e)
+    {
+        
     }
 
 }

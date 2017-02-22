@@ -30,6 +30,7 @@ public class ArcherMan extends GameObject implements
     private DoubleVector velocityVector;
     private double velocity = 15d;
     private int health = 100;
+    private static int lives = 3;
 
     public ArcherMan(GameEngine gamedata, Point initialPoint)
     {
@@ -232,7 +233,7 @@ public class ArcherMan extends GameObject implements
             canDoubleJump = false;
         }
         else
-            velY += 3;  //Gravity
+            ;//velY += 3;  //Gravity
         
         if(right && ! left)
             this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(1d, 0d), velocity);
