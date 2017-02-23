@@ -29,8 +29,8 @@ public class ArcherMan extends GameObject implements
     private boolean right, left, jump, canDoubleJump, mousePressed;
     private DoubleVector velocityVector;
     private double velocity = 15d;
-    private int health = 100;
     private int charge;
+    private int health, arrows;
     
     private static int lives = 3;
 
@@ -41,6 +41,9 @@ public class ArcherMan extends GameObject implements
         velocityVector = new DoubleVector();
         canDoubleJump = true;
         mousePressed = false;
+        
+        health = 100;
+        arrows = 10;
     }
 
     @Override
@@ -322,6 +325,16 @@ public class ArcherMan extends GameObject implements
     public void die()
     {
         lives--;
+    }
+    
+    public void shootArrow()
+    {
+        arrows--;
+    }
+    
+    public boolean canShootArrow()
+    {
+        return arrows > 0;
     }
     
 }

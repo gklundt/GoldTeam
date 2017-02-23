@@ -37,7 +37,7 @@ public class TestCharacterPanel extends GamePanelBase
         //this.layeredPane.add(ga1, layeredPane.highestLayer());
         
         CharacterAnimationBase ar1 = null;
-        ar1 = this.createNewArcher(gameData, new Point(400, 100), 15, "assets/GameGhostStripe.png");
+        ar1 = this.createNewArcher(gameData, new Point(400, 400), 15, "assets/GameGhostStripe.png");
         this.layeredPane.add(ar1, layeredPane.highestLayer());     
     }
     
@@ -113,17 +113,26 @@ public class TestCharacterPanel extends GamePanelBase
     public void mousePressed(MouseEvent e)
     {
         super.mousePressed(e);
-        CharacterAnimationBase arrow = null;
-        DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - ar.PositionVector().getX(), e.getY() - ar.PositionVector().getY()), 25);
-        arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/GameGhostStripe.png");
-        this.layeredPane.add(arrow, layeredPane.highestLayer());
-        charge++;
+        ar.setMousePressed(true);
     }
     
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        
+        if(ar.canShootArrow())
+        {
+            CharacterAnimationBase arrow = null;
+            DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - ar.PositionVector().getX(), e.getY() - ar.PositionVector().getY()), 15 + ar.getMouseCharge() * 3);
+            //velocity = new DoubleVector(velocity.x + ar.getVelocityVector().x, velocity.y + ar.getVelocityVector().y); //Player Momentum transfers to arrow
+            arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/GameGhostStripe.png");
+            this.layeredPane.add(arrow, layeredPane.highestLayer());
+            ar.shootArrow();
+            ar.setMousePressed(false);
+        }
+        else
+        {
+            //Something? Idk
+        }
     }
 
 }
