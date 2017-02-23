@@ -26,10 +26,12 @@ public class ArcherMan extends GameObject implements
         Depletable      /* Life Counter */
 {
     private AnimationBase animator;
-    private boolean right, left, jump, canDoubleJump;
+    private boolean right, left, jump, canDoubleJump, mousePressed;
     private DoubleVector velocityVector;
     private double velocity = 15d;
     private int health = 100;
+    private int charge;
+    
     private static int lives = 3;
 
     public ArcherMan(GameEngine gamedata, Point initialPoint)
@@ -38,6 +40,7 @@ public class ArcherMan extends GameObject implements
         
         velocityVector = new DoubleVector();
         canDoubleJump = true;
+        mousePressed = false;
     }
 
     @Override
@@ -244,6 +247,9 @@ public class ArcherMan extends GameObject implements
         velocityVector.y = velY;
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
+        
+        if(mousePressed)
+            charge++;
     }
 
     @Override
@@ -294,6 +300,28 @@ public class ArcherMan extends GameObject implements
     @Override
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setMousePressed(boolean b)
+    {
+        mousePressed = b;
+        if(!b)
+            charge = 0;
+    }
+    
+    public int getMouseCharge()
+    {
+        return charge;
+    }
+    
+    public int getNumLives()
+    {
+        return lives;
+    }
+    
+    public void die()
+    {
+        lives--;
     }
     
 }

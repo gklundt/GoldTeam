@@ -37,7 +37,7 @@ public class Arrow extends GameObject implements
     @Override
     protected void Update()
     {
-        //velocityVector.y += 3;  //Gravity
+        velocityVector.y += 1.5;  //Gravity
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
     }
