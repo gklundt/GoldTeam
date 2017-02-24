@@ -39,7 +39,8 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         this.animatableGameObject = (Animatable) gameObject;
         this.animatableGameObject.addAnimationTimerListener(this);
         this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0, 0);
-
+        
+           
     }
 
     protected void loadImage(String imgFileName, int numRows, int numCols, AffineTransform imageTransform) {

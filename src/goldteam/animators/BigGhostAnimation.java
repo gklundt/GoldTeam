@@ -28,6 +28,18 @@ public class BigGhostAnimation extends CharacterAnimationBase {
         // Setup animation
         super.loadImage(imgFilename, 2, 4, new AffineTransform(1, 0, 0, 1, 0, 0));
     }
+    
+    public BigGhostAnimation(GameObject gameObject, Dimension preferredSize, String assetFile, int dummy) {
+        super(gameObject, preferredSize, assetFile);
+        // Setup animation
+        super.loadImage(imgFilename, 1, 8, new AffineTransform(1, 0, 0, 1, 0, 0));
+    }
+    
+    public BigGhostAnimation(GameObject gameObject, Dimension preferredSize, String assetFile, int dummy, int dumber) {
+        super(gameObject, preferredSize, assetFile);
+        // Setup animation
+        super.loadImage(imgFilename, 1, 4, new AffineTransform(1, 0, 0, 1, 0, 0));
+    }
 
     /**
      * Update the position based on update routine in GameData
