@@ -292,9 +292,7 @@ public class ArcherMan extends GameObject implements
         this.positionVector.y += this.getVelocityVector().y;
         
         if(mousePressed)
-            charge++;
-        
-        
+            charge++;     
     }
 
     @Override

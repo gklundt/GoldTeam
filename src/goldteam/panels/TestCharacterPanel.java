@@ -1,5 +1,6 @@
 package goldteam.panels;
 
+import goldteam.animators.ArcherAnimation;
 import goldteam.animators.BigGhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
@@ -38,12 +39,12 @@ public class TestCharacterPanel extends GamePanelBase
     {
         
         ar = new ArcherMan(gameData, new Point(400, 400));
-        CharacterAnimationBase archerDefaultRight = new BigGhostAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
-        CharacterAnimationBase archerDefaultLeft = new BigGhostAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
-        CharacterAnimationBase archerWalkingRight = new BigGhostAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
-        CharacterAnimationBase archerWalkingLeft = new BigGhostAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", charge);
-        CharacterAnimationBase archerDrawingRight = new BigGhostAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", charge);
-        CharacterAnimationBase archerDrawingLeft = new BigGhostAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", charge);
+        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
+        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
+        CharacterAnimationBase archerWalkingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
+        CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", charge);
+        CharacterAnimationBase archerDrawingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", charge);
+        CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", charge);
         ar.setAnimator(archerDefaultRight);
         ar.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
         ar.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
@@ -60,7 +61,7 @@ public class TestCharacterPanel extends GamePanelBase
     {
         Arrow arrow = new Arrow(gd, (Point)(p.clone()), speed);
         CharacterAnimationBase ga1;
-        ga1 = new BigGhostAnimation(arrow, gd.getVisibleDimensions(), image);
+        ga1 = new ArcherAnimation(arrow, gd.getVisibleDimensions(), image);
         arrow.setAnimator(ga1);
         return ga1;
     }
@@ -118,9 +119,10 @@ public class TestCharacterPanel extends GamePanelBase
         super.mousePressed(e);
         ar.setMousePressed(true);
         ar.removeAnimator = ar.animator;
-        if(e.getX() > ar.rawVector.x)
+
+        if(e.getX() > ar.PositionVector().x)
             ar.animator = ar.animators.get(AnimationState.SHOOTING_RIGHT);
-        else if(e.getX() < ar.rawVector.x)
+        else
             ar.animator = ar.animators.get(AnimationState.SHOOTING_LEFT);
         ar.notifyAnimationChangeListeners();
     }
@@ -139,7 +141,10 @@ public class TestCharacterPanel extends GamePanelBase
             CharacterAnimationBase arrow = null;
             DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - ar.PositionVector().getX(), e.getY() - ar.PositionVector().getY()), 15 + ar.getMouseCharge() * 3);
             //velocity = new DoubleVector(velocity.x + ar.getVelocityVector().x, velocity.y + ar.getVelocityVector().y); //Player Momentum transfers to arrow
-            arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/GameGhostStripe.png");
+            if(ar.animator == ar.animators.get(AnimationState.DEFAULT_RIGHT))
+                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Right.png");
+            else
+                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Left.png");
             this.layeredPane.add(arrow, layeredPane.highestLayer());
             ar.shootArrow();
             ar.setMousePressed(false);
