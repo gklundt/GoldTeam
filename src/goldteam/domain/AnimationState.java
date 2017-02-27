@@ -6,6 +6,8 @@ package goldteam.domain;
  */
 public enum AnimationState {
     DEFAULT,
+    DEFAULT_RIGHT,
+    DEFAULT_LEFT,
     WALKING_LEFT,
     WALKING_RIGHT,
     JUMPING_LEFT,
@@ -14,5 +16,5 @@ public enum AnimationState {
     FIGHTING_LEFT,
     FIGHTING_RIGHT,
     SHOOTING_LEFT,
-    SHOOTING_RIGHT
+    SHOOTING_RIGHT,
 }

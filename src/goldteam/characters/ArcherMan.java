@@ -3,9 +3,11 @@ package goldteam.characters;
 import goldteam.domain.*;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,6 +15,7 @@ import java.util.HashMap;
  * Extends a game object and implements behavior interfaces applicable to
  * a Controllable Character.
  * @author gordon
+ * @revised Rajiv
  */
 public class ArcherMan extends GameObject implements 
         Attackable,     /* Shield and Health accessors */
@@ -25,18 +28,46 @@ public class ArcherMan extends GameObject implements
         Spawnable,      /* Respawn details */
         Depletable      /* Life Counter */
 {
-    private AnimationBase animator;
-    private boolean right, left, jump, canDoubleJump;
+    private final Double initialVelocity;
+    private final ArrayList<ActionListener> attackableListeners;
+    private final Double initialHealth;
+    private final Double initialShield;
+    private final Point initialPoint;
+    private boolean right, left, jump, canDoubleJump, mousePressed;
     private DoubleVector velocityVector;
     private double velocity = 15d;
-    private int health = 100;
-
+    private int charge;
+    private int arrows;
+    private Double health, shields;
+    private static int lives = 3;
+    //---Changed to public members to be accessed in implementing Panel------//
+    public final DoubleVector rawVector;
+    public AnimationBase animator;
+    public final HashMap<AnimationState, AnimationBase> animators;
+    public final ArrayList<ActionListener> animationChangeListeners;
+    public AnimationBase removeAnimator;
+    
     public ArcherMan(GameEngine gamedata, Point initialPoint)
     {
         super(gamedata, initialPoint);
-        
+        this.animationChangeListeners = new ArrayList<>();
+        this.animators = new HashMap<>();
+        this.initialPoint = initialPoint;
+        this.initialVelocity = 10d;
+        this.initialHealth = 5.0d;
+        this.initialShield = 10.0d;
         velocityVector = new DoubleVector();
         canDoubleJump = true;
+        mousePressed = false;
+        this.positionVector = initialPoint;
+        this.velocity = this.initialVelocity;
+        this.rawVector = new DoubleVector(0d, 0d);
+        this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
+        health = initialHealth;
+        shields = initialShield;
+        arrows = 10;
+        
+        attackableListeners = new ArrayList<>();
     }
 
     @Override
@@ -111,7 +142,23 @@ public class ArcherMan extends GameObject implements
 
     @Override
     public void processKeyInput(KeyEvent keyEvent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
+            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+            this.rawVector.x += this.velocity;
+        }
+        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_A)) {
+            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+            this.rawVector.x -= this.velocity;
+        }
+        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_W)) {
+            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+            this.rawVector.y -= this.velocity;
+        }
+        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_S)) {
+            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+            this.rawVector.y += this.velocity;
+        }
+        this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
     }
 
     @Override
@@ -232,7 +279,7 @@ public class ArcherMan extends GameObject implements
             canDoubleJump = false;
         }
         else
-            velY += 3;  //Gravity
+            ;//velY += 3;  //Gravity
         
         if(right && ! left)
             this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(1d, 0d), velocity);
@@ -243,6 +290,9 @@ public class ArcherMan extends GameObject implements
         velocityVector.y = velY;
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
+        
+        if(mousePressed)
+            charge++;     
     }
 
     @Override
@@ -277,22 +327,56 @@ public class ArcherMan extends GameObject implements
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationChangeListeners.add(listener);
     }
 
     @Override
     public void notifyAnimationChangeListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener al : this.animationChangeListeners) {
+            al.actionPerformed(e);
+        }    }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animators.put(state, animator);
     }
 
     @Override
     public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.removeAnimator;
+    }
+
+    public void setMousePressed(boolean b)
+    {
+        mousePressed = b;
+        if(!b)
+            charge = 0;
+    }
+    
+    public int getMouseCharge()
+    {
+        return charge;
+    }
+    
+    public int getNumLives()
+    {
+        return lives;
+    }
+    
+    public void die()
+    {
+        lives--;
+    }
+    
+    public void shootArrow()
+    {
+        arrows--;
+    }
+    
+    public boolean canShootArrow()
+    {
+        return arrows > 0;
     }
     
 }
