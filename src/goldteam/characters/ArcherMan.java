@@ -65,7 +65,7 @@ public class ArcherMan extends GameObject implements
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
         health = initialHealth;
         shields = initialShield;
-        arrows = 10;
+        arrows = 20;
         
         attackableListeners = new ArrayList<>();
     }
@@ -79,6 +79,11 @@ public class ArcherMan extends GameObject implements
     public int getHealthValue() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public int getArrowCount() {
+        return this.arrows;
+    }
 
     @Override
     public void setShieldDelta(Delta delta) {
@@ -88,6 +93,11 @@ public class ArcherMan extends GameObject implements
     @Override
     public void setHealthDelta(Delta delta) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void setArrowDelta(Delta delta){
+        this.arrows = delta.delta.intValue();
     }
 
     @Override
@@ -292,9 +302,7 @@ public class ArcherMan extends GameObject implements
         this.positionVector.y += this.getVelocityVector().y;
         
         if(mousePressed)
-            charge++;
-        
-        
+            charge++;     
     }
 
     @Override

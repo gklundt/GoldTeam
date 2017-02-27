@@ -20,11 +20,8 @@ import java.awt.event.ActionListener;
  *
  * @author Joshua
  */
-public class Arrow extends GameObject implements 
-        Movable,
-        Animatable
-
-{
+public class Arrow extends GameObject implements Movable, Animatable {
+    
     private AnimationBase animator;
     private DoubleVector velocityVector;
 

@@ -34,6 +34,7 @@ public class Ghost extends GameObject implements
 
     private Double health;
     private Double shield;
+    private int arrows;
     private DoubleVector velocityVector;
     private Integer velocity;
     private DoubleVector rawVector;
@@ -59,7 +60,7 @@ public class Ghost extends GameObject implements
 
         this.health = this.initialHealth;
         this.shield = this.initialShield;
-
+        this.arrows = 20;    
         attackableListeners = new ArrayList<>();
 
         int[] xPoly = {this.positionVector.x - 12,
@@ -303,5 +304,15 @@ public class Ghost extends GameObject implements
     @Override
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override//TEMPORARY
+    public int getArrowCount() {
+        return arrows;
+    }
+
+    @Override//TEMPORARY
+    public void setArrowDelta(Delta delta) {
+        this.arrows = delta.delta.intValue();
     }
 }

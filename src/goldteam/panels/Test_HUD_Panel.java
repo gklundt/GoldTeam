@@ -1,6 +1,7 @@
 package goldteam.panels;
 
 import goldteam.GamePanelManager;
+import goldteam.animators.ArrowHudAnimation;
 import goldteam.animators.BigGhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
@@ -13,18 +14,21 @@ import goldteam.colliders.GhostCollider;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 import goldteam.gamedata.GameData;
+import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
 import goldteam.hud.ShieldHudItem;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
+import javax.swing.JLabel;
 
 public class Test_HUD_Panel extends GamePanelBase {
+    private static final long serialVersionUID = 1L;
 
     private Ghost ghost;
     private Ghost[] bigGhost;
     private HeartHudItem hearts;
     private ShieldHudItem shields;
+    private ArrowHudItem arrows;
     private final CollisionDetector collisionDetector;
 
     public Test_HUD_Panel(PanelManager panelManager) {
@@ -46,7 +50,7 @@ public class Test_HUD_Panel extends GamePanelBase {
         bigGhost = new Ghost[5];
         BigGhostAnimation[] bigGhostAnimation = new BigGhostAnimation[5];
         for(int i = 0; i<5; i++) {
-            bigGhost[i] = new Ghost(gameData, new Point(600, 600));
+            bigGhost[i] = new Ghost(gameData, new Point(100*i, 600));
             bigGhost[i].setHealthDelta(Delta.create(-20.0, ModType.FIXED));
             bigGhost[i].setShieldDelta(Delta.create(-20.0, ModType.FIXED));
             bigGhostAnimation[i] = new BigGhostAnimation(bigGhost[i], gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
@@ -66,9 +70,15 @@ public class Test_HUD_Panel extends GamePanelBase {
         ShieldHudAnimation sha = new ShieldHudAnimation(shields, gameData.getVisibleDimensions(), "assets/shield.png");
         shields.setAnimator(sha);
 
+        arrows = new ArrowHudItem(gameData, new Point(10, 50));
+        arrows.setWatcher(ghost);
+        ArrowHudAnimation aha = new ArrowHudAnimation(arrows, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
+        arrows.setAnimator(aha);
+        
         this.layeredPane.add(ghostAnimation, this.layeredPane.highestLayer());
         this.layeredPane.add(hha, this.layeredPane.highestLayer());
-        this.layeredPane.add(sha, this.layeredPane.highestLayer());       
+        this.layeredPane.add(sha, this.layeredPane.highestLayer());
+        this.layeredPane.add(aha, this.layeredPane.highestLayer());
     }
 
     @Override
