@@ -6,9 +6,14 @@
 package goldteam.colliders;
 
 import goldteam.Collectables.Arrows;
+import goldteam.Collectables.Health;
+import goldteam.Collectables.Shields;
 import goldteam.characters.StationaryGhost;
+import goldteam.domain.CollectableItem;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
 import goldteam.domain.Movable;
 
 /**
@@ -17,25 +22,35 @@ import goldteam.domain.Movable;
  */
 public class CollectablesCollider implements CollisionListener {
 
-    private Collidable arrow;
+    private Collidable collectableItem;
     private Collidable movable;
     
     public void DoCollision(){
         StationaryGhost g1 = (StationaryGhost) movable;
-        //g1.setArrowDelta(Delta.create(5.0, ModType.FIXED));
-        Arrows a = (Arrows) arrow;
-        a.setState(false);
+        
+        CollectableItem item = (CollectableItem) collectableItem;
+        
+        if(item instanceof Arrows){
+            //g1.setArrowDelta(Delta.create(5.0, ModType.FIXED));
+        } else if(item instanceof Shields){
+            g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED));
+        } else if (item instanceof Health){
+            g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+        }
+        
+        item.setState(false);
+        item.undoCollider();
     }
     
     @Override
     public void CollisionDetected(Collidable a, Collidable b) {
-        if ((a instanceof Arrows) && (b instanceof Movable)) {
-            this.arrow = a;
+        if ((a instanceof CollectableItem) && (b instanceof Movable)) {
+            this.collectableItem = a;
             this.movable = b;
             DoCollision();
 
-        } else if ((b instanceof Arrows) && (a instanceof Movable)) {
-            this.arrow = b;
+        } else if ((b instanceof CollectableItem) && (a instanceof Movable)) {
+            this.collectableItem = b;
             this.movable = a;
             DoCollision();
         }

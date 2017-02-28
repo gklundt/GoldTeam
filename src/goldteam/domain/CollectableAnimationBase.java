@@ -84,7 +84,7 @@ public class CollectableAnimationBase extends AnimationBase{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Arrows a = (Arrows) this.gameObject; //not needed
+        CollectableItem a = (CollectableItem) this.gameObject; //not needed
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(this.color);
         if(this.imgFilename == null){
@@ -95,7 +95,7 @@ public class CollectableAnimationBase extends AnimationBase{
             );
         } else{
             if(a.getState() == false){
-                g2d.fillRect(this.gameObject.PositionVector().x, this.gameObject.PositionVector().y, 10, 10);
+                g2d.fillRect(0, 0, 0, 0);
             } else {
                 g2d.drawImage(img, this.gameObject.positionVector.x, this.gameObject.positionVector.y, this);
             }

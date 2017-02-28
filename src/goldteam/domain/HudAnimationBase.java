@@ -51,6 +51,7 @@ public abstract class HudAnimationBase extends AnimationBase {
      * @param numCols
      */
     protected void loadImage(String imgFileName, int numberOfItems, AffineTransform transform) {
+        this.count = numberOfItems;
         ClassLoader cl = getClass().getClassLoader();
         URL imgUrl = cl.getResource(imgFileName);
         if (imgUrl == null) {
@@ -75,8 +76,8 @@ public abstract class HudAnimationBase extends AnimationBase {
         this.imgHeight = img.getHeight(null);
         this.imgWidth = img.getWidth(null);
 
-        this.imgArray = new BufferedImage[numberOfItems];
-        for (int i = 0; i < numberOfItems; ++i) {
+        this.imgArray = new BufferedImage[count];
+        for (int i = 0; i < count; ++i) {
             imgArray[i] = img;
         }
         this.count = numberOfItems;

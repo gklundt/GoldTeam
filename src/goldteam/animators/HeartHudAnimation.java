@@ -34,7 +34,6 @@ public class HeartHudAnimation extends HudAnimationBase {
         this.gameObj = (AttackableWatcher) gameObject;
         // Setup animation
         super.loadImage(imgFilename, this.gameObj.getWatcher().getHealthValue(), new AffineTransform(.25, 0, 0, .25, 0, 0));
-
     }
 
     @Override

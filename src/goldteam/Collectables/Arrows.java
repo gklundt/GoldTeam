@@ -8,6 +8,7 @@ package goldteam.Collectables;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
+import goldteam.domain.CollectableItem;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.GameEngine;
@@ -21,7 +22,7 @@ import java.util.HashMap;
  *
  * @author faaez
  */
-public class Arrows extends GameObject implements Animatable, Collidable{
+public class Arrows extends GameObject implements Animatable, Collidable, CollectableItem{
 
     private AnimationBase animator;
     private Polygon collider;
@@ -134,12 +135,18 @@ public class Arrows extends GameObject implements Animatable, Collidable{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
     public void setState(boolean state){
         this.state = state;
     }
     
+    @Override
     public boolean getState(){
         return this.state;
     }
     
+    @Override
+    public void undoCollider(){
+        this.collider = new Polygon();
+    }
 }

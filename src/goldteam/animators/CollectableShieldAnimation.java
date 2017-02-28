@@ -14,10 +14,11 @@ import java.awt.geom.AffineTransform;
  *
  * @author faaez
  */
-public class ArrowAnimation extends CollectableAnimationBase{
+public class CollectableShieldAnimation extends CollectableAnimationBase{
     
-    public ArrowAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
+    public CollectableShieldAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         super.loadImage(imgFilename, new AffineTransform(.5, 0, 0, .5, 0, 0));
     }
+    
 }
