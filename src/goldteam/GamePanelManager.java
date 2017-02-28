@@ -1,9 +1,14 @@
 package goldteam;
 
+import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.domain.PanelManagerListener;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 public class GamePanelManager implements PanelManager {
@@ -17,12 +22,13 @@ public class GamePanelManager implements PanelManager {
     public static final String TEST_PANEL_TEMPLATE = "TEST_PANEL_TEMPLATE";
     public static final String TEST_CHARACTER_PANEL = "TEST_CHARACTER_PANEL";
     public static final String TEST_ANIM_SWITCH_PANEL = "TEST_ANIM_SWITCH_PANEL";
+    public static final String TEST_SOUNDS_PANEL = "TEST_SOUNDS_PANEL";
     public static final String TEST_MAPS_PANEL = "TEST_MAPS_PANEL";
 
     /* Do not edit below */
     private final ArrayList<PanelManagerListener> listeners;
-    private final HashMap<String, JPanel> panels;
-    private String activePanel;
+    private final HashMap<String, String> panels;
+    private JPanel activePanel;
 
     private static GamePanelManager instance;
 
@@ -39,16 +45,17 @@ public class GamePanelManager implements PanelManager {
     }
 
     @Override
-    public void addPanel(String name, JPanel panel) {
+    public void addPanel(String name, String panel) {
+        //String pName = panel.getClass().getName();
         this.panels.put(name, panel);
-        if (this.panels.size() == 1) {
-            this.activePanel = name;
+        if(this.activePanel == null){
+            this.activePanel = this.createPanel(panel);
         }
     }
 
     @Override
     public JPanel getPanel(String name) {
-        return this.panels.get(name);
+        return this.createPanel(this.panels.get(name));
     }
 
     @Override
@@ -70,19 +77,52 @@ public class GamePanelManager implements PanelManager {
 
     @Override
     public JPanel getActivePanel() {
-        return this.getPanel(this.activePanel);
+        return this.activePanel;
     }
 
     @Override
     public void setActivePanel(String panel) {
 
+        this.activePanel = null;
+        
         for (String p : this.panels.keySet()) {
             if (p.equals(panel)) {
-                this.activePanel = p;
-                this.panels.get(this.activePanel).requestFocus();
+                this.activePanel = this.createPanel(this.panels.get(p));
+                this.activePanel.requestFocus();
                 this.notifyListeners();
                 break;
             }
         }
     }
+
+    private JPanel createPanel(String className) {
+
+        //String className = "goldteam.panels.GameEngineTestPanel";
+        // Create a reflected class from name
+        Class<JPanel> tempPanel = null;
+        try {
+            tempPanel = (Class<JPanel>) Class.forName(className);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GamePanelManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Generate a constructor from the constructors defined in our class
+        Constructor<JPanel> ctor = null;
+        try {
+            ctor = tempPanel.getDeclaredConstructor(PanelManager.class);
+        } catch (NoSuchMethodException | SecurityException ex) {
+            Logger.getLogger(GamePanelManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Attempt to create the instance of our class using the ctor.
+        JPanel ret = null;
+        try {
+            ret = ctor.newInstance(this);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(GamePanelManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return ret;
+    }
+
 }

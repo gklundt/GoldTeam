@@ -1,5 +1,6 @@
 package goldteam;
 
+import goldteam.domain.GameSounds;
 import javax.swing.JFrame;
 
 public class GoldTeam {

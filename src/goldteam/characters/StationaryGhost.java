@@ -112,15 +112,10 @@ public class StationaryGhost extends GameObject implements
                 }
 
                 this.positionVector.x += this.getVelocityVector().x;
-                
-                 
-                
-                /*int deltaX = 0, deltaY = 0;
+               /*int deltaX = 0, deltaY = 0;
                 deltaX += this.getVelocityVector().x;
                 deltaY += this.getVelocityVector().y;*/
-
                 //this.collider.translate(deltaX, deltaY);
-
                 this.collider.reset();
                 this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 10);
                 this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 10);

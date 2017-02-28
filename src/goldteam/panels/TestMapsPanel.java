@@ -1,38 +1,29 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package goldteam.panels;
 
+import goldteam.GamePanelManager;
+import goldteam.animators.BigGhostAnimation;
+import goldteam.animators.GhostAnimation;
+import goldteam.animators.TestMapAnimator;
+import goldteam.characters.BackgroundPanelGhost;
+import goldteam.characters.Ghost;
+import goldteam.characters.MainCharacterGhost;
+import goldteam.domain.Delta;
+import goldteam.domain.GameObject;
 import goldteam.domain.GamePanelBase;
+import goldteam.domain.ModType;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
-import goldteam.maps.BasicLevelMap;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-import javax.swing.JLayeredPane;
-import java.awt.Graphics;
+import goldteam.maps.TestMap;
 import java.awt.Point;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.KeyEvent;
 
 /**
  *
  * @author Mishal
  */
-public class TestMapsPanel extends GamePanelBase implements KeyListener, MouseListener {
+public class TestMapsPanel extends GamePanelBase {
 
-    private BasicLevelMap layer;
-    private JLayeredPane lp;
-    private Component gp;
-    private Canvas canvas;
+    private TestMap tm;
 
     public TestMapsPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
@@ -40,33 +31,22 @@ public class TestMapsPanel extends GamePanelBase implements KeyListener, MouseLi
 
     @Override
     protected void addGameObjects() {
-        canvas = new Canvas();
-        canvas.setPreferredSize(new Dimension(800, 600));
-        canvas.setMaximumSize(new Dimension(800, 600));
-        canvas.setMinimumSize(new Dimension(800, 600));
-        int[][] i = new int[26][14];
-        try {
-            BasicLevelMap blm = new BasicLevelMap(gameData, new Point(), i);
-        } catch (IOException ex) {
-            Logger.getLogger(TestMapsPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
+        MainCharacterGhost g2 = new MainCharacterGhost(gameData, new Point(60, 60));
+        BigGhostAnimation bga2 = new BigGhostAnimation(g2, gameData.getRunEdgeDimensions(), "assets/GameGhostStripeRed.png");
+        g2.setAnimator(bga2);
+        this.layeredPane.add(bga2, 20);
+
+        this.gameData.setMovableCharacter(g2);
+
+        BackgroundPanelGhost g1 = new BackgroundPanelGhost(gameData, new Point(gameData.getMapDimensions().width/2, gameData.getMapDimensions().height/2));
+        GhostAnimation bga1 = new GhostAnimation(g1, gameData.getMapDimensions(), "assets/GameGhostStripe.png");
+        g1.setAnimator(bga1);
+        this.layeredPane.add(bga1, 15);
+
+        tm = new TestMap(gameData, new Point(0, 0));
+        TestMapAnimator tma = new TestMapAnimator(tm, gameData.getMapDimensions());
+        tm.setAnimator(tma);
+        this.layeredPane.add(tma, 5);
     }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        //layer.LoadTileSheet("assets/block_brick.png");
-//      layer.PositionVector();
-        //layer.DrawLayer(g);
-        //g.fillRect(0, 0, 800, 600);
-        g.setColor(Color.red);
-        g.drawString("Game Start!", 50, 60);
-        g.drawRect(10, 10, 150, 200);
-        g.drawRect(30, 30, 120, 230);
-        //g.clearRect(0, 0, 800, 600);
-//      layer.setVelocityScalarDelta(Delta.create(-15.0d, ModType.FIXED));
-
-    }
-
 }

@@ -31,9 +31,9 @@ import javax.imageio.ImageIO;
 public class BasicLevelMap extends GameObject implements Movable, Collidable {
 
     private GameObject go;
-     public Image tileImage;
-     public int [][] map;
-     private BasicLevelMap layer;
+    public Image tileImage;
+    public int [][] map;
+    private BasicLevelMap layer;
     
     public BasicLevelMap(GameEngine gamedata, Point initialPoint, int [][] existingMap) throws IOException {
         super(gamedata, initialPoint);
@@ -51,108 +51,110 @@ public class BasicLevelMap extends GameObject implements Movable, Collidable {
             );
         }
         System.out.println(map);
-     /*   
-    map = new int[existingMap.length][existingMap[0].length];
+        /*   
+        map = new int[existingMap.length][existingMap[0].length];
 
-    for(int y = 0; y < map.length; y++)
-    {
-        for(int x = 0; x < map[y].length; x++)
+        for(int y = 0; y < map.length; y++)
         {
-            map[y][x] = existingMap[y][x];
-        }
-    }*/
-    tileImage = LoadTileSheet("block_brick.png");
+            for(int x = 0; x < map[y].length; x++)
+            {
+                map[y][x] = existingMap[y][x];
+            }
+        }*/
+        tileImage = LoadTileSheet("block_brick.png");
     }
     
     public static BasicLevelMap FromFile (String fileName){
     
-    BasicLevelMap layer = null;
-    
-    ArrayList<ArrayList<Integer>> tempLayout = new ArrayList<>();
-    
-    try(BufferedReader br = new BufferedReader(new FileReader(fileName)))
-    {
-        String currentLine;
-        
-        while((currentLine = br.readLine()) !=null)
+        BasicLevelMap layer = null;
+
+        ArrayList<ArrayList<Integer>> tempLayout = new ArrayList<>();
+
+        try(BufferedReader br = new BufferedReader(new FileReader(fileName)))
         {
-           if(currentLine.isEmpty())
-               continue;
-            
-           ArrayList<Integer> row = new ArrayList<>(); // for rows 
-           
-           String[] values = currentLine.trim().split(" "); //trim off all white spaces
-           
-           for(String string: values)
-           {
-               if(!string.isEmpty())
+            String currentLine;
+
+            while((currentLine = br.readLine()) !=null)
+            {
+               if(currentLine.isEmpty())
+                   continue;
+
+               ArrayList<Integer> row = new ArrayList<>(); // for rows 
+
+               String[] values = currentLine.trim().split(" "); //trim off all white spaces
+
+               for(String string: values)
                {
-                   int id = Integer.parseInt(string);
-                   
-                   row.add(id);
+                   if(!string.isEmpty())
+                   {
+                       int id = Integer.parseInt(string);
+
+                       row.add(id);
+                   }
                }
-           }
-           tempLayout.add(row);
+               tempLayout.add(row);
+            }
         }
-    }
-    catch(IOException e){
-        
-    }
-    
-    int width = tempLayout.get(0).size(); 
-    int height = tempLayout.size();
-    
-    //layer = new TileLayer(width, height);
-    
-    for(int y = 0; y < height; y++)
-    {
-        for(int x = 0; x < width; x++){
-            layer.map[y][x] = tempLayout.get(y).get(x);
+        catch(IOException e){
+
         }
-    }
-    
-    layer.tileImage = layer.LoadTileSheet("assets/block_brick.png");
-    
-    return layer;
-}
-  public BufferedImage LoadTileSheet(String fileName){
-    
-    BufferedImage img = null;
 
-    try{
-        img = ImageIO.read(new File(fileName));
-    }
-    catch(IOException e)
-    {
-        System.out.printf("Could not load image!");
-    }
-    return img;
-}
+        int width = tempLayout.get(0).size(); 
+        int height = tempLayout.size();
 
-public void DrawLayer(Graphics s){
-    
-    for(int y = 0; y < map.length; y++)
-    {
-        for(int x = 0; x < map[y].length; x++){
-        int index = map[y][x];
-        int yOffset = 0;
-        
-      //  if(index > (tileImage.getWidth()))
+        //layer = new TileLayer(width, height);
+
+        for(int y = 0; y < height; y++)
         {
-            yOffset++;
-            
-     //    index = index - (tileImage.getWidth());
-            
+            for(int x = 0; x < width; x++){
+                layer.map[y][x] = tempLayout.get(y).get(x);
+            }
+        }
+
+        layer.tileImage = layer.LoadTileSheet("assets/block_brick.png");
+
+        return layer;
+    }
+    
+    public BufferedImage LoadTileSheet(String fileName){
+    
+        BufferedImage img = null;
+
+        try{
+            img = ImageIO.read(new File(fileName));
+        }
+        catch(IOException e)
+        {
+            System.out.printf("Could not load image!");
+        }
+        return img;
+    }
+
+    public void DrawLayer(Graphics s){
+
+        for(int y = 0; y < map.length; y++)
+        {
+            for(int x = 0; x < map[y].length; x++)
+            {
+                int index = map[y][x];
+                int yOffset = 0;
+
+              //  if(index > (tileImage.getWidth()))
+              //  {
+                    yOffset++;
+              //      index = index - (tileImage.getWidth());
+
+              //  }
+            }
         }
     }
-    }
-}
 
-/*public void DrawPanel(){
+    /*public void DrawPanel(){
+
+        layer = BasicLevelMap.FromFile("map.txt");
+
+    }*/
     
-    layer = BasicLevelMap.FromFile("map.txt");
-    
-}*/
     @Override
     public void Update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
