@@ -5,7 +5,9 @@
  */
 package goldteam.panels;
 
+import goldteam.Collectables.Arrows;
 import goldteam.GamePanelManager;
+import goldteam.animators.ArrowAnimation;
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
 import goldteam.characters.StationaryGhost;
@@ -23,6 +25,7 @@ import goldteam.platforms.FlatPlatform;
 import goldteam.platforms.LavaPlatform;
 import goldteam.animators.FlatPlatformAnimation;
 import goldteam.animators.LavaPlatformAnimation;
+import goldteam.colliders.CollectablesCollider;
 import goldteam.domain.Platform;
 import java.awt.Dimension;
 import goldteam.colliders.PlatformCollider;
@@ -39,6 +42,7 @@ public class TestCollidersPanel extends GamePanelBase {
     private ArrayList<GameObject> objects;
     private FlatPlatform flatPlatform,raisedPlatform, flatPlatform1;
     private LavaPlatform lavaPlatform;
+    private Arrows arrow;
     //private ArrayList<Platform> platfrom;
 
     //private Component gp;
@@ -50,9 +54,8 @@ public class TestCollidersPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
         
-        //platfrom = new ArrayList<>();
-        
         objects = new ArrayList<>();
+        
         g1 = new StationaryGhost(gameData, new Point(200, 400));
         g2 = new Ghost(gameData, new Point(200, 400)); 
         
@@ -75,6 +78,9 @@ public class TestCollidersPanel extends GamePanelBase {
         FlatPlatformAnimation fpa1 = new FlatPlatformAnimation(flatPlatform1, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
         fpa1.setDimensions(new Dimension(200,150));
         
+        arrow = new Arrows(gameData, new Point(100, 362));
+        ArrowAnimation aa = new ArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
+        
         g1.setAnimator(ga1);
         g2.setAnimator(ga2);
         
@@ -82,6 +88,8 @@ public class TestCollidersPanel extends GamePanelBase {
         raisedPlatform.setAnimator(rpa);
         lavaPlatform.setAnimator(lpa);
         flatPlatform1.setAnimator(fpa1);
+        
+        arrow.setAnimator(aa);
         
         //raisedPlatform.setCollider(raisedPlatform, CollisionPlane.LEFT);
         
@@ -93,6 +101,8 @@ public class TestCollidersPanel extends GamePanelBase {
         
         this.layeredPane.add(ga1, layeredPane.highestLayer());
         this.layeredPane.add(ga2, layeredPane.highestLayer());
+        
+        this.layeredPane.add(aa, layeredPane.highestLayer());
 
         StationaryGhostCollider sg = new StationaryGhostCollider();
         
@@ -117,6 +127,19 @@ public class TestCollidersPanel extends GamePanelBase {
         collisionDetector2.registerCollidable(raisedPlatform);
         collisionDetector2.registerCollidable(lavaPlatform);
         collisionDetector2.registerCollidable(flatPlatform1);
+        
+        //-------------------------------------//
+        CollectablesCollider cd = new CollectablesCollider();
+        
+        CollisionDetector collisionDetector3;
+        
+        collisionDetector3 = new CollisionDetector(this.gameData);
+        
+        collisionDetector3.addCollisionListener(cd);
+        
+        collisionDetector3.registerCollidable(g1);
+        collisionDetector3.registerCollidable(arrow);
+        
     }
 
     @Override
