@@ -14,4 +14,8 @@ public interface Attackable {
     
     public void addAttackableListener(ActionListener listener);
 
+    public int getArrowCount();
+    
+    public void setArrowDelta(Delta delta);
+
 }
