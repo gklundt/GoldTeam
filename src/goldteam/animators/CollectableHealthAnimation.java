@@ -18,7 +18,7 @@ public class CollectableHealthAnimation extends CollectableAnimationBase{
     
     public CollectableHealthAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
-        super.loadImage(imgFilename, new AffineTransform(.5, 0, 0, .5, 0, 0));
+        super.loadImage(imgFilename, new AffineTransform(.25, 0, 0, .25, 0, 0));
     }
     
 }

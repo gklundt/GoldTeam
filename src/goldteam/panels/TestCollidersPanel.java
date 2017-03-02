@@ -35,6 +35,8 @@ import goldteam.colliders.CollectablesCollider;
 import goldteam.hud.ShieldHudItem;
 import goldteam.colliders.PlatformCollider;
 import goldteam.domain.CollisionPlane;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
 import goldteam.hud.HeartHudItem;
 import java.awt.Dimension;
 
@@ -68,7 +70,7 @@ public class TestCollidersPanel extends GamePanelBase {
         objects = new ArrayList<>();
         
         g1 = new StationaryGhost(gameData, new Point(200, 400));
-        g2 = new Ghost(gameData, new Point(200, 400)); 
+        g2 = new Ghost(gameData, new Point(200, 400));
         
         CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
         CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
@@ -89,13 +91,13 @@ public class TestCollidersPanel extends GamePanelBase {
         FlatPlatformAnimation fpa1 = new FlatPlatformAnimation(flatPlatform1, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
         fpa1.setDimensions(new Dimension(200,150));
         
-        arrow = new Arrows(gameData, new Point(20, 362));
+        arrow = new Arrows(gameData, new Point(20, 388));
         CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
         
-        health = new Health(gameData, new Point(80, 370));
+        health = new Health(gameData, new Point(80, 390));
         CollectableHealthAnimation ha = new CollectableHealthAnimation(health, gameData.getVisibleDimensions(), "assets/heart.png");
         
-        shield = new Shields(gameData, new Point(130, 370));
+        shield = new Shields(gameData, new Point(130, 390));
         CollectableShieldAnimation sa = new CollectableShieldAnimation(shield, gameData.getVisibleDimensions(), "assets/shield.png");
         
         hearts = new HeartHudItem(gameData, new Point(10, 10));
@@ -176,6 +178,10 @@ public class TestCollidersPanel extends GamePanelBase {
         collisionDetector3.registerCollidable(health);
         collisionDetector3.registerCollidable(shield);
         
+        g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
+        g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
+        
+        System.out.println(g1.getHealthValue());
     }
 
     @Override

@@ -32,14 +32,21 @@ public class CollectablesCollider implements CollisionListener {
         
         if(item instanceof Arrows){
             //g1.setArrowDelta(Delta.create(5.0, ModType.FIXED));
+                item.setState(false);
+                item.undoCollider();
         } else if(item instanceof Shields){
-            g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED));
+            if(g1.getShieldValue() < 10){
+                g1.setShieldDelta(Delta.create(1.0, ModType.FIXED));
+                item.setState(false);
+                item.undoCollider();
+            }
         } else if (item instanceof Health){
-            g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+            if(g1.getHealthValue() < 5){
+                g1.setHealthDelta(Delta.create(1.0, ModType.FIXED));
+                item.setState(false);
+                item.undoCollider();
+            }
         }
-        
-        item.setState(false);
-        item.undoCollider();
     }
     
     @Override
