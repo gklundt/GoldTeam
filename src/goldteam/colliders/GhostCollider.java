@@ -11,18 +11,20 @@ import goldteam.domain.CollisionListener;
 import goldteam.domain.Delta;
 import goldteam.domain.GameSounds;
 import goldteam.domain.ModType;
+import goldteam.domain.PanelManager;
+import goldteam.panels.TestSoundsPanel;
+import goldteam.gamedata.GameData;
 
 /**
  *
  * @author Caleb Dunham
  */
 public class GhostCollider implements CollisionListener{
-
+    
     @Override
     public void CollisionDetected(Collidable a, Collidable b) {
         Ghost g1 = (Ghost) a;
         Ghost g2 = (Ghost) b;
-        
         if(g1.getShieldValue() > 0) {
             GameSounds.sounds[3].play();
             g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED));
@@ -33,7 +35,7 @@ public class GhostCollider implements CollisionListener{
             GameSounds.sounds[11].play();
             g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
         }
-        
+
         if(g2.getShieldValue() > 0) {
             GameSounds.sounds[3].play();
             g2.setShieldDelta(Delta.create(-1.0, ModType.FIXED));

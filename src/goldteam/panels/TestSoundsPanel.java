@@ -13,6 +13,8 @@ import goldteam.domain.GameSounds;
 import goldteam.domain.ModType;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.Random;
@@ -24,7 +26,8 @@ import java.util.Random;
 public class TestSoundsPanel extends GamePanelBase {
     
     private final CollisionDetector collisionDetector;
-    
+    private AudioClip bgClip;
+    private Thread bgThread;
     public TestSoundsPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
         collisionDetector = new CollisionDetector(this.gameData);
@@ -32,7 +35,8 @@ public class TestSoundsPanel extends GamePanelBase {
     
     @Override
     protected void addGameObjects() {
-        GameSounds.sounds[17].play();
+        bgClip = Applet.newAudioClip(getClass().getClassLoader().getResource("assets/Sounds/background_music.wav"));
+        play(bgClip);
         Random x = new Random();
         Random y = new Random();
         for (int i = 1; i <= 6; ++i) {
@@ -60,6 +64,20 @@ public class TestSoundsPanel extends GamePanelBase {
             collisionDetector.addCollisionListener(gc);
         }
     }
+    
+    public void play(AudioClip clip){
+       try{
+            bgThread = new Thread(){
+                  @Override
+                  public void run(){
+                     clip.play();
+                  }
+            };
+            bgThread.start();
+       }catch(Throwable e){
+          e.printStackTrace();
+       }
+    }
         
     protected CharacterAnimationBase createNewGhost(GameData gd, Point p, Integer speed, String image, int bigOrSmall) {
         Ghost g1 = new Ghost(gd, p);
@@ -80,9 +98,11 @@ public class TestSoundsPanel extends GamePanelBase {
         
         switch (e.getKeyChar()) {
             case KeyEvent.VK_ESCAPE:
-                undoGraphics();
+                bgThread.interrupt();//does nothing!!!
+                panelThread.interrupt();//does nothing!!! fuck this motherfucking shit!!!!!!!!!!!!
+                undoGraphics();                
                 panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
-                break;
+                return;
             case KeyEvent.VK_1:
                 GameSounds.sounds[0].play();
                 break;

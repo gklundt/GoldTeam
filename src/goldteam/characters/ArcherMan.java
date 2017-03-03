@@ -47,9 +47,9 @@ public class ArcherMan extends GameObject implements
     public final ArrayList<ActionListener> animationChangeListeners;
     public AnimationBase removeAnimator;
     
-    public ArcherMan(GameEngine gamedata, Point initialPoint)
+    public ArcherMan(GameEngine gameData, Point initialPoint)
     {
-        super(gamedata, initialPoint);
+        super(gameData, initialPoint);
         this.animationChangeListeners = new ArrayList<>();
         this.animators = new HashMap<>();
         this.initialPoint = initialPoint;

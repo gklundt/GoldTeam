@@ -5,6 +5,7 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 
 public class GameSounds {
+
     public static final GameSounds[] sounds = {
         new GameSounds("assets/Sounds/ArrowShoot.wav"),
         new GameSounds("assets/Sounds/ArrowsShooting.wav"),
@@ -35,15 +36,15 @@ public class GameSounds {
           e.printStackTrace();
        }
     }
-    
+   
     public void play(){
        try{
-          new Thread(){
-             @Override
-             public void run(){
-                clip.play();
-             }
-          }.start();
+            new Thread(){
+                  @Override
+                  public void run(){
+                     clip.play();
+                  }
+            }.start();
        }catch(Throwable e){
           e.printStackTrace();
        }
