@@ -76,9 +76,9 @@ public class TestMapsPanel extends GamePanelBase {
         FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getMapDimensions(), "assets/platformTile.jpg");
         rpa.setDimensions(new Dimension(100,150));
         
-        pp = new PotionsPlatform(gameData, new Point(300, 30), 100, 300);
-        PotionAnimation ppa = new PotionAnimation(pp, gameData.getMapDimensions(), "assets/grass_block.png");
-        ppa.setDimensions(new Dimension(200,150));
+       // pp = new PotionsPlatform(gameData, new Point(300, 30), 100, 300);
+        //PotionAnimation ppa = new PotionAnimation(pp, gameData.getMapDimensions(), "assets/grass_block.png");
+        //ppa.setDimensions(new Dimension(200,150));
         
         
         lavaPlatform = new LavaPlatform(gameData, new Point(412 + rpa.getDimensions().width, 500), 200, 150);
@@ -110,7 +110,7 @@ public class TestMapsPanel extends GamePanelBase {
         flatPlatform1.setAnimator(fpa2);
         flatPlatform1.setAnimator(fpa3);
         sky.setAnimator(fpa4);
-        pp.setAnimator(ppa);
+        //pp.setAnimator(ppa);
         
         //raisedPlatform.setCollider(raisedPlatform, CollisionPlane.LEFT);
         
@@ -123,7 +123,7 @@ public class TestMapsPanel extends GamePanelBase {
         this.layeredPane.add(fpa1, layeredPane.highestLayer());     
         this.layeredPane.add(ga1, layeredPane.highestLayer());
         //this.layeredPane.add(ga2, layeredPane.highestLayer());
-        this.layeredPane.add(ppa, layeredPane.highestLayer());
+        //this.layeredPane.add(ppa, layeredPane.highestLayer());
 
         StationaryGhostCollider sg = new StationaryGhostCollider();
         
