@@ -53,7 +53,7 @@ public class Test_HUD_Panel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-        GhostCollider gc = new GhostCollider();
+        GhostCollider gc = new GhostCollider(panelManager);
         collisionDetector.addCollisionListener(gc);
         
         archer = new ArcherMan(gameData, new Point(60, 60));

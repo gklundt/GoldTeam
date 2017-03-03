@@ -27,7 +27,7 @@ public class TestSoundsPanel extends GamePanelBase {
     
     private final CollisionDetector collisionDetector;
     private AudioClip bgClip;
-    private Thread bgThread;
+
     public TestSoundsPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
         collisionDetector = new CollisionDetector(this.gameData);
@@ -36,7 +36,7 @@ public class TestSoundsPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
         bgClip = Applet.newAudioClip(getClass().getClassLoader().getResource("assets/Sounds/background_music.wav"));
-        play(bgClip);
+        bgClip.play();
         Random x = new Random();
         Random y = new Random();
         for (int i = 1; i <= 6; ++i) {
@@ -60,23 +60,9 @@ public class TestSoundsPanel extends GamePanelBase {
                     break;
             }
             this.layeredPane.add(ga1, layeredPane.highestLayer());
-            GhostCollider gc = new GhostCollider();
+            GhostCollider gc = new GhostCollider(panelManager);
             collisionDetector.addCollisionListener(gc);
         }
-    }
-    
-    public void play(AudioClip clip){
-       try{
-            bgThread = new Thread(){
-                  @Override
-                  public void run(){
-                     clip.play();
-                  }
-            };
-            bgThread.start();
-       }catch(Throwable e){
-          e.printStackTrace();
-       }
     }
         
     protected CharacterAnimationBase createNewGhost(GameData gd, Point p, Integer speed, String image, int bigOrSmall) {
@@ -98,8 +84,8 @@ public class TestSoundsPanel extends GamePanelBase {
         
         switch (e.getKeyChar()) {
             case KeyEvent.VK_ESCAPE:
-                bgThread.interrupt();//does nothing!!!
-                panelThread.interrupt();//does nothing!!! fuck this motherfucking shit!!!!!!!!!!!!
+                bgClip.stop();
+                panelThread.interrupt();
                 undoGraphics();                
                 panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
                 return;
