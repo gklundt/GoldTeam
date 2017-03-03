@@ -44,4 +44,5 @@ public class PlatformCollider implements CollisionListener {
         // Otherwise ignore the event, another colider should be used
     }
 
+
 }

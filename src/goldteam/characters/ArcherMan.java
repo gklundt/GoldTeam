@@ -1,5 +1,6 @@
 package goldteam.characters;
 
+import goldteam.animators.ArcherAnimation;
 import goldteam.domain.*;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -16,6 +17,7 @@ import java.util.HashMap;
  * a Controllable Character.
  * @author gordon
  * @revised Rajiv
+ * @revised Caleb Dunham
  */
 public class ArcherMan extends GameObject implements 
         Attackable,     /* Shield and Health accessors */
@@ -28,14 +30,15 @@ public class ArcherMan extends GameObject implements
         Spawnable,      /* Respawn details */
         Depletable      /* Life Counter */
 {
-    private final Double initialVelocity;
+    private Double initialVelocity;
     private final ArrayList<ActionListener> attackableListeners;
-    private final Double initialHealth;
-    private final Double initialShield;
-    private final Point initialPoint;
+    private Double initialHealth;
+    private Double initialShield;
+    private Point initialPoint;
+    private int initialArrows;
     private boolean right, left, jump, canDoubleJump, mousePressed;
     private DoubleVector velocityVector;
-    private double velocity = 15d;
+    private double velocity;
     private int charge;
     private int arrows;
     private int health, shield;
@@ -50,24 +53,43 @@ public class ArcherMan extends GameObject implements
     public ArcherMan(GameEngine gameData, Point initialPoint)
     {
         super(gameData, initialPoint);
-        this.animationChangeListeners = new ArrayList<>();
-        this.animators = new HashMap<>();
         this.initialPoint = initialPoint;
+        this.animators = new HashMap<>();
+        this.rawVector = new DoubleVector(0d, 0d);
+        this.velocityVector = new DoubleVector();
+        this.attackableListeners = new ArrayList<>();
+        this.animationChangeListeners = new ArrayList<>();
+        this.canDoubleJump = true;
+        this.mousePressed = false;
+        
+        init();
+        
+        this.arrows = initialArrows; 
+        this.health = initialHealth.intValue();
+        this.shield = initialShield.intValue();
+        this.velocity = initialVelocity; 
+        this.positionVector = initialPoint;          
+        this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);          
+    }
+    
+    private void init(){       
         this.initialVelocity = 10d;
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
-        velocityVector = new DoubleVector();
-        canDoubleJump = true;
-        mousePressed = false;
-        this.positionVector = initialPoint;
-        this.velocity = this.initialVelocity;
-        this.rawVector = new DoubleVector(0d, 0d);
-        this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
-        health = initialHealth.intValue();
-        shield = initialShield.intValue();
-        arrows = 20;
-        
-        attackableListeners = new ArrayList<>();
+        this.initialArrows = 100;
+        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
+        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
+        CharacterAnimationBase archerWalkingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
+        CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", charge);
+        CharacterAnimationBase archerDrawingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", charge);
+        CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", charge);     
+        this.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
+        this.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
+        this.addAnimator(AnimationState.WALKING_RIGHT, archerWalkingRight);
+        this.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
+        this.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
+        this.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
+        this.setAnimator(archerDefaultRight);
     }
 
     @Override
@@ -293,7 +315,7 @@ public class ArcherMan extends GameObject implements
         else
             ;//velY += 3;  //Gravity
         
-        if(right && ! left)
+        if(right && !left)
             this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(1d, 0d), velocity);
         else if(left && !right)
             this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(-1d, 0d), velocity);

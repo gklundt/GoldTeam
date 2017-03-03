@@ -4,6 +4,7 @@ import goldteam.GamePanelManager;
 import goldteam.animators.ArcherAnimation;
 import goldteam.animators.ArrowHudAnimation;
 import goldteam.animators.BigGhostAnimation;
+import goldteam.animators.GhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
 import goldteam.animators.HeartHudAnimation;
@@ -18,9 +19,11 @@ import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
+import goldteam.domain.Collidable;
 import goldteam.domain.Delta;
 import goldteam.domain.DoubleVector;
 import goldteam.domain.ModType;
+import goldteam.domain.PanelManagerListener;
 import goldteam.domain.VectorMath;
 import goldteam.gamedata.GameData;
 import goldteam.hud.ArrowHudItem;
@@ -33,7 +36,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
-public class Test_HUD_Panel extends GamePanelBase {
+public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListener {
     private static final long serialVersionUID = 1L;
 
     private ArcherMan archer;
@@ -53,38 +56,27 @@ public class Test_HUD_Panel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-        GhostCollider gc = new GhostCollider(panelManager);
+        GhostCollider gc = new GhostCollider();
         collisionDetector.addCollisionListener(gc);
         
-        archer = new ArcherMan(gameData, new Point(60, 60));
-        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(archer, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
-        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(archer, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
-        CharacterAnimationBase archerWalkingRight = new ArcherAnimation(archer, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
-        CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(archer, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", charge);
-        CharacterAnimationBase archerDrawingRight = new ArcherAnimation(archer, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", charge);
-        CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(archer, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", charge);
-        archer.setAnimator(archerDefaultRight);
-        archer.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
-        archer.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
-        archer.addAnimator(AnimationState.WALKING_RIGHT, archerWalkingRight);
-        archer.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
-        archer.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
-        archer.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
+        archer = new ArcherMan(gameData, new Point(300, 300));
+        
         AnimationBase t = archer.getAnimator();
         this.layeredPane.add(t, layeredPane.highestLayer());
         archer.addAnimationChangeListener(l -> SwitchArcherListener(l));
         
         bigGhost = new Ghost[5];
-        BigGhostAnimation[] bigGhostAnimation = new BigGhostAnimation[5];
         for(int i = 0; i<5; i++) {
-            bigGhost[i] = new Ghost(gameData, new Point(100*i, 500));
-            bigGhost[i].setHealthDelta(Delta.create(-20.0, ModType.FIXED));
-            bigGhost[i].setShieldDelta(Delta.create(-20.0, ModType.FIXED));
-            bigGhostAnimation[i] = new BigGhostAnimation(bigGhost[i], gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
-            bigGhost[i].setAnimator(bigGhostAnimation[i]);
+            bigGhost[i] = new Ghost(gameData, new Point(100*i+100, 500));
+            CharacterAnimationBase defaultGhostAnimation = new BigGhostAnimation(bigGhost[i], this.gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
+            CharacterAnimationBase hurtGhostAnimation = new BigGhostAnimation(bigGhost[i], this.gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
+            bigGhost[i].addAnimator(AnimationState.DEFAULT, defaultGhostAnimation);
+            bigGhost[i].addAnimator(AnimationState.HURT, hurtGhostAnimation);
+            bigGhost[i].setAnimator(defaultGhostAnimation);
             bigGhost[i].setVelocityScalarDelta(Delta.create(0.0d, ModType.FIXED));
-            this.layeredPane.add(bigGhostAnimation[i], this.layeredPane.highestLayer());
+            bigGhost[i].addAnimationChangeListener(l -> SwitchGhostListener(l));
             collisionDetector.registerCollidable(bigGhost[i]);
+            this.layeredPane.add(bigGhost[i].getAnimator(), this.layeredPane.highestLayer());
         }
         
         hearts = new HeartHudItem(gameData, new Point(10, 10));
@@ -116,6 +108,7 @@ public class Test_HUD_Panel extends GamePanelBase {
     protected CharacterAnimationBase createNewArrow(GameData gd, Point p, DoubleVector speed, String image)
     {
         Arrow arrow = new Arrow(gd, (Point)(p.clone()), speed);
+        collisionDetector.registerCollidable(arrow);
         CharacterAnimationBase ga1;
         ga1 = new ArcherAnimation(arrow, gd.getVisibleDimensions(), image);
         arrow.setAnimator(ga1);
@@ -146,6 +139,8 @@ public class Test_HUD_Panel extends GamePanelBase {
                 break;
             case KeyEvent.VK_ESCAPE:
                 undoGraphics();
+                for(Ghost g : bigGhost)
+                    this.collisionDetector.removeCollidable(g);
                 panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
                 break;
             case KeyEvent.VK_1:
@@ -228,4 +223,17 @@ public class Test_HUD_Panel extends GamePanelBase {
         this.layeredPane.remove(obj.getRemoveAnimator());
         this.layeredPane.add(obj.getAnimator());
     }
+
+    @Override
+    public void panelManagerChanged() {
+        for(Collidable g : bigGhost)
+            collisionDetector.removeCollidable(g);
+    }
+
+    private void SwitchGhostListener(ActionEvent event) {
+        Animatable obj = (Animatable) event.getSource();
+        this.layeredPane.remove(obj.getRemoveAnimator());
+        this.layeredPane.add(obj.getAnimator());
+    }
+
 }
