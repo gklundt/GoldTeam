@@ -298,7 +298,10 @@ public class Ghost extends GameObject implements
 
     @Override
     public void notifyAnimationChangeListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener al : this.attackableListeners) {
+            al.actionPerformed(e);
+        }
     }
 
     @Override
@@ -314,5 +317,15 @@ public class Ghost extends GameObject implements
     @Override//TEMPORARY
     public void setArrowDelta(Delta delta) {
         this.arrows = delta.delta.intValue();
+    }
+
+    @Override
+    public int getLifeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setLifeValue(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

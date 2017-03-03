@@ -38,7 +38,7 @@ public class ArcherMan extends GameObject implements
     private double velocity = 15d;
     private int charge;
     private int arrows;
-    private Double health, shields;
+    private int health, shield;
     private static int lives = 3;
     //---Changed to public members to be accessed in implementing Panel------//
     public final DoubleVector rawVector;
@@ -63,8 +63,8 @@ public class ArcherMan extends GameObject implements
         this.velocity = this.initialVelocity;
         this.rawVector = new DoubleVector(0d, 0d);
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
-        health = initialHealth;
-        shields = initialShield;
+        health = initialHealth.intValue();
+        shield = initialShield.intValue();
         arrows = 20;
         
         attackableListeners = new ArrayList<>();
@@ -72,12 +72,12 @@ public class ArcherMan extends GameObject implements
 
     @Override
     public int getShieldValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return shield;
     }
 
     @Override
     public int getHealthValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return health;
     }
     
     @Override
@@ -87,12 +87,14 @@ public class ArcherMan extends GameObject implements
 
     @Override
     public void setShieldDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.shield += delta.delta;
+        this.notifyAttackableListeners();
     }
 
     @Override
     public void setHealthDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.health += delta.delta;
+        this.notifyAttackableListeners();
     }
     
     @Override
@@ -266,7 +268,7 @@ public class ArcherMan extends GameObject implements
 
     @Override
     public void addAttackableListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.attackableListeners.add(listener);
     }
 
     @Override
@@ -345,7 +347,8 @@ public class ArcherMan extends GameObject implements
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener al : this.animationChangeListeners) {
             al.actionPerformed(e);
-        }    }
+        } 
+    }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
@@ -387,6 +390,23 @@ public class ArcherMan extends GameObject implements
     public boolean canShootArrow()
     {
         return arrows > 0;
+    }
+
+    @Override
+    public int getLifeValue() {
+        return lives;
+    }
+
+    @Override
+    public void setLifeValue(Delta delta) {
+        lives = delta.delta.intValue();
+    }
+
+    private void notifyAttackableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener al : this.attackableListeners) {
+            al.actionPerformed(e);
+        }    
     }
     
 }
