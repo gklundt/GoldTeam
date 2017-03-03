@@ -62,7 +62,7 @@ public class TestMapsPanel extends GamePanelBase {
         g2 = new Ghost(gameData, new Point(1, 490));
         
         CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getMapDimensions(), "assets/GameGhostStripe.png");
-        CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getMapDimensions(), "assets/GameGhostStripeRed.png");
+        //CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getMapDimensions(), "assets/GameGhostStripeRed.png");
         
         sky = new SkyPlatform(gameData, new Point(0, 0),100,200);
         SkyAnimation fpa4 = new SkyAnimation(sky, gameData.getMapDimensions(), "assets/sky1.png");
@@ -72,13 +72,13 @@ public class TestMapsPanel extends GamePanelBase {
         FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getMapDimensions(), "assets/platformTile.jpg");
         fpa.setDimensions(new Dimension(300,150));
         
-        raisedPlatform = new FlatPlatform(gameData, new Point(255 , 350),100,300);
+        raisedPlatform = new FlatPlatform(gameData, new Point(400 , 350),100,300);
         FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getMapDimensions(), "assets/platformTile.jpg");
         rpa.setDimensions(new Dimension(100,150));
         
-        //pp = new PotionsPlatform(gameData, new Point(300, 30), 100, 300);
-        //PotionAnimation ppa = new PotionAnimation(pp, gameData.getMapDimensions(), "assets/LavaPotion.png");
-        //ppa.setDimensions(new Dimension(200,150));
+        pp = new PotionsPlatform(gameData, new Point(300, 30), 100, 300);
+        PotionAnimation ppa = new PotionAnimation(pp, gameData.getMapDimensions(), "assets/grass_block.png");
+        ppa.setDimensions(new Dimension(200,150));
         
         
         lavaPlatform = new LavaPlatform(gameData, new Point(412 + rpa.getDimensions().width, 500), 200, 150);
@@ -101,7 +101,7 @@ public class TestMapsPanel extends GamePanelBase {
         
         
         g1.setAnimator(ga1);
-        g2.setAnimator(ga2);
+     //   g2.setAnimator(ga2);
         
         flatPlatform.setAnimator(fpa);
         raisedPlatform.setAnimator(rpa);
@@ -110,7 +110,7 @@ public class TestMapsPanel extends GamePanelBase {
         flatPlatform1.setAnimator(fpa2);
         flatPlatform1.setAnimator(fpa3);
         sky.setAnimator(fpa4);
-        //pp.setAnimator(ppa);
+        pp.setAnimator(ppa);
         
         //raisedPlatform.setCollider(raisedPlatform, CollisionPlane.LEFT);
         
@@ -122,8 +122,8 @@ public class TestMapsPanel extends GamePanelBase {
         this.layeredPane.add(fpa2, layeredPane.highestLayer());   
         this.layeredPane.add(fpa1, layeredPane.highestLayer());     
         this.layeredPane.add(ga1, layeredPane.highestLayer());
-        this.layeredPane.add(ga2, layeredPane.highestLayer());
-        //this.layeredPane.add(ppa, layeredPane.highestLayer());
+        //this.layeredPane.add(ga2, layeredPane.highestLayer());
+        this.layeredPane.add(ppa, layeredPane.highestLayer());
 
         StationaryGhostCollider sg = new StationaryGhostCollider();
         
@@ -152,23 +152,23 @@ public class TestMapsPanel extends GamePanelBase {
         //collisionDetector2.registerCollidable(dp); // Door Collision 
 
         //MainCharacterGhost g2 = new MainCharacterGhost(gameData, new Point(60, 60));
-        //BigGhostAnimation bga2 = new BigGhostAnimation(g2, gameData.getMapDimensions(), "assets/GameGhostStripeRed.png");
+       // BigGhostAnimation bga2 = new BigGhostAnimation(g2, gameData.getMapDimensions(), "assets/GameGhostStripeRed.png");
         //BigGhostAnimation bga2 = new BigGhostAnimation(g2, gameData.getRunEdgeDimensions(), "assets/GameGhostStripeRed.png");
         //g2.setAnimator(bga2);
-       // this.layeredPane.add(bga2, 20);
+        //this.layeredPane.add(bga2, 20);
 
         this.gameData.setMovableCharacter(g2);
 
-        BackgroundPanelGhost g1 = new BackgroundPanelGhost(gameData, new Point(gameData.getMapDimensions().width, gameData.getMapDimensions().height));
-        GhostAnimation bga1 = new GhostAnimation(g1, gameData.getMapDimensions(), "assets/GameGhostStripe.png");
-        g1.setAnimator(bga1);
-        this.layeredPane.add(bga1, 15);
+        //BackgroundPanelGhost g1 = new BackgroundPanelGhost(gameData, new Point(gameData.getMapDimensions().width, gameData.getMapDimensions().height));
+       // GhostAnimation bga1 = new GhostAnimation(g1, gameData.getMapDimensions(), "assets/GameGhostStripe.png");
+       // g1.setAnimator(bga1);
+       // this.layeredPane.add(bga1, 15);
 
-   /*     tm = new TestMap(gameData, new Point(0, 0));
+       /* tm = new TestMap(gameData, new Point(0, 0));
         TestMapAnimator tma = new TestMapAnimator(tm, gameData.getMapDimensions());
         tm.setAnimator(tma);
         this.layeredPane.add(tma, 5);
-      */  
+       */
        //starting door
         dp = new DoorsPlatform(gameData, new Point(0, 438),10,10);
         MapDoorsAnimation mpa = new MapDoorsAnimation(dp, gameData.getMapDimensions(), "assets/S_door.png");
@@ -185,7 +185,7 @@ public class TestMapsPanel extends GamePanelBase {
         
     
         //this.layeredPane.add(bga2, layeredPane.highestLayer());
-        this.layeredPane.add(bga1, layeredPane.highestLayer());
+       // this.layeredPane.add(bga1, layeredPane.highestLayer());
         this.layeredPane.add(mpa, layeredPane.highestLayer());
         
     }

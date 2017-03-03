@@ -43,8 +43,11 @@ public class CollisionDetector implements CollisionRegister {
                         // This could go either way.
                         a.setCollider(b, CollisionPlane.TOP);
                         b.setCollider(a, CollisionPlane.BOTTOM);
+                     
+                       
+                       
                         this.notifyColliders(a, b);
-                    }
+                    } 
                 }
             }
         }
