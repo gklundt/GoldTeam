@@ -177,7 +177,7 @@ public class TestMapsPanel extends GamePanelBase {
         dp.setAnimator(mpa);
         
         //ending door 
-        dp1 = new DoorsPlatform(gameData, new Point(1280, 438),10,10);
+        dp1 = new DoorsPlatform(gameData, new Point(390, 438),10,10);
         MapDoorsAnimation mp1 = new MapDoorsAnimation(dp1, gameData.getMapDimensions(), "assets/S_door.png");
         mp1.setDimensions(new Dimension(50,50));
         this.layeredPane.add(mp1,layeredPane.highestLayer());
