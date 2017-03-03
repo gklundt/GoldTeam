@@ -9,6 +9,7 @@ import goldteam.Collectables.Arrows;
 import goldteam.Collectables.Health;
 import goldteam.Collectables.Shields;
 import goldteam.GamePanelManager;
+import goldteam.animators.ArrowHudAnimation;
 import goldteam.animators.CollectableArrowAnimation;
 import goldteam.animators.CollectableHealthAnimation;
 import goldteam.animators.CollectableShieldAnimation;
@@ -37,6 +38,7 @@ import goldteam.colliders.PlatformCollider;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
+import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
 import java.awt.Dimension;
 
@@ -56,6 +58,7 @@ public class TestCollidersPanel extends GamePanelBase {
     private Shields shield;
     private HeartHudItem hearts;
     private ShieldHudItem shields;
+    private ArrowHudItem hudArrow;
     //private ArrayList<Platform> platfrom;
 
     //private Component gp;
@@ -110,6 +113,11 @@ public class TestCollidersPanel extends GamePanelBase {
         ShieldHudAnimation sha = new ShieldHudAnimation(shields, gameData.getVisibleDimensions(), "assets/shield.png");
         shields.setAnimator(sha);
         
+        hudArrow = new ArrowHudItem(gameData, new Point(10, 60));
+        hudArrow.setWatcher(g1);
+        ArrowHudAnimation aha = new ArrowHudAnimation(hudArrow, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
+        hudArrow.setAnimator(aha);
+        
         g1.setAnimator(ga1);
         g2.setAnimator(ga2);
         
@@ -139,6 +147,7 @@ public class TestCollidersPanel extends GamePanelBase {
         
         this.layeredPane.add(hha, this.layeredPane.highestLayer());
         this.layeredPane.add(sha, this.layeredPane.highestLayer());  
+        this.layeredPane.add(aha, this.layeredPane.highestLayer());  
 
         StationaryGhostCollider sg = new StationaryGhostCollider();
         
@@ -180,6 +189,7 @@ public class TestCollidersPanel extends GamePanelBase {
         
         g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
         g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
+        g1.setArrowDelta(Delta.create(-1.0, ModType.FIXED));
         
         System.out.println(g1.getHealthValue());
     }

@@ -31,9 +31,11 @@ public class CollectablesCollider implements CollisionListener {
         CollectableItem item = (CollectableItem) collectableItem;
         
         if(item instanceof Arrows){
-            //g1.setArrowDelta(Delta.create(5.0, ModType.FIXED));
+            if(g1.getArrowCount() < 20){
+                g1.setArrowDelta(Delta.create(1.0, ModType.FIXED));
                 item.setState(false);
                 item.undoCollider();
+            }
         } else if(item instanceof Shields){
             if(g1.getShieldValue() < 10){
                 g1.setShieldDelta(Delta.create(1.0, ModType.FIXED));

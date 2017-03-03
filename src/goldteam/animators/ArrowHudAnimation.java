@@ -34,12 +34,12 @@ public class ArrowHudAnimation extends HudAnimationBase {
         super(gameObject, preferredSize, assetFile);
         this.gameObj = (AttackableWatcher) gameObject;
         // Setup animation
-        super.loadImage(imgFilename, this.gameObj.getWatcher().getArrowCount(), new AffineTransform(1, 0, 0, 1, 0, 0), new Integer(0));
+        super.loadImage(imgFilename, this.gameObj.getWatcher().getArrowCount(), new AffineTransform(1, 0, 0, 1, 0, 0));
     }
 
     @Override
     protected void update() {
-        this.count = this.gameObj.getWatcher().getHealthValue();
+        this.count = this.gameObj.getWatcher().getArrowCount();
     }
 
 }
