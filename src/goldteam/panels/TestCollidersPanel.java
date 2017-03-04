@@ -5,7 +5,14 @@
  */
 package goldteam.panels;
 
+import goldteam.Collectables.Arrows;
+import goldteam.Collectables.Health;
+import goldteam.Collectables.Shields;
 import goldteam.GamePanelManager;
+import goldteam.animators.ArrowHudAnimation;
+import goldteam.animators.CollectableArrowAnimation;
+import goldteam.animators.CollectableHealthAnimation;
+import goldteam.animators.CollectableShieldAnimation;
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
 import goldteam.characters.StationaryGhost;
@@ -22,12 +29,20 @@ import java.util.ArrayList;
 import goldteam.platforms.FlatPlatform;
 import goldteam.platforms.LavaPlatform;
 import goldteam.animators.FlatPlatformAnimation;
+import goldteam.animators.HeartHudAnimation;
 import goldteam.animators.LavaPlatformAnimation;
+import goldteam.animators.ShieldHudAnimation;
+import goldteam.colliders.CollectablesCollider;
 import goldteam.domain.Platform;
 import java.awt.Dimension;
 import goldteam.colliders.PlatformCollider;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionPlane;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
+import goldteam.hud.ArrowHudItem;
+import goldteam.hud.HeartHudItem;
+import goldteam.hud.ShieldHudItem;
 import java.util.Iterator;
 
 /**
@@ -41,10 +56,17 @@ public class TestCollidersPanel extends GamePanelBase {
     private ArrayList<GameObject> objects;
     private CollisionDetector collisionDetector;
     private CollisionDetector collisionDetector2;
+    private CollisionDetector collisionDetector3;
     private PlatformCollider pc;
     private FlatPlatform flatPlatform, raisedPlatform, flatPlatform1;
     private LavaPlatform lavaPlatform;
     private ArrayList<Platform> platforms;
+    private Arrows arrow;
+    private Health health;
+    private Shields shield;
+    private HeartHudItem hearts;
+    private ShieldHudItem shields;
+    private ArrowHudItem hudArrow;
 
     //private Component gp;
     public TestCollidersPanel(PanelManager panelManager) {
@@ -87,6 +109,30 @@ public class TestCollidersPanel extends GamePanelBase {
         fpa1.setDimensions(new Dimension(200,150));
         platforms.add(flatPlatform1);
         
+        arrow = new Arrows(gameData, new Point(20, 388));
+        CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
+        
+        health = new Health(gameData, new Point(80, 390));
+        CollectableHealthAnimation ha = new CollectableHealthAnimation(health, gameData.getVisibleDimensions(), "assets/heart.png");
+        
+        shield = new Shields(gameData, new Point(130, 390));
+        CollectableShieldAnimation sa = new CollectableShieldAnimation(shield, gameData.getVisibleDimensions(), "assets/shield.png");
+        
+        hearts = new HeartHudItem(gameData, new Point(10, 10));
+        hearts.setWatcher(g1);
+        HeartHudAnimation hha = new HeartHudAnimation(hearts, gameData.getVisibleDimensions(), "assets/heart.png");
+        hearts.setAnimator(hha);
+
+        shields = new ShieldHudItem(gameData, new Point(10, 30));
+        shields.setWatcher(g1);
+        ShieldHudAnimation sha = new ShieldHudAnimation(shields, gameData.getVisibleDimensions(), "assets/shield.png");
+        shields.setAnimator(sha);
+        
+        /*hudArrow = new ArrowHudItem(gameData, new Point(10, 60));
+        hudArrow.setWatcher(g1);
+        ArrowHudAnimation aha = new ArrowHudAnimation(hudArrow, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
+        hudArrow.setAnimator(aha);*/
+        
         g1.setAnimator(ga1);
         g2.setAnimator(ga2);
         
@@ -103,6 +149,14 @@ public class TestCollidersPanel extends GamePanelBase {
         this.layeredPane.add(fpa1, layeredPane.highestLayer());
         this.layeredPane.add(ga1, layeredPane.highestLayer());
         this.layeredPane.add(ga2, layeredPane.highestLayer());
+        
+        this.layeredPane.add(aa, layeredPane.highestLayer());
+        this.layeredPane.add(ha, layeredPane.highestLayer());
+        this.layeredPane.add(sa, layeredPane.highestLayer());
+        
+        this.layeredPane.add(hha, this.layeredPane.highestLayer());
+        this.layeredPane.add(sha, this.layeredPane.highestLayer());  
+        //this.layeredPane.add(aha, this.layeredPane.highestLayer());
 
         StationaryGhostCollider sg = new StationaryGhostCollider();  
         collisionDetector.addCollisionListener(sg);  
@@ -119,6 +173,25 @@ public class TestCollidersPanel extends GamePanelBase {
         for (Platform p : platforms) {
             collisionDetector2.registerCollidable((Collidable) p);
         }
+        
+        //---------------------------------------------//
+        //-------------------------------------//
+        CollectablesCollider cd = new CollectablesCollider();
+        
+        
+        
+        collisionDetector3 = new CollisionDetector(this.gameData);
+        
+        collisionDetector3.addCollisionListener(cd);
+        
+        collisionDetector3.registerCollidable(g1);
+        collisionDetector3.registerCollidable(arrow);
+        collisionDetector3.registerCollidable(health);
+        collisionDetector3.registerCollidable(shield);
+        
+        g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
+        g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
+        g1.setArrowDelta(Delta.create(-1.0, ModType.FIXED));
 
     }
 
@@ -136,6 +209,8 @@ public class TestCollidersPanel extends GamePanelBase {
                 collisionDetector.removeCollidable((Collidable) go);
             for (Platform p : platforms)
                 collisionDetector2.removeCollidable((Collidable) p);
+            for (GameObject p : objects)
+                collisionDetector3.removeCollidable((Collidable) p);
             panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
             return;
         }

@@ -57,6 +57,7 @@ public class StationaryGhost extends GameObject implements
 
     private Double health;
     private Double shield;
+    private int arrows;
     private DoubleVector velocityVector;
     private Double velocity;
     private final DoubleVector rawVector;
@@ -82,6 +83,7 @@ public class StationaryGhost extends GameObject implements
 
         health = initialHealth;
         shield = initialShield;
+        this.arrows = 10;
 
         attackableListeners = new ArrayList<>();
         collidableListeners = new ArrayList<>();
@@ -342,12 +344,12 @@ public class StationaryGhost extends GameObject implements
 
     @Override
     public int getArrowCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return arrows;
     }
 
     @Override
     public void setArrowDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.arrows += delta.delta.intValue();
     }
 
     @Override
