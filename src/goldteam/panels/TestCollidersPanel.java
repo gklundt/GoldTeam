@@ -37,6 +37,8 @@ import goldteam.hud.ShieldHudItem;
 import goldteam.colliders.PlatformCollider;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionPlane;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
 import goldteam.domain.Platform;
 import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
@@ -52,10 +54,7 @@ public class TestCollidersPanel extends GamePanelBase {
     private StationaryGhost g1;
     private Ghost g2;
     private ArrayList<GameObject> objects;
-    private CollisionDetector collisionDetector;
-    private CollisionDetector collisionDetector2;
-    private PlatformCollider pc;
-    private FlatPlatform flatPlatform, raisedPlatform, flatPlatform1;
+    private FlatPlatform flatPlatform,raisedPlatform, flatPlatform1;
     private LavaPlatform lavaPlatform;
     private ArrayList<Platform> platforms;
     private Arrows arrow;
@@ -64,6 +63,9 @@ public class TestCollidersPanel extends GamePanelBase {
     private HeartHudItem hearts;
     private ShieldHudItem shields;
     private ArrowHudItem hudArrow;
+    private final CollisionDetector collisionDetector;
+    private final CollisionDetector collisionDetector2;
+    private final PlatformCollider pc;
 
     //private Component gp;
     public TestCollidersPanel(PanelManager panelManager) {
@@ -77,6 +79,8 @@ public class TestCollidersPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
+        
+        objects = new ArrayList<>();
         
         g1 = new StationaryGhost(gameData, new Point(200, 400));
         g2 = new Ghost(gameData, new Point(200, 400));
@@ -160,21 +164,50 @@ public class TestCollidersPanel extends GamePanelBase {
         this.layeredPane.add(aha, this.layeredPane.highestLayer());  
 
         StationaryGhostCollider sg = new StationaryGhostCollider();  
+        
+        CollisionDetector collisionDetector;
+        collisionDetector = new CollisionDetector(this.gameData);
+        
         collisionDetector.addCollisionListener(sg);  
+        
         collisionDetector.registerCollidable(g1);
         collisionDetector.registerCollidable(g2);
         
         //-----------------------------------//
         
+        PlatformCollider pc = new PlatformCollider();
+        CollisionDetector collisionDetector2;
+        collisionDetector2 = new CollisionDetector(this.gameData);
+        collisionDetector2.addCollisionListener(pc);
         
         
         collisionDetector2.addCollisionListener(pc);
         collisionDetector2.registerCollidable(g1);
         collisionDetector2.registerCollidable(g2);
-        for (Platform p : platforms) {
-            collisionDetector2.registerCollidable((Collidable) p);
-        }
+        collisionDetector2.registerCollidable(flatPlatform);
+        collisionDetector2.registerCollidable(raisedPlatform);
+        collisionDetector2.registerCollidable(lavaPlatform);
+        collisionDetector2.registerCollidable(flatPlatform1);
 
+        //-------------------------------------//
+        CollectablesCollider cd = new CollectablesCollider();
+        
+        CollisionDetector collisionDetector3;
+        
+        collisionDetector3 = new CollisionDetector(this.gameData);
+        
+        collisionDetector3.addCollisionListener(cd);
+        
+        collisionDetector3.registerCollidable(g1);
+        collisionDetector3.registerCollidable(arrow);
+        collisionDetector3.registerCollidable(health);
+        collisionDetector3.registerCollidable(shield);
+        
+        g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
+        g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
+        g1.setArrowDelta(Delta.create(-1.0, ModType.FIXED));
+        
+        System.out.println(g1.getHealthValue());
     }
 
     @Override

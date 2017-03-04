@@ -342,12 +342,12 @@ public class StationaryGhost extends GameObject implements
 
     @Override
     public int getArrowCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return arrows;
     }
 
     @Override
     public void setArrowDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.arrows += delta.delta.intValue();
     }
 
     @Override
