@@ -95,10 +95,10 @@ public abstract class GameStageAnimationBase extends AnimationBase {
             g2d.setComposite(AlphaComposite.SrcOver.derive(1.0f));
             g2d.drawImage(this.img, af, null);
         } else {
-            g2d.setComposite(AlphaComposite.SrcOver.derive(alpha));
-            g2d.fill(new Rectangle(this.imgWidth, this.imgHeight));
+//            g2d.setComposite(AlphaComposite.SrcOver.derive(alpha));
+//            g2d.fill(new Rectangle(this.imgWidth, this.imgHeight));
 
-            g2d.setComposite(AlphaComposite.SrcOver.derive(1f - alpha));
+//            g2d.setComposite(AlphaComposite.SrcOver.derive(1f - alpha));
             g2d.drawImage(this.img, af, null);
         }
 

@@ -81,6 +81,8 @@ public class TestCollidersPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
         
+        objects = new ArrayList<>();
+        
         g1 = new StationaryGhost(gameData, new Point(200, 400));
         g2 = new Ghost(gameData, new Point(200, 400));
         objects.add(g1);
@@ -163,12 +165,21 @@ public class TestCollidersPanel extends GamePanelBase {
         //this.layeredPane.add(aha, this.layeredPane.highestLayer());
 
         StationaryGhostCollider sg = new StationaryGhostCollider();  
+        
+        CollisionDetector collisionDetector;
+        collisionDetector = new CollisionDetector(this.gameData);
+        
         collisionDetector.addCollisionListener(sg);  
+        
         collisionDetector.registerCollidable(g1);
         collisionDetector.registerCollidable(g2);
         
         //-----------------------------------//
         
+        PlatformCollider pc = new PlatformCollider();
+        CollisionDetector collisionDetector2;
+        collisionDetector2 = new CollisionDetector(this.gameData);
+        collisionDetector2.addCollisionListener(pc);
         
         
         collisionDetector2.addCollisionListener(pc);
@@ -196,7 +207,6 @@ public class TestCollidersPanel extends GamePanelBase {
         g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
         g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
         g1.setArrowDelta(Delta.create(-1.0, ModType.FIXED));
-
     }
 
     @Override
