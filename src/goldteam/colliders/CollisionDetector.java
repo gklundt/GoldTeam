@@ -29,7 +29,7 @@ public class CollisionDetector implements CollisionRegister {
         this.gameEngine = new GameData();
         this.gameEngine.addCollisionTimer((l) -> this.CheckCollisions());
     }
-
+    
     private synchronized void CheckCollisions() {
 
         // do logic to find colliding objects 

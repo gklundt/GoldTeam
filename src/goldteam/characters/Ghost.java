@@ -1,5 +1,6 @@
 package goldteam.characters;
 
+import goldteam.animators.BigGhostAnimation;
 import goldteam.domain.*;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -40,8 +41,12 @@ public class Ghost extends GameObject implements
     private DoubleVector rawVector;
 
     private AnimationBase animator;
+    private final HashMap<AnimationState, AnimationBase> animators;
+    private final ArrayList<ActionListener> animationChangeListeners;
+    private AnimationBase removeAnimator;
     private final Polygon collider;
     private final HashMap<Collidable, CollisionPlane> currentColliders;
+    private Iterable<ActionListener> animationListeners;
 
     public Ghost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
@@ -49,9 +54,9 @@ public class Ghost extends GameObject implements
         this.random = new Random();
 
         this.initialPoint = initialPoint;
-        this.initialVelocity = 20;
-        this.initialHealth = 20.0d;
-        this.initialShield = 20.0d;
+        this.initialVelocity = 10;
+        this.initialHealth = 3.0d;
+        this.initialShield = 0.0d;
 
         this.positionVector = this.initialPoint;
         this.velocity = this.initialVelocity;
@@ -73,6 +78,10 @@ public class Ghost extends GameObject implements
             this.positionVector.y + 12,
             this.positionVector.y + 12
         };
+        
+        this.animators = new HashMap<>();
+        this.animationChangeListeners = new ArrayList<>();
+        
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
     }
@@ -209,7 +218,13 @@ public class Ghost extends GameObject implements
     }
 
     @Override
+    public AnimationBase getRemoveAnimator() {
+        return this.removeAnimator;
+    }
+    
+    @Override
     public void setAnimator(AnimationBase animator) {
+        this.animators.put(AnimationState.DEFAULT, animator);
         this.animator = animator;
     }
 
@@ -288,22 +303,23 @@ public class Ghost extends GameObject implements
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationChangeListeners.add(listener);
     }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animators.put(state, animator);
     }
 
     @Override
     public void notifyAnimationChangeListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ActionEvent e = new ActionEvent(this, 0, "");
+//        for (ActionListener al : this.animationListeners) {
+//            al.actionPerformed(e);
+//        }
+        for (ActionListener al : this.animationChangeListeners) {
+            al.actionPerformed(e);
+        }
     }
 
     @Override//TEMPORARY
@@ -314,5 +330,23 @@ public class Ghost extends GameObject implements
     @Override//TEMPORARY
     public void setArrowDelta(Delta delta) {
         this.arrows = delta.delta.intValue();
+    }
+
+    @Override
+    public int getLifeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setLifeValue(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setNewAnimator(AnimationState as) {
+        this.animator = this.animators.get(as);
+    }
+
+    public void setRemoveAnimator(AnimationBase animator) {
+        this.removeAnimator = animator;
     }
 }

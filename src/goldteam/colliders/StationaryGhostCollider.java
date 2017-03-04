@@ -19,4 +19,5 @@ public class StationaryGhostCollider implements CollisionListener{
     public void CollisionDetected(Collidable a, Collidable b) {
         //System.out.println("Handle the collision if you can!");
     }
+
 }

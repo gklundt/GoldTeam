@@ -18,4 +18,8 @@ public interface Attackable {
     
     public void setArrowDelta(Delta delta);
 
+    public int getLifeValue();
+    
+    public void setLifeValue(Delta delta);
+
 }
