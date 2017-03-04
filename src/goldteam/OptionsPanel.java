@@ -5,47 +5,52 @@ import goldteam.domain.ManagedPanelBase;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 public final class OptionsPanel extends ManagedPanelBase {
 
     private BufferedImage img;
-    
+
     public OptionsPanel(PanelManager panelManager) {
         super(panelManager);
         setSize(new Dimension(800, 600));
         LayoutManager mgr = new BoxLayout(this, BoxLayout.PAGE_AXIS);
         super.setLayout(mgr);
 
-        JButton[] ret = TestButtons(); //
+        ArrayList<JButton> ret = TestButtons(); //
         for (JButton ret1 : ret) {
             super.add(ret1);
         }
     }
 
-    public JButton[] TestButtons() {
+    public ArrayList<JButton> TestButtons() {
 
-        JButton[] ret = new JButton[9];
-        ret[0] = new JButton("Open TestGraphicsPanel");
-        ret[1] = new JButton("Open Test_HUD_Panel");
-        ret[2] = new JButton("Open Test Game Engine Panel");
-        ret[3] = new JButton("Open TestColldiersPanel");
-        ret[4] = new JButton("Open TestPanelTemplate");
-        ret[5] = new JButton("Open TestCharacterPanel");
-        ret[6] = new JButton("Open Switch Animation Test Panel");
-        ret[7] = new JButton("Open Test Sounds Panel");
-        ret[8] = new JButton("Open Test Maps Panel");
+        ArrayList<JButton> ret = new ArrayList<>();
+        ret.add(new JButton("Open TestGraphicsPanel"));
+        ret.add(new JButton("Open Test_HUD_Panel"));
+        ret.add(new JButton("Open Test Game Engine Panel"));
+        ret.add(new JButton("Open TestColldiersPanel"));
+        ret.add(new JButton("Open TestPanelTemplate"));
+        ret.add(new JButton("Open TestCharacterPanel"));
+        ret.add(new JButton("Open Switch Animation Test Panel"));
+        ret.add(new JButton("Open Test Sounds Panel"));
+        ret.add(new JButton("Open Test Maps Panel"));
+        ret.add(new JButton("Open Game Over Stage Test Panel"));
+        ret.add(new JButton("Open Death Stage Test Panel"));
 
-        ret[0].addActionListener(l -> stupidAction(ret[0].getText()));
-        ret[1].addActionListener(l -> stupidAction(ret[1].getText()));
-        ret[2].addActionListener(l -> stupidAction(ret[2].getText()));
-        ret[3].addActionListener(l -> stupidAction(ret[3].getText()));
-        ret[4].addActionListener(l -> stupidAction(ret[4].getText()));
-        ret[5].addActionListener(l -> stupidAction(ret[5].getText()));
-        ret[6].addActionListener(l -> stupidAction(ret[6].getText()));
-        ret[7].addActionListener(l -> stupidAction(ret[7].getText()));
-        ret[8].addActionListener(l -> stupidAction(ret[8].getText()));
+        ret.get(0).addActionListener(l -> stupidAction(ret.get(0).getText()));
+        ret.get(1).addActionListener(l -> stupidAction(ret.get(1).getText()));
+        ret.get(2).addActionListener(l -> stupidAction(ret.get(2).getText()));
+        ret.get(3).addActionListener(l -> stupidAction(ret.get(3).getText()));
+        ret.get(4).addActionListener(l -> stupidAction(ret.get(4).getText()));
+        ret.get(5).addActionListener(l -> stupidAction(ret.get(5).getText()));
+        ret.get(6).addActionListener(l -> stupidAction(ret.get(6).getText()));
+        ret.get(7).addActionListener(l -> stupidAction(ret.get(7).getText()));
+        ret.get(9).addActionListener(l -> stupidAction(ret.get(9).getText()));
+        ret.get(8).addActionListener(l -> stupidAction(ret.get(8).getText()));
+        ret.get(10).addActionListener(l -> stupidAction(ret.get(10).getText()));
 
         return ret;
     }
@@ -77,6 +82,12 @@ public final class OptionsPanel extends ManagedPanelBase {
         }
         if ("Open Test Maps Panel".equals(caption)) {
             panelManager.setActivePanel(GamePanelManager.TEST_MAPS_PANEL);
+        }
+        if ("Open Game Over Stage Test Panel".equals(caption)) {
+            panelManager.setActivePanel(GamePanelManager.TEST_GAME_OVER_STAGE_PANEL);
+        }
+        if ("Open Death Stage Test Panel".equals(caption)) {
+            panelManager.setActivePanel(GamePanelManager.TEST_DEATH_STAGE_PANEL);
         }
     }
 }

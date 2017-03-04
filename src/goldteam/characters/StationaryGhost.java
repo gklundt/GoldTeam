@@ -5,7 +5,6 @@
  */
 package goldteam.characters;
 
-import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
@@ -21,7 +20,6 @@ import goldteam.domain.GameObject;
 import goldteam.domain.Movable;
 import goldteam.domain.VectorMath;
 import goldteam.domain.Weapon;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -50,6 +48,7 @@ public class StationaryGhost extends GameObject implements
     
     private final Double initialVelocity;
     private final ArrayList<ActionListener> attackableListeners;
+    private final ArrayList<ActionListener> depletableListeners;
     private final ArrayList<ActionListener> collidableListeners;
     private final Double initialHealth;
     private final Double initialShield;
@@ -57,6 +56,7 @@ public class StationaryGhost extends GameObject implements
 
     private Double health;
     private Double shield;
+    private int arrows;
     private DoubleVector velocityVector;
     private Double velocity;
     private final DoubleVector rawVector;
@@ -64,6 +64,7 @@ public class StationaryGhost extends GameObject implements
     private AnimationBase animator;
     private Polygon collider;
     private final HashMap<Collidable, CollisionPlane> colliders;
+    private Integer depletableCount;
     
     public StationaryGhost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
@@ -79,11 +80,14 @@ public class StationaryGhost extends GameObject implements
         this.velocity = this.initialVelocity;
         this.rawVector = new DoubleVector(0d, 0d);
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity.doubleValue());
+        this.depletableCount = 1;
 
         health = initialHealth;
         shield = initialShield;
+        this.arrows = 10;
 
         attackableListeners = new ArrayList<>();
+        depletableListeners = new ArrayList<>();
         collidableListeners = new ArrayList<>();
         
         int [] xPoly = {this.positionVector.x - 10, 
@@ -268,28 +272,15 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public Integer getCount() {
-        return this.getHealthValue();
-    }
-
-    @Override
-    public void setCountDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addDepletableListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void notifyAttackableListeners() {
+    public void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(e);
         }
     }
     
-    private void notifyCollidableListeners() {
+    @Override
+    public void notifyCollidableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener cl : this.collidableListeners) {
             cl.actionPerformed(e);
@@ -338,6 +329,51 @@ public class StationaryGhost extends GameObject implements
     @Override
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getArrowCount() {
+        return arrows;
+    }
+
+    @Override
+    public void setArrowDelta(Delta delta) {
+        this.arrows += delta.delta.intValue();
+    }
+
+    @Override
+    public int getLifeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setLifeValue(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    @Override
+    public Integer getCount() {
+        return this.depletableCount;
+    }
+
+    @Override
+    public void setCountDelta(Delta delta) {
+        this.depletableCount += delta.delta.intValue();
+        this.notifyDepletableListeners();
+    }
+
+    @Override
+    public void addDepletableListener(ActionListener listener) {
+        this.depletableListeners.add(listener);
+    }
+
+    @Override
+    public void notifyDepletableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener dl : this.depletableListeners) {
+            dl.actionPerformed(e);
+        }
     }
 
 }

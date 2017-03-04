@@ -39,7 +39,8 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         this.animatableGameObject = (Animatable) gameObject;
         this.animatableGameObject.addAnimationTimerListener(this);
         this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0, 0);
-
+        
+           
     }
 
     protected void loadImage(String imgFileName, int numRows, int numCols, AffineTransform imageTransform) {
@@ -99,8 +100,6 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         int dy = gameObject.PositionVector().y - imgHeight / 2;
         this.af.setTransform(1.0, 0, 0, 1.0, dx, dy);
         g2d.drawImage(imgArray[currentFrame], af, null);
-        //g2d.drawPolygon(this.gameObject.shape);
-
     }
 
     @Override

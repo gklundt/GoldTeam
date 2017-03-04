@@ -29,7 +29,7 @@ public class CollisionDetector implements CollisionRegister {
         this.gameEngine = new GameData();
         this.gameEngine.addCollisionTimer((l) -> this.CheckCollisions());
     }
-
+    
     private synchronized void CheckCollisions() {
 
         // do logic to find colliding objects 
@@ -43,15 +43,18 @@ public class CollisionDetector implements CollisionRegister {
                         // This could go either way.
                         a.setCollider(b, CollisionPlane.TOP);
                         b.setCollider(a, CollisionPlane.BOTTOM);
+                     
+                       
+                       
                         this.notifyColliders(a, b);
-                    }
+                    } 
                 }
             }
         }
     }
 
     private synchronized void notifyColliders(Collidable a, Collidable b) {
-        System.out.println(String.format("%1$s collided with %2$s", a.getClass().getName(), b.getClass().getName()));
+        //System.out.println(String.format("%1$s collided with %2$s", a.getClass().getName(), b.getClass().getName()));
         collisionListeners.forEach((listener) -> {
             listener.CollisionDetected(a, b);
         });

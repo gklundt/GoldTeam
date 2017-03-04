@@ -3,14 +3,9 @@ package goldteam.maps;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
-import goldteam.domain.Delta;
-import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
-import goldteam.domain.Movable;
-import goldteam.domain.VectorMath;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 
 public class TestMap extends GameObject implements Animatable {

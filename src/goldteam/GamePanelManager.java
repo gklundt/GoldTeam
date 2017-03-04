@@ -1,6 +1,5 @@
 package goldteam;
 
-import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.domain.PanelManagerListener;
 import java.lang.reflect.Constructor;
@@ -24,6 +23,8 @@ public class GamePanelManager implements PanelManager {
     public static final String TEST_ANIM_SWITCH_PANEL = "TEST_ANIM_SWITCH_PANEL";
     public static final String TEST_SOUNDS_PANEL = "TEST_SOUNDS_PANEL";
     public static final String TEST_MAPS_PANEL = "TEST_MAPS_PANEL";
+    public static final String TEST_GAME_OVER_STAGE_PANEL = "TEST_GAME_OVER_STAGE_PANEL";
+    public static final String TEST_DEATH_STAGE_PANEL = "TEST_DEATH_STAGE_PANEL";
 
     /* Do not edit below */
     private final ArrayList<PanelManagerListener> listeners;
