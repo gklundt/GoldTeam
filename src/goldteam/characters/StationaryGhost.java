@@ -5,7 +5,6 @@
  */
 package goldteam.characters;
 
-import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
@@ -21,7 +20,6 @@ import goldteam.domain.GameObject;
 import goldteam.domain.Movable;
 import goldteam.domain.VectorMath;
 import goldteam.domain.Weapon;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -57,6 +55,7 @@ public class StationaryGhost extends GameObject implements
 
     private Double health;
     private Double shield;
+    private int arrows;
     private DoubleVector velocityVector;
     private Double velocity;
     private final DoubleVector rawVector;
@@ -82,6 +81,7 @@ public class StationaryGhost extends GameObject implements
 
         health = initialHealth;
         shield = initialShield;
+        this.arrows = 10;
 
         attackableListeners = new ArrayList<>();
         collidableListeners = new ArrayList<>();
@@ -338,6 +338,16 @@ public class StationaryGhost extends GameObject implements
     @Override
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getArrowCount() {
+        return arrows;
+    }
+
+    @Override
+    public void setArrowDelta(Delta delta) {
+        this.arrows += delta.delta.intValue();
     }
 
 }

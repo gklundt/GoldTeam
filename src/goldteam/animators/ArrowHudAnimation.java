@@ -11,12 +11,13 @@ import goldteam.domain.GameObject;
 import goldteam.domain.HudAnimationBase;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Caleb Dunham
  */
-public class HeartHudAnimation extends HudAnimationBase {
+public class ArrowHudAnimation extends HudAnimationBase {
 
     /**
      * Constructor to set up the GUI components
@@ -29,16 +30,16 @@ public class HeartHudAnimation extends HudAnimationBase {
 
     private AttackableWatcher gameObj;
 
-    public HeartHudAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
+    public ArrowHudAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         this.gameObj = (AttackableWatcher) gameObject;
         // Setup animation
-        super.loadImage(imgFilename, this.gameObj.getWatcher().getHealthValue(), new AffineTransform(.25, 0, 0, .25, 0, 0));
+        super.loadImage(imgFilename, this.gameObj.getWatcher().getArrowCount(), new AffineTransform(1, 0, 0, 1, 0, 0));
     }
 
     @Override
     protected void update() {
-        this.count = this.gameObj.getWatcher().getHealthValue();
+        this.count = this.gameObj.getWatcher().getArrowCount();
     }
 
 }
