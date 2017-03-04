@@ -1,20 +1,15 @@
 package goldteam.panels;
 
 import goldteam.animators.ArcherAnimation;
-import goldteam.animators.BigGhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
-import goldteam.animators.GhostAnimation;
 import goldteam.characters.ArcherMan;
 import goldteam.characters.Arrow;
-import goldteam.characters.Ghost;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
-import goldteam.domain.Delta;
 import goldteam.domain.DoubleVector;
-import goldteam.domain.ModType;
 import goldteam.domain.VectorMath;
 import goldteam.gamedata.GameData;
 import java.awt.Point;

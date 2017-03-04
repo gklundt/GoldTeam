@@ -104,6 +104,8 @@ public abstract class GameStageAnimationBase extends AnimationBase {
 
     }
 
+    public abstract void resetAnimation();
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         update(); // update the image

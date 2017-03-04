@@ -174,5 +174,10 @@ public class LavaPlatform extends GameObject implements Platform, Animatable, Co
     public HashMap<Collidable, CollisionPlane> getColliders() {
         return this.colliders;
     }
+
+    @Override
+    public void notifyCollidableListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -5,13 +5,10 @@
  */
 package goldteam.animators;
 
-import goldteam.domain.Attackable;
 import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameObject;
 import goldteam.domain.HudAnimationBase;
 import java.awt.Dimension;
-import java.awt.geom.AffineTransform;
-import javax.swing.JLabel;
 
 /**
  *

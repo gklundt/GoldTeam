@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package goldteam.Collectables;
+package goldteam.collectables;
 
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
@@ -148,5 +148,10 @@ public class Arrows extends GameObject implements Animatable, Collidable, Collec
     @Override
     public void undoCollider(){
         this.collider = new Polygon();
+    }
+
+    @Override
+    public void notifyCollidableListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

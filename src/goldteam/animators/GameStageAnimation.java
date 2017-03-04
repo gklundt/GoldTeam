@@ -5,7 +5,6 @@
  */
 package goldteam.animators;
 
-import goldteam.domain.Depletable;
 import goldteam.domain.DepletableWatcher;
 import goldteam.domain.GameObject;
 import goldteam.domain.GameStageAnimationBase;
@@ -46,6 +45,11 @@ public class GameStageAnimation extends GameStageAnimationBase {
         }
         this.alpha += this.s;
         this.s += .05f;
+    }
+
+    @Override
+    public void resetAnimation() {
+        this.alpha = 0.0f;
     }
 
 }

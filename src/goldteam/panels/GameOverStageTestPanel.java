@@ -6,8 +6,6 @@
 package goldteam.panels;
 
 import goldteam.animators.GameStageAnimation;
-import goldteam.animators.GhostAnimation;
-import goldteam.characters.Ghost;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
