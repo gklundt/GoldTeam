@@ -20,7 +20,7 @@ public class LavaPlatformAnimation extends PlatfromAnimationBase{
     public LavaPlatformAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         super.setColor(Color.ORANGE);
-        super.loadImage(imgFilename, new AffineTransform(.5, 0, 0, .5, 0, 0));
+        super.loadImage(imgFilename, new AffineTransform(.5, 10, 10, .5, 10, 10));
     }
     
     @Override
