@@ -1,5 +1,6 @@
 package goldteam.domain;
 
+import goldteam.platforms.FlatPlatform;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
@@ -15,6 +16,7 @@ public abstract class TestMapAnimatorBase extends AnimationBase {
     protected final Animatable animatableGameObject;
     private final Rectangle rectangle;
     private final GradientPaint paint;
+    private FlatPlatform flatPlatform;
 
     public TestMapAnimatorBase(GameObject gameObject, Dimension preferredSize) {
         super();
@@ -26,7 +28,7 @@ public abstract class TestMapAnimatorBase extends AnimationBase {
         Point gs = new Point(0, 0);
         Point ge = new Point(preferredSize.width/2, preferredSize.height/2);
 
-        this.paint = new GradientPaint(gs, Color.red, ge, Color.blue);
+        this.paint = new GradientPaint(gs, Color.WHITE, ge, Color.blue);
         this.rectangle = this.getBounds();
     }
 
@@ -46,13 +48,8 @@ public abstract class TestMapAnimatorBase extends AnimationBase {
 
         while (dh > 0) {
             if (dw % 400 == 0) {
-                g2d.setPaint(Color.black);
-            } else if (dw % 300 == 0) {
-                g2d.setPaint(Color.red);
-            } else if (dw % 200 == 0) {
-                g2d.setPaint(Color.green);
-            } else {
-                g2d.setPaint(Color.yellow);
+               // g2d.setPaint(Color.blue);
+               g2d.getBackground();
             }
 
             cx = dx + ((getWidth() / 2) - (dw / 2));
