@@ -8,8 +8,8 @@ package goldteam.hud;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
-import goldteam.domain.Attackable;
-import goldteam.domain.AttackableWatcher;
+import goldteam.domain.Depletable;
+import goldteam.domain.DepletableWatcher;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import java.awt.Point;
@@ -19,56 +19,31 @@ import java.awt.event.ActionListener;
  *
  * @author Caleb Dunham
  */
-public class HeartHudItem extends GameObject implements AttackableWatcher, Animatable {
+public class GameStageItem extends GameObject implements DepletableWatcher, Animatable {
     
     public int count;
-    private Attackable watchedItem;
+    private Depletable watchedItem;
     private AnimationBase animator;
     
-    public HeartHudItem(GameEngine gamedata, Point initialPoint) {
+    public GameStageItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
     }
     
     @Override
     public void Update() {
-        this.count = this.watchedItem.getHealthValue();
+        this.count = this.watchedItem.getCount();
     }
     
     @Override
-    public Attackable getWatcher() {
+    public Depletable getWatcher() {
         return this.watchedItem;
     }
 
     @Override
-    public void setWatcher(Attackable target) {
+    public void setWatcher(Depletable target) {
         this.watchedItem=target;
-        this.count = this.watchedItem.getHealthValue();
-        this.watchedItem.addAttackableListener(l -> Update());
-    }
-
-    @Override
-    protected void GraphicsUpdateHandler() {
-   
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void UpdateEffectHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void MapUpdateTimerHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.count = this.watchedItem.getCount();
+        this.watchedItem.addDepletableListener(l -> Update());
     }
 
     @Override
@@ -103,6 +78,30 @@ public class HeartHudItem extends GameObject implements AttackableWatcher, Anima
 
     @Override
     public AnimationBase getRemoveAnimator() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void GraphicsUpdateHandler() {
+    }
+
+    @Override
+    protected void ClickHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void KeyHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void UpdateEffectHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void MapUpdateTimerHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

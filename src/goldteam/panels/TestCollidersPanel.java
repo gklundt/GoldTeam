@@ -141,6 +141,10 @@ public class TestCollidersPanel extends GamePanelBase {
         lavaPlatform.setAnimator(lpa);
         flatPlatform1.setAnimator(fpa1);
         
+        arrow.setAnimator(aa);
+        health.setAnimator(ha);
+        shield.setAnimator(sa);
+        
         //raisedPlatform.setCollider(raisedPlatform, CollisionPlane.LEFT);
         
         this.layeredPane.add(fpa, layeredPane.highestLayer());

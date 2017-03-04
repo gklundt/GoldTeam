@@ -5,10 +5,10 @@
  */
 package goldteam.animators;
 
-import goldteam.domain.Attackable;
-import goldteam.domain.AttackableWatcher;
+import goldteam.domain.Depletable;
+import goldteam.domain.DepletableWatcher;
 import goldteam.domain.GameObject;
-import goldteam.domain.HudAnimationBase;
+import goldteam.domain.GameStageAnimationBase;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 
@@ -16,7 +16,7 @@ import java.awt.geom.AffineTransform;
  *
  * @author Caleb Dunham
  */
-public class HeartHudAnimation extends HudAnimationBase {
+public class GameStageAnimation extends GameStageAnimationBase {
 
     /**
      * Constructor to set up the GUI components
@@ -26,19 +26,26 @@ public class HeartHudAnimation extends HudAnimationBase {
      * @param assetFile
      * @param frameRate
      */
+    private DepletableWatcher gameObj;
+    private float s;
 
-    private AttackableWatcher gameObj;
-
-    public HeartHudAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
+    public GameStageAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
-        this.gameObj = (AttackableWatcher) gameObject;
+        this.gameObj = (DepletableWatcher) gameObject;
         // Setup animation
-        super.loadImage(imgFilename, this.gameObj.getWatcher().getHealthValue(), new AffineTransform(.25, 0, 0, .25, 0, 0));
+        super.loadImage(imgFilename, new AffineTransform(1, 0, 0, 1, 0, 0));
+        this.s = 0.01f;
+
     }
 
     @Override
     protected void update() {
-        this.count = this.gameObj.getWatcher().getHealthValue();
+        if (this.alpha + this.s >= 0.9) {
+            this.alpha = 1.0f;
+            return;
+        }
+        this.alpha += this.s;
+        this.s += .05f;
     }
 
 }
