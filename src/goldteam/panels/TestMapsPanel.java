@@ -3,17 +3,20 @@ package goldteam.panels;
 import goldteam.GamePanelManager;
 import goldteam.animators.BigGhostAnimation;
 import goldteam.animators.FlatPlatformAnimation;
+import goldteam.animators.GameStageAnimation;
 import goldteam.animators.GhostAnimation;
 import goldteam.animators.LavaPlatformAnimation;
 import goldteam.animators.MapDoorsAnimation;
 import goldteam.animators.PotionAnimation;
 import goldteam.animators.SkyAnimation;
+import goldteam.animators.TestHudAnimation;
 import goldteam.animators.TestMapAnimator;
 import goldteam.characters.BackgroundPanelGhost;
 import goldteam.characters.Ghost;
 import goldteam.characters.MainCharacterGhost;
 import goldteam.characters.StationaryGhost;
 import goldteam.colliders.CollisionDetector;
+import goldteam.colliders.DoorCollider;
 import goldteam.colliders.PlatformCollider;
 import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.CharacterAnimationBase;
@@ -23,6 +26,8 @@ import goldteam.domain.GamePanelBase;
 import goldteam.domain.ModType;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
+import goldteam.hud.GameStageItem;
+import goldteam.hud.TestHudItem;
 import goldteam.maps.TestMap;
 import goldteam.platforms.DoorsPlatform;
 import goldteam.platforms.FlatPlatform;
@@ -48,6 +53,7 @@ public class TestMapsPanel extends GamePanelBase {
     private LavaPlatform lavaPlatform;
     private SkyPlatform sky;
     private PotionsPlatform pp;
+    private TestHudItem gameOverHud;
 
     public TestMapsPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
@@ -170,14 +176,14 @@ public class TestMapsPanel extends GamePanelBase {
         this.layeredPane.add(tma, 5);
        */
        //starting door
-        dp = new DoorsPlatform(gameData, new Point(0, 438),10,10);
+        dp = new DoorsPlatform(gameData, new Point(0, 438),10,60);
         MapDoorsAnimation mpa = new MapDoorsAnimation(dp, gameData.getMapDimensions(), "assets/S_door.png");
         mpa.setDimensions(new Dimension(50,50));
         this.layeredPane.add(mpa, 20);
         dp.setAnimator(mpa);
         
         //ending door 
-        dp1 = new DoorsPlatform(gameData, new Point(390, 438),10,10);
+        dp1 = new DoorsPlatform(gameData, new Point(390, 438),10,60);
         MapDoorsAnimation mp1 = new MapDoorsAnimation(dp1, gameData.getMapDimensions(), "assets/S_door.png");
         mp1.setDimensions(new Dimension(50,50));
         this.layeredPane.add(mp1,layeredPane.highestLayer());
@@ -188,7 +194,24 @@ public class TestMapsPanel extends GamePanelBase {
        // this.layeredPane.add(bga1, layeredPane.highestLayer());
         this.layeredPane.add(mpa, layeredPane.highestLayer());
         
+        gameOverHud = new TestHudItem(gameData, new Point(10, 10));
+        gameOverHud.setWatcher(g1);
+        TestHudAnimation goa = new TestHudAnimation(gameOverHud, gameData.getVisibleDimensions());
+        gameOverHud.setAnimator(goa);
+        
+        this.layeredPane.add(goa, layeredPane.highestLayer());
+        
+        DoorCollider dr = new DoorCollider();
+        
+        CollisionDetector collisionDetector4;
+        collisionDetector4 = new CollisionDetector(this.gameData);
+        
+        collisionDetector4.addCollisionListener(dr);
+        
+        collisionDetector4.registerCollidable(g1);
+        collisionDetector4.registerCollidable(dp1);
     }
+    
      @Override
     public void keyTyped(KeyEvent e) {
 
