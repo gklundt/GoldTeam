@@ -3,19 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package goldteam.platforms;
+package goldteam.Collectables;
 
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
+import goldteam.domain.CollectableItem;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionPlane;
-import goldteam.domain.Delta;
-import goldteam.domain.Doors;
-import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
-import goldteam.domain.Movable;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionListener;
@@ -23,34 +20,35 @@ import java.util.HashMap;
 
 /**
  *
- * @author Mishal
+ * @author faaez
  */
-public class DoorsPlatform extends GameObject implements Doors, Movable, Animatable, Collidable{
+public class Shields extends GameObject implements Animatable, Collidable, CollectableItem{
     
-     private AnimationBase animator;
+    private AnimationBase animator;
     private Polygon collider;
-    private int width, height;
     private final HashMap<Collidable, CollisionPlane> colliders;
+    private boolean state;
 
-    public DoorsPlatform(GameEngine gamedata, Point initialPoint,int width, int height) {
+    public Shields(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
-        this.width = width;
-        this.height = height;
         
         colliders = new HashMap<>();
         
         int [] xPoly = {this.positionVector.x, 
-                        this.positionVector.x + this.width, 
-                        this.positionVector.x + this.width,
+                        this.positionVector.x + 50, 
+                        this.positionVector.x + 50,
                         this.positionVector.x
         };
         int [] yPoly = {this.positionVector.y, 
                         this.positionVector.y,
-                        this.positionVector.y + this.height,
-                        this.positionVector.y + this.height
+                        this.positionVector.y + 50,
+                        this.positionVector.y + 50
         };
+        
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
+        
+        this.state = true;
     }
 
     @Override
@@ -84,46 +82,6 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
     }
 
     @Override
-    public Double getDurabilityPercentage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setDurabilityPercentage(Double durabilityPercentage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Double getDecayRate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setDecayRate(Double decayRate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isSolidTop() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isSolidBottom() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setSolidTop(Boolean isSolidTop) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setSolidBottom(Boolean isSolidBottom) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-     @Override
     public void setAnimator(AnimationBase animator) {
         this.animator = animator;
     }
@@ -136,47 +94,6 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
     @Override
     public void addAnimationTimerListener(ActionListener listener) {
         this.gamedata.addAnimationUpdateTimerListener(listener);
-    }
-
-    
-    @Override
-    public DoubleVector getVelocityVector() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setVelocityScalarDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setVelocityVectorDelta(Delta xDelta, Delta yDelta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getVelocity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Polygon getPolygon() {
-        return this.collider;
-    }
-
-    @Override
-    public void setCollider(Collidable obj, CollisionPlane direction) {
-        colliders.put(obj, direction);
-    }
-
-    @Override
-    public void removeCollider(Collidable obj) {
-        colliders.remove(obj);
-    }
-
-    @Override
-    public HashMap<Collidable, CollisionPlane> getColliders() {
-        return colliders;
     }
 
     @Override
@@ -199,5 +116,39 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public Polygon getPolygon() {
+        return this.collider;
+    }
+
+    @Override
+    public void setCollider(Collidable obj, CollisionPlane direction) {
+        colliders.put(obj, direction);
+    }
+
+    @Override
+    public void removeCollider(Collidable obj) {
+        this.colliders.remove(obj);
+    }
+
+    @Override
+    public HashMap<Collidable, CollisionPlane> getColliders() {
+        return this.colliders;
+    }
+    
+    @Override
+        public void setState(boolean state){
+        this.state = state;
+    }
+    
+    @Override
+    public boolean getState(){
+        return this.state;
+    }
+    
+    @Override
+    public void undoCollider(){
+        this.collider = new Polygon();
+    }
     
 }
