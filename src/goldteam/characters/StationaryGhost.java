@@ -376,5 +376,10 @@ public class StationaryGhost extends GameObject implements
         }
     }
 
+    @Override
+    public double getChargeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
 

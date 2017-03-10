@@ -23,4 +23,6 @@ public interface Attackable {
     public void setLifeValue(Delta delta);
 
     public void notifyAttackableListeners();
+
+    public double getChargeValue();
 }

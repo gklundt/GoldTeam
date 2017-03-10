@@ -257,5 +257,10 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     public void setNewAnimator(String string) {
         this.animator = null;
     }
+
+    @Override
+    public double getChargeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

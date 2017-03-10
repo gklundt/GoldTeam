@@ -6,7 +6,7 @@
 package goldteam.panels;
 
 import goldteam.collectables.Arrows;
-import goldteam.collectables.Health;
+import goldteam.Collectables.Health;
 import goldteam.collectables.Shields;
 import goldteam.GamePanelManager;
 import goldteam.animators.CollectableArrowAnimation;

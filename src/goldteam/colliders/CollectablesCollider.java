@@ -6,7 +6,7 @@
 package goldteam.colliders;
 
 import goldteam.collectables.Arrows;
-import goldteam.collectables.Health;
+import goldteam.Collectables.Health;
 import goldteam.collectables.Shields;
 import goldteam.characters.StationaryGhost;
 import goldteam.domain.CollectableItem;

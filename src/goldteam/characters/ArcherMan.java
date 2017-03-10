@@ -91,7 +91,7 @@ public class ArcherMan extends GameObject implements
         this.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
         this.setAnimator(archerDefaultRight);
     }
-
+    
     @Override
     public int getShieldValue() {
         return shield;
@@ -440,6 +440,15 @@ public class ArcherMan extends GameObject implements
     @Override
     public void notifyCollidableListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getChargeValue() {
+        return charge;
+    }
+    
+    public void setChargeValue(Delta delta) {
+        this.charge = delta.delta.intValue();
     }
     
 }

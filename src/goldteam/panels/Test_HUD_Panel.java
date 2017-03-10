@@ -2,6 +2,7 @@ package goldteam.panels;
 
 import goldteam.GamePanelManager;
 import goldteam.animators.ArcherAnimation;
+import goldteam.animators.ArrowChargeAnimation;
 import goldteam.animators.BigGhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
@@ -24,6 +25,7 @@ import goldteam.domain.ModType;
 import goldteam.domain.PanelManagerListener;
 import goldteam.domain.VectorMath;
 import goldteam.gamedata.GameData;
+import goldteam.hud.ArrowChargeIndicator;
 import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
 import goldteam.hud.LifeHudItem;
@@ -38,18 +40,17 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
     private static final long serialVersionUID = 1L;
 
     private ArcherMan archer;
-    private int charge;
     private Ghost[] bigGhost;
     private HeartHudItem hearts;
     private ShieldHudItem shields;
     private LifeHudItem lives;
     private ArrowHudItem arrows;
+    private ArrowChargeIndicator chargeBar;
     private final CollisionDetector collisionDetector;
 
     public Test_HUD_Panel(PanelManager panelManager) {
         super(panelManager, new GameData());
         collisionDetector = new CollisionDetector(this.gameData);
-        charge = 0;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         collisionDetector.addCollisionListener(gc);
         
         archer = new ArcherMan(gameData, new Point(300, 300));
+        archer.setChargeValue(Delta.create(0.0, ModType.FIXED));
         
         AnimationBase t = archer.getAnimator();
         this.layeredPane.add(t, layeredPane.highestLayer());
@@ -91,7 +93,12 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         lives.setWatcher(archer);
         LifeHudAnimation lha = new LifeHudAnimation(lives, gameData.getVisibleDimensions(), "assets/Archer_Head.png");
         lives.setAnimator(lha);
-
+        
+        chargeBar = new ArrowChargeIndicator(gameData, new Point(archer.PositionVector().x, archer.PositionVector().y));
+        chargeBar.setWatcher(archer);
+        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, gameData.getVisibleDimensions());
+        chargeBar.setAnimator(aca);
+        
 //        arrows = new ArrowHudItem(gameData, new Point(10, 70));
 //        arrows.setWatcher(archer);
 //        ArrowHudAnimation aha = new ArrowHudAnimation(arrows, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
@@ -100,6 +107,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         this.layeredPane.add(hha, this.layeredPane.highestLayer());
         this.layeredPane.add(sha, this.layeredPane.highestLayer());
         this.layeredPane.add(lha, this.layeredPane.highestLayer());
+        this.layeredPane.add(aca, this.layeredPane.highestLayer());
 //        this.layeredPane.add(aha, this.layeredPane.highestLayer());
     }
 
@@ -181,16 +189,17 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         archer.setMousePressed(true);
         archer.removeAnimator = archer.animator;
 
-        if(e.getX() > archer.PositionVector().x)
+        if(e.getX() > archer.PositionVector().x) {
             archer.animator = archer.animators.get(AnimationState.SHOOTING_RIGHT);
-        else
+        } else {
             archer.animator = archer.animators.get(AnimationState.SHOOTING_LEFT);
+        }
         archer.notifyAnimationChangeListeners();
     }
     
     @Override
     public void mouseReleased(MouseEvent e)
-    {
+    {   
         archer.removeAnimator = archer.animator;
         if(archer.animator == archer.animators.get(AnimationState.SHOOTING_RIGHT))
             archer.animator = archer.animators.get(AnimationState.DEFAULT_RIGHT);
