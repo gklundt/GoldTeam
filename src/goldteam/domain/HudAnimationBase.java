@@ -34,8 +34,9 @@ public abstract class HudAnimationBase extends AnimationBase {
     protected BufferedImage img; // for the entire image stripe
     protected BufferedImage[] imgArray; // for the entire image stripe
     private final AffineTransform af;
-    private Line2D chargeBarGraphic;
 
+
+    //HUD Items: Hearts, Shields, Lives
     public HudAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super();
         super.setSize(preferredSize);
@@ -46,6 +47,7 @@ public abstract class HudAnimationBase extends AnimationBase {
         this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0.0, 0.0);
     }
     
+    //HUD Items: ArrowChargeIndicator
     public HudAnimationBase(GameObject gameObject, Dimension preferredSize) {
         super();
         super.setSize(preferredSize);
@@ -94,9 +96,25 @@ public abstract class HudAnimationBase extends AnimationBase {
         for (int i = 0; i < count; ++i) {
             imgArray[i] = img;
         }
-        this.count = numberOfItems;
     }
+    
+    protected void loadImage(BufferedImage preprocessedImg, int numberOfItems) {
+        this.count = numberOfItems;
+        int scaleX = 1;
+        int scaleY = 1;
+        Image tmp = preprocessedImg.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
 
+        BufferedImage bimage = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bimage.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        this.img = preprocessedImg;
+        this.imgHeight = img.getHeight(null);
+        this.imgWidth = img.getWidth(null);
+        this.imgArray = new BufferedImage[count];
+        this.imgArray[0] = img;
+    }
+    
     /**
      * Custom painting codes on this JPanel
      */
@@ -105,13 +123,14 @@ public abstract class HudAnimationBase extends AnimationBase {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         int dy = gameObject.PositionVector().y;
-        for (int i = 0; i < count; i++) {
-            int dx = gameObject.PositionVector().x + i * imgWidth;
-            af.setTransform(1.0, 0, 0, 1.0, dx, dy);
-            if(imgArray!=null)
-                g2d.drawImage(imgArray[i], af, null);
-            else
-                g2d.drawLine((int)chargeBarGraphic.getX1(), (int)chargeBarGraphic.getY1(), (int)chargeBarGraphic.getX2(), (int)chargeBarGraphic.getY2());
+//        if(count > 1) {
+        int i = 0;
+            for(BufferedImage img : imgArray){
+                int dx = gameObject.PositionVector().x + i * imgWidth;
+                af.setTransform(1.0, 0, 0, 1.0, dx, dy);
+                if(imgArray[i]!=null)
+                    g2d.drawImage(imgArray[i], af, null);
+            i++;
         }
     }
 
@@ -120,11 +139,4 @@ public abstract class HudAnimationBase extends AnimationBase {
         update(); // update the image
     }
 
-    public void drawLine(double chargeValue, AffineTransform affineTransform) {
-        chargeBarGraphic = new Line2D.Double(
-                0,
-                0, 
-                gameObject.positionVector.x, 
-                gameObject.positionVector.y);
-    }
 }

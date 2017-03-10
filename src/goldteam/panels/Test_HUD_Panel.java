@@ -40,6 +40,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
     private static final long serialVersionUID = 1L;
 
     private ArcherMan archer;
+    public int charge;
     private Ghost[] bigGhost;
     private HeartHudItem hearts;
     private ShieldHudItem shields;
@@ -75,7 +76,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
             bigGhost[i].setAnimator(defaultGhostAnimation);
             bigGhost[i].setVelocityScalarDelta(Delta.create(0.0d, ModType.FIXED));
             bigGhost[i].addAnimationChangeListener(l -> SwitchGhostListener(l));
-            collisionDetector.registerCollidable(bigGhost[i]);
+            //collisionDetector.registerCollidable(bigGhost[i]);
             this.layeredPane.add(bigGhost[i].getAnimator(), this.layeredPane.highestLayer());
         }
         
@@ -94,9 +95,9 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         LifeHudAnimation lha = new LifeHudAnimation(lives, gameData.getVisibleDimensions(), "assets/Archer_Head.png");
         lives.setAnimator(lha);
         
-        chargeBar = new ArrowChargeIndicator(gameData, new Point(archer.PositionVector().x, archer.PositionVector().y));
+        chargeBar = new ArrowChargeIndicator(gameData, new Point(archer.PositionVector()));
         chargeBar.setWatcher(archer);
-        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, gameData.getVisibleDimensions());
+        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, archer, gameData.getVisibleDimensions());
         chargeBar.setAnimator(aca);
         
 //        arrows = new ArrowHudItem(gameData, new Point(10, 70));
@@ -233,8 +234,8 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
 
     @Override
     public void panelManagerChanged() {
-        for(Collidable g : bigGhost)
-            collisionDetector.removeCollidable(g);
+//        for(Collidable g : bigGhost)                  this does not run. My guess is the panelManager never changes.
+//            collisionDetector.removeCollidable(g);
     }
 
     private void SwitchGhostListener(ActionEvent event) {
@@ -242,5 +243,5 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         this.layeredPane.remove(obj.getRemoveAnimator());
         this.layeredPane.add(obj.getAnimator());
     }
-
+    
 }
