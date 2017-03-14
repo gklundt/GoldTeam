@@ -7,7 +7,10 @@ import goldteam.domain.GamePanelBase;
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.ArcherMan;
 import goldteam.characters.Arrow;
+import goldteam.characters.Flyer;
 import goldteam.characters.Ghost;
+import goldteam.characters.Launcher;
+import goldteam.characters.Walker;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
@@ -37,8 +40,7 @@ public class TestCharacterPanel extends GamePanelBase
     @Override
     protected void addGameObjects()
     {
-        
-        ar = new ArcherMan(gameData, new Point(400, 400));
+        ar = gameData.getArcherMan();
         CharacterAnimationBase archerDefaultRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
         CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
         CharacterAnimationBase archerWalkingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
@@ -55,6 +57,21 @@ public class TestCharacterPanel extends GamePanelBase
         AnimationBase t = ar.getAnimator();
         this.layeredPane.add(t, layeredPane.highestLayer());
         ar.addAnimationChangeListener(l -> SwitchArcherListener(l));
+        
+        Flyer enemy = new Flyer(gameData, new Point(400, 100));
+        GhostAnimation ghostAnimation = new GhostAnimation(enemy, this.gameData.getRunEdgeDimensions(), "assets/GameGhostStripe.png");
+        enemy.setAnimator(ghostAnimation);
+        this.layeredPane.add(ghostAnimation);
+        
+        Walker enemy2 = new Walker(gameData, new Point(200, 400));
+        GhostAnimation ghostAnimation2 = new GhostAnimation(enemy2, this.gameData.getRunEdgeDimensions(), "assets/GameGhostStripe.png");
+        enemy.setAnimator(ghostAnimation2);
+        this.layeredPane.add(ghostAnimation2);
+        
+        Launcher enemy3 = new Launcher(gameData, new Point(750, 350), true);
+        GhostAnimation ghostAnimation3 = new GhostAnimation(enemy3, this.gameData.getRunEdgeDimensions(), "assets/GameGhostStripe.png");
+        enemy.setAnimator(ghostAnimation3);
+        this.layeredPane.add(ghostAnimation3);
     }
     
     protected CharacterAnimationBase createNewArrow(GameData gd, Point p, DoubleVector speed, String image)
@@ -65,6 +82,7 @@ public class TestCharacterPanel extends GamePanelBase
         arrow.setAnimator(ga1);
         return ga1;
     }
+
     
     @Override
     public void keyPressed(KeyEvent e)
@@ -140,11 +158,11 @@ public class TestCharacterPanel extends GamePanelBase
         {
             CharacterAnimationBase arrow = null;
             DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - ar.PositionVector().getX(), e.getY() - ar.PositionVector().getY()), 15 + ar.getMouseCharge() * 3);
-            //velocity = new DoubleVector(velocity.x + ar.getVelocityVector().x, velocity.y + ar.getVelocityVector().y); //Player Momentum transfers to arrow
+            velocity = new DoubleVector(velocity.x + ar.getVelocityVector().x, velocity.y + ar.getVelocityVector().y); //Player Momentum transfers to arrow
             if(ar.animator == ar.animators.get(AnimationState.DEFAULT_RIGHT))
-                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Right.png");
+                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/ArrowRight.png");
             else
-                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Left.png");
+                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/ArrowLeft.png");
             this.layeredPane.add(arrow, layeredPane.highestLayer());
             ar.shootArrow();
             ar.setMousePressed(false);

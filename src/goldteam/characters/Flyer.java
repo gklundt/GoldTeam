@@ -5,47 +5,63 @@
  */
 package goldteam.characters;
 
-import goldteam.domain.Animatable;
+import goldteam.animators.GhostAnimation;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
-import goldteam.domain.Delta;
-import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
-import goldteam.domain.GameObject;
-import goldteam.domain.Movable;
-import goldteam.domain.VectorMath;
+import goldteam.gamedata.GameData;
 import java.awt.Point;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 
 /**
  *
  * @author Joshua
  */
-public class Arrow extends GameObject implements Movable, Animatable {
-    
-    private AnimationBase animator;
-    private DoubleVector velocityVector;
-    private Point prevPos;
-
-    public Arrow(GameEngine gamedata, Point initialPoint, DoubleVector velocityVector)
+public class Flyer extends BaseEnemy
+{
+    private int timeSinceAttacked;
+    public Flyer(GameEngine gamedata, Point initialPoint)
     {
         super(gamedata, initialPoint);
-        this.velocityVector = velocityVector;
-        prevPos = (Point)(initialPoint.clone());
+        maxSpeed = 6;
     }
-
+    
+    private void moveLeft(int xdif)
+    {
+        xdif /= 10;
+        if(xdif < -maxSpeed)
+            xdif = -maxSpeed;
+        positionVector.x += xdif;
+        
+    }
+    
+    private void moveRight(int xdif)
+    {
+        xdif /= 10;
+        if(xdif > maxSpeed)
+            xdif = maxSpeed;
+        positionVector.x += xdif;
+        
+    }
+    
+    private void attack()
+    {
+        ((GameData)(gamedata)).createBomb(this.positionVector);
+        timeSinceAttacked = 0;
+    }
+    
     @Override
     protected void Update()
     {
-        velocityVector.y += 1.5;  //Gravity
-        this.positionVector.x += this.getVelocityVector().x;
-        this.positionVector.y += this.getVelocityVector().y;
+        timeSinceAttacked++;
+        int xdif = ((GameData)(gamedata)).getArcherMan().PositionVector().x - positionVector.x;
+        if(xdif > 0)
+            moveRight(xdif);
+        else
+            moveLeft(xdif);
         
-        
-        DoubleVector d = new DoubleVector((double)(positionVector.x - prevPos.x), (double)(positionVector.y - prevPos.y));
-        double currentAngle = Math.atan(d.y/d.x);
-        animator.af.setToRotation(currentAngle);
+        if(timeSinceAttacked > 20)
+            attack();
     }
 
     @Override
@@ -71,27 +87,6 @@ public class Arrow extends GameObject implements Movable, Animatable {
 
     @Override
     protected void MapUpdateTimerHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public DoubleVector getVelocityVector()
-    {
-        return velocityVector;
-    }
-
-    @Override
-    public void setVelocityScalarDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setVelocityVectorDelta(Delta xDelta, Delta yDelta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getVelocity() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
