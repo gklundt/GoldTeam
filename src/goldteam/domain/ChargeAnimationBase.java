@@ -7,6 +7,7 @@ package goldteam.domain;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -21,6 +22,7 @@ public abstract class ChargeAnimationBase extends AnimationBase{
     protected GameObject gameObject;
     private final Animatable animatableGameObject;
     protected int chargeAmount;
+    protected Point positionVector;
 
     public ChargeAnimationBase(GameObject gameObject, AffineTransform af) {
         super();
@@ -35,7 +37,11 @@ public abstract class ChargeAnimationBase extends AnimationBase{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         
-        g2d.draw(new Rectangle2D.Double(gameObject.positionVector.x, gameObject.positionVector.y, 25, chargeAmount));
+        g2d.draw(new Rectangle2D.Double(
+                positionVector.x, 
+                positionVector.y, 
+                25/*rectwidth*/, 
+                chargeAmount/*recheight*/));
     }
 
     @Override

@@ -27,8 +27,8 @@ public class ArrowChargeIndicator extends GameObject implements
     private Attackable watchedItem;
     private AnimationBase animator;
     
-    public ArrowChargeIndicator(GameEngine gamedata, Point initialPoint) {
-        super(gamedata, initialPoint);
+    public ArrowChargeIndicator(GameEngine gamedata/*, Point initialPoint*/) {
+        super(gamedata/*, initialPoint*/,null);
     }
 
     @Override

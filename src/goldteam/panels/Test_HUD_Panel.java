@@ -95,9 +95,9 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         LifeHudAnimation lha = new LifeHudAnimation(lives, gameData.getVisibleDimensions(), "assets/Archer_Head.png");
         lives.setAnimator(lha);
         
-        chargeBar = new ArrowChargeIndicator(gameData, new Point(archer.PositionVector()));
+        chargeBar = new ArrowChargeIndicator(gameData/*, new Point(archer.PositionVector()*/);
         chargeBar.setWatcher(archer);
-        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar);
+        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, archer);
         chargeBar.setAnimator(aca);
         
 //        arrows = new ArrowHudItem(gameData, new Point(10, 70));
@@ -196,6 +196,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
             archer.animator = archer.animators.get(AnimationState.SHOOTING_LEFT);
         }
         archer.notifyAnimationChangeListeners();
+        archer.setMousePressed(true);
     }
     
     @Override

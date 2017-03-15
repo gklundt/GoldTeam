@@ -122,6 +122,7 @@ public class ArcherMan extends GameObject implements
     @Override
     public void setArrowDelta(Delta delta){
         this.arrows = delta.delta.intValue();
+        this.notifyAttackableListeners();
     }
 
     @Override
@@ -449,6 +450,7 @@ public class ArcherMan extends GameObject implements
     
     public void setChargeValue(Delta delta) {
         this.charge = delta.delta.intValue();
+        this.notifyAttackableListeners();
     }
     
 }
