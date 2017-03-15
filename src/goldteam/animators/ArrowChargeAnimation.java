@@ -8,6 +8,7 @@ package goldteam.animators;
 import goldteam.characters.ArcherMan;
 import goldteam.domain.Archer;
 import goldteam.domain.AttackableWatcher;
+import goldteam.domain.ChargeAnimationBase;
 import goldteam.domain.GameObject;
 import goldteam.domain.HudAnimationBase;
 import goldteam.hud.ArrowChargeIndicator;
@@ -25,7 +26,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Caleb Dunham
  */
-public class ArrowChargeAnimation extends HudAnimationBase {
+public class ArrowChargeAnimation extends ChargeAnimationBase {
 
     /**
      * Constructor to set up the GUI components
@@ -38,27 +39,16 @@ public class ArrowChargeAnimation extends HudAnimationBase {
 
     private AttackableWatcher gameObj;
     private BufferedImage img;
-    private final ArcherMan archer;
 
-    public ArrowChargeAnimation(GameObject gameObject, ArcherMan archer, Dimension preferredSize) {
-        super(gameObject, preferredSize);
+    public ArrowChargeAnimation(GameObject gameObject) {
+        super(gameObject, new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0.0, 0.0));
         this.gameObj = (AttackableWatcher) gameObject;
-        this.archer = archer;
-        // Setup animation
-        img = new BufferedImage(preferredSize.width/4, preferredSize.height/4, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = img.getGraphics();
-        g.drawImage(img, 0, 0, null);
-        g.drawRect(100, 100, 50, 50);
-        Graphics2D g2d = (Graphics2D) g; 
-        g2d.draw(new Rectangle2D.Double(100, 100,
-                               50,
-                               50));
-        super.loadImage(img, 1);
+        
     }
 
     @Override
     protected void update() {
-        this.count = (int) this.gameObj.getWatcher().getChargeValue();
+        this.chargeAmount = (int) this.gameObj.getWatcher().getChargeValue();
     }
 
 }

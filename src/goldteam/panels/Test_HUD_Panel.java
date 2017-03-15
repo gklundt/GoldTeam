@@ -97,7 +97,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         
         chargeBar = new ArrowChargeIndicator(gameData, new Point(archer.PositionVector()));
         chargeBar.setWatcher(archer);
-        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, archer, gameData.getVisibleDimensions());
+        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar);
         chargeBar.setAnimator(aca);
         
 //        arrows = new ArrowHudItem(gameData, new Point(10, 70));

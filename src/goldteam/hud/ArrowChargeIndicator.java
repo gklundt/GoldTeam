@@ -72,6 +72,22 @@ public class ArrowChargeIndicator extends GameObject implements
         return this.animator;
     }
 
+    public double getCurrentCharge() {
+        return currentCharge;
+    }
+
+    public void setCurrentCharge(double currentCharge) {
+        this.currentCharge = currentCharge;
+    }
+
+    public Attackable getWatchedItem() {
+        return watchedItem;
+    }
+
+    public void setWatchedItem(Attackable watchedItem) {
+        this.watchedItem = watchedItem;
+    }
+
     @Override
     public void addAnimationTimerListener(ActionListener listener) {
         this.gamedata.addAnimationUpdateTimerListener(listener);
@@ -99,7 +115,7 @@ public class ArrowChargeIndicator extends GameObject implements
     
     @Override
     public void setWatcher(Attackable target) {
-        this.watchedItem=target;
+        this.watchedItem = target;
         this.currentCharge = this.watchedItem.getChargeValue();
         this.watchedItem.addAttackableListener(l -> Update());
     }
