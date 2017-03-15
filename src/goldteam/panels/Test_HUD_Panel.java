@@ -60,7 +60,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         collisionDetector.addCollisionListener(gc);
         
         archer = new ArcherMan(gameData, new Point(300, 300));
-        archer.setChargeValue(Delta.create(0.0, ModType.FIXED));
+        //archer.setChargeValue(Delta.create(0.0, ModType.FIXED));
         
         AnimationBase t = archer.getAnimator();
         this.layeredPane.add(t, layeredPane.highestLayer());
@@ -196,7 +196,6 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
             archer.animator = archer.animators.get(AnimationState.SHOOTING_LEFT);
         }
         archer.notifyAnimationChangeListeners();
-        archer.setMousePressed(true);
     }
     
     @Override
