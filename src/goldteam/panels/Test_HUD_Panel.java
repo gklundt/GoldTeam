@@ -95,10 +95,11 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         LifeHudAnimation lha = new LifeHudAnimation(lives, gameData.getVisibleDimensions(), "assets/Archer_Head.png");
         lives.setAnimator(lha);
         
-        chargeBar = new ArrowChargeIndicator(gameData/*, new Point(archer.PositionVector()*/);
+        chargeBar = new ArrowChargeIndicator(gameData, new Point(archer.PositionVector()));
         chargeBar.setWatcher(archer);
-        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, archer);
+        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, gameData.getVisibleDimensions(), archer);
         chargeBar.setAnimator(aca);
+        chargeBar.addAnimationTimerListener(aca);
         
 //        arrows = new ArrowHudItem(gameData, new Point(10, 70));
 //        arrows.setWatcher(archer);
