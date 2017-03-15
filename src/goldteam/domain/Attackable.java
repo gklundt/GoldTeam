@@ -25,4 +25,6 @@ public interface Attackable {
     public void notifyAttackableListeners();
 
     public double getChargeValue();
+    
+    public void setChargeDelta(Delta delta);
 }

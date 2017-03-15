@@ -121,7 +121,13 @@ public class ArcherMan extends GameObject implements
     
     @Override
     public void setArrowDelta(Delta delta){
-        this.arrows = delta.delta.intValue();
+        this.arrows += delta.delta.intValue();
+        this.notifyAttackableListeners();
+    }
+    
+    @Override
+    public void setChargeDelta(Delta delta){
+        this.charge += delta.delta.intValue();
         this.notifyAttackableListeners();
     }
 
@@ -326,8 +332,8 @@ public class ArcherMan extends GameObject implements
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
         
-        if(mousePressed)
-            charge++;     
+        if(mousePressed && charge < 20)
+            this.setChargeDelta(Delta.create(1.0, ModType.FIXED));
     }
 
     @Override
@@ -446,11 +452,6 @@ public class ArcherMan extends GameObject implements
     @Override
     public double getChargeValue() {
         return charge;
-    }
-    
-    public void setChargeValue(Delta delta) {
-        this.charge = delta.delta.intValue();
-        this.notifyAttackableListeners();
     }
     
 }

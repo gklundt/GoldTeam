@@ -49,8 +49,8 @@ public class ArrowChargeAnimation extends ChargeAnimationBase {
     
     @Override
     protected void update() {
-        this.chargeAmount = (int) this.gameObj.getWatcher().getChargeValue();
-        this.positionVector = this.archer.PositionVector();
+        this.chargeAmount = this.gameObj.getWatcher().getChargeValue();
+        this.archerPosition = this.archer.PositionVector();
     }
 
 }

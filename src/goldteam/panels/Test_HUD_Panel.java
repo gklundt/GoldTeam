@@ -3,6 +3,7 @@ package goldteam.panels;
 import goldteam.GamePanelManager;
 import goldteam.animators.ArcherAnimation;
 import goldteam.animators.ArrowChargeAnimation;
+import goldteam.animators.ArrowHudAnimation;
 import goldteam.animators.BigGhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
@@ -95,22 +96,22 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         LifeHudAnimation lha = new LifeHudAnimation(lives, gameData.getVisibleDimensions(), "assets/Archer_Head.png");
         lives.setAnimator(lha);
         
+        arrows = new ArrowHudItem(gameData, new Point(10, 70));
+        arrows.setWatcher(archer);
+        ArrowHudAnimation aha = new ArrowHudAnimation(arrows, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
+        arrows.setAnimator(aha);
+        
         chargeBar = new ArrowChargeIndicator(gameData, new Point(archer.PositionVector()));
         chargeBar.setWatcher(archer);
         ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, gameData.getVisibleDimensions(), archer);
         chargeBar.setAnimator(aca);
-        chargeBar.addAnimationTimerListener(aca);
-        
-//        arrows = new ArrowHudItem(gameData, new Point(10, 70));
-//        arrows.setWatcher(archer);
-//        ArrowHudAnimation aha = new ArrowHudAnimation(arrows, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
-//        arrows.setAnimator(aha);
+        chargeBar.addAnimationTimerListener(aca);        
         
         this.layeredPane.add(hha, this.layeredPane.highestLayer());
         this.layeredPane.add(sha, this.layeredPane.highestLayer());
         this.layeredPane.add(lha, this.layeredPane.highestLayer());
+        this.layeredPane.add(aha, this.layeredPane.highestLayer());
         this.layeredPane.add(aca, this.layeredPane.highestLayer());
-//        this.layeredPane.add(aha, this.layeredPane.highestLayer());
     }
 
     protected CharacterAnimationBase createNewArrow(GameData gd, Point p, DoubleVector speed, String image)

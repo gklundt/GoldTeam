@@ -34,7 +34,6 @@ public class ArrowChargeIndicator extends GameObject implements
     @Override
     protected void Update() {
         this.currentCharge = this.watchedItem.getChargeValue();
-        System.out.println(currentCharge);
     }
 
     @Override
