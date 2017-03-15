@@ -21,7 +21,7 @@ public class PotionAnimation extends PotionAnimationBase {
         super(gameObject, preferredSize, assetFile);
         
         super.setColor(Color.DARK_GRAY);
-        super.loadImage(imgFilename, new AffineTransform(.5, 1, 1, .5, 1, 1));
+        super.loadImage(imgFilename, new AffineTransform(1, 1, 1, 2, 1, 1));
         
      }
      
