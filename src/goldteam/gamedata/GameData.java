@@ -10,7 +10,6 @@ import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.MapLocationConverter;
-import goldteam.domain.Movable;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;

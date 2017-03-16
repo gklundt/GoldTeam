@@ -13,8 +13,11 @@ import goldteam.domain.GameSounds;
 import goldteam.domain.ModType;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -23,16 +26,20 @@ import java.util.Random;
  */
 public class TestSoundsPanel extends GamePanelBase {
     
-    private final CollisionDetector collisionDetector;
-    
+    private CollisionDetector collisionDetector;
+    private AudioClip bgClip;
+    private ArrayList<Ghost> objectList;
+
     public TestSoundsPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
         collisionDetector = new CollisionDetector(this.gameData);
+        objectList = new ArrayList<>();
     }
     
     @Override
     protected void addGameObjects() {
-        GameSounds.sounds[17].play();
+        bgClip = Applet.newAudioClip(getClass().getClassLoader().getResource("assets/Sounds/background_music.wav"));
+        bgClip.play();
         Random x = new Random();
         Random y = new Random();
         for (int i = 1; i <= 6; ++i) {
@@ -63,6 +70,8 @@ public class TestSoundsPanel extends GamePanelBase {
         
     protected CharacterAnimationBase createNewGhost(GameData gd, Point p, Integer speed, String image, int bigOrSmall) {
         Ghost g1 = new Ghost(gd, p);
+        g1.setVelocityScalarDelta(Delta.create(20.0, ModType.FIXED));
+        objectList.add(g1);
         CharacterAnimationBase ga1;
         if (bigOrSmall % 3 == 0) {
              ga1 = new BigGhostAnimation(g1, gd.getVisibleDimensions(), image);
@@ -71,6 +80,7 @@ public class TestSoundsPanel extends GamePanelBase {
         }
         g1.setVelocityScalarDelta(Delta.create((-0.9 * g1.getVelocity().doubleValue()) + speed, ModType.FIXED));
         g1.setAnimator(ga1);
+        objectList.add(g1);
         collisionDetector.registerCollidable(g1);
         return ga1;
     }
@@ -80,9 +90,13 @@ public class TestSoundsPanel extends GamePanelBase {
         
         switch (e.getKeyChar()) {
             case KeyEvent.VK_ESCAPE:
+                bgClip.stop();
+                panelThread.interrupt();
                 undoGraphics();
+                for(Ghost g : objectList)
+                    this.collisionDetector.removeCollidable(g);
                 panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
-                break;
+                return;
             case KeyEvent.VK_1:
                 GameSounds.sounds[0].play();
                 break;
@@ -96,8 +110,8 @@ public class TestSoundsPanel extends GamePanelBase {
                 GameSounds.sounds[3].play();
                 break;
             case KeyEvent.VK_5:
-               GameSounds.sounds[4].play();
-               break;
+                GameSounds.sounds[4].play();
+                break;
             case KeyEvent.VK_6:
                 GameSounds.sounds[5].play();
                 break;
@@ -109,9 +123,6 @@ public class TestSoundsPanel extends GamePanelBase {
                 break;
             case KeyEvent.VK_9:
                 GameSounds.sounds[12].play();
-                break;
-            case KeyEvent.VK_0:
-                GameSounds.sounds[13].play();
                 break;
             default:
                 break;

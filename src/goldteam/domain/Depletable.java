@@ -9,5 +9,7 @@ public interface Depletable {
     public void setCountDelta(Delta delta);
     
     public void addDepletableListener(ActionListener listener);
+    
+    public void notifyDepletableListeners();
 
 }

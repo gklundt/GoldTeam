@@ -99,8 +99,6 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         //this.af.setTransform(1.0, 0, 0, 1.0, dx, dy);
         af.setTransform(af.getScaleX(), af.getShearY(), af.getShearX(), af.getScaleY(), dx, dy);
         g2d.drawImage(imgArray[currentFrame], af, null);
-        //g2d.drawPolygon(this.gameObject.shape);
-
     }
 
     @Override

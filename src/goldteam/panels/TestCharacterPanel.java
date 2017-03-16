@@ -1,23 +1,19 @@
 package goldteam.panels;
 
 import goldteam.animators.ArcherAnimation;
-import goldteam.animators.BigGhostAnimation;
+import goldteam.animators.GhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
-import goldteam.animators.GhostAnimation;
 import goldteam.characters.ArcherMan;
 import goldteam.characters.Arrow;
 import goldteam.characters.Flyer;
-import goldteam.characters.Ghost;
 import goldteam.characters.Launcher;
 import goldteam.characters.Walker;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
-import goldteam.domain.Delta;
 import goldteam.domain.DoubleVector;
-import goldteam.domain.ModType;
 import goldteam.domain.VectorMath;
 import goldteam.gamedata.GameData;
 import java.awt.Point;
@@ -40,7 +36,8 @@ public class TestCharacterPanel extends GamePanelBase
     @Override
     protected void addGameObjects()
     {
-        ar = gameData.getArcherMan();
+        
+        ar = new ArcherMan(gameData, new Point(400, 400));
         CharacterAnimationBase archerDefaultRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
         CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
         CharacterAnimationBase archerWalkingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
@@ -82,7 +79,6 @@ public class TestCharacterPanel extends GamePanelBase
         arrow.setAnimator(ga1);
         return ga1;
     }
-
     
     @Override
     public void keyPressed(KeyEvent e)
@@ -158,7 +154,7 @@ public class TestCharacterPanel extends GamePanelBase
         {
             CharacterAnimationBase arrow = null;
             DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - ar.PositionVector().getX(), e.getY() - ar.PositionVector().getY()), 15 + ar.getMouseCharge() * 3);
-            velocity = new DoubleVector(velocity.x + ar.getVelocityVector().x, velocity.y + ar.getVelocityVector().y); //Player Momentum transfers to arrow
+            //velocity = new DoubleVector(velocity.x + ar.getVelocityVector().x, velocity.y + ar.getVelocityVector().y); //Player Momentum transfers to arrow
             if(ar.animator == ar.animators.get(AnimationState.DEFAULT_RIGHT))
                 arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/ArrowRight.png");
             else

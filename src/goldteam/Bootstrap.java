@@ -2,6 +2,8 @@ package goldteam;
 
 import goldteam.panels.GameEngineTestPanel;
 import goldteam.domain.PanelManager;
+import goldteam.panels.DeathStageTestPanel;
+import goldteam.panels.GameOverStageTestPanel;
 import goldteam.panels.TestCharacterPanel;
 import goldteam.panels.TestCollidersPanel;
 import goldteam.panels.TestGraphicsPanel;
@@ -15,7 +17,6 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.JPanel;
 
 /**
  * Bootstrap Container. This bootstrap is a container for pre-assembled
@@ -48,6 +49,8 @@ class Bootstrap {
         addTestCharacterPanel(pm);
         addTestSoundsPanel(pm);
         addTestMapsPanel(pm);
+        addGameOverStageTestPanel(pm);
+        addDeathStageTestPanel(pm);
 
         /* Register game window */
         GameWindow gw = new GameWindow(gc, pm);
@@ -149,6 +152,16 @@ class Bootstrap {
 //        JPanel optionsPanel = new OptionsPanel(pm);
         String testPanel = OptionsPanel.class.getName();
         pm.addPanel(GamePanelManager.OPTIONS_PANEL, testPanel);
+    }
+
+    private void addGameOverStageTestPanel(PanelManager pm) {
+        String testPanel = GameOverStageTestPanel.class.getName();
+        pm.addPanel(GamePanelManager.TEST_GAME_OVER_STAGE_PANEL, testPanel);
+    }
+
+    private void addDeathStageTestPanel(PanelManager pm) {
+        String testPanel = DeathStageTestPanel.class.getName();
+        pm.addPanel(GamePanelManager.TEST_DEATH_STAGE_PANEL, testPanel);
     }
 
 }
