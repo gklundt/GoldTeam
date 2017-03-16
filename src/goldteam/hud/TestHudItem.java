@@ -3,57 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package goldteam.Collectables;
+package goldteam.hud;
 
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
-import goldteam.domain.CollectableItem;
-import goldteam.domain.Collidable;
-import goldteam.domain.CollisionPlane;
+import goldteam.domain.Attackable;
+import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 /**
  *
  * @author faaez
  */
-public class Shields extends GameObject implements Animatable, Collidable, CollectableItem{
-    
-    private AnimationBase animator;
-    private Polygon collider;
-    private final HashMap<Collidable, CollisionPlane> colliders;
-    private boolean state;
+public class TestHudItem extends GameObject implements AttackableWatcher, Animatable{
 
-    public Shields(GameEngine gamedata, Point initialPoint) {
+    public int count;
+    private Attackable watchedItem;
+    private AnimationBase animator;
+    
+    public TestHudItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
-        
-        colliders = new HashMap<>();
-        
-        int [] xPoly = {this.positionVector.x, 
-                        this.positionVector.x + 50, 
-                        this.positionVector.x + 50,
-                        this.positionVector.x
-        };
-        int [] yPoly = {this.positionVector.y, 
-                        this.positionVector.y,
-                        this.positionVector.y + 50,
-                        this.positionVector.y + 50
-        };
-        
-        collider = new Polygon(xPoly, yPoly, xPoly.length);
-        super.shape = collider;
-        
-        this.state = true;
     }
 
     @Override
     protected void Update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.count = this.watchedItem.getHealthValue();
     }
 
     @Override
@@ -79,6 +57,18 @@ public class Shields extends GameObject implements Animatable, Collidable, Colle
     @Override
     protected void MapUpdateTimerHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Attackable getWatcher() {
+        return this.watchedItem;
+    }
+
+    @Override
+    public void setWatcher(Attackable target) {
+        this.watchedItem=target;
+        this.count = this.watchedItem.getHealthValue();
+        this.watchedItem.addAttackableListener(l -> Update());
     }
 
     @Override
@@ -114,41 +104,6 @@ public class Shields extends GameObject implements Animatable, Collidable, Colle
     @Override
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Polygon getPolygon() {
-        return this.collider;
-    }
-
-    @Override
-    public void setCollider(Collidable obj, CollisionPlane direction) {
-        colliders.put(obj, direction);
-    }
-
-    @Override
-    public void removeCollider(Collidable obj) {
-        this.colliders.remove(obj);
-    }
-
-    @Override
-    public HashMap<Collidable, CollisionPlane> getColliders() {
-        return this.colliders;
-    }
-    
-    @Override
-        public void setState(boolean state){
-        this.state = state;
-    }
-    
-    @Override
-    public boolean getState(){
-        return this.state;
-    }
-    
-    @Override
-    public void undoCollider(){
-        this.collider = new Polygon();
     }
     
 }

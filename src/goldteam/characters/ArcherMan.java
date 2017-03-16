@@ -76,7 +76,7 @@ public class ArcherMan extends GameObject implements
         this.initialVelocity = 10d;
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
-        this.initialArrows = 100;
+        this.initialArrows = 10;
         CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
         CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
         CharacterAnimationBase archerWalkingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
@@ -91,7 +91,7 @@ public class ArcherMan extends GameObject implements
         this.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
         this.setAnimator(archerDefaultRight);
     }
-
+    
     @Override
     public int getShieldValue() {
         return shield;
@@ -121,7 +121,14 @@ public class ArcherMan extends GameObject implements
     
     @Override
     public void setArrowDelta(Delta delta){
-        this.arrows = delta.delta.intValue();
+        this.arrows += delta.delta.intValue();
+        this.notifyAttackableListeners();
+    }
+    
+    @Override
+    public void setChargeDelta(Delta delta){
+        this.charge += delta.delta.intValue();
+        this.notifyAttackableListeners();
     }
 
     @Override
@@ -325,8 +332,8 @@ public class ArcherMan extends GameObject implements
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
         
-        if(mousePressed)
-            charge++;     
+        if(mousePressed && charge < 20)
+            this.setChargeDelta(Delta.create(1.0, ModType.FIXED));
     }
 
     @Override
@@ -424,11 +431,27 @@ public class ArcherMan extends GameObject implements
         lives = delta.delta.intValue();
     }
 
-    private void notifyAttackableListeners() {
+    @Override
+    public void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(e);
         }    
+    }
+
+    @Override
+    public void notifyDepletableListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyCollidableListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getChargeValue() {
+        return charge;
     }
     
 }

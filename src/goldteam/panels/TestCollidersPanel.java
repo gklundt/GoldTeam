@@ -5,9 +5,10 @@
  */
 package goldteam.panels;
 
-import goldteam.Collectables.Arrows;
-import goldteam.Collectables.Health;
-import goldteam.Collectables.Shields;
+//import goldteam.collectables.Arrows;
+//import goldteam.Collectables.Health;
+//import goldteam.collectables.Shields;
+import goldteam.collectables.Arrows;
 import goldteam.GamePanelManager;
 import goldteam.animators.ArrowHudAnimation;
 import goldteam.animators.CollectableArrowAnimation;
@@ -37,13 +38,11 @@ import goldteam.domain.Platform;
 import java.awt.Dimension;
 import goldteam.colliders.PlatformCollider;
 import goldteam.domain.Collidable;
-import goldteam.domain.CollisionPlane;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
 import goldteam.hud.ShieldHudItem;
-import java.util.Iterator;
 
 /**
  *
@@ -62,8 +61,8 @@ public class TestCollidersPanel extends GamePanelBase {
     private LavaPlatform lavaPlatform;
     private ArrayList<Platform> platforms;
     private Arrows arrow;
-    private Health health;
-    private Shields shield;
+//    private Health health;
+//    private Shields shield;
     private HeartHudItem hearts;
     private ShieldHudItem shields;
     private ArrowHudItem hudArrow;
@@ -113,12 +112,12 @@ public class TestCollidersPanel extends GamePanelBase {
         
         arrow = new Arrows(gameData, new Point(20, 388));
         CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
-        
-        health = new Health(gameData, new Point(80, 390));
-        CollectableHealthAnimation ha = new CollectableHealthAnimation(health, gameData.getVisibleDimensions(), "assets/heart.png");
-        
-        shield = new Shields(gameData, new Point(130, 390));
-        CollectableShieldAnimation sa = new CollectableShieldAnimation(shield, gameData.getVisibleDimensions(), "assets/shield.png");
+//        
+//        health = new Health(gameData, new Point(80, 390));
+//        CollectableHealthAnimation ha = new CollectableHealthAnimation(health, gameData.getVisibleDimensions(), "assets/heart.png");
+//        
+//        shield = new Shields(gameData, new Point(130, 390));
+//        CollectableShieldAnimation sa = new CollectableShieldAnimation(shield, gameData.getVisibleDimensions(), "assets/shield.png");
         
         hearts = new HeartHudItem(gameData, new Point(10, 10));
         hearts.setWatcher(g1);
@@ -130,10 +129,10 @@ public class TestCollidersPanel extends GamePanelBase {
         ShieldHudAnimation sha = new ShieldHudAnimation(shields, gameData.getVisibleDimensions(), "assets/shield.png");
         shields.setAnimator(sha);
         
-        /*hudArrow = new ArrowHudItem(gameData, new Point(10, 60));
+        hudArrow = new ArrowHudItem(gameData, new Point(10, 60));
         hudArrow.setWatcher(g1);
         ArrowHudAnimation aha = new ArrowHudAnimation(hudArrow, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
-        hudArrow.setAnimator(aha);*/
+        hudArrow.setAnimator(aha);
         
         g1.setAnimator(ga1);
         g2.setAnimator(ga2);
@@ -144,9 +143,9 @@ public class TestCollidersPanel extends GamePanelBase {
         flatPlatform1.setAnimator(fpa1);
         
         arrow.setAnimator(aa);
-        health.setAnimator(ha);
-        shield.setAnimator(sa);
-        
+//        health.setAnimator(ha);
+//        shield.setAnimator(sa);
+//        
         //raisedPlatform.setCollider(raisedPlatform, CollisionPlane.LEFT);
         
         this.layeredPane.add(fpa, layeredPane.highestLayer());
@@ -157,12 +156,12 @@ public class TestCollidersPanel extends GamePanelBase {
         this.layeredPane.add(ga2, layeredPane.highestLayer());
         
         this.layeredPane.add(aa, layeredPane.highestLayer());
-        this.layeredPane.add(ha, layeredPane.highestLayer());
-        this.layeredPane.add(sa, layeredPane.highestLayer());
-        
+//        this.layeredPane.add(ha, layeredPane.highestLayer());
+//        this.layeredPane.add(sa, layeredPane.highestLayer());
+//        
         this.layeredPane.add(hha, this.layeredPane.highestLayer());
         this.layeredPane.add(sha, this.layeredPane.highestLayer());  
-        //this.layeredPane.add(aha, this.layeredPane.highestLayer());
+        this.layeredPane.add(aha, this.layeredPane.highestLayer());
 
         StationaryGhostCollider sg = new StationaryGhostCollider();  
         
@@ -201,8 +200,8 @@ public class TestCollidersPanel extends GamePanelBase {
         
         collisionDetector3.registerCollidable(g1);
         collisionDetector3.registerCollidable(arrow);
-        collisionDetector3.registerCollidable(health);
-        collisionDetector3.registerCollidable(shield);
+//        collisionDetector3.registerCollidable(health);
+//        collisionDetector3.registerCollidable(shield);
         
         g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
         g1.setShieldDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.

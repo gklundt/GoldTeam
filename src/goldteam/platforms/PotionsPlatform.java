@@ -185,5 +185,10 @@ public class PotionsPlatform extends GameObject implements Platform, Animatable,
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 return this.colliders;
     }
+
+    @Override
+    public void notifyCollidableListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

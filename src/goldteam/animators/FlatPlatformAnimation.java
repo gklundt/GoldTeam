@@ -10,7 +10,6 @@ import goldteam.domain.PlatfromAnimationBase;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
-import java.util.Random;
 
 /**
  *

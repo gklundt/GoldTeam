@@ -5,9 +5,8 @@
  */
 package goldteam.colliders;
 
-import goldteam.Collectables.Arrows;
-import goldteam.Collectables.Health;
-import goldteam.Collectables.Shields;
+import goldteam.collectables.Arrows;
+import goldteam.collectables.Shields;
 import goldteam.characters.StationaryGhost;
 import goldteam.domain.CollectableItem;
 import goldteam.domain.Collidable;
@@ -39,12 +38,6 @@ public class CollectablesCollider implements CollisionListener {
         } else if(item instanceof Shields){
             if(g1.getShieldValue() < 10){
                 g1.setShieldDelta(Delta.create(1.0, ModType.FIXED));
-                item.setState(false);
-                item.undoCollider();
-            }
-        } else if (item instanceof Health){
-            if(g1.getHealthValue() < 5){
-                g1.setHealthDelta(Delta.create(1.0, ModType.FIXED));
                 item.setState(false);
                 item.undoCollider();
             }

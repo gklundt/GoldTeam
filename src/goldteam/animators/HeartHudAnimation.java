@@ -5,7 +5,6 @@
  */
 package goldteam.animators;
 
-import goldteam.domain.Attackable;
 import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameObject;
 import goldteam.domain.HudAnimationBase;

@@ -5,7 +5,6 @@
  */
 package goldteam.colliders;
 
-import goldteam.animators.BigGhostAnimation;
 import goldteam.characters.Arrow;
 import goldteam.characters.Ghost;
 import goldteam.domain.AnimationState;
@@ -14,9 +13,6 @@ import goldteam.domain.CollisionListener;
 import goldteam.domain.Delta;
 import goldteam.domain.GameSounds;
 import goldteam.domain.ModType;
-import goldteam.domain.Movable;
-import goldteam.domain.PanelManager;
-import goldteam.domain.Platform;
 
 /**
  *

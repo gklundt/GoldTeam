@@ -213,14 +213,16 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         this.notifyAttackableListeners();
     }
     
-    private void notifyAttackableListeners() {
+    @Override
+    public void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(e);
         }
     }
     
-    private void notifyCollidableListeners() {
+    @Override
+    public void notifyCollidableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener cl : this.collidableListeners) {
             cl.actionPerformed(e);
@@ -254,6 +256,16 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
 
     public void setNewAnimator(String string) {
         this.animator = null;
+    }
+
+    @Override
+    public double getChargeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setChargeDelta(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

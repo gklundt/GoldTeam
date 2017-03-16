@@ -161,22 +161,22 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
 
     @Override
     public Polygon getPolygon() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.collider;
     }
 
     @Override
     public void setCollider(Collidable obj, CollisionPlane direction) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        colliders.put(obj, direction);
     }
 
     @Override
     public void removeCollider(Collidable obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        colliders.remove(obj);
     }
 
     @Override
     public HashMap<Collidable, CollisionPlane> getColliders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return colliders;
     }
 
     @Override
@@ -196,6 +196,11 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
 
     @Override
     public AnimationBase getRemoveAnimator() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyCollidableListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

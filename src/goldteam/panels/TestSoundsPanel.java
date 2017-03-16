@@ -7,7 +7,6 @@ import goldteam.characters.Ghost;
 import goldteam.colliders.CollisionDetector;
 import goldteam.colliders.GhostCollider;
 import goldteam.domain.CharacterAnimationBase;
-import goldteam.domain.Collidable;
 import goldteam.domain.Delta;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.GameSounds;
