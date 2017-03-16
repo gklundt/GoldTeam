@@ -39,7 +39,7 @@ public class ArrowChargeAnimation extends ChargeAnimationBase {
 
     private AttackableWatcher gameObj;
     private BufferedImage img;
-    private GameObject archer;
+    private ArcherMan archer;
 
     public ArrowChargeAnimation(GameObject gameObject, Dimension preferredSize, ArcherMan ar) {
         super(gameObject, preferredSize, new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0.0, 0.0));
@@ -49,8 +49,10 @@ public class ArrowChargeAnimation extends ChargeAnimationBase {
     
     @Override
     protected void update() {
-        this.chargeAmount = this.gameObj.getWatcher().getChargeValue();
-        this.archerPosition = this.archer.PositionVector();
+        if(this.archer.getArrowCount() > 0) {
+            this.chargeAmount = this.gameObj.getWatcher().getChargeValue();
+            this.archerPosition = this.archer.PositionVector();
+        }
     }
 
 }

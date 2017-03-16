@@ -51,9 +51,8 @@ public abstract class ArrowHudAnimationBase extends AnimationBase{
         int dx = gameObject.PositionVector().x;
         af.setTransform(1.0, 0, 0, 1.0, dx, dy);
         g2d.drawImage(img, af, null);
-        g2d.setFont(new Font("TimesRoman", Font.BOLD, 20));
-        
-        g2d.drawString(Integer.toString(this.arrowCount), dx+img.getWidth()+5, dy+15);
+        g2d.setFont(new Font("Snap ITC", Font.PLAIN, 25));
+        g2d.drawString(Integer.toString(this.arrowCount), dx+img.getWidth()+5, dy+25);
     }
     
     @Override

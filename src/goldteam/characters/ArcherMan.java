@@ -76,7 +76,7 @@ public class ArcherMan extends GameObject implements
         this.initialVelocity = 10d;
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
-        this.initialArrows = 100;
+        this.initialArrows = 10;
         CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
         CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
         CharacterAnimationBase archerWalkingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
