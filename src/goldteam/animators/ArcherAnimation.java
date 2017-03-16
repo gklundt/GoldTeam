@@ -5,6 +5,8 @@
  */
 package goldteam.animators;
 
+import goldteam.characters.ArcherMan;
+import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GameObject;
 import java.awt.Dimension;
@@ -16,31 +18,31 @@ import java.awt.geom.AffineTransform;
  */
 @SuppressWarnings("serial")
 public class ArcherAnimation extends CharacterAnimationBase {
+
+    private final ArcherMan archer;
     
-    
-    public ArcherAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
+    public ArcherAnimation(GameObject gameObject, Dimension preferredSize, String assetFile, int spriteCount) {
         super(gameObject, preferredSize, assetFile);
+        this.archer = (ArcherMan) gameObject;
         // Setup animation
-        super.loadImage(imgFilename, 1, 1, new AffineTransform(1, 0, 0, 1, 0, 0));
-    }
-    
-    public ArcherAnimation(GameObject gameObject, Dimension preferredSize, String assetFile, int dummy) {
-        super(gameObject, preferredSize, assetFile);
-        // Setup animation
-        super.loadImage(imgFilename, 1, 8, new AffineTransform(1, 0, 0, 1, 0, 0));
-    }
-    
-    public ArcherAnimation(GameObject gameObject, Dimension preferredSize, String assetFile, int dummy, int dumber) {
-        super(gameObject, preferredSize, assetFile);
-        // Setup animation
-        super.loadImage(imgFilename, 1, 4, new AffineTransform(1, 0, 0, 1, 0, 0));
+        super.loadImage(imgFilename, 1, spriteCount, new AffineTransform(1, 0, 0, 1, 0, 0));
     }
 
     @Override
     protected void update() {
-        ++currentFrame;    // displays next frame
-        if (currentFrame >= numFrames) {
+            
+        //When the archer dies, the animator stops on the last frame.
+        if(archer.animator==archer.animators.get(AnimationState.DYING) && currentFrame==numFrames-1)
+            return;
+        
+        //When the archer draws an arrow, the animator animates until the second to last frame.
+        //When the mouse button is released, pauseAnimation is set to false and the animator continues to animate.
+        if(archer.pauseAnimation && currentFrame == numFrames-2)
+            return;
+        
+        //Otherwise just update animation by incrementing currentFrame.
+        if (++currentFrame >= numFrames)
             currentFrame = 0;
-        }
+        
     }
 }

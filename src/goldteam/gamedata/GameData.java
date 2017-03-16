@@ -1,6 +1,12 @@
 package goldteam.gamedata;
 
+import goldteam.animators.ArcherAnimation;
+import goldteam.animators.ArrowAnimation;
+import goldteam.characters.ArcherMan;
+import goldteam.characters.Arrow;
+import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.Depletable;
+import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.MapLocationConverter;
@@ -35,6 +41,7 @@ public class GameData implements GameEngine,
     private final Timer collisionTimer;
     private final CoordConv mapLocationConverter;
     private Point mapLocation;
+    private ArcherMan archerMan;
 
     public GameData() {
 
@@ -56,6 +63,11 @@ public class GameData implements GameEngine,
         collisionTimer.start();
         animationGraphicsUpdateTimer.start();
         this.mapLocation = new Point();
+        archerMan = new ArcherMan(this, new Point(400, 400));
+    }
+    
+    public ArcherMan getArcherMan() {
+        return archerMan;
     }
 
     @Override
@@ -203,4 +215,12 @@ public class GameData implements GameEngine,
         mapLocation.y = (0 - mapLocation.y) + vis.y;
         return mapLocation;
     }
+    
+    public void createBomb(Point p) {
+        Arrow arrow = new Arrow(this, (Point)(p.clone()), new DoubleVector(0.0, 5.0));
+        CharacterAnimationBase ga1;
+        ga1 = new ArrowAnimation(arrow, getVisibleDimensions(), "assets/GameGhostStripe.png");
+        arrow.setAnimator(ga1);
+   }
+
 }

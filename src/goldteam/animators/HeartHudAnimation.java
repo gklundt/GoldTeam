@@ -6,8 +6,10 @@
 package goldteam.animators;
 
 import goldteam.domain.AttackableWatcher;
+import goldteam.domain.Delta;
 import goldteam.domain.GameObject;
 import goldteam.domain.HudAnimationBase;
+import goldteam.domain.ModType;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 

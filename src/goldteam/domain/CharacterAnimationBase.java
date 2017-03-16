@@ -28,7 +28,7 @@ public abstract class CharacterAnimationBase extends AnimationBase {
     protected int imgWidth;
     protected int imgHeight;
     private BufferedImage img; // for the entire image stripe
-    private BufferedImage[] imgArray; // for the entire image stripe
+    protected BufferedImage[] imgArray; // for the entire image stripe
     private final AffineTransform af;
 
     public CharacterAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
@@ -38,9 +38,7 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         this.gameObject = gameObject;
         this.animatableGameObject = (Animatable) gameObject;
         this.animatableGameObject.addAnimationTimerListener(this);
-        this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0, 0);
-        
-           
+        this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0, 0);     
     }
 
     protected void loadImage(String imgFileName, int numRows, int numCols, AffineTransform imageTransform) {

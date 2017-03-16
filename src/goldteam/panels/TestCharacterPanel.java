@@ -1,6 +1,7 @@
 package goldteam.panels;
 
 import goldteam.animators.ArcherAnimation;
+import goldteam.animators.ArrowAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
 import goldteam.characters.ArcherMan;
@@ -32,21 +33,7 @@ public class TestCharacterPanel extends GamePanelBase
     @Override
     protected void addGameObjects()
     {
-        
         ar = new ArcherMan(gameData, new Point(400, 400));
-        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
-        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
-        CharacterAnimationBase archerWalkingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
-        CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", charge);
-        CharacterAnimationBase archerDrawingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", charge);
-        CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", charge);
-        ar.setAnimator(archerDefaultRight);
-        ar.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
-        ar.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
-        ar.addAnimator(AnimationState.WALKING_RIGHT, archerWalkingRight);
-        ar.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
-        ar.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
-        ar.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
         AnimationBase t = ar.getAnimator();
         this.layeredPane.add(t, layeredPane.highestLayer());
         ar.addAnimationChangeListener(l -> SwitchArcherListener(l));
@@ -56,7 +43,7 @@ public class TestCharacterPanel extends GamePanelBase
     {
         Arrow arrow = new Arrow(gd, (Point)(p.clone()), speed);
         CharacterAnimationBase ga1;
-        ga1 = new ArcherAnimation(arrow, gd.getVisibleDimensions(), image);
+        ga1 = new ArrowAnimation(arrow, gd.getVisibleDimensions(), image);
         arrow.setAnimator(ga1);
         return ga1;
     }
@@ -82,30 +69,42 @@ public class TestCharacterPanel extends GamePanelBase
                 break;
             case KeyEvent.VK_SPACE:
                 ar.setJump(true);
-                break;    
+                ar.removeAnimator = ar.animator;
+                ar.animator = ar.animators.get(AnimationState.JUMPING_RIGHT);
+                ar.notifyAnimationChangeListeners();
+                break;
+            case KeyEvent.VK_1:
+                ar.removeAnimator = ar.animator;
+                ar.animator = ar.animators.get(AnimationState.DYING);
+                ar.notifyAnimationChangeListeners();
+                break;
         }
     }
     
     @Override
     public void keyReleased(KeyEvent e)
     {
-        ar.removeAnimator = ar.animator;
         switch (e.getKeyCode())
         {
             case KeyEvent.VK_A:
                 ar.setLeft(false);
+                ar.removeAnimator = ar.animator;
                 ar.animator = ar.animators.get(AnimationState.DEFAULT_LEFT);
+                ar.notifyAnimationChangeListeners();
                 break;
             case KeyEvent.VK_D:
                 ar.setRight(false);
+                ar.removeAnimator = ar.animator;
                 ar.animator = ar.animators.get(AnimationState.DEFAULT_RIGHT);
+                ar.notifyAnimationChangeListeners();
                 break;
             case KeyEvent.VK_SPACE:
                 ar.setJump(false);
-              //ar.animator = ar.animators.get(AnimationState.DEFAULT_JUMP);
+                ar.removeAnimator = ar.animator;
+                ar.animator = ar.animators.get(AnimationState.DEFAULT_RIGHT);
+                ar.notifyAnimationChangeListeners();
                 break;
         }
-        ar.notifyAnimationChangeListeners();
     }
     
     @Override
@@ -114,7 +113,7 @@ public class TestCharacterPanel extends GamePanelBase
         super.mousePressed(e);
         ar.setMousePressed(true);
         ar.removeAnimator = ar.animator;
-
+        ar.pauseAnimation = true;
         if(e.getX() > ar.PositionVector().x)
             ar.animator = ar.animators.get(AnimationState.SHOOTING_RIGHT);
         else
@@ -126,6 +125,7 @@ public class TestCharacterPanel extends GamePanelBase
     public void mouseReleased(MouseEvent e)
     {
         ar.removeAnimator = ar.animator;
+        ar.pauseAnimation = false;
         if(ar.animator == ar.animators.get(AnimationState.SHOOTING_RIGHT))
             ar.animator = ar.animators.get(AnimationState.DEFAULT_RIGHT);
         else if(ar.animator == ar.animators.get(AnimationState.SHOOTING_LEFT))

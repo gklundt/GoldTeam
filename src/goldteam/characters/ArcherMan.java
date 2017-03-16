@@ -49,6 +49,7 @@ public class ArcherMan extends GameObject implements
     public final HashMap<AnimationState, AnimationBase> animators;
     public final ArrayList<ActionListener> animationChangeListeners;
     public AnimationBase removeAnimator;
+    public boolean pauseAnimation;
     
     public ArcherMan(GameEngine gameData, Point initialPoint)
     {
@@ -61,6 +62,7 @@ public class ArcherMan extends GameObject implements
         this.animationChangeListeners = new ArrayList<>();
         this.canDoubleJump = true;
         this.mousePressed = false;
+        this.pauseAnimation = false;
         
         init();
         
@@ -77,18 +79,24 @@ public class ArcherMan extends GameObject implements
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
         this.initialArrows = 10;
-        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
-        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
-        CharacterAnimationBase archerWalkingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
-        CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", charge);
-        CharacterAnimationBase archerDrawingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", charge);
-        CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", charge);     
+        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", 8);
+        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", 8);
+        CharacterAnimationBase archerWalkingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", 8);
+        CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", 8);
+        CharacterAnimationBase archerDrawingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", 8);
+        CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", 8);
+        CharacterAnimationBase archerHurt = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Hurt.png", 8);
+        CharacterAnimationBase archerJump = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Jump.png", 8);
+        CharacterAnimationBase archerDying = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Death.png", 9);
         this.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
         this.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
         this.addAnimator(AnimationState.WALKING_RIGHT, archerWalkingRight);
         this.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
         this.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
         this.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
+        this.addAnimator(AnimationState.HURT, archerHurt);
+        this.addAnimator(AnimationState.JUMPING_RIGHT, archerJump);
+        this.addAnimator(AnimationState.DYING, archerDying);
         this.setAnimator(archerDefaultRight);
     }
     
@@ -183,23 +191,23 @@ public class ArcherMan extends GameObject implements
 
     @Override
     public void processKeyInput(KeyEvent keyEvent) {
-        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
-            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
-            this.rawVector.x += this.velocity;
-        }
-        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_A)) {
-            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
-            this.rawVector.x -= this.velocity;
-        }
-        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_W)) {
-            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
-            this.rawVector.y -= this.velocity;
-        }
-        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_S)) {
-            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
-            this.rawVector.y += this.velocity;
-        }
-        this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
+//        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
+//            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+//            this.rawVector.x += this.velocity;
+//        }
+//        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_A)) {
+//            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+//            this.rawVector.x -= this.velocity;
+//        }
+//        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_W)) {
+//            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+//            this.rawVector.y -= this.velocity;
+//        }
+//        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_S)) {
+//            this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
+//            this.rawVector.y += this.velocity;
+//        }
+//        this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
     }
 
     @Override
@@ -316,7 +324,7 @@ public class ArcherMan extends GameObject implements
         double velY = velocityVector.y;
         if(jump && canDoubleJump)
         {
-            velY = -30;     //Stops Momentum and creats upwards momentup for double jump
+            //velY = -30;     //Stops Momentum and creats upwards momentup for double jump
             canDoubleJump = false;
         }
         else
@@ -332,8 +340,9 @@ public class ArcherMan extends GameObject implements
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
         
-        if(mousePressed && charge < 20)
+        if(mousePressed && charge < 20 && this.canShootArrow()) {
             this.setChargeDelta(Delta.create(1.0, ModType.FIXED));
+        }
     }
 
     @Override
@@ -392,8 +401,7 @@ public class ArcherMan extends GameObject implements
     public void setMousePressed(boolean b)
     {
         mousePressed = b;
-        if(!b)
-            charge = 0;
+        pauseAnimation = b;
     }
     
     public int getMouseCharge()
@@ -414,6 +422,7 @@ public class ArcherMan extends GameObject implements
     public void shootArrow()
     {
         arrows--;
+        setChargeDelta(Delta.create(-(double)charge, ModType.FIXED));
     }
     
     public boolean canShootArrow()
