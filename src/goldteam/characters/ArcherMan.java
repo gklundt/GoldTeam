@@ -36,7 +36,7 @@ public class ArcherMan extends GameObject implements
     private Double initialShield;
     private Point initialPoint;
     private int initialArrows;
-    private boolean right, left, jump, canDoubleJump, mousePressed;
+    private boolean right, left, facingRight, jump, canDoubleJump, mousePressed;
     private DoubleVector velocityVector;
     private double velocity;
     private int charge;
@@ -79,24 +79,30 @@ public class ArcherMan extends GameObject implements
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
         this.initialArrows = 10;
-        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", 8);
-        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", 8);
+        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", 16);
+        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", 16);
         CharacterAnimationBase archerWalkingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", 8);
         CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", 8);
         CharacterAnimationBase archerDrawingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", 8);
         CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", 8);
-        CharacterAnimationBase archerHurt = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Hurt.png", 8);
-        CharacterAnimationBase archerJump = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Jump.png", 8);
-        CharacterAnimationBase archerDying = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Death.png", 9);
+        CharacterAnimationBase archerHurtLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Hurt_Left.png", 8);
+        CharacterAnimationBase archerHurtRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Hurt_Right.png", 8);
+        CharacterAnimationBase archerJumpRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Jump_Right.png", 8);
+        CharacterAnimationBase archerJumpLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Jump_Left.png", 8);
+        CharacterAnimationBase archerDyingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Death_Right.png", 9);
+        CharacterAnimationBase archerDyingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Death_Left.png", 9);
         this.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
         this.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
         this.addAnimator(AnimationState.WALKING_RIGHT, archerWalkingRight);
         this.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
         this.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
         this.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
-        this.addAnimator(AnimationState.HURT, archerHurt);
-        this.addAnimator(AnimationState.JUMPING_RIGHT, archerJump);
-        this.addAnimator(AnimationState.DYING, archerDying);
+        this.addAnimator(AnimationState.HURT_RIGHT, archerHurtRight);
+        this.addAnimator(AnimationState.HURT_LEFT, archerHurtLeft);
+        this.addAnimator(AnimationState.JUMPING_RIGHT, archerJumpRight);
+        this.addAnimator(AnimationState.JUMPING_LEFT, archerJumpLeft);
+        this.addAnimator(AnimationState.DYING_RIGHT, archerDyingRight);
+        this.addAnimator(AnimationState.DYING_LEFT, archerDyingLeft);
         this.setAnimator(archerDefaultRight);
     }
     
@@ -360,14 +366,28 @@ public class ArcherMan extends GameObject implements
         this.gamedata.addAnimationUpdateTimerListener(listener);
     }
     
+    public boolean getRight()
+    {
+        return right;
+    }
+    
     public void setRight(boolean b)
     {
         right = b;
+        if(b) 
+            facingRight = true;
+    }
+    
+    public boolean getLeft()
+    {
+        return left;
     }
     
     public void setLeft(boolean b)
     {
         left = b;
+        if(b) 
+            facingRight = false;
     }
     
     public void setJump(boolean b)
@@ -461,6 +481,14 @@ public class ArcherMan extends GameObject implements
     @Override
     public double getChargeValue() {
         return charge;
+    }
+
+    public boolean getFacingRight() {
+        return facingRight;
+    }
+
+    public void setFacingRight(boolean b) {
+        this.facingRight = b;
     }
     
 }

@@ -12,10 +12,13 @@ public enum AnimationState {
     WALKING_RIGHT,
     JUMPING_LEFT,
     JUMPING_RIGHT,
-    DYING,
+    DYING_RIGHT,
+    DYING_LEFT,
     FIGHTING_LEFT,
     FIGHTING_RIGHT,
     SHOOTING_LEFT,
     SHOOTING_RIGHT,
-    HURT
+    HURT,
+    HURT_RIGHT,
+    HURT_LEFT
 }

@@ -78,8 +78,6 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-        }
     }
 
     @Override

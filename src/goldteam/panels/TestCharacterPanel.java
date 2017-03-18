@@ -70,12 +70,18 @@ public class TestCharacterPanel extends GamePanelBase
             case KeyEvent.VK_SPACE:
                 ar.setJump(true);
                 ar.removeAnimator = ar.animator;
-                ar.animator = ar.animators.get(AnimationState.JUMPING_RIGHT);
+                if(ar.getRight())
+                    ar.animator = ar.animators.get(AnimationState.JUMPING_RIGHT);
+                else
+                    ar.animator = ar.animators.get(AnimationState.JUMPING_LEFT);
                 ar.notifyAnimationChangeListeners();
                 break;
             case KeyEvent.VK_1:
                 ar.removeAnimator = ar.animator;
-                ar.animator = ar.animators.get(AnimationState.DYING);
+                if(ar.getRight())
+                    ar.animator = ar.animators.get(AnimationState.DYING_RIGHT);
+                else
+                    ar.animator = ar.animators.get(AnimationState.DYING_LEFT);
                 ar.notifyAnimationChangeListeners();
                 break;
         }
@@ -114,10 +120,15 @@ public class TestCharacterPanel extends GamePanelBase
         ar.setMousePressed(true);
         ar.removeAnimator = ar.animator;
         ar.pauseAnimation = true;
-        if(e.getX() > ar.PositionVector().x)
+        if(e.getX() > ar.PositionVector().x) {
+            ar.setLeft(false);
+            ar.setRight(true);
             ar.animator = ar.animators.get(AnimationState.SHOOTING_RIGHT);
-        else
+        } else {
+            ar.setLeft(true);
+            ar.setRight(false);
             ar.animator = ar.animators.get(AnimationState.SHOOTING_LEFT);
+        }
         ar.notifyAnimationChangeListeners();
     }
     
@@ -136,18 +147,14 @@ public class TestCharacterPanel extends GamePanelBase
             CharacterAnimationBase arrow = null;
             DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - ar.PositionVector().getX(), e.getY() - ar.PositionVector().getY()), 15 + ar.getMouseCharge() * 3);
             //velocity = new DoubleVector(velocity.x + ar.getVelocityVector().x, velocity.y + ar.getVelocityVector().y); //Player Momentum transfers to arrow
-            if(ar.animator == ar.animators.get(AnimationState.DEFAULT_RIGHT))
+            if(ar.getRight())
                 arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Right.png");
             else
                 arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Left.png");
             this.layeredPane.add(arrow, layeredPane.highestLayer());
             ar.shootArrow();
-            ar.setMousePressed(false);
         }
-        else
-        {
-            //Something? Idk
-        }
+        ar.setMousePressed(false);
     }
 
     private void SwitchArcherListener(ActionEvent event) {

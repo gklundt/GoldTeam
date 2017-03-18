@@ -32,7 +32,8 @@ public class ArcherAnimation extends CharacterAnimationBase {
     protected void update() {
             
         //When the archer dies, the animator stops on the last frame.
-        if(archer.animator==archer.animators.get(AnimationState.DYING) && currentFrame==numFrames-1)
+        if((archer.animator==archer.animators.get(AnimationState.DYING_RIGHT) 
+                || archer.animator==archer.animators.get(AnimationState.DYING_LEFT)) && currentFrame==numFrames-1)
             return;
         
         //When the archer draws an arrow, the animator animates until the second to last frame.

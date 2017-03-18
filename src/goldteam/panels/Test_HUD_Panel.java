@@ -1,7 +1,6 @@
 package goldteam.panels;
 
 import goldteam.GamePanelManager;
-import goldteam.animators.ArcherAnimation;
 import goldteam.animators.ArrowAnimation;
 import goldteam.animators.ArrowChargeAnimation;
 import goldteam.animators.ArrowHudAnimation;
@@ -61,12 +60,11 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         GhostCollider gc = new GhostCollider();
         collisionDetector.addCollisionListener(gc);
         
-        archer = new ArcherMan(gameData, new Point(300, 300));
-        //archer.setChargeValue(Delta.create(0.0, ModType.FIXED));
-        
+        archer = new ArcherMan(gameData, new Point(300, 300));  
         AnimationBase t = archer.getAnimator();
         this.layeredPane.add(t, layeredPane.highestLayer());
         archer.addAnimationChangeListener(l -> SwitchArcherListener(l));
+        collisionDetector.registerCollidable(archer);
         
         bigGhost = new Ghost[5];
         for(int i = 0; i<5; i++) {
@@ -147,7 +145,10 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
             case KeyEvent.VK_SPACE:
                 archer.setJump(true);
                 archer.removeAnimator = archer.animator;
-                archer.animator = archer.animators.get(AnimationState.JUMPING_RIGHT);
+                if(archer.getFacingRight())
+                    archer.animator = archer.animators.get(AnimationState.JUMPING_RIGHT);
+                else
+                    archer.animator = archer.animators.get(AnimationState.JUMPING_LEFT);
                 archer.notifyAnimationChangeListeners();
                 break;
             case KeyEvent.VK_ESCAPE:
@@ -159,7 +160,10 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
             case KeyEvent.VK_1:
                 this.hearts.getWatcher().setHealthDelta(Delta.create(-1.0, ModType.FIXED));
                 archer.removeAnimator = archer.animator;
-                archer.animator = archer.animators.get(AnimationState.HURT);
+                if(archer.getFacingRight())
+                    archer.animator = archer.animators.get(AnimationState.HURT_RIGHT);
+                else
+                    archer.animator = archer.animators.get(AnimationState.HURT_LEFT);
                 archer.notifyAnimationChangeListeners();
                 break;
             case KeyEvent.VK_2:
@@ -167,7 +171,10 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
                 break;
             case KeyEvent.VK_3:
                 archer.removeAnimator = archer.animator;
-                archer.animator = archer.animators.get(AnimationState.DYING);
+                if(archer.getFacingRight())
+                    archer.animator = archer.animators.get(AnimationState.DYING_RIGHT);
+                else
+                    archer.animator = archer.animators.get(AnimationState.DYING_LEFT);
                 archer.notifyAnimationChangeListeners();
                 break;
             default:
@@ -196,12 +203,18 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
             case KeyEvent.VK_SPACE:
                 archer.setJump(false);
                 archer.removeAnimator = archer.animator;
-                archer.animator = archer.animators.get(AnimationState.DEFAULT_RIGHT);
+                if(archer.getFacingRight())
+                    archer.animator = archer.animators.get(AnimationState.DEFAULT_RIGHT);
+                else
+                    archer.animator = archer.animators.get(AnimationState.DEFAULT_LEFT);
                 archer.notifyAnimationChangeListeners();
                 break;
             case KeyEvent.VK_1:
                 archer.removeAnimator = archer.animator;
-                archer.animator = archer.animators.get(AnimationState.DEFAULT_RIGHT);
+                if(archer.getFacingRight())
+                    archer.animator = archer.animators.get(AnimationState.DEFAULT_RIGHT);
+                else
+                    archer.animator = archer.animators.get(AnimationState.DEFAULT_LEFT);
                 archer.notifyAnimationChangeListeners();
                 break;
         }
@@ -217,8 +230,10 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
             archer.removeAnimator = archer.animator;
 
             if(e.getX() > archer.PositionVector().x) {
+                archer.setFacingRight(true);
                 archer.animator = archer.animators.get(AnimationState.SHOOTING_RIGHT);
             } else {
+                archer.setFacingRight(false);
                 archer.animator = archer.animators.get(AnimationState.SHOOTING_LEFT);
             }
             archer.notifyAnimationChangeListeners();
@@ -227,26 +242,30 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
     
     @Override
     public void mouseReleased(MouseEvent e)
-    {   
+    {   archer.removeAnimator = archer.animator;
+        if(e.getX() > archer.PositionVector().x) {
+            archer.setFacingRight(true);
+            archer.animator = archer.animators.get(AnimationState.DEFAULT_RIGHT);
+        } else {
+            archer.setFacingRight(false);
+            archer.animator = archer.animators.get(AnimationState.DEFAULT_LEFT);
+        }
+        archer.notifyAnimationChangeListeners();
+        
         if(archer.canShootArrow()) {
-            archer.removeAnimator = archer.animator;
-            archer.setMousePressed(false);
-            archer.pauseAnimation = false;
-            if(archer.animator == archer.animators.get(AnimationState.SHOOTING_RIGHT))
-                archer.animator = archer.animators.get(AnimationState.DEFAULT_RIGHT);
-            else if(archer.animator == archer.animators.get(AnimationState.SHOOTING_LEFT))
-                archer.animator = archer.animators.get(AnimationState.DEFAULT_LEFT);
-            archer.notifyAnimationChangeListeners();
             CharacterAnimationBase arrow;
             DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - archer.PositionVector().getX(), e.getY() - archer.PositionVector().getY()), 15 + archer.getMouseCharge() * 3);
             //velocity = new DoubleVector(velocity.x + archer.getVelocityVector().x, velocity.y + archer.getVelocityVector().y); //Player Momentum transfers to arrow
-            if(archer.animator == archer.animators.get(AnimationState.DEFAULT_RIGHT))
+            archer.pauseAnimation = false;
+            if(archer.getFacingRight()) {
                 arrow = this.createNewArrow(gameData, archer.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Right.png");
-            else
+            } else {
                 arrow = this.createNewArrow(gameData, archer.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Left.png");
+            }
             this.layeredPane.add(arrow, layeredPane.highestLayer());
             archer.shootArrow();
         }
+        archer.setMousePressed(false);
     }
 
     private void SwitchArcherListener(ActionEvent event) {

@@ -51,8 +51,7 @@ public abstract class HudAnimationBase extends AnimationBase {
      * Helper method to load image. All frames have the same height and width
      *
      * @param imgFileName
-     * @param numRows
-     * @param numCols
+     * @param numberOfItems
      */
     protected void loadImage(String imgFileName, int numberOfItems, AffineTransform transform) {
         this.count = numberOfItems;
@@ -95,10 +94,10 @@ public abstract class HudAnimationBase extends AnimationBase {
         Graphics2D g2d = (Graphics2D) g;
         int dy = gameObject.PositionVector().y;
 
-        for(int i=0; i < imgArray.length-1; i++){
+        for(int i=0; i < count-1; i++){
             int dx = gameObject.PositionVector().x + i * imgWidth;
             af.setTransform(1.0, 0, 0, 1.0, dx, dy);
-            if(imgArray[i]!=null)
+//            if(imgArray[i]!=null)
                 g2d.drawImage(imgArray[i], af, null);
         }
     }
