@@ -11,6 +11,7 @@ import goldteam.domain.GameEngine;
 import goldteam.gamedata.GameData;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,11 +20,15 @@ import java.awt.event.ActionListener;
 public class Launcher extends BaseEnemy
 {
     private boolean goesLeft;
+        public final ArrayList<ActionListener> animationChangeListeners;
+        
+
     public Launcher(GameEngine gamedata, Point initialPoint, boolean l)
     {
         super(gamedata, initialPoint);
         maxSpeed = 6;
         goesLeft = l;
+        this.animationChangeListeners = new ArrayList<>();
     }
     
     @Override
@@ -69,7 +74,7 @@ public class Launcher extends BaseEnemy
 
     @Override
     public AnimationBase getAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return this.animator;
     }
 
     @Override
@@ -80,7 +85,7 @@ public class Launcher extends BaseEnemy
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationChangeListeners.add(listener);
     }
 
     @Override

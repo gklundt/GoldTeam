@@ -19,6 +19,7 @@ import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.GameStageAnimationBase;
 import goldteam.domain.PanelManager;
+import goldteam.domain.ResettableAnimation;
 import goldteam.gamedata.GameData;
 import goldteam.hud.GameStageItem;
 import goldteam.maps.TestMap;
@@ -199,12 +200,15 @@ public class TestMapsPanel extends GamePanelBase {
         if (anim.getRemoveAnimator() != null) {
             this.layeredPane.remove(anim.getAnimator());
         }
+        
         if (anim.getAnimator() != null) {
             AnimationBase a = anim.getAnimator();
-            if (a instanceof GameStageAnimationBase) {
-                GameStageAnimationBase gsa = (GameStageAnimation) a;
+       
+            if (a instanceof ResettableAnimation) {
+                ResettableAnimation gsa = (ResettableAnimation) a;
                 gsa.resetAnimation();
             }
+            
             this.layeredPane.add(anim.getAnimator(), layeredPane.highestLayer());
         }
     }
