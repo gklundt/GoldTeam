@@ -8,6 +8,7 @@ package goldteam.panels;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
+import goldteam.providers.GameObjectProvider;
 
 /**
  *
@@ -32,8 +33,10 @@ public class GameLevelTestPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
 
+        GameObjectProvider provider = new GameObjectProvider();
         
         
+        //layeredPane.add(provider.build(builder));
         
     }
     
