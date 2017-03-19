@@ -25,6 +25,7 @@ public class GamePanelManager implements PanelManager {
     public static final String TEST_MAPS_PANEL = "TEST_MAPS_PANEL";
     public static final String TEST_GAME_OVER_STAGE_PANEL = "TEST_GAME_OVER_STAGE_PANEL";
     public static final String TEST_DEATH_STAGE_PANEL = "TEST_DEATH_STAGE_PANEL";
+    public static final String GAME_LEVEL_TEST_PANEL = "GAME_LEVEL_TEST_PANEL";
 
     /* Do not edit below */
     private final ArrayList<PanelManagerListener> listeners;
