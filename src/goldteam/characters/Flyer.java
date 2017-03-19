@@ -12,61 +12,64 @@ import goldteam.domain.GameEngine;
 import goldteam.gamedata.GameData;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  *
  * @author Joshua
  */
-public class Flyer extends BaseEnemy
-{
+public class Flyer extends BaseEnemy {
+
     private int timeSinceAttacked;
-    public Flyer(GameEngine gamedata, Point initialPoint)
-    {
+    public final ArrayList<ActionListener> animationChangeListeners;
+
+    public Flyer(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
         maxSpeed = 6;
+        this.animationChangeListeners = new ArrayList<>();
+
     }
-    
-    private void moveLeft(int xdif)
-    {
+
+    private void moveLeft(int xdif) {
         xdif /= 10;
-        if(xdif < -maxSpeed)
+        if (xdif < -maxSpeed) {
             xdif = -maxSpeed;
+        }
         positionVector.x += xdif;
-        
+
     }
-    
-    private void moveRight(int xdif)
-    {
+
+    private void moveRight(int xdif) {
         xdif /= 10;
-        if(xdif > maxSpeed)
+        if (xdif > maxSpeed) {
             xdif = maxSpeed;
+        }
         positionVector.x += xdif;
-        
+
     }
-    
-    private void attack()
-    {
-        ((GameData)(gamedata)).createBomb(this.positionVector);
+
+    private void attack() {
+        ((GameData) (gamedata)).createBomb(this.positionVector);
         timeSinceAttacked = 0;
-    }
-    
-    @Override
-    protected void Update()
-    {
-        timeSinceAttacked++;
-        int xdif = ((GameData)(gamedata)).getArcherMan().PositionVector().x - positionVector.x;
-        if(xdif > 0)
-            moveRight(xdif);
-        else
-            moveLeft(xdif);
-        
-        if(timeSinceAttacked > 20)
-            attack();
     }
 
     @Override
-    protected void GraphicsUpdateHandler()
-    {
+    protected void Update() {
+        timeSinceAttacked++;
+        int xdif = ((GameData) (gamedata)).getArcherMan().PositionVector().x - positionVector.x;
+        if (xdif > 0) {
+            moveRight(xdif);
+        } else {
+            moveLeft(xdif);
+        }
+
+        if (timeSinceAttacked > 20) {
+            attack();
+        }
+    }
+
+    @Override
+    protected void GraphicsUpdateHandler() {
         Update();
     }
 
@@ -91,25 +94,24 @@ public class Flyer extends BaseEnemy
     }
 
     @Override
-    public void setAnimator(AnimationBase animator)
-    {
+    public void setAnimator(AnimationBase animator) {
         this.animator = animator;
     }
 
     @Override
     public AnimationBase getAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.animator;
     }
 
     @Override
-    public void addAnimationTimerListener(ActionListener listener)
-    {
+    public void addAnimationTimerListener(ActionListener listener) {
         this.gamedata.addAnimationUpdateTimerListener(listener);
     }
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationChangeListeners.add(listener);
+
     }
 
     @Override
@@ -126,5 +128,5 @@ public class Flyer extends BaseEnemy
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
