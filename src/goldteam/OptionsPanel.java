@@ -39,6 +39,7 @@ public final class OptionsPanel extends ManagedPanelBase {
         ret.add(new JButton("Open Test Maps Panel"));
         ret.add(new JButton("Open Game Over Stage Test Panel"));
         ret.add(new JButton("Open Death Stage Test Panel"));
+        ret.add(new JButton("Open Game Level Test Panel"));
 
         ret.get(0).addActionListener(l -> stupidAction(ret.get(0).getText()));
         ret.get(1).addActionListener(l -> stupidAction(ret.get(1).getText()));
@@ -51,6 +52,7 @@ public final class OptionsPanel extends ManagedPanelBase {
         ret.get(9).addActionListener(l -> stupidAction(ret.get(9).getText()));
         ret.get(8).addActionListener(l -> stupidAction(ret.get(8).getText()));
         ret.get(10).addActionListener(l -> stupidAction(ret.get(10).getText()));
+        ret.get(11).addActionListener(l -> stupidAction(ret.get(11).getText()));
 
         return ret;
     }
@@ -88,6 +90,9 @@ public final class OptionsPanel extends ManagedPanelBase {
         }
         if ("Open Death Stage Test Panel".equals(caption)) {
             panelManager.setActivePanel(GamePanelManager.TEST_DEATH_STAGE_PANEL);
+        }
+        if ("Open Game Level Test Panel".equals(caption)) {
+            panelManager.setActivePanel(GamePanelManager.GAME_LEVEL_TEST_PANEL);
         }
     }
 }

@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
  *
  * @author gordon
  */
-public abstract class GameStageAnimationBase extends AnimationBase {
+public abstract class GameStageAnimationBase extends AnimationBase implements ResettableAnimation {
 
     protected final String imgFilename;
     protected final GameObject gameObject;
@@ -88,7 +88,7 @@ public abstract class GameStageAnimationBase extends AnimationBase {
 
         g2d.setColor(Color.black);
 
-        af.setTransform(alpha, 0, 0, alpha, ((1.0 - alpha) * imgWidth)/2, ((1.0 - alpha) * imgHeight)/2);
+        af.setTransform(alpha, 0, 0, alpha, ((1.0 - alpha) * imgWidth) / 2, ((1.0 - alpha) * imgHeight) / 2);
         if (this.alpha >= 1.0) {
             g2d.setComposite(AlphaComposite.SrcOver.derive(0.75f));
             g2d.fill(new Rectangle(this.imgWidth, this.imgHeight));
@@ -104,8 +104,6 @@ public abstract class GameStageAnimationBase extends AnimationBase {
 
     }
 
-    public abstract void resetAnimation();
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         update(); // update the image

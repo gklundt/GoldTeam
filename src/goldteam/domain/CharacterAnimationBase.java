@@ -29,7 +29,6 @@ public abstract class CharacterAnimationBase extends AnimationBase {
     protected int imgHeight;
     private BufferedImage img; // for the entire image stripe
     private BufferedImage[] imgArray; // for the entire image stripe
-    private final AffineTransform af;
 
     public CharacterAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super();
@@ -38,9 +37,7 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         this.gameObject = gameObject;
         this.animatableGameObject = (Animatable) gameObject;
         this.animatableGameObject.addAnimationTimerListener(this);
-        this.af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0, 0);
-        
-           
+
     }
 
     protected void loadImage(String imgFileName, int numRows, int numCols, AffineTransform imageTransform) {
@@ -99,9 +96,13 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         int dx = gameObject.PositionVector().x - imgWidth / 2;
         int dy = gameObject.PositionVector().y - imgHeight / 2;
         this.af.setTransform(1.0, 0, 0, 1.0, dx, dy);
-        
-        Collidable a = (Collidable) this.gameObject;
-        if(a.isCollided() == false){
+
+        if (this.gameObject instanceof Collidable) {
+            Collidable a = (Collidable) this.gameObject;
+            if (a.isCollided() == false) {
+                g2d.drawImage(imgArray[currentFrame], af, null);
+            }
+        } else {
             g2d.drawImage(imgArray[currentFrame], af, null);
         }
     }
