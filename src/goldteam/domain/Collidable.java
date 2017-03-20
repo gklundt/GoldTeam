@@ -15,5 +15,9 @@ public interface Collidable {
     public HashMap<Collidable, CollisionPlane> getColliders();
     
     public void notifyCollidableListeners();
+    
+    public void setCollided(boolean state);
+    
+    public boolean isCollided();
 
 }

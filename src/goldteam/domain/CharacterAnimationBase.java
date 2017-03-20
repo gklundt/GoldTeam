@@ -37,8 +37,7 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         this.gameObject = gameObject;
         this.animatableGameObject = (Animatable) gameObject;
         this.animatableGameObject.addAnimationTimerListener(this);
-        
-           
+
     }
 
     protected void loadImage(String imgFileName, int numRows, int numCols, AffineTransform imageTransform) {
@@ -96,9 +95,16 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         Graphics2D g2d = (Graphics2D) g;
         int dx = gameObject.PositionVector().x - imgWidth / 2;
         int dy = gameObject.PositionVector().y - imgHeight / 2;
-        //this.af.setTransform(1.0, 0, 0, 1.0, dx, dy);
-        af.setTransform(af.getScaleX(), af.getShearY(), af.getShearX(), af.getScaleY(), dx, dy);
-        g2d.drawImage(imgArray[currentFrame], af, null);
+        this.af.setTransform(1.0, 0, 0, 1.0, dx, dy);
+
+        if (this.gameObject instanceof Collidable) {
+            Collidable a = (Collidable) this.gameObject;
+            if (a.isCollided() == false) {
+                g2d.drawImage(imgArray[currentFrame], af, null);
+            }
+        } else {
+            g2d.drawImage(imgArray[currentFrame], af, null);
+        }
     }
 
     @Override

@@ -31,7 +31,7 @@ public class ShieldHudItem extends GameObject implements AttackableWatcher, Anim
     
     @Override
     public void Update() {
-        this.count = this.watchedItem.getHealthValue();
+        this.count = this.watchedItem.getShieldValue();
     }
     
     @Override

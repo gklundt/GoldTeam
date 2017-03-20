@@ -16,7 +16,8 @@ import java.awt.geom.AffineTransform;
  */
 @SuppressWarnings("serial")
 public class ArcherAnimation extends CharacterAnimationBase {
-
+    
+    
     public ArcherAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         // Setup animation
