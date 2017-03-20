@@ -76,7 +76,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
             bigGhost[i].setAnimator(defaultGhostAnimation);
             bigGhost[i].setVelocityScalarDelta(Delta.create(0.0d, ModType.FIXED));
             bigGhost[i].addAnimationChangeListener(l -> SwitchGhostListener(l));
-            collisionDetector.registerCollidable(bigGhost[i]);
+            //collisionDetector.registerCollidable(bigGhost[i]);
             this.layeredPane.add(bigGhost[i].getAnimator(), this.layeredPane.highestLayer());
         }
         

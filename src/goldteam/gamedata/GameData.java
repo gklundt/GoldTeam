@@ -9,6 +9,7 @@ import goldteam.domain.Depletable;
 import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
+import goldteam.domain.GamePanelBase;
 import goldteam.domain.MapLocationConverter;
 import java.awt.Dimension;
 import java.awt.Point;

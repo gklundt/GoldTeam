@@ -51,5 +51,10 @@ public class VectorMath {
         DoubleVector vector = new DoubleVector(point.getX(), point.getY());
         return getScaledVector(getUnitVector(vector), velocity.doubleValue());
     }
+    
+    public static double getMagnitude(DoubleVector vector)
+    {
+        return Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+    }
 
 }

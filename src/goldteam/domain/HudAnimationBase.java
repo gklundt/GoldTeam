@@ -97,8 +97,9 @@ public abstract class HudAnimationBase extends AnimationBase {
         for(int i=0; i < count-1; i++){
             int dx = gameObject.PositionVector().x + i * imgWidth;
             af.setTransform(1.0, 0, 0, 1.0, dx, dy);
-//            if(imgArray[i]!=null)
+            if(imgArray[i]!=null)
                 g2d.drawImage(imgArray[i], af, null);
+            i++;
         }
     }
 

@@ -490,5 +490,15 @@ public class ArcherMan extends GameObject implements
     public void setFacingRight(boolean b) {
         this.facingRight = b;
     }
+
+    @Override
+    public void setCollided(boolean state) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isCollided() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
