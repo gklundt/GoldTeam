@@ -66,6 +66,8 @@ public class StationaryGhost extends GameObject implements
     private final HashMap<Collidable, CollisionPlane> colliders;
     private Integer depletableCount;
     
+    private boolean collided;
+    
     public StationaryGhost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
 
@@ -103,6 +105,7 @@ public class StationaryGhost extends GameObject implements
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
         colliders = new HashMap<>();
+        this.collided = false;
     }
 
     
@@ -386,5 +389,15 @@ public class StationaryGhost extends GameObject implements
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void setCollided(boolean state) {
+        this.collider = new Polygon();
+        this.collided = state;
+    }
+
+    @Override
+    public boolean isCollided() {
+        return collided;
+    }
 }
 

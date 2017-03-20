@@ -99,7 +99,11 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         int dx = gameObject.PositionVector().x - imgWidth / 2;
         int dy = gameObject.PositionVector().y - imgHeight / 2;
         this.af.setTransform(1.0, 0, 0, 1.0, dx, dy);
-        g2d.drawImage(imgArray[currentFrame], af, null);
+        
+        Collidable a = (Collidable) this.gameObject;
+        if(a.isCollided() == false){
+            g2d.drawImage(imgArray[currentFrame], af, null);
+        }
     }
 
     @Override

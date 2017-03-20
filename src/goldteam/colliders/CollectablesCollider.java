@@ -5,6 +5,7 @@
  */
 package goldteam.colliders;
 
+import goldteam.characters.ArcherMan;
 import goldteam.collectables.Arrows;
 import goldteam.collectables.Shields;
 import goldteam.characters.StationaryGhost;
@@ -25,19 +26,19 @@ public class CollectablesCollider implements CollisionListener {
     private Collidable movable;
     
     public void DoCollision(){
-        StationaryGhost g1 = (StationaryGhost) movable;
+        ArcherMan am = (ArcherMan) movable;
         
         CollectableItem item = (CollectableItem) collectableItem;
         
         if(item instanceof Arrows){
-            if(g1.getArrowCount() < 20){
-                g1.setArrowDelta(Delta.create(1.0, ModType.FIXED));
+            if(am.getArrowCount() < 20){
+                am.setArrowDelta(Delta.create(100.0, ModType.FIXED));
                 item.setState(false);
                 item.undoCollider();
             }
         } else if(item instanceof Shields){
-            if(g1.getShieldValue() < 10){
-                g1.setShieldDelta(Delta.create(1.0, ModType.FIXED));
+            if(am.getShieldValue() < 10){
+                am.setShieldDelta(Delta.create(1.0, ModType.FIXED));
                 item.setState(false);
                 item.undoCollider();
             }

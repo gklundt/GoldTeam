@@ -33,11 +33,12 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     private int health;
     private AnimationBase animator;
     private DoubleVector velocityVector;
-    private final Polygon collider;
+    private Polygon collider;
     private Polygon initialCollider;
     private ArrayList<ActionListener> attackableListeners;
     private ArrayList<ActionListener> collidableListeners;
     private final HashMap<Collidable, CollisionPlane> colliders;
+    private boolean collided;
     
 
     public Arrow(GameEngine gamedata, Point initialPoint, DoubleVector velocityVector)
@@ -53,18 +54,19 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         collider = initialCollider;
         super.shape= initialCollider;
         this.velocityVector = velocityVector;
+        collided = false;
     }
     
     private void init() {
-        int [] xPoly = {this.positionVector.x - 10, 
-                        this.positionVector.x + 10, 
-                        this.positionVector.x + 10,
-                        this.positionVector.x - 10
+        int [] xPoly = {this.positionVector.x - 15, 
+                        this.positionVector.x + 15, 
+                        this.positionVector.x + 15,
+                        this.positionVector.x - 15
         };
-        int [] yPoly = {this.positionVector.y - 10, 
-                        this.positionVector.y - 10,
-                        this.positionVector.y + 10,
-                        this.positionVector.y + 10
+        int [] yPoly = {this.positionVector.y - 5, 
+                        this.positionVector.y - 5,
+                        this.positionVector.y + 2,
+                        this.positionVector.y + 2
         };
         initialCollider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
@@ -80,10 +82,10 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         
         this.positionVector.x += this.getVelocityVector().x;
         this.collider.reset();
-        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 5);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 5);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 5);
-        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 5);
+        this.collider.addPoint(this.positionVector.x - 15, this.positionVector.y - 5);
+        this.collider.addPoint(this.positionVector.x + 15, this.positionVector.y - 5);
+        this.collider.addPoint(this.positionVector.x + 15, this.positionVector.y + 2);
+        this.collider.addPoint(this.positionVector.x - 15, this.positionVector.y + 2);
         super.shape = collider;
     }
 
@@ -267,5 +269,15 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     public void setChargeDelta(Delta delta) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public void setCollided(boolean state) {
+        this.collider = new Polygon();
+        this.collided = state;
+    }
+
+    @Override
+    public boolean isCollided() {
+        return this.collided;
+    }
 }
