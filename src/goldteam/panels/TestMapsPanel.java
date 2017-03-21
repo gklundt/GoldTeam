@@ -49,7 +49,7 @@ public class TestMapsPanel extends GamePanelBase {
     private Ghost g2;
     private TestMap tm;
     private DoorsPlatform dp, dp1;
-    private FlatPlatform flatPlatform,raisedPlatform, flatPlatform1;
+    private FlatPlatform flatPlatform,raisedPlatform, flatPlatform1,hp, hp1, hp2, hp3,ob,ob1;
     private LavaPlatform lavaPlatform;
     private SkyPlatform sky;
     private PotionsPlatform pp;
@@ -103,7 +103,30 @@ public class TestMapsPanel extends GamePanelBase {
         FlatPlatformAnimation fpa3 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/platformTile.jpg");
         fpa1.setDimensions(new Dimension(200,150));
          
-      
+        flatPlatform1 = new FlatPlatform(gameData, new Point(700 ,400),70, 15);
+        FlatPlatformAnimation hp = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/horizontal_plat.png");
+        hp.setDimensions(new Dimension(200,150));
+        
+        flatPlatform1 = new FlatPlatform(gameData, new Point(290 ,400),40, 15);
+        FlatPlatformAnimation hp1 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/horizontal_plat.png");
+        hp1.setDimensions(new Dimension(200,150));
+        
+        flatPlatform1 = new FlatPlatform(gameData, new Point(190 ,430),40, 15);
+        FlatPlatformAnimation hp2 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/horizontal_plat.png");
+        hp2.setDimensions(new Dimension(200,150));
+        
+        flatPlatform1 = new FlatPlatform(gameData, new Point(570 ,270),80, 10);
+        FlatPlatformAnimation hp3 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/horizontal_plat.png");
+        hp3.setDimensions(new Dimension(200,150));
+        
+        flatPlatform1 = new FlatPlatform(gameData, new Point(90 ,410),80, 80);
+        FlatPlatformAnimation ob1 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/obstacle1.png");
+        ob1.setDimensions(new Dimension(200,150));
+        
+        flatPlatform1 = new FlatPlatform(gameData, new Point(430 ,260),80, 80);
+        FlatPlatformAnimation ob = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/obstacle.png");
+        ob.setDimensions(new Dimension(200,150));
+
         
         
         g1.setAnimator(ga1);
@@ -114,7 +137,13 @@ public class TestMapsPanel extends GamePanelBase {
         lavaPlatform.setAnimator(lpa);
         flatPlatform1.setAnimator(fpa1);
         flatPlatform1.setAnimator(fpa2);
-        flatPlatform1.setAnimator(fpa3);
+        flatPlatform1.setAnimator(fpa3);   
+        flatPlatform1.setAnimator(hp);
+        flatPlatform1.setAnimator(hp1);
+        flatPlatform1.setAnimator(hp2);
+        flatPlatform1.setAnimator(hp3);
+        flatPlatform1.setAnimator(ob1);
+        flatPlatform1.setAnimator(ob);
         sky.setAnimator(fpa4);
         //pp.setAnimator(ppa);
         
@@ -128,6 +157,13 @@ public class TestMapsPanel extends GamePanelBase {
         this.layeredPane.add(fpa2, layeredPane.highestLayer());   
         this.layeredPane.add(fpa1, layeredPane.highestLayer());     
         this.layeredPane.add(ga1, layeredPane.highestLayer());
+        this.layeredPane.add(hp,  layeredPane.highestLayer());
+        this.layeredPane.add(hp1, layeredPane.highestLayer());
+        this.layeredPane.add(hp2, layeredPane.highestLayer());
+        this.layeredPane.add(hp3, layeredPane.highestLayer());
+        this.layeredPane.add(ob1, layeredPane.highestLayer());
+        this.layeredPane.add(ob, layeredPane.highestLayer());
+
         //this.layeredPane.add(ga2, layeredPane.highestLayer());
         //this.layeredPane.add(ppa, layeredPane.highestLayer());
 
@@ -176,11 +212,11 @@ public class TestMapsPanel extends GamePanelBase {
         this.layeredPane.add(tma, 5);
        */
        //starting door
-        dp = new DoorsPlatform(gameData, new Point(0, 438),10,60);
-        MapDoorsAnimation mpa = new MapDoorsAnimation(dp, gameData.getMapDimensions(), "assets/S_door.png");
-        mpa.setDimensions(new Dimension(50,50));
-        this.layeredPane.add(mpa, 20);
-        dp.setAnimator(mpa);
+        //dp = new DoorsPlatform(gameData, new Point(0, 438),10,60);
+        //MapDoorsAnimation mpa = new MapDoorsAnimation(dp, gameData.getMapDimensions(), "assets/S_door.png");
+        //mpa.setDimensions(new Dimension(50,50));
+        //this.layeredPane.add(mpa, 20);
+        //dp.setAnimator(mpa);
         
         //ending door 
         dp1 = new DoorsPlatform(gameData, new Point(390, 438),10,60);
@@ -192,7 +228,7 @@ public class TestMapsPanel extends GamePanelBase {
     
         //this.layeredPane.add(bga2, layeredPane.highestLayer());
        // this.layeredPane.add(bga1, layeredPane.highestLayer());
-        this.layeredPane.add(mpa, layeredPane.highestLayer());
+        //this.layeredPane.add(mpa, layeredPane.highestLayer());
         
         gameOverHud = new TestHudItem(gameData, new Point(10, 10));
         gameOverHud.setWatcher(g1);
