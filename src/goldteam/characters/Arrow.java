@@ -29,7 +29,7 @@ import java.util.HashMap;
  * @author Caleb Dunham
  */
 public class Arrow extends GameObject implements Movable, Animatable, Collidable, Attackable {
-    
+
     private int health;
     private AnimationBase animator;
     private DoubleVector velocityVector;
@@ -39,47 +39,46 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     private ArrayList<ActionListener> collidableListeners;
     private final HashMap<Collidable, CollisionPlane> colliders;
     private boolean collided;
-    
+    public final ArrayList<ActionListener> animationChangeListeners;
 
-    public Arrow(GameEngine gamedata, Point initialPoint, DoubleVector velocityVector)
-    {
+    public Arrow(GameEngine gamedata, Point initialPoint, DoubleVector velocityVector) {
         super(gamedata, initialPoint);
         attackableListeners = new ArrayList<>();
         collidableListeners = new ArrayList<>();
         colliders = new HashMap<>();
-        
+
         init();
-        
+
         health = 1;
         collider = initialCollider;
-        super.shape= initialCollider;
+        super.shape = initialCollider;
         this.velocityVector = velocityVector;
         collided = false;
+        this.animationChangeListeners = new ArrayList<>();
     }
-    
+
     private void init() {
-        int [] xPoly = {this.positionVector.x - 15, 
-                        this.positionVector.x + 15, 
-                        this.positionVector.x + 15,
-                        this.positionVector.x - 15
+        int[] xPoly = {this.positionVector.x - 15,
+            this.positionVector.x + 15,
+            this.positionVector.x + 15,
+            this.positionVector.x - 15
         };
-        int [] yPoly = {this.positionVector.y - 5, 
-                        this.positionVector.y - 5,
-                        this.positionVector.y + 2,
-                        this.positionVector.y + 2
+        int[] yPoly = {this.positionVector.y - 5,
+            this.positionVector.y - 5,
+            this.positionVector.y + 2,
+            this.positionVector.y + 2
         };
         initialCollider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
-        
+
     }
 
     @Override
-    protected void Update()
-    {
+    protected void Update() {
         velocityVector.y += 1.5;  //Gravity
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
-        
+
         this.positionVector.x += this.getVelocityVector().x;
         this.collider.reset();
         this.collider.addPoint(this.positionVector.x - 15, this.positionVector.y - 5);
@@ -90,8 +89,7 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     }
 
     @Override
-    protected void GraphicsUpdateHandler()
-    {
+    protected void GraphicsUpdateHandler() {
         Update();
     }
 
@@ -116,8 +114,7 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     }
 
     @Override
-    public DoubleVector getVelocityVector()
-    {
+    public DoubleVector getVelocityVector() {
         return velocityVector;
     }
 
@@ -138,25 +135,23 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     }
 
     @Override
-    public void setAnimator(AnimationBase animator)
-    {
+    public void setAnimator(AnimationBase animator) {
         this.animator = animator;
     }
 
     @Override
     public AnimationBase getAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.animator;
     }
 
     @Override
-    public void addAnimationTimerListener(ActionListener listener)
-    {
+    public void addAnimationTimerListener(ActionListener listener) {
         this.gamedata.addAnimationUpdateTimerListener(listener);
     }
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationChangeListeners.add(listener);
     }
 
     @Override
@@ -214,7 +209,7 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         this.health += delta.delta;
         this.notifyAttackableListeners();
     }
-    
+
     @Override
     public void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
@@ -222,7 +217,7 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
             al.actionPerformed(e);
         }
     }
-    
+
     @Override
     public void notifyCollidableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");

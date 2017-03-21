@@ -10,7 +10,6 @@ import goldteam.domain.CollisionListener;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.CollisionRegister;
 import goldteam.domain.GameEngine;
-import goldteam.gamedata.GameData;
 import java.util.ArrayList;
 
 /**
@@ -23,10 +22,10 @@ public class CollisionDetector implements CollisionRegister {
     private final ArrayList<Collidable> collidableObjects;
     private final GameEngine gameEngine;
 
-    public CollisionDetector(GameEngine gameEngine) {
+    public CollisionDetector(GameEngine gameData) {
         this.collidableObjects = new ArrayList<>();
         this.collisionListeners = new ArrayList<>();
-        this.gameEngine = new GameData();
+        this.gameEngine = gameData;
         this.gameEngine.addCollisionTimer((l) -> this.CheckCollisions());
     }
     

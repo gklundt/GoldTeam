@@ -5,18 +5,19 @@
  */
 package goldteam.panels;
 
-import goldteam.animators.GameStageAnimation;
+import goldteam.colliders.CollisionDetector;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
-import goldteam.domain.CharacterBuilderBase;
+import goldteam.domain.Collidable;
+import goldteam.domain.DoubleVector;
 import goldteam.domain.GameObject;
 import goldteam.domain.GameObjectBuilderBase;
 import goldteam.domain.GamePanelBase;
-import goldteam.domain.GameStageAnimationBase;
 import goldteam.domain.PanelManager;
 import goldteam.domain.ResettableAnimation;
 import goldteam.gamedata.GameData;
 import goldteam.providers.ArcherBuilder;
+import goldteam.providers.ArrowBuilder;
 import goldteam.providers.FlyerEnemyBuilder;
 import goldteam.providers.GameObjectProvider;
 import goldteam.providers.LauncherEnemyBuilder;
@@ -29,6 +30,8 @@ import java.awt.Point;
  */
 public class GameLevelTestPanel extends GamePanelBase {
 
+    private final CollisionDetector collisionDetector;
+
     /**
      * Create a new panel manager
      *
@@ -36,7 +39,7 @@ public class GameLevelTestPanel extends GamePanelBase {
      */
     public GameLevelTestPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
-
+        this.collisionDetector = new CollisionDetector(this.gameData);
     }
 
     /**
@@ -60,6 +63,9 @@ public class GameLevelTestPanel extends GamePanelBase {
         this.addGameObject(provider.build(builder));
 
         builder = new LauncherEnemyBuilder(gameData, new Point(750, 350), true);
+        this.addGameObject(provider.build(builder));
+        
+        builder = new ArrowBuilder(gameData, new Point(0,0), new DoubleVector(10d,1d));
         this.addGameObject(provider.build(builder));
     }
 
@@ -95,6 +101,11 @@ public class GameLevelTestPanel extends GamePanelBase {
             AnimationBase animationBase = animatable.getAnimator();
             this.layeredPane.add(animationBase, layeredPane.highestLayer());
             animatable.addAnimationChangeListener(l -> switchAnimation(animatable));
+        }
+
+        if (gameObject instanceof Collidable) {
+            Collidable collidable = (Collidable) gameObject;
+            collisionDetector.registerCollidable(collidable);
         }
     }
 
