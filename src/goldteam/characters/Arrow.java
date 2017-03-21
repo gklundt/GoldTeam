@@ -33,20 +33,19 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     private int health;
     private AnimationBase animator;
     private DoubleVector velocityVector;
-    private final Polygon collider;
-    private Point prevPos;
+    private Polygon collider;
     private Polygon initialCollider;
     private ArrayList<ActionListener> attackableListeners;
     private ArrayList<ActionListener> collidableListeners;
     private final HashMap<Collidable, CollisionPlane> colliders;
-    private ArrayList<ActionListener>  animationChangeListeners;
+    private boolean collided;
+    public final ArrayList<ActionListener> animationChangeListeners;
 
     public Arrow(GameEngine gamedata, Point initialPoint, DoubleVector velocityVector) {
         super(gamedata, initialPoint);
         attackableListeners = new ArrayList<>();
         collidableListeners = new ArrayList<>();
         colliders = new HashMap<>();
-        this.animationChangeListeners = new ArrayList<>();
 
         init();
 
@@ -54,19 +53,20 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         collider = initialCollider;
         super.shape = initialCollider;
         this.velocityVector = velocityVector;
-        prevPos = (Point) (initialPoint.clone());
+        collided = false;
+        this.animationChangeListeners = new ArrayList<>();
     }
 
     private void init() {
-        int[] xPoly = {this.positionVector.x - 10,
-            this.positionVector.x + 10,
-            this.positionVector.x + 10,
-            this.positionVector.x - 10
+        int[] xPoly = {this.positionVector.x - 15,
+            this.positionVector.x + 15,
+            this.positionVector.x + 15,
+            this.positionVector.x - 15
         };
-        int[] yPoly = {this.positionVector.y - 10,
-            this.positionVector.y - 10,
-            this.positionVector.y + 10,
-            this.positionVector.y + 10
+        int[] yPoly = {this.positionVector.y - 5,
+            this.positionVector.y - 5,
+            this.positionVector.y + 2,
+            this.positionVector.y + 2
         };
         initialCollider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
@@ -80,16 +80,11 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         this.positionVector.y += this.getVelocityVector().y;
 
         this.positionVector.x += this.getVelocityVector().x;
-
-        DoubleVector d = new DoubleVector((double) (positionVector.x - prevPos.x), (double) (positionVector.y - prevPos.y));
-        double currentAngle = Math.atan(d.y / d.x);
-        animator.af.setToRotation(currentAngle);
-
         this.collider.reset();
-        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 5);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 5);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 5);
-        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 5);
+        this.collider.addPoint(this.positionVector.x - 15, this.positionVector.y - 5);
+        this.collider.addPoint(this.positionVector.x + 15, this.positionVector.y - 5);
+        this.collider.addPoint(this.positionVector.x + 15, this.positionVector.y + 2);
+        this.collider.addPoint(this.positionVector.x - 15, this.positionVector.y + 2);
         super.shape = collider;
     }
 
@@ -260,4 +255,24 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         this.animator = null;
     }
 
+    @Override
+    public double getChargeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setChargeDelta(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setCollided(boolean state) {
+        this.collider = new Polygon();
+        this.collided = state;
+    }
+
+    @Override
+    public boolean isCollided() {
+        return this.collided;
+    }
 }

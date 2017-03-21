@@ -50,6 +50,9 @@ public class ArcherMan extends GameObject implements
     public final ArrayList<ActionListener> animationChangeListeners;
     public AnimationBase removeAnimator;
 
+    private HashMap<Collidable, CollisionPlane> colliders;
+    private Polygon collider;
+
     public ArcherMan(GameEngine gameData, Point initialPoint) {
         super(gameData, initialPoint);
         this.initialPoint = initialPoint;
@@ -69,25 +72,28 @@ public class ArcherMan extends GameObject implements
         this.velocity = initialVelocity;
         this.positionVector = initialPoint;
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
-        
-        int [] xPoly = {this.positionVector.x - 10, 
-                        this.positionVector.x + 10, 
-                        this.positionVector.x + 10,
-                        this.positionVector.x - 10
+        this.shape = new Polygon();
+
+        int[] xPoly = {this.positionVector.x - 10,
+            this.positionVector.x + 10,
+            this.positionVector.x + 10,
+            this.positionVector.x - 10
         };
-        int [] yPoly = {this.positionVector.y - 10, 
-                        this.positionVector.y - 10,
-                        this.positionVector.y + 10,
-                        this.positionVector.y + 10
+        int[] yPoly = {this.positionVector.y - 30,
+            this.positionVector.y - 30,
+            this.positionVector.y + 30,
+            this.positionVector.y + 30
         };
-        this.shape = new Polygon(xPoly, yPoly, xPoly.length);
+        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        super.shape = collider;
+        colliders = new HashMap<>();
     }
 
     private void init() {
         this.initialVelocity = 10d;
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
-        this.initialArrows = 100;
+        this.initialArrows = 10;
         CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
         CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
         CharacterAnimationBase archerWalkingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
@@ -132,7 +138,14 @@ public class ArcherMan extends GameObject implements
 
     @Override
     public void setArrowDelta(Delta delta) {
-        this.arrows = delta.delta.intValue();
+        this.arrows += delta.delta.intValue();
+        this.notifyAttackableListeners();
+    }
+
+    @Override
+    public void setChargeDelta(Delta delta) {
+        this.charge += delta.delta.intValue();
+        this.notifyAttackableListeners();
     }
 
     @Override
@@ -167,22 +180,22 @@ public class ArcherMan extends GameObject implements
 
     @Override
     public Polygon getPolygon() {
-        return this.shape;
+        return this.collider;
     }
 
     @Override
     public void setCollider(Collidable obj, CollisionPlane direction) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.colliders.put(obj, direction);
     }
 
     @Override
     public void removeCollider(Collidable obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.colliders.remove(obj);
     }
 
     @Override
     public HashMap<Collidable, CollisionPlane> getColliders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.colliders;
     }
 
     @Override
@@ -331,9 +344,16 @@ public class ArcherMan extends GameObject implements
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
 
-        if (mousePressed) {
-            charge++;
+        if (mousePressed && charge < 20) {
+            this.setChargeDelta(Delta.create(1.0, ModType.FIXED));
         }
+        
+        this.collider = new Polygon();
+        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 30);
+        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 30);
+        super.shape = collider;
     }
 
     @Override
@@ -439,6 +459,22 @@ public class ArcherMan extends GameObject implements
     @Override
     public void notifyCollidableListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getChargeValue() {
+        return charge;
+    }
+
+    @Override
+    public void setCollided(boolean state) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isCollided() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
 
 }

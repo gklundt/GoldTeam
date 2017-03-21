@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -33,8 +34,9 @@ public abstract class HudAnimationBase extends AnimationBase {
     protected BufferedImage img; // for the entire image stripe
     protected BufferedImage[] imgArray; // for the entire image stripe
     private final AffineTransform af;
-    private JLabel countSpace;
 
+
+    //HUD Items: Hearts, Shields, Lives
     public HudAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super();
         super.setSize(preferredSize);
@@ -82,41 +84,8 @@ public abstract class HudAnimationBase extends AnimationBase {
         for (int i = 0; i < count; ++i) {
             imgArray[i] = img;
         }
-        this.count = numberOfItems;
     }
     
-    protected void loadImage(String imgFileName, int numberOfItems, AffineTransform transform, int dummy_not_used_only_for_distinction) {
-
-        ClassLoader cl = getClass().getClassLoader();
-        URL imgUrl = cl.getResource(imgFileName);
-        if (imgUrl == null) {
-            System.err.println("Couldn't find file: " + imgFileName);
-        } else {
-            try {
-                img = ImageIO.read(imgUrl); // load image via URL
-            } catch (IOException ex) {
-            }
-        }
-
-        int scaleX = ((Double) (img.getWidth() * transform.getScaleX())).intValue();
-        int scaleY = ((Double) (img.getHeight() * transform.getScaleY())).intValue();
-        Image tmp = img.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
-
-        BufferedImage bimage = new BufferedImage(scaleX, scaleY, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = bimage.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
-        g2d.dispose();
-        img = bimage;
-
-        this.imgHeight = img.getHeight(null);
-        this.imgWidth = img.getWidth(null);
-
-        this.imgArray = new BufferedImage[2];
-        imgArray[0] = img;
-//      imgArray[1] = g2d.drawString((BufferedImage)"numberOfItems".toBufferedImage(bull_shit_I_know), 0, 0);
-        this.count = numberOfItems;
-    }
-
     /**
      * Custom painting codes on this JPanel
      */
@@ -125,10 +94,13 @@ public abstract class HudAnimationBase extends AnimationBase {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         int dy = gameObject.PositionVector().y;
-        for (int i = 0; i < count; i++) {
+        int i = 0;
+        for(BufferedImage img : imgArray){
             int dx = gameObject.PositionVector().x + i * imgWidth;
             af.setTransform(1.0, 0, 0, 1.0, dx, dy);
-            g2d.drawImage(imgArray[i], af, null);
+            if(imgArray[i]!=null)
+                g2d.drawImage(imgArray[i], af, null);
+            i++;
         }
     }
 
@@ -136,4 +108,6 @@ public abstract class HudAnimationBase extends AnimationBase {
     public void actionPerformed(ActionEvent e) {
         update(); // update the image
     }
+
 }
+

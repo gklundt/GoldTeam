@@ -5,16 +5,17 @@
  */
 package goldteam.animators;
 
+import goldteam.domain.ArrowHudAnimationBase;
 import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameObject;
-import goldteam.domain.HudAnimationBase;
 import java.awt.Dimension;
+import java.awt.geom.AffineTransform;
 
 /**
  *
  * @author Caleb Dunham
  */
-public class ArrowHudAnimation extends HudAnimationBase {
+public class ArrowHudAnimation extends ArrowHudAnimationBase {
 
     /**
      * Constructor to set up the GUI components
@@ -28,15 +29,15 @@ public class ArrowHudAnimation extends HudAnimationBase {
     private AttackableWatcher gameObj;
 
     public ArrowHudAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
-        super(gameObject, preferredSize, assetFile);
+        super(gameObject, preferredSize, new AffineTransform(), assetFile);
         this.gameObj = (AttackableWatcher) gameObject;
         // Setup animation
-        //super.loadImage(imgFilename, this.gameObj.getWatcher().getArrowCount(), new AffineTransform(1, 0, 0, 1, 0, 0));
+        super.loadImage(assetFile, new AffineTransform(1, 0, 0, 1, 0, 0));
     }
 
     @Override
     protected void update() {
-        this.count = this.gameObj.getWatcher().getArrowCount();
+        this.arrowCount = this.gameObj.getWatcher().getArrowCount();
     }
 
 }
