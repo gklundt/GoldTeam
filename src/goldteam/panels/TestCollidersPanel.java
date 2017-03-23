@@ -27,10 +27,8 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import goldteam.platforms.FlatPlatform;
-import goldteam.platforms.LavaPlatform;
 import goldteam.animators.FlatPlatformAnimation;
 import goldteam.animators.HeartHudAnimation;
-import goldteam.animators.LavaPlatformAnimation;
 import goldteam.animators.ShieldHudAnimation;
 import goldteam.colliders.CollectablesCollider;
 import goldteam.domain.Platform;
@@ -58,8 +56,7 @@ public class TestCollidersPanel extends GamePanelBase {
     private CollisionDetector collisionDetector2;
     private CollisionDetector collisionDetector3;
     private PlatformCollider pc;
-    private FlatPlatform flatPlatform, raisedPlatform, flatPlatform1;
-    private LavaPlatform lavaPlatform;
+    private FlatPlatform flatPlatform, raisedPlatform, flatPlatform1, lavaPlatform;
     private ArrayList<Platform> platforms;
     private Arrows arrow;
     private Health health;
@@ -101,8 +98,8 @@ public class TestCollidersPanel extends GamePanelBase {
         rpa.setDimensions(new Dimension(100,300));
         platforms.add(raisedPlatform);
         
-        lavaPlatform = new LavaPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width, 412), 200, 150);
-        LavaPlatformAnimation lpa = new LavaPlatformAnimation(lavaPlatform, gameData.getVisibleDimensions(), "assets/lavaTile1.jpg");
+        lavaPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width, 412), 200, 150);
+        FlatPlatformAnimation lpa = new FlatPlatformAnimation(lavaPlatform, gameData.getVisibleDimensions(), "assets/lavaTile1.jpg");
         lpa.setDimensions(new Dimension(200,150));
         platforms.add(lavaPlatform);
         
