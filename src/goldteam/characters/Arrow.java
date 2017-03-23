@@ -33,6 +33,7 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     private int health;
     private AnimationBase animator;
     private DoubleVector velocityVector;
+    private Point prevPos;
     private Polygon collider;
     private Polygon initialCollider;
     private ArrayList<ActionListener> attackableListeners;
@@ -54,6 +55,7 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         super.shape = initialCollider;
         this.velocityVector = velocityVector;
         collided = false;
+        prevPos = (Point)(initialPoint.clone());
         this.animationChangeListeners = new ArrayList<>();
     }
 
@@ -79,7 +81,10 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
 
-        this.positionVector.x += this.getVelocityVector().x;
+        DoubleVector d = new DoubleVector((double)(positionVector.x - prevPos.x), (double)(positionVector.y - prevPos.y));
+        double currentAngle = Math.atan(d.y/d.x);
+        animator.af.setToRotation(currentAngle);
+        
         this.collider.reset();
         this.collider.addPoint(this.positionVector.x - 15, this.positionVector.y - 5);
         this.collider.addPoint(this.positionVector.x + 15, this.positionVector.y - 5);
