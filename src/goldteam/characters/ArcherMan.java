@@ -424,11 +424,22 @@ public class ArcherMan extends GameObject implements
         lives = delta.delta.intValue();
     }
 
-    private void notifyAttackableListeners() {
+    @Override
+    public void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(e);
         }    
+    }
+
+    @Override
+    public void notifyDepletableListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyCollidableListeners() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

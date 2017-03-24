@@ -14,6 +14,7 @@ import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,17 +22,20 @@ import java.awt.event.ActionListener;
  */
 public class GameStageItem extends GameObject implements DepletableWatcher, Animatable {
     
-    public int count;
     private Depletable watchedItem;
     private AnimationBase animator;
+    private final ArrayList<ActionListener> animationListeners;
     
     public GameStageItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
+        this.animationListeners = new ArrayList<>();
     }
     
     @Override
     public void Update() {
-        this.count = this.watchedItem.getCount();
+        if (this.watchedItem.getCount() == 0){
+            this.notifyAnimationChangeListeners();
+        }
     }
     
     @Override
@@ -42,8 +46,7 @@ public class GameStageItem extends GameObject implements DepletableWatcher, Anim
     @Override
     public void setWatcher(Depletable target) {
         this.watchedItem=target;
-        this.count = this.watchedItem.getCount();
-        this.watchedItem.addDepletableListener(l -> Update());
+        this.watchedItem.addDepletableListener((l)->this.Update());
     }
 
     @Override
@@ -63,7 +66,7 @@ public class GameStageItem extends GameObject implements DepletableWatcher, Anim
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationListeners.add(listener);
     }
 
     @Override
@@ -73,12 +76,14 @@ public class GameStageItem extends GameObject implements DepletableWatcher, Anim
 
     @Override
     public void notifyAnimationChangeListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationListeners.forEach((al) -> {
+            al.actionPerformed(null);
+        });
     }
 
     @Override
     public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.animator;
     }
 
     @Override

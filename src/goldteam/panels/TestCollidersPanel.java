@@ -5,11 +5,10 @@
  */
 package goldteam.panels;
 
-import goldteam.Collectables.Arrows;
-import goldteam.Collectables.Health;
-import goldteam.Collectables.Shields;
+import goldteam.collectables.Arrows;
+import goldteam.collectables.Health;
+import goldteam.collectables.Shields;
 import goldteam.GamePanelManager;
-import goldteam.animators.ArrowHudAnimation;
 import goldteam.animators.CollectableArrowAnimation;
 import goldteam.animators.CollectableHealthAnimation;
 import goldteam.animators.CollectableShieldAnimation;
@@ -35,13 +34,13 @@ import goldteam.domain.Platform;
 import java.awt.Dimension;
 import goldteam.colliders.PlatformCollider;
 import goldteam.domain.Collidable;
-import goldteam.domain.CollisionPlane;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
 import goldteam.hud.ShieldHudItem;
 import java.util.Iterator;
+
 
 /**
  *

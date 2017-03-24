@@ -2,9 +2,7 @@ package goldteam.panels;
 
 import goldteam.GamePanelManager;
 import goldteam.animators.ArcherAnimation;
-import goldteam.animators.ArrowHudAnimation;
 import goldteam.animators.BigGhostAnimation;
-import goldteam.animators.GhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
 import goldteam.animators.HeartHudAnimation;

@@ -5,7 +5,6 @@
  */
 package goldteam.platforms;
 
-import goldteam.animators.SkyAnimation;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
@@ -14,7 +13,6 @@ import goldteam.domain.CollisionPlane;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.Platform;
-import goldteam.gamedata.GameData;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionListener;
@@ -177,6 +175,11 @@ public class SkyPlatform extends GameObject implements Platform, Animatable, Col
 
     @Override
     public HashMap<Collidable, CollisionPlane> getColliders() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyCollidableListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

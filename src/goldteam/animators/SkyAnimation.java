@@ -7,7 +7,6 @@ package goldteam.animators;
 
 import goldteam.domain.GameObject;
 import goldteam.domain.SkyAnimationBase;
-import goldteam.platforms.SkyPlatform;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;

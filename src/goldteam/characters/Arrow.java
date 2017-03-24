@@ -34,6 +34,7 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     private AnimationBase animator;
     private DoubleVector velocityVector;
     private final Polygon collider;
+    private Point prevPos;
     private Polygon initialCollider;
     private ArrayList<ActionListener> attackableListeners;
     private ArrayList<ActionListener> collidableListeners;
@@ -53,6 +54,7 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         collider = initialCollider;
         super.shape= initialCollider;
         this.velocityVector = velocityVector;
+        prevPos = (Point)(initialPoint.clone());
     }
     
     private void init() {
@@ -79,6 +81,11 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         this.positionVector.y += this.getVelocityVector().y;
         
         this.positionVector.x += this.getVelocityVector().x;
+        
+        DoubleVector d = new DoubleVector((double)(positionVector.x - prevPos.x), (double)(positionVector.y - prevPos.y));
+        double currentAngle = Math.atan(d.y/d.x);
+        animator.af.setToRotation(currentAngle);
+        
         this.collider.reset();
         this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 5);
         this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 5);
@@ -213,14 +220,16 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         this.notifyAttackableListeners();
     }
     
-    private void notifyAttackableListeners() {
+    @Override
+    public void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(e);
         }
     }
     
-    private void notifyCollidableListeners() {
+    @Override
+    public void notifyCollidableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener cl : this.collidableListeners) {
             cl.actionPerformed(e);

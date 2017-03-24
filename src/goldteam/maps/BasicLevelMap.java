@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -222,6 +221,11 @@ public class BasicLevelMap extends GameObject implements Movable, Collidable {
 
     @Override
     protected void MapUpdateTimerHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyCollidableListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
