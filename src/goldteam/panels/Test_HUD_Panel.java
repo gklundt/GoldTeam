@@ -2,6 +2,8 @@ package goldteam.panels;
 
 import goldteam.GamePanelManager;
 import goldteam.animators.ArcherAnimation;
+import goldteam.animators.ArrowChargeAnimation;
+import goldteam.animators.ArrowHudAnimation;
 import goldteam.animators.BigGhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
@@ -24,6 +26,7 @@ import goldteam.domain.ModType;
 import goldteam.domain.PanelManagerListener;
 import goldteam.domain.VectorMath;
 import goldteam.gamedata.GameData;
+import goldteam.hud.ArrowChargeIndicator;
 import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
 import goldteam.hud.LifeHudItem;
@@ -38,18 +41,18 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
     private static final long serialVersionUID = 1L;
 
     private ArcherMan archer;
-    private int charge;
+    public int charge;
     private Ghost[] bigGhost;
     private HeartHudItem hearts;
     private ShieldHudItem shields;
     private LifeHudItem lives;
     private ArrowHudItem arrows;
+    private ArrowChargeIndicator chargeBar;
     private final CollisionDetector collisionDetector;
 
     public Test_HUD_Panel(PanelManager panelManager) {
         super(panelManager, new GameData());
         collisionDetector = new CollisionDetector(this.gameData);
-        charge = 0;
     }
 
     @Override
@@ -58,6 +61,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         collisionDetector.addCollisionListener(gc);
         
         archer = new ArcherMan(gameData, new Point(300, 300));
+        //archer.setChargeValue(Delta.create(0.0, ModType.FIXED));
         
         AnimationBase t = archer.getAnimator();
         this.layeredPane.add(t, layeredPane.highestLayer());
@@ -73,7 +77,7 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
             bigGhost[i].setAnimator(defaultGhostAnimation);
             bigGhost[i].setVelocityScalarDelta(Delta.create(0.0d, ModType.FIXED));
             bigGhost[i].addAnimationChangeListener(l -> SwitchGhostListener(l));
-            collisionDetector.registerCollidable(bigGhost[i]);
+            //collisionDetector.registerCollidable(bigGhost[i]);
             this.layeredPane.add(bigGhost[i].getAnimator(), this.layeredPane.highestLayer());
         }
         
@@ -91,16 +95,23 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         lives.setWatcher(archer);
         LifeHudAnimation lha = new LifeHudAnimation(lives, gameData.getVisibleDimensions(), "assets/Archer_Head.png");
         lives.setAnimator(lha);
-
-//        arrows = new ArrowHudItem(gameData, new Point(10, 70));
-//        arrows.setWatcher(archer);
-//        ArrowHudAnimation aha = new ArrowHudAnimation(arrows, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
-//        arrows.setAnimator(aha);
+        
+        arrows = new ArrowHudItem(gameData, new Point(10, 70));
+        arrows.setWatcher(archer);
+        ArrowHudAnimation aha = new ArrowHudAnimation(arrows, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
+        arrows.setAnimator(aha);
+        
+        chargeBar = new ArrowChargeIndicator(gameData, new Point(archer.PositionVector()));
+        chargeBar.setWatcher(archer);
+        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, gameData.getVisibleDimensions(), archer);
+        chargeBar.setAnimator(aca);
+        chargeBar.addAnimationTimerListener(aca);        
         
         this.layeredPane.add(hha, this.layeredPane.highestLayer());
         this.layeredPane.add(sha, this.layeredPane.highestLayer());
         this.layeredPane.add(lha, this.layeredPane.highestLayer());
-//        this.layeredPane.add(aha, this.layeredPane.highestLayer());
+        this.layeredPane.add(aha, this.layeredPane.highestLayer());
+        this.layeredPane.add(aca, this.layeredPane.highestLayer());
     }
 
     protected CharacterAnimationBase createNewArrow(GameData gd, Point p, DoubleVector speed, String image)
@@ -181,16 +192,17 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         archer.setMousePressed(true);
         archer.removeAnimator = archer.animator;
 
-        if(e.getX() > archer.PositionVector().x)
+        if(e.getX() > archer.PositionVector().x) {
             archer.animator = archer.animators.get(AnimationState.SHOOTING_RIGHT);
-        else
+        } else {
             archer.animator = archer.animators.get(AnimationState.SHOOTING_LEFT);
+        }
         archer.notifyAnimationChangeListeners();
     }
     
     @Override
     public void mouseReleased(MouseEvent e)
-    {
+    {   
         archer.removeAnimator = archer.animator;
         if(archer.animator == archer.animators.get(AnimationState.SHOOTING_RIGHT))
             archer.animator = archer.animators.get(AnimationState.DEFAULT_RIGHT);
@@ -224,8 +236,8 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
 
     @Override
     public void panelManagerChanged() {
-        for(Collidable g : bigGhost)
-            collisionDetector.removeCollidable(g);
+//        for(Collidable g : bigGhost)                  this does not run. My guess is the panelManager never changes.
+//            collisionDetector.removeCollidable(g);
     }
 
     private void SwitchGhostListener(ActionEvent event) {
@@ -233,5 +245,5 @@ public class Test_HUD_Panel extends GamePanelBase implements PanelManagerListene
         this.layeredPane.remove(obj.getRemoveAnimator());
         this.layeredPane.add(obj.getAnimator());
     }
-
+    
 }

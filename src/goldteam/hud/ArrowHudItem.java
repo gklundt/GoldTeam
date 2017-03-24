@@ -27,7 +27,7 @@ public class ArrowHudItem extends GameObject implements AttackableWatcher, Anima
     
     @Override
     public void Update() {
-        this.count = this.watchedItem.getArrowCount();
+        //this.count = this.watchedItem.getArrowCount();
     }
     
     @Override
@@ -37,8 +37,8 @@ public class ArrowHudItem extends GameObject implements AttackableWatcher, Anima
 
     @Override
     public void setWatcher(Attackable target) {
-        this.watchedItem=target;
-        this.count = this.watchedItem.getHealthValue();
+        this.watchedItem = target;
+        this.count = this.watchedItem.getArrowCount();
         this.watchedItem.addAttackableListener(l -> Update());
     }
 

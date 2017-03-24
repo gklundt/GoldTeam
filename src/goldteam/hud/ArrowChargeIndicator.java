@@ -3,74 +3,42 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package goldteam.characters;
+package goldteam.hud;
 
-import goldteam.animators.GhostAnimation;
+import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
+import goldteam.domain.Attackable;
+import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameEngine;
-import goldteam.gamedata.GameData;
+import goldteam.domain.GameObject;
 import java.awt.Point;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  *
- * @author Joshua
+ * @author Caleb Dunham
  */
-public class Flyer extends BaseEnemy {
-
-    private int timeSinceAttacked;
-    public final ArrayList<ActionListener> animationChangeListeners;
-
-    public Flyer(GameEngine gamedata, Point initialPoint) {
+public class ArrowChargeIndicator extends GameObject implements 
+            Animatable,         /* Will be drawn on screen */
+            AttackableWatcher  /* Watches the archer */
+            {
+    private double currentCharge;
+    private Attackable watchedItem;
+    private AnimationBase animator;
+    
+    public ArrowChargeIndicator(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
-        maxSpeed = 6;
-        this.animationChangeListeners = new ArrayList<>();
-
-    }
-
-    private void moveLeft(int xdif) {
-        xdif /= 10;
-        if (xdif < -maxSpeed) {
-            xdif = -maxSpeed;
-        }
-        positionVector.x += xdif;
-
-    }
-
-    private void moveRight(int xdif) {
-        xdif /= 10;
-        if (xdif > maxSpeed) {
-            xdif = maxSpeed;
-        }
-        positionVector.x += xdif;
-
-    }
-
-    private void attack() {
-        ((GameData) (gamedata)).createBomb(this.positionVector);
-        timeSinceAttacked = 0;
     }
 
     @Override
     protected void Update() {
-        timeSinceAttacked++;
-        int xdif = ((GameData) (gamedata)).getArcherMan().PositionVector().x - positionVector.x;
-        if (xdif > 0) {
-            moveRight(xdif);
-        } else {
-            moveLeft(xdif);
-        }
-
-        if (timeSinceAttacked > 20) {
-            attack();
-        }
+        this.currentCharge = this.watchedItem.getChargeValue();
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-        Update();
+        
     }
 
     @Override
@@ -103,6 +71,22 @@ public class Flyer extends BaseEnemy {
         return this.animator;
     }
 
+    public double getCurrentCharge() {
+        return currentCharge;
+    }
+
+    public void setCurrentCharge(double currentCharge) {
+        this.currentCharge = currentCharge;
+    }
+
+    public Attackable getWatchedItem() {
+        return watchedItem;
+    }
+
+    public void setWatchedItem(Attackable watchedItem) {
+        this.watchedItem = watchedItem;
+    }
+
     @Override
     public void addAnimationTimerListener(ActionListener listener) {
         this.gamedata.addAnimationUpdateTimerListener(listener);
@@ -110,8 +94,7 @@ public class Flyer extends BaseEnemy {
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        this.animationChangeListeners.add(listener);
-
+       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -128,5 +111,17 @@ public class Flyer extends BaseEnemy {
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public void setWatcher(Attackable target) {
+        this.watchedItem = target;
+        this.currentCharge = this.watchedItem.getChargeValue();
+        this.watchedItem.addAttackableListener(l -> Update());
+    }
 
+    @Override
+    public Attackable getWatcher() {
+        return this.watchedItem;
+    }
+    
 }

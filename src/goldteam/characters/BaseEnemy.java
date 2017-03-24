@@ -7,6 +7,7 @@ package goldteam.characters;
 
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
+import goldteam.domain.Collidable;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import java.awt.Point;

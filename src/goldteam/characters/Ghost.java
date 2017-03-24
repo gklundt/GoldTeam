@@ -45,6 +45,7 @@ public class Ghost extends GameObject implements
     private final Polygon collider;
     private final HashMap<Collidable, CollisionPlane> currentColliders;
     private Iterable<ActionListener> animationListeners;
+    private boolean collided;
 
     public Ghost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
@@ -82,6 +83,7 @@ public class Ghost extends GameObject implements
         
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
+        collided = false;
     }
 
     @Override
@@ -357,5 +359,25 @@ public class Ghost extends GameObject implements
     @Override
     public void notifyCollidableListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getChargeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setChargeDelta(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setCollided(boolean state) {
+        this.collided = state;
+    }
+
+    @Override
+    public boolean isCollided() {
+        return this.collided;
     }
 }
