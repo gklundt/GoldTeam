@@ -14,26 +14,29 @@ import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  *
  * @author Caleb Dunham
  */
 public class HeartHudItem extends GameObject implements AttackableWatcher, Animatable {
-    
+
     public int count;
     private Attackable watchedItem;
     private AnimationBase animator;
-    
+    private final ArrayList<ActionListener> animationChangeListeners;
+
     public HeartHudItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
+        this.animationChangeListeners = new ArrayList<>();
     }
-    
+
     @Override
     public void Update() {
         this.count = this.watchedItem.getHealthValue();
     }
-    
+
     @Override
     public Attackable getWatcher() {
         return this.watchedItem;
@@ -41,14 +44,14 @@ public class HeartHudItem extends GameObject implements AttackableWatcher, Anima
 
     @Override
     public void setWatcher(Attackable target) {
-        this.watchedItem=target;
+        this.watchedItem = target;
         this.count = this.watchedItem.getHealthValue();
         this.watchedItem.addAttackableListener(l -> Update());
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-   
+
     }
 
     @Override
@@ -73,7 +76,7 @@ public class HeartHudItem extends GameObject implements AttackableWatcher, Anima
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationChangeListeners.add(listener);
     }
 
     @Override

@@ -8,14 +8,13 @@ package goldteam.hud;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
-import goldteam.domain.Attackable;
-import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.Weapon;
 import goldteam.domain.WeaponWatcher;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  *
@@ -28,9 +27,12 @@ public class ArrowChargeIndicator extends GameObject implements
     private double currentCharge;
     private Weapon watchedItem;
     private AnimationBase animator;
+    private final ArrayList<Object> animationChangeListeners;
 
     public ArrowChargeIndicator(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
+                this.animationChangeListeners = new ArrayList<>();
+
     }
 
     @Override
@@ -81,7 +83,7 @@ public class ArrowChargeIndicator extends GameObject implements
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+           this.animationChangeListeners.add(listener);
     }
 
     @Override

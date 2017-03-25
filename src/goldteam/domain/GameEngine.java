@@ -26,6 +26,8 @@ public interface GameEngine {
     public void addCollisionTimer(ActionListener listener);
     public void removeCollisionTimer(ActionListener listener);
 
+    public Attackable getAttackableCharacter();
+    public void setAttackableCharacter(Attackable target);
     public Depletable getDepletableCharacter();
     public void setDepletableCharacter(Depletable target);
     public GameObject getMovableCharacter();

@@ -29,6 +29,7 @@ public class ArcherBuilder extends CharacterBuilderBase {
         this.archer = (ArcherMan) this.gameObject;
         this.gameData.setMovableCharacter(this.archer);
         this.gameData.setDepletableCharacter(this.archer);
+        this.gameData.setAttackableCharacter(this.archer);
     }
 
     @Override

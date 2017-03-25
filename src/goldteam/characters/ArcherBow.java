@@ -29,6 +29,7 @@ public class ArcherBow
         this.weaponListeners = new ArrayList<>();
         this.depletableListeners = new ArrayList<>();
         this.arrowCount = 100;
+        this.charge = 0;
 
     }
 

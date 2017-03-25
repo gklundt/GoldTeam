@@ -287,15 +287,15 @@ public class Ghost
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        this.animators.put(state, animator);
         if (this.animators.isEmpty()) {
             this.animator = animator;
         }
+        this.animators.put(state, animator);
     }
 
     @Override
     public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
-        ActionEvent e = new ActionEvent(this, 0, "");
+        ActionEvent e = new ActionEvent(removeAnimator, 0, null);
         for (ActionListener al : this.animationChangeListeners) {
             al.actionPerformed(e);
         }
@@ -324,12 +324,12 @@ public class Ghost
     }
 //</editor-fold>
 
-    private void setNewAnimator(AnimationState as) {
-        this.animator = this.animators.get(as);
-    }
-
-    private void setRemoveAnimator(AnimationBase animator) {
-        this.removeAnimator = animator;
-    }
+//    private void setNewAnimator(AnimationState as) {
+//        this.animator = this.animators.get(as);
+//    }
+//
+//    private void setRemoveAnimator(AnimationBase animator) {
+//        this.removeAnimator = animator;
+//    }
 
 }

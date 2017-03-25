@@ -1,4 +1,3 @@
-
 package goldteam.hud;
 
 import goldteam.domain.Animatable;
@@ -10,26 +9,30 @@ import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  *
  * @author Caleb Dunham
  */
 public class ArrowHudItem extends GameObject implements DepletableWatcher, Animatable {
-    
+
     public int count;
     private Depletable watchedItem;
     private AnimationBase animator;
-    
+    private final ArrayList<ActionListener> animationChangeListeners;
+
     public ArrowHudItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
+        this.animationChangeListeners = new ArrayList<>();
+
     }
-    
+
     @Override
     public void Update() {
         //this.count = this.watchedItem.getArrowCount();
     }
-    
+
     @Override
     public Depletable getWatcher() {
         return this.watchedItem;
@@ -44,7 +47,7 @@ public class ArrowHudItem extends GameObject implements DepletableWatcher, Anima
 
     @Override
     protected void GraphicsUpdateHandler() {
-   
+
     }
 
     @Override
@@ -69,7 +72,7 @@ public class ArrowHudItem extends GameObject implements DepletableWatcher, Anima
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationChangeListeners.add(listener);
     }
 
     @Override

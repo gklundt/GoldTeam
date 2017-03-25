@@ -5,7 +5,6 @@
  */
 package goldteam.domain;
 
-import goldteam.characters.ArcherMan;
 import java.awt.Point;
 
 /**

@@ -13,7 +13,6 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -214,13 +213,17 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         }
     }
 
+    protected void addCollisionListener(CollisionListener collisionListener) {
+        collisionDetector.addCollisionListener(collisionListener);
+    }
+
     protected void addGameObject(GameObject gameObject) {
 
         if (gameObject instanceof Animatable) {
             Animatable animatable = (Animatable) gameObject;
             AnimationBase animationBase = animatable.getAnimator();
             this.layeredPane.add(animationBase, layeredPane.highestLayer());
-            animatable.addAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase)l.getSource()));
+            animatable.addAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
         }
 
         if (gameObject instanceof Collidable) {

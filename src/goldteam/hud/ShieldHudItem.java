@@ -14,26 +14,29 @@ import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  *
  * @author Caleb Dunham
  */
 public class ShieldHudItem extends GameObject implements AttackableWatcher, Animatable {
-    
+
     public int count;
     private Attackable watchedItem;
     private AnimationBase animator;
-    
+    private final ArrayList<ActionListener> animationChangeListeners;
+
     public ShieldHudItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
+        this.animationChangeListeners = new ArrayList<>();
     }
-    
+
     @Override
     public void Update() {
         this.count = this.watchedItem.getShieldValue();
     }
-    
+
     @Override
     public Attackable getWatcher() {
         return this.watchedItem;
@@ -41,7 +44,7 @@ public class ShieldHudItem extends GameObject implements AttackableWatcher, Anim
 
     @Override
     public void setWatcher(Attackable target) {
-        this.watchedItem=target;
+        this.watchedItem = target;
         this.count = this.watchedItem.getShieldValue();
         this.watchedItem.addAttackableListener(l -> Update());
     }
@@ -62,7 +65,7 @@ public class ShieldHudItem extends GameObject implements AttackableWatcher, Anim
 
     @Override
     public AnimationBase getAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.animator;
     }
 
     @Override
@@ -72,7 +75,7 @@ public class ShieldHudItem extends GameObject implements AttackableWatcher, Anim
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animationChangeListeners.add(listener);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package goldteam.gamedata;
 
+import goldteam.domain.Attackable;
 import goldteam.domain.Depletable;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
@@ -36,6 +37,7 @@ public class GameData implements GameEngine,
     private GameObject centralGameObject;
 
     private Point mapLocation;
+    private Attackable attackableCharacter;
 
     public GameData() {
 
@@ -175,5 +177,15 @@ public class GameData implements GameEngine,
         mapLocation.x = (0 - mapLocation.x) + vis.x;
         mapLocation.y = (0 - mapLocation.y) + vis.y;
         return mapLocation;
+    }
+
+    @Override
+    public Attackable getAttackableCharacter() {
+        return this.attackableCharacter;
+    }
+
+    @Override
+    public void setAttackableCharacter(Attackable target) {
+        this.attackableCharacter = target;
     }
 }
