@@ -34,7 +34,7 @@ public class GameStageItem extends GameObject implements DepletableWatcher, Anim
     @Override
     public void Update() {
         if (this.watchedItem.getCount() == 0){
-            this.notifyAnimationChangeListeners();
+            this.notifyAnimationChangeListeners(null);
         }
     }
     
@@ -47,11 +47,6 @@ public class GameStageItem extends GameObject implements DepletableWatcher, Anim
     public void setWatcher(Depletable target) {
         this.watchedItem=target;
         this.watchedItem.addDepletableListener((l)->this.Update());
-    }
-
-    @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
     }
 
     @Override
@@ -71,33 +66,18 @@ public class GameStageItem extends GameObject implements DepletableWatcher, Anim
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animator = animator;
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
         this.animationListeners.forEach((al) -> {
             al.actionPerformed(null);
         });
     }
 
     @Override
-    public AnimationBase getRemoveAnimator() {
-        return this.animator;
-    }
-
-    @Override
     protected void GraphicsUpdateHandler() {
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

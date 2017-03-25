@@ -1,28 +1,17 @@
 package goldteam.characters;
 
-import goldteam.animators.ArcherAnimation;
 import goldteam.domain.*;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * ArcherMan Proposal. Extends a game object and implements behavior interfaces
- * applicable to a Controllable Character.
- *
- * @author gordon
- * @revised Rajiv
- * @revised Caleb Dunham
- */
-public class ArcherMan extends GameObject implements
-        Attackable, /* Shield and Health accessors */
+public class ArcherMan extends GameObject
+        implements Attackable, /* Shield and Health accessors */
         Animatable, /* Animations */
-        Brawler, /* Strength accessor (from Fighter) and strike action */
         Archer, /* Strength accessor (from Fighter) and ready/aim/fire routines */
         Collidable, /* Information for Collision detection */
         Controllable, /* Process Keyboard and Mouse events */
@@ -34,7 +23,7 @@ public class ArcherMan extends GameObject implements
     private final ArrayList<ActionListener> attackableListeners;
     private Double initialHealth;
     private Double initialShield;
-    private Point initialPoint;
+    private final Point initialPoint;
     private int initialArrows;
     private boolean right, left, jump, canDoubleJump, mousePressed;
     private DoubleVector velocityVector;
@@ -42,24 +31,26 @@ public class ArcherMan extends GameObject implements
     private int charge;
     private int arrows;
     private int health, shield;
-    private static int lives = 3;
-    //---Changed to public members to be accessed in implementing Panel------//
-    public final DoubleVector rawVector;
-    public AnimationBase animator;
-    public final HashMap<AnimationState, AnimationBase> animators;
-    public final ArrayList<ActionListener> animationChangeListeners;
-    public AnimationBase removeAnimator;
-
+    private int lives;
+    private final DoubleVector rawVector;
+    private AnimationBase animator;
+    private final HashMap<AnimationState, AnimationBase> animators;
+    private final ArrayList<ActionListener> animationChangeListeners;
+    private AnimationBase removeAnimator;
     private HashMap<Collidable, CollisionPlane> colliders;
     private Polygon collider;
+    private final ArrayList<ActionListener> depletableListeners;
+    private Boolean isFacingLeft;
 
     public ArcherMan(GameEngine gameData, Point initialPoint) {
         super(gameData, initialPoint);
+        this.lives = 3;
         this.initialPoint = initialPoint;
         this.animators = new HashMap<>();
         this.rawVector = new DoubleVector(0d, 0d);
         this.velocityVector = new DoubleVector();
         this.attackableListeners = new ArrayList<>();
+        this.depletableListeners = new ArrayList<>();
         this.animationChangeListeners = new ArrayList<>();
         this.canDoubleJump = true;
         this.mousePressed = false;
@@ -89,26 +80,57 @@ public class ArcherMan extends GameObject implements
         colliders = new HashMap<>();
     }
 
+//<editor-fold defaultstate="collapsed" desc="Initialization Routine">
     private void init() {
         this.initialVelocity = 10d;
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
         this.initialArrows = 10;
-        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
-        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
-        CharacterAnimationBase archerWalkingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
-        CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", charge);
-        CharacterAnimationBase archerDrawingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", charge);
-        CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", charge);
-        this.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
-        this.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
-        this.addAnimator(AnimationState.WALKING_RIGHT, archerWalkingRight);
-        this.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
-        this.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
-        this.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
-        this.setAnimator(archerDefaultRight);
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Methods that need to be encapsulated in a role interface">
+    public void setRight(boolean b) {
+        right = b;
     }
 
+    public void setLeft(boolean b) {
+        left = b;
+    }
+
+    public void setJump(boolean b) {
+        jump = b;
+    }
+
+    public void setMousePressed(boolean b) {
+        mousePressed = b;
+        if (!b) {
+            charge = 0;
+        }
+    }
+
+    public int getMouseCharge() {
+        return charge;
+    }
+
+    public int getNumLives() {
+        return lives;
+    }
+
+    public void die() {
+        lives--;
+    }
+
+    public void shootArrow() {
+        arrows--;
+    }
+
+    public boolean canShootArrow() {
+        return arrows > 0;
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Attackable Implementation">
     @Override
     public int getShieldValue() {
         return shield;
@@ -117,11 +139,6 @@ public class ArcherMan extends GameObject implements
     @Override
     public int getHealthValue() {
         return health;
-    }
-
-    @Override
-    public int getArrowCount() {
-        return this.arrows;
     }
 
     @Override
@@ -137,19 +154,90 @@ public class ArcherMan extends GameObject implements
     }
 
     @Override
-    public void setArrowDelta(Delta delta) {
-        this.arrows += delta.delta.intValue();
-        this.notifyAttackableListeners();
+    public void addAttackableListener(ActionListener listener) {
+        this.attackableListeners.add(listener);
     }
 
     @Override
-    public void setChargeDelta(Delta delta) {
-        this.charge += delta.delta.intValue();
-        this.notifyAttackableListeners();
+    public void notifyAttackableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener al : this.attackableListeners) {
+            al.actionPerformed(e);
+        }
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Animatable Implementation">
+    @Override
+    public AnimationBase getAnimator() {
+        return this.animator;
     }
 
     @Override
-    public void strike() {
+    public void addAnimationTimerListener(ActionListener listener) {
+        this.gamedata.addAnimationUpdateTimerListener(listener);
+    }
+
+    @Override
+    public void addAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.add(listener);
+    }
+
+    @Override
+    public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
+        ActionEvent e = new ActionEvent(animatorToRemove, 0, "");
+        for (ActionListener al : this.animationChangeListeners) {
+            al.actionPerformed(e);
+        }
+    }
+
+    @Override
+    public void addAnimator(AnimationState state, AnimationBase animator) {
+        this.animators.put(state, animator);
+        if (this.animator == null) {
+            this.animator = animator;
+        }
+    }
+
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Depletable Implementation">
+    @Override
+    public Integer getCount() {
+        return this.lives;
+    }
+
+    @Override
+    public void setCountDelta(Delta delta) {
+        lives = delta.delta.intValue();
+    }
+
+    @Override
+    public void addDepletableListener(ActionListener listener) {
+        this.depletableListeners.add(listener);
+    }
+
+    @Override
+    public void notifyDepletableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, null);
+        for (ActionListener depletableListener : depletableListeners) {
+            depletableListener.actionPerformed(e);
+        }
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Archer Implementation">
+    @Override
+    public Integer getStrength() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setStrengthDelta(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addFighterListener(ActionListener listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -167,17 +255,9 @@ public class ArcherMan extends GameObject implements
     public void fire() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+//</editor-fold>
 
-    @Override
-    public Integer getStrength() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setStrengthDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+//<editor-fold defaultstate="collapsed" desc="Collidable Implementation">
     @Override
     public Polygon getPolygon() {
         return this.collider;
@@ -197,16 +277,33 @@ public class ArcherMan extends GameObject implements
     public HashMap<Collidable, CollisionPlane> getColliders() {
         return this.colliders;
     }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Controllable Implementation">
     @Override
-    public void processKeyInput(KeyEvent keyEvent) {
+    public void processKeyInput() {
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
+            setRight(true);
+            isFacingLeft = false;
+            removeAnimator = animator;
+            animator = animators.get(AnimationState.WALKING_RIGHT);
+            notifyAnimationChangeListeners(removeAnimator);
+
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.x += this.velocity;
+        } else {
+            setRight(false);
         }
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_A)) {
+            setLeft(true);
+            isFacingLeft = true;
+            removeAnimator = animator;
+            animator = animators.get(AnimationState.WALKING_LEFT);
+            notifyAnimationChangeListeners(removeAnimator);
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.x -= this.velocity;
+        } else {
+            setLeft(false);
         }
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_W)) {
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
@@ -216,14 +313,31 @@ public class ArcherMan extends GameObject implements
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.y += this.velocity;
         }
+        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_SPACE)) {
+            setJump(true);
+        } else {
+            setJump(false);
+        }
+
+        if (!(left || right)) {
+            removeAnimator = animator;
+            animator = isFacingLeft
+                    ? animators.get(AnimationState.DEFAULT_LEFT)
+                    : animators.get(AnimationState.DEFAULT_RIGHT);
+
+            notifyAnimationChangeListeners(removeAnimator);
+        }
+
         this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
     }
 
     @Override
-    public void processMouseInput(MouseEvent mouseEvent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void processMouseInput() {
+
     }
 
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Movable Implementation">
     @Override
     public DoubleVector getVelocityVector() {
         return this.velocityVector;
@@ -238,7 +352,9 @@ public class ArcherMan extends GameObject implements
     public Integer getVelocity() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Spawnable Implementation">
     @Override
     public Point getStartVector() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -270,33 +386,15 @@ public class ArcherMan extends GameObject implements
     }
 
     @Override
-    public Integer getCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setCountDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void setVelocityVectorDelta(Delta xDelta, Delta yDelta) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="GameObject Implementation">
     @Override
     protected void GraphicsUpdateHandler() {
         Update();
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -306,21 +404,6 @@ public class ArcherMan extends GameObject implements
 
     @Override
     protected void MapUpdateTimerHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addAttackableListener(ActionListener listener) {
-        this.attackableListeners.add(listener);
-    }
-
-    @Override
-    public void addFighterListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addDepletableListener(ActionListener listener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -344,10 +427,6 @@ public class ArcherMan extends GameObject implements
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
 
-        if (mousePressed && charge < 20) {
-            this.setChargeDelta(Delta.create(1.0, ModType.FIXED));
-        }
-        
         this.collider = new Polygon();
         this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
         this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);
@@ -355,115 +434,12 @@ public class ArcherMan extends GameObject implements
         this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 30);
         super.shape = collider;
     }
+//</editor-fold>
 
-    @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
-    }
-
-    @Override
-    public AnimationBase getAnimator() {
-        return this.animator;
-    }
-
-    @Override
-    public void addAnimationTimerListener(ActionListener listener) {
-        this.gamedata.addAnimationUpdateTimerListener(listener);
-    }
-
-    public void setRight(boolean b) {
-        right = b;
-    }
-
-    public void setLeft(boolean b) {
-        left = b;
-    }
-
-    public void setJump(boolean b) {
-        jump = b;
-    }
-
-    @Override
-    public void addAnimationChangeListener(ActionListener listener) {
-        this.animationChangeListeners.add(listener);
-    }
-
-    @Override
-    public void notifyAnimationChangeListeners() {
-        ActionEvent e = new ActionEvent(this, 0, "");
-        for (ActionListener al : this.animationChangeListeners) {
-            al.actionPerformed(e);
-        }
-    }
-
-    @Override
-    public void addAnimator(AnimationState state, AnimationBase animator) {
-        this.animators.put(state, animator);
-    }
-
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        return this.removeAnimator;
-    }
-
-    public void setMousePressed(boolean b) {
-        mousePressed = b;
-        if (!b) {
-            charge = 0;
-        }
-    }
-
-    public int getMouseCharge() {
-        return charge;
-    }
-
-    public int getNumLives() {
-        return lives;
-    }
-
-    public void die() {
-        lives--;
-    }
-
-    public void shootArrow() {
-        arrows--;
-    }
-
-    public boolean canShootArrow() {
-        return arrows > 0;
-    }
-
-    @Override
-    public int getLifeValue() {
-        return lives;
-    }
-
-    @Override
-    public void setLifeValue(Delta delta) {
-        lives = delta.delta.intValue();
-    }
-
-    @Override
-    public void notifyAttackableListeners() {
-        ActionEvent e = new ActionEvent(this, 0, "");
-        for (ActionListener al : this.attackableListeners) {
-            al.actionPerformed(e);
-        }
-    }
-
-    @Override
-    public void notifyDepletableListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+//<editor-fold defaultstate="collapsed" desc="Collidable Interface">
     @Override
     public void notifyCollidableListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double getChargeValue() {
-        return charge;
     }
 
     @Override
@@ -476,5 +452,6 @@ public class ArcherMan extends GameObject implements
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
     }
+//</editor-fold>
 
 }

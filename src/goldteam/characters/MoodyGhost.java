@@ -106,19 +106,19 @@ public class MoodyGhost extends GameObject implements
         if (this.velocity == 0d) {
             this.removeAnimator = animator;
             this.animator = this.animators.get(AnimationState.DEFAULT);
-            this.notifyAnimationChangeListeners();
+            this.notifyAnimationChangeListeners(removeAnimator);
         }
 
         if (this.velocity > 0d && this.velocity <= 12.0) {
             this.removeAnimator = animator;
             this.animator = this.animators.get(AnimationState.WALKING_LEFT);
-            this.notifyAnimationChangeListeners();
+            this.notifyAnimationChangeListeners(removeAnimator);
         }
 
         if (this.velocity > 12d) {
             this.removeAnimator = animator;
             this.animator = this.animators.get(AnimationState.JUMPING_LEFT);
-            this.notifyAnimationChangeListeners();
+            this.notifyAnimationChangeListeners(removeAnimator);
         }
 
     }
@@ -181,37 +181,6 @@ public class MoodyGhost extends GameObject implements
     }
 
     @Override
-    public Double getForce() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setForceDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public DoubleVector getStrikeVector() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setStrikeVector(DoubleVector strikeVector) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setStrikeScalarDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animators.put(AnimationState.DEFAULT, animator);
-        this.animator = animator;
-    }
-
-    @Override
     public AnimationBase getAnimator() {
         return this.animator;
     }
@@ -224,16 +193,6 @@ public class MoodyGhost extends GameObject implements
     @Override
     protected void GraphicsUpdateHandler() {
         Update();
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -279,7 +238,7 @@ public class MoodyGhost extends GameObject implements
     }
 
     @Override
-    public void processKeyInput(KeyEvent keyEvent) {
+    public void processKeyInput() {
 
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
@@ -301,7 +260,7 @@ public class MoodyGhost extends GameObject implements
     }
 
     @Override
-    public void processMouseInput(MouseEvent mouseEvent) {
+    public void processMouseInput() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -321,36 +280,11 @@ public class MoodyGhost extends GameObject implements
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
-        ActionEvent e = new ActionEvent(this, 0, "");
+    public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
+        ActionEvent e = new ActionEvent(animatorToRemove, 0, "");
         for (ActionListener al : this.animationChangeListeners) {
             al.actionPerformed(e);
         }
-    }
-
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        return this.removeAnimator;
-    }
-
-    @Override
-    public int getArrowCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setArrowDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getLifeValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setLifeValue(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -382,6 +316,16 @@ public class MoodyGhost extends GameObject implements
     public boolean isCollided() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
+    }
+
+    @Override
+    public void notifyWeaponListener() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setChargeValue(double chargeValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

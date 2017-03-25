@@ -5,16 +5,10 @@
  */
 package goldteam.panels;
 
-import goldteam.colliders.CollisionDetector;
-import goldteam.domain.Animatable;
-import goldteam.domain.AnimationBase;
-import goldteam.domain.Collidable;
 import goldteam.domain.DoubleVector;
-import goldteam.domain.GameObject;
 import goldteam.domain.GameObjectBuilderBase;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
-import goldteam.domain.ResettableAnimation;
 import goldteam.gamedata.GameData;
 import goldteam.providers.ArcherBuilder;
 import goldteam.providers.ArrowBuilder;
@@ -30,7 +24,6 @@ import java.awt.Point;
  */
 public class GameLevelTestPanel extends GamePanelBase {
 
-    private final CollisionDetector collisionDetector;
 
     /**
      * Create a new panel manager
@@ -39,7 +32,6 @@ public class GameLevelTestPanel extends GamePanelBase {
      */
     public GameLevelTestPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
-        this.collisionDetector = new CollisionDetector(this.gameData);
     }
 
     /**
@@ -49,9 +41,6 @@ public class GameLevelTestPanel extends GamePanelBase {
      */
     @Override
     protected void addGameObjects() {
-
-        GameObjectProvider provider = new GameObjectProvider();
-        GameObjectBuilderBase builder;
 
         builder = new ArcherBuilder(this.gameData, new Point(400, 400));
         this.addGameObject(provider.build(builder));
@@ -68,45 +57,4 @@ public class GameLevelTestPanel extends GamePanelBase {
         builder = new ArrowBuilder(gameData, new Point(0,0), new DoubleVector(10d,1d));
         this.addGameObject(provider.build(builder));
     }
-
-    /**
-     * Add events Base class implements AncestorListener, KeyListener,
-     * MouseListener So you can override any key or mouse event for test
-     * purposes By default Escape takes you back to the game options panel
-     *
-     */
-    /* Candidates to add to panel base class */
-    private void switchAnimation(Animatable anim) {
-
-        if (anim.getRemoveAnimator() != null) {
-            this.layeredPane.remove(anim.getAnimator());
-        }
-
-        if (anim.getAnimator() != null) {
-            AnimationBase a = anim.getAnimator();
-
-            if (a instanceof ResettableAnimation) {
-                ResettableAnimation gsa = (ResettableAnimation) a;
-                gsa.resetAnimation();
-            }
-
-            this.layeredPane.add(anim.getAnimator(), layeredPane.highestLayer());
-        }
-    }
-
-    private void addGameObject(GameObject gameObject) {
-
-        if (gameObject instanceof Animatable) {
-            Animatable animatable = (Animatable) gameObject;
-            AnimationBase animationBase = animatable.getAnimator();
-            this.layeredPane.add(animationBase, layeredPane.highestLayer());
-            animatable.addAnimationChangeListener(l -> switchAnimation(animatable));
-        }
-
-        if (gameObject instanceof Collidable) {
-            Collidable collidable = (Collidable) gameObject;
-            collisionDetector.registerCollidable(collidable);
-        }
-    }
-
 }

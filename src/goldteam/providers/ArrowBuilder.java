@@ -5,9 +5,8 @@
  */
 package goldteam.providers;
 
-import goldteam.animators.ArcherAnimation;
+import goldteam.animators.ArcherAnimationStanding;
 import goldteam.animators.ArrowAnimation;
-import goldteam.characters.ArcherMan;
 import goldteam.characters.Arrow;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
@@ -18,14 +17,11 @@ import java.awt.Point;
 
 public class ArrowBuilder extends CharacterBuilderBase {
 
-    private final GameEngine gameData;
     private Arrow arrow;
-    private final Point point;
     private final DoubleVector speed;
 
     public ArrowBuilder(GameEngine gameData, Point point, DoubleVector speed) {
-        this.gameData = gameData;
-        this.point = point;
+        super(gameData,point);
         this.speed = speed;
     }
 
@@ -40,9 +36,9 @@ public class ArrowBuilder extends CharacterBuilderBase {
 
         CharacterAnimationBase arrowAnimation = speed.x >= 0
                 ? new ArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/Archer/Arrow_Shot_Right.png")
-                : new ArcherAnimation(arrow, gameData.getVisibleDimensions(), "assets/Archer/Arrow_Shot_Right.png");
+                : new ArcherAnimationStanding(arrow, gameData.getVisibleDimensions(), "assets/Archer/Arrow_Shot_Right.png");
 
-        arrow.setAnimator(arrowAnimation);
+        arrow.addAnimator(AnimationState.DEFAULT, arrowAnimation);
     }
 
 }

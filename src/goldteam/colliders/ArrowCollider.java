@@ -6,8 +6,6 @@
 package goldteam.colliders;
 
 import goldteam.characters.Arrow;
-import goldteam.characters.Ghost;
-import goldteam.characters.StationaryGhost;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
 

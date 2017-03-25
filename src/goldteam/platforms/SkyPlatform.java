@@ -22,35 +22,33 @@ import java.util.HashMap;
  *
  * @author Mishal
  */
-public class SkyPlatform extends GameObject implements Platform, Animatable, Collidable{
+public class SkyPlatform extends GameObject implements Platform, Animatable, Collidable {
 
     private AnimationBase animator;
     private Polygon collider;
     private int width, height;
     private final HashMap<Collidable, CollisionPlane> colliders;
-    
-    public SkyPlatform(GameEngine gamedata, Point initialPoint,int width, int height) {
+
+    public SkyPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
         super(gamedata, initialPoint);
-          this.width = width;
-          this.height = height;
-          
-           colliders = new HashMap<>();
-        
-        int [] xPoly = {this.positionVector.x, 
-                        this.positionVector.x + this.width, 
-                        this.positionVector.x + this.width,
-                        this.positionVector.x
+        this.width = width;
+        this.height = height;
+
+        colliders = new HashMap<>();
+
+        int[] xPoly = {this.positionVector.x,
+            this.positionVector.x + this.width,
+            this.positionVector.x + this.width,
+            this.positionVector.x
         };
-        int [] yPoly = {this.positionVector.y, 
-                        this.positionVector.y,
-                        this.positionVector.y + this.height,
-                        this.positionVector.y + this.height
+        int[] yPoly = {this.positionVector.y,
+            this.positionVector.y,
+            this.positionVector.y + this.height,
+            this.positionVector.y + this.height
         };
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
     }
-
-   
 
     @Override
     protected void Update() {
@@ -60,16 +58,6 @@ public class SkyPlatform extends GameObject implements Platform, Animatable, Col
     @Override
     protected void GraphicsUpdateHandler() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -123,11 +111,6 @@ public class SkyPlatform extends GameObject implements Platform, Animatable, Col
     }
 
     @Override
-    public void setAnimator(AnimationBase animator) {
-            this.animator = animator;
-    }
-
-    @Override
     public AnimationBase getAnimator() {
 
         return this.animator;
@@ -144,18 +127,13 @@ public class SkyPlatform extends GameObject implements Platform, Animatable, Col
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animator = animator;
     }
 
     @Override
@@ -193,5 +171,5 @@ public class SkyPlatform extends GameObject implements Platform, Animatable, Col
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
     }
-    
+
 }

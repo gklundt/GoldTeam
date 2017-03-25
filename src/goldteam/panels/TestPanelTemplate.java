@@ -34,11 +34,11 @@ public class TestPanelTemplate extends GamePanelBase {
      **/
     @Override
     protected void addGameObjects() {
-        Ghost ghost;
-        ghost = new Ghost(this.gameData, new Point(60, 60));
-        GhostAnimation ghostAnimation = new GhostAnimation(ghost, this.gameData.getRunEdgeDimensions(), "assets/GameGhostStripe.png");
-        ghost.setAnimator(ghostAnimation);
-        this.layeredPane.add(ghostAnimation);
+//        Ghost ghost;
+//        ghost = new Ghost(this.gameData, new Point(60, 60));
+//        GhostAnimation ghostAnimation = new GhostAnimation(ghost, this.gameData.getRunEdgeDimensions(), "assets/GameGhostStripe.png");
+//        ghost.setAnimator(ghostAnimation);
+//        this.layeredPane.add(ghostAnimation);
         
         
         

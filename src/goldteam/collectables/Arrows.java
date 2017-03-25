@@ -22,37 +22,32 @@ import java.util.HashMap;
  *
  * @author faaez
  */
-public class Arrows extends GameObject implements Animatable, Collidable, CollectableItem{
+public class Arrows extends GameObject implements Animatable, Collidable, CollectableItem {
 
     private AnimationBase animator;
     private Polygon collider;
     private final HashMap<Collidable, CollisionPlane> colliders;
     private boolean state;
-    
+
     public Arrows(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
         colliders = new HashMap<>();
-        
-        int [] xPoly = {this.positionVector.x, 
-                        this.positionVector.x + 50, 
-                        this.positionVector.x + 50,
-                        this.positionVector.x
+
+        int[] xPoly = {this.positionVector.x,
+            this.positionVector.x + 50,
+            this.positionVector.x + 50,
+            this.positionVector.x
         };
-        int [] yPoly = {this.positionVector.y, 
-                        this.positionVector.y,
-                        this.positionVector.y + 50,
-                        this.positionVector.y + 50
+        int[] yPoly = {this.positionVector.y,
+            this.positionVector.y,
+            this.positionVector.y + 50,
+            this.positionVector.y + 50
         };
-        
+
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
-        
-        this.state = true;
-    }
 
-    @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
+        this.state = true;
     }
 
     @Override
@@ -67,22 +62,17 @@ public class Arrows extends GameObject implements Animatable, Collidable, Collec
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // does not change animation
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
+        // does not change animation
     }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animator = animator;
     }
 
     @Override
@@ -107,46 +97,36 @@ public class Arrows extends GameObject implements Animatable, Collidable, Collec
 
     @Override
     protected void Update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected void UpdateEffectHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected void MapUpdateTimerHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public void setState(boolean state){
+    public void setState(boolean state) {
         this.state = state;
     }
-    
+
     @Override
-    public boolean getState(){
+    public boolean getState() {
         return this.state;
     }
-    
+
     @Override
-    public void undoCollider(){
+    public void undoCollider() {
         this.collider = new Polygon();
     }
 

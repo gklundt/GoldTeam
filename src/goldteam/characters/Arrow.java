@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package goldteam.characters;
 
 import goldteam.domain.Animatable;
@@ -23,24 +19,26 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- *
- * @author Joshua
- * @author Caleb Dunham
- */
-public class Arrow extends GameObject implements Movable, Animatable, Collidable, Attackable {
 
+
+public class Arrow
+        extends GameObject
+        implements Movable, Animatable, Collidable, Attackable {
+
+//<editor-fold defaultstate="collapsed" desc="Private Declarations">
     private int health;
     private AnimationBase animator;
-    private DoubleVector velocityVector;
+    private final DoubleVector velocityVector;
     private Polygon collider;
     private Polygon initialCollider;
-    private ArrayList<ActionListener> attackableListeners;
-    private ArrayList<ActionListener> collidableListeners;
+    private final ArrayList<ActionListener> attackableListeners;
+    private final ArrayList<ActionListener> collidableListeners;
     private final HashMap<Collidable, CollisionPlane> colliders;
     private boolean collided;
     public final ArrayList<ActionListener> animationChangeListeners;
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Constructor">
     public Arrow(GameEngine gamedata, Point initialPoint, DoubleVector velocityVector) {
         super(gamedata, initialPoint);
         attackableListeners = new ArrayList<>();
@@ -56,7 +54,9 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         collided = false;
         this.animationChangeListeners = new ArrayList<>();
     }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Initialization Routine">
     private void init() {
         int[] xPoly = {this.positionVector.x - 15,
             this.positionVector.x + 15,
@@ -72,7 +72,9 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         super.shape = collider;
 
     }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="GameObject Implementation">
     @Override
     protected void Update() {
         velocityVector.y += 1.5;  //Gravity
@@ -94,16 +96,6 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     }
 
     @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     protected void UpdateEffectHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -112,7 +104,9 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     protected void MapUpdateTimerHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Movable Implementation">
     @Override
     public DoubleVector getVelocityVector() {
         return velocityVector;
@@ -133,12 +127,9 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     public Integer getVelocity() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+//</editor-fold>
 
-    @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
-    }
-
+//<editor-fold defaultstate="collapsed" desc="Animatable Implementation">
     @Override
     public AnimationBase getAnimator() {
         return this.animator;
@@ -155,20 +146,18 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animator = animator;
     }
 
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Collidable Implementation">
     @Override
     public Polygon getPolygon() {
         return this.collider;
@@ -189,6 +178,27 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
         return this.colliders;
     }
 
+    @Override
+    public void notifyCollidableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener cl : this.collidableListeners) {
+            cl.actionPerformed(e);
+        }
+    }
+
+    @Override
+    public void setCollided(boolean state) {
+        this.collider = new Polygon();
+        this.collided = state;
+    }
+
+    @Override
+    public boolean isCollided() {
+        return this.collided;
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Attackable Implementation">
     @Override
     public int getShieldValue() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -219,60 +229,14 @@ public class Arrow extends GameObject implements Movable, Animatable, Collidable
     }
 
     @Override
-    public void notifyCollidableListeners() {
-        ActionEvent e = new ActionEvent(this, 0, "");
-        for (ActionListener cl : this.collidableListeners) {
-            cl.actionPerformed(e);
-        }
-    }
-
-    @Override
     public void addAttackableListener(ActionListener listener) {
         this.attackableListeners.add(listener);
     }
 
-    @Override
-    public int getArrowCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//</editor-fold>
 
-    @Override
-    public void setArrowDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getLifeValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setLifeValue(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void setNewAnimator(String string) {
+    private void setNewAnimator(String string) {
         this.animator = null;
     }
 
-    @Override
-    public double getChargeValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setChargeDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setCollided(boolean state) {
-        this.collider = new Polygon();
-        this.collided = state;
-    }
-
-    @Override
-    public boolean isCollided() {
-        return this.collided;
-    }
 }

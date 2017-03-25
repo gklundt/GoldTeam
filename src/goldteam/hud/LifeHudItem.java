@@ -10,6 +10,8 @@ import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
 import goldteam.domain.Attackable;
 import goldteam.domain.AttackableWatcher;
+import goldteam.domain.Depletable;
+import goldteam.domain.DepletableWatcher;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import java.awt.Point;
@@ -19,10 +21,10 @@ import java.awt.event.ActionListener;
  *
  * @author Caleb Dunham
  */
-public class LifeHudItem extends GameObject implements AttackableWatcher, Animatable {
+public class LifeHudItem extends GameObject implements DepletableWatcher, Animatable {
     
     public int count;
-    private Attackable watchedItem;
+    private Depletable watchedItem;
     private AnimationBase animator;
     
     public LifeHudItem(GameEngine gamedata, Point initialPoint) {
@@ -31,34 +33,24 @@ public class LifeHudItem extends GameObject implements AttackableWatcher, Animat
     
     @Override
     public void Update() {
-        this.count = this.watchedItem.getLifeValue();
+        this.count = this.watchedItem.getCount();
     }
     
     @Override
-    public Attackable getWatcher() {
+    public Depletable getWatcher() {
         return this.watchedItem;
     }
 
     @Override
-    public void setWatcher(Attackable target) {
+    public void setWatcher(Depletable target) {
         this.watchedItem=target;
-        this.count = this.watchedItem.getLifeValue();
-        this.watchedItem.addAttackableListener(l -> Update());
+        this.count = this.watchedItem.getCount();
+        this.watchedItem.addDepletableListener(l -> Update());
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
    
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -71,10 +63,6 @@ public class LifeHudItem extends GameObject implements AttackableWatcher, Animat
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
-    }
 
     @Override
     public AnimationBase getAnimator() {
@@ -93,16 +81,12 @@ public class LifeHudItem extends GameObject implements AttackableWatcher, Animat
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animator = animator;
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

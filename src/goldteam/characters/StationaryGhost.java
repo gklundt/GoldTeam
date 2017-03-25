@@ -25,7 +25,6 @@ import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -193,36 +192,6 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public Double getForce() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setForceDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public DoubleVector getStrikeVector() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setStrikeVector(DoubleVector strikeVector) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setStrikeScalarDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
-    }
-
-    @Override
     public AnimationBase getAnimator() {
         return this.animator;
     }
@@ -243,16 +212,6 @@ public class StationaryGhost extends GameObject implements
     @Override
     protected void GraphicsUpdateHandler() {
         Update();
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -291,7 +250,7 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public void processKeyInput(KeyEvent keyEvent) {
+    public void processKeyInput() {
         if (collidedLeft == false && this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
             this.velocity = this.initialVelocity;
             this.rawVector.x += this.velocity;
@@ -305,7 +264,7 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public void processMouseInput(MouseEvent mouseEvent) {
+    public void processMouseInput() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -320,7 +279,7 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -328,32 +287,6 @@ public class StationaryGhost extends GameObject implements
     public void addAnimator(AnimationState state, AnimationBase animator) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int getArrowCount() {
-        return arrows;
-    }
-
-    @Override
-    public void setArrowDelta(Delta delta) {
-        this.arrows += delta.delta.intValue();
-    }
-
-    @Override
-    public int getLifeValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setLifeValue(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 
     @Override
     public Integer getCount() {
@@ -399,5 +332,17 @@ public class StationaryGhost extends GameObject implements
     public boolean isCollided() {
         return collided;
     }
+
+    @Override
+    public void notifyWeaponListener() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setChargeValue(double chargeValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
 }
 

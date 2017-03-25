@@ -11,14 +11,15 @@ import java.util.Random;
  *
  * @author gordon
  */
-public class BackgroundPanelGhost extends GameObject implements
-        Animatable {
+public class BackgroundPanelGhost
+        extends GameObject
+        implements Animatable {
 
     private final Random random;
 
     private final Integer initialVelocity;
     private final Point initialPoint;
-    private DoubleVector velocityVector;
+    private final DoubleVector velocityVector;
     private final Integer velocity;
     private final DoubleVector rawVector;
 
@@ -45,6 +46,7 @@ public class BackgroundPanelGhost extends GameObject implements
 
     }
 
+//<editor-fold defaultstate="collapsed" desc="GameObject Implementation">
     @Override
     protected void Update() {
 
@@ -69,28 +71,8 @@ public class BackgroundPanelGhost extends GameObject implements
     }
 
     @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
-    }
-
-    @Override
-    public AnimationBase getAnimator() {
-        return this.animator;
-    }
-
-    @Override
     protected void GraphicsUpdateHandler() {
         Update();
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -101,6 +83,13 @@ public class BackgroundPanelGhost extends GameObject implements
     @Override
     protected void MapUpdateTimerHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Animatable Implementation">
+    @Override
+    public AnimationBase getAnimator() {
+        return this.animator;
     }
 
     @Override
@@ -119,12 +108,11 @@ public class BackgroundPanelGhost extends GameObject implements
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+ 
+//</editor-fold>
+
 }

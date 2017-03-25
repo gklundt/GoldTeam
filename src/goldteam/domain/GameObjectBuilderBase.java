@@ -5,12 +5,23 @@
  */
 package goldteam.domain;
 
+import goldteam.characters.ArcherMan;
+import java.awt.Point;
+
 /**
  *
  * @author gordon
  */
 public abstract class GameObjectBuilderBase {
 
+    protected final GameEngine gameData;
+    protected final Point point;
+
+    public GameObjectBuilderBase(GameEngine gameData, Point point) {
+        this.gameData = gameData;
+        this.point = point;
+    }
+    
     protected GameObject gameObject;
 
     public GameObject getGameObject() {

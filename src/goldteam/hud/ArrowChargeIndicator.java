@@ -12,6 +12,8 @@ import goldteam.domain.Attackable;
 import goldteam.domain.AttackableWatcher;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
+import goldteam.domain.Weapon;
+import goldteam.domain.WeaponWatcher;
 import java.awt.Point;
 import java.awt.event.ActionListener;
 
@@ -19,14 +21,14 @@ import java.awt.event.ActionListener;
  *
  * @author Caleb Dunham
  */
-public class ArrowChargeIndicator extends GameObject implements 
-            Animatable,         /* Will be drawn on screen */
-            AttackableWatcher  /* Watches the archer */
-            {
+public class ArrowChargeIndicator extends GameObject implements
+        Animatable, /* Will be drawn on screen */
+        WeaponWatcher /* Watches the archer */ {
+
     private double currentCharge;
-    private Attackable watchedItem;
+    private Weapon watchedItem;
     private AnimationBase animator;
-    
+
     public ArrowChargeIndicator(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
     }
@@ -38,17 +40,7 @@ public class ArrowChargeIndicator extends GameObject implements
 
     @Override
     protected void GraphicsUpdateHandler() {
-        
-    }
 
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -59,11 +51,6 @@ public class ArrowChargeIndicator extends GameObject implements
     @Override
     protected void MapUpdateTimerHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
     }
 
     @Override
@@ -79,11 +66,11 @@ public class ArrowChargeIndicator extends GameObject implements
         this.currentCharge = currentCharge;
     }
 
-    public Attackable getWatchedItem() {
+    public Weapon getWatchedItem() {
         return watchedItem;
     }
 
-    public void setWatchedItem(Attackable watchedItem) {
+    public void setWatchedItem(Weapon watchedItem) {
         this.watchedItem = watchedItem;
     }
 
@@ -94,34 +81,29 @@ public class ArrowChargeIndicator extends GameObject implements
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animator = animator;
     }
 
     @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    @Override
-    public void setWatcher(Attackable target) {
+    public void setWatcher(Weapon target) {
         this.watchedItem = target;
         this.currentCharge = this.watchedItem.getChargeValue();
-        this.watchedItem.addAttackableListener(l -> Update());
+        this.watchedItem.addWeaponListener(l -> Update());
     }
 
     @Override
-    public Attackable getWatcher() {
+    public Weapon getWatcher() {
         return this.watchedItem;
     }
-    
+
 }

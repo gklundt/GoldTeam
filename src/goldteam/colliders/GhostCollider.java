@@ -57,15 +57,15 @@ public class GhostCollider implements CollisionListener{
         
         if(boolswitch) {
             ghost.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
-            ghost.setRemoveAnimator(ghost.getAnimator());
-            ghost.setNewAnimator(AnimationState.HURT);
-            ghost.notifyAnimationChangeListeners();
+//            ghost.setRemoveAnimator(ghost.getAnimator());
+//            ghost.setNewAnimator(AnimationState.HURT);
+//            ghost.notifyAnimationChangeListeners();
             boolswitch = false;
         } else {
             ghost.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
-            ghost.setRemoveAnimator(ghost.getAnimator());
-            ghost.setNewAnimator(AnimationState.DEFAULT);
-            ghost.notifyAnimationChangeListeners();
+//            ghost.setRemoveAnimator(ghost.getAnimator());
+//            ghost.setNewAnimator(AnimationState.DEFAULT);
+//            ghost.notifyAnimationChangeListeners();
             boolswitch = true;
         }
         if(ghost.getShieldValue() > 0 && !boolswitch) {
@@ -81,7 +81,7 @@ public class GhostCollider implements CollisionListener{
 
         if(arrow.getHealthValue() > 0) {
             GameSounds.sounds[2].play();
-            arrow.setNewAnimator("");
+//            arrow.setNewAnimator("");
         }
     }
     

@@ -3,6 +3,7 @@ package goldteam.domain;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.event.KeyEvent;
 
 public abstract class GameObject {
 
@@ -14,8 +15,6 @@ public abstract class GameObject {
     public GameObject(GameEngine gamedata, Point initialPoint) {
         this.gamedata = gamedata;
         this.gamedata.addGraphicsUpdateTimerListener(l -> GraphicsUpdateHandler());
-        this.gamedata.addClicksListener(l -> ClickHandler());
-        this.gamedata.addKeysListener(l -> KeyHandler());
         this.gamedata.addEffectsTimerListener(l -> UpdateEffectHandler());
         this.gamedata.addMapUpdateTimerListener(l -> MapUpdateTimerHandler());
         this.positionVector = initialPoint;
@@ -25,10 +24,6 @@ public abstract class GameObject {
     
     protected abstract void GraphicsUpdateHandler();
 
-    protected abstract void ClickHandler();
-    
-    protected abstract void KeyHandler();
-    
     protected abstract void UpdateEffectHandler();
     
     protected abstract void MapUpdateTimerHandler();

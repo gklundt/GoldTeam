@@ -25,9 +25,8 @@ import java.awt.event.KeyEvent;
  */
 public class TestSwitchAnimPanel extends GamePanelBase {
 
-    
     private MoodyGhost ghost;
-    
+
     /**
      * Create a new panel manager
      *
@@ -45,77 +44,21 @@ public class TestSwitchAnimPanel extends GamePanelBase {
      */
     @Override
     protected void addGameObjects() {
-        
-        ghost = new MoodyGhost(this.gameData, new Point(60, 60));
 
-        AnimationBase defaultGhostAnimation = new GhostAnimation(ghost, this.gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
-        AnimationBase slideGhostAnimation = new GhostAnimation(ghost, this.gameData.getVisibleDimensions(), "assets/GameGhostStripeOrange.png");
-        AnimationBase runGhostAnimation = new BigGhostAnimation(ghost, this.gameData.getVisibleDimensions(), "assets/GameGhostStripeGreen.png");
-
-        ghost.setAnimator(defaultGhostAnimation);
-        ghost.addAnimator(AnimationState.WALKING_LEFT, slideGhostAnimation);
-        ghost.addAnimator(AnimationState.JUMPING_LEFT, runGhostAnimation);
-
-        AnimationBase t = ghost.getAnimator();
-        this.layeredPane.add(t);
-        ghost.addAnimationChangeListener(l -> SwitchGhostListener(l));
-
-    }
-
-    private void SwitchGhostListener(ActionEvent event) {
-        Animatable obj = (Animatable) event.getSource();
-        this.layeredPane.remove(obj.getRemoveAnimator());
-        this.layeredPane.add(obj.getAnimator());
-    }
-
-    /**
-     * Add events Base class implements AncestorListener, KeyListener,
-     * MouseListener So you can override any key or mouse event for test
-     * purposes By default Escape takes you back to the game options panel
-     *
-     */
-
-    @Override
-    public void keyTyped(KeyEvent e) {
+//        ghost = new MoodyGhost(this.gameData, new Point(60, 60));
+//
+//        AnimationBase defaultGhostAnimation = new GhostAnimation(ghost, this.gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
+//        AnimationBase slideGhostAnimation = new GhostAnimation(ghost, this.gameData.getVisibleDimensions(), "assets/GameGhostStripeOrange.png");
+//        AnimationBase runGhostAnimation = new BigGhostAnimation(ghost, this.gameData.getVisibleDimensions(), "assets/GameGhostStripeGreen.png");
+//
+//        ghost.addAnimator(AnimationState.DEFAULT, defaultGhostAnimation);
+//        ghost.addAnimator(AnimationState.WALKING_LEFT, slideGhostAnimation);
+//        ghost.addAnimator(AnimationState.JUMPING_LEFT, runGhostAnimation);
+//
+//        AnimationBase t = ghost.getAnimator();
+//        this.layeredPane.add(t);
+//        ghost.addAnimationChangeListener(l -> swit(l));
 
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
-            panelThread.interrupt();
-            undoGraphics();
-            panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
-            return;
-        }
-
-        int k = e.getKeyCode();
-        if (!check(k)) {
-            addKey(k);
-        }
-
-        ghost.processKeyInput(e);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-        int k = e.getKeyCode();
-        if (check(k)) {
-            removeKey(k);
-        }
-        ghost.processKeyInput(e);
-    }
-
-    private synchronized boolean check(Integer e) {
-        return this.gameData.getHeldKeys().contains(e);
-    }
-
-    private synchronized void addKey(Integer e) {
-        this.gameData.getHeldKeys().add(e);
-    }
-
-    private synchronized void removeKey(Integer e) {
-        this.gameData.getHeldKeys().remove(e);
-    }
 }

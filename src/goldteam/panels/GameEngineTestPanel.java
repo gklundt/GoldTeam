@@ -1,14 +1,15 @@
 package goldteam.panels;
 
-import goldteam.animators.BigGhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
-import goldteam.animators.GhostAnimation;
-import goldteam.characters.Ghost;
 import goldteam.domain.CharacterAnimationBase;
-import goldteam.domain.Delta;
-import goldteam.domain.ModType;
+import goldteam.domain.DoubleVector;
 import goldteam.gamedata.GameData;
+import goldteam.providers.ArcherBuilder;
+import goldteam.providers.ArrowBuilder;
+import goldteam.providers.FlyerEnemyBuilder;
+import goldteam.providers.LauncherEnemyBuilder;
+import goldteam.providers.WalkerEnemyBuilder;
 import java.awt.Point;
 import java.util.Random;
 
@@ -21,6 +22,9 @@ public class GameEngineTestPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
 
+        builder = new ArcherBuilder(this.gameData, new Point(400,400));
+        this.addGameObject(provider.build(builder));
+
         Random x = new Random();
         Random y = new Random();
         for (int i = 1; i <= 18; ++i) {
@@ -31,34 +35,22 @@ public class GameEngineTestPanel extends GamePanelBase {
             CharacterAnimationBase ga1 = null;
             switch (i % 4) {
                 case 0:
-                    ga1 = this.createNewGhost(gameData, new Point(rx, ry), 15, "assets/GameGhostStripe.png", i);
+                    builder = new FlyerEnemyBuilder(this.gameData, new Point(rx, ry));
+                    this.addGameObject(provider.build(builder));
                     break;
                 case 1:
-                    ga1 = this.createNewGhost(gameData, new Point(rx, ry), 5, "assets/GameGhostStripeRed.png", i);
+                    builder = new LauncherEnemyBuilder(this.gameData, new Point(rx, ry), true);
+                    this.addGameObject(provider.build(builder));
                     break;
                 case 2:
-                    ga1 = this.createNewGhost(gameData, new Point(rx, ry), 10, "assets/GameGhostStripeOrange.png", i);
+                    builder = new WalkerEnemyBuilder(this.gameData, new Point(rx, ry));
+                    this.addGameObject(provider.build(builder));
                     break;
                 case 3:
-                    ga1 = this.createNewGhost(gameData, new Point(rx, ry), 20, "assets/GameGhostStripeGreen.png", i);
+                    builder = new ArrowBuilder(this.gameData, new Point(rx, ry), new DoubleVector(15d, 0d));
+                    this.addGameObject(provider.build(builder));
                     break;
             }
-
-            this.layeredPane.add(ga1, layeredPane.highestLayer());
         }
     }
-
-    protected CharacterAnimationBase createNewGhost(GameData gd, Point p, Integer speed, String image, int bigOrSmall) {
-        Ghost g1 = new Ghost(gd, p);
-        CharacterAnimationBase ga1;
-        if (bigOrSmall % 3 == 0) {
-             ga1 = new BigGhostAnimation(g1, gd.getVisibleDimensions(), image);
-        } else {
-             ga1 = new GhostAnimation(g1, gd.getVisibleDimensions(), image);
-        }
-        g1.setVelocityScalarDelta(Delta.create((-0.9 * g1.getVelocity().doubleValue()) + speed, ModType.FIXED));
-        g1.setAnimator(ga1);
-        return ga1;
-    }
-
 }
