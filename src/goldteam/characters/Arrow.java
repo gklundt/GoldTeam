@@ -5,6 +5,7 @@ import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
 import goldteam.domain.Attackable;
+import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Delta;
@@ -237,6 +238,10 @@ public class Arrow
 
     private void setNewAnimator(String string) {
         this.animator = null;
+    }
+
+    public void setAnimator(CharacterAnimationBase ga1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -9,7 +9,7 @@ public class ArcherAnimationDrawing extends CharacterAnimationBase {
 
     public ArcherAnimationDrawing(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
-        super.loadImage(imgFilename, 1, 1, new AffineTransform(1, 0, 0, 1, 0, 0));
+        super.loadImage(imgFilename, 1, 8, new AffineTransform(1, 0, 0, 1, 0, 0));
     }
 
     @Override

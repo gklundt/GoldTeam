@@ -40,7 +40,7 @@ public class ArcherMan extends GameObject
     private HashMap<Collidable, CollisionPlane> colliders;
     private Polygon collider;
     private final ArrayList<ActionListener> depletableListeners;
-    private Boolean isFacingLeft;
+    private Boolean isFacingLeft = false;
 
     public ArcherMan(GameEngine gameData, Point initialPoint) {
         super(gameData, initialPoint);
@@ -198,8 +198,8 @@ public class ArcherMan extends GameObject
             this.animator = animator;
         }
     }
-
 //</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Depletable Implementation">
     @Override
     public Integer getCount() {
@@ -282,37 +282,51 @@ public class ArcherMan extends GameObject
 //<editor-fold defaultstate="collapsed" desc="Controllable Implementation">
     @Override
     public void processKeyInput() {
+
+        if (this.gamedata.getHeldKeys().isEmpty()) {
+            this.velocity = 0;
+            this.rawVector.x = initialVelocity;
+        }
+
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
             setRight(true);
             isFacingLeft = false;
-            removeAnimator = animator;
-            animator = animators.get(AnimationState.WALKING_RIGHT);
-            notifyAnimationChangeListeners(removeAnimator);
+            if (!mousePressed) {
+                removeAnimator = animator;
+                animator = animators.get(AnimationState.WALKING_RIGHT);
+                notifyAnimationChangeListeners(removeAnimator);
+            }
 
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.x += this.velocity;
         } else {
             setRight(false);
         }
+
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_A)) {
             setLeft(true);
             isFacingLeft = true;
-            removeAnimator = animator;
-            animator = animators.get(AnimationState.WALKING_LEFT);
-            notifyAnimationChangeListeners(removeAnimator);
+            if (!mousePressed) {
+                removeAnimator = animator;
+                animator = animators.get(AnimationState.WALKING_LEFT);
+                notifyAnimationChangeListeners(removeAnimator);
+            }
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.x -= this.velocity;
         } else {
             setLeft(false);
         }
+
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_W)) {
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.y -= this.velocity;
         }
+
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_S)) {
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.y += this.velocity;
         }
+
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_SPACE)) {
             setJump(true);
         } else {
@@ -324,7 +338,6 @@ public class ArcherMan extends GameObject
             animator = isFacingLeft
                     ? animators.get(AnimationState.DEFAULT_LEFT)
                     : animators.get(AnimationState.DEFAULT_RIGHT);
-
             notifyAnimationChangeListeners(removeAnimator);
         }
 
@@ -334,9 +347,46 @@ public class ArcherMan extends GameObject
     @Override
     public void processMouseInput() {
 
-    }
+        if (this.gamedata.getHeldMouse().isEmpty()) {
+            setMousePressed(false);
+            removeAnimator = animator;
+            animator = isFacingLeft
+                    ? animators.get(AnimationState.DEFAULT_LEFT)
+                    : animators.get(AnimationState.DEFAULT_RIGHT);
+            notifyAnimationChangeListeners(removeAnimator);
+            //        if (canShootArrow()) {
+            //            CharacterAnimationBase arrow = null;
+            //            DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - ar.PositionVector().getX(), e.getY() - ar.PositionVector().getY()), 15 + ar.getMouseCharge() * 3);
+            //            //velocity = new DoubleVector(velocity.x + ar.getVelocityVector().x, velocity.y + ar.getVelocityVector().y); //Player Momentum transfers to arrow
+            //            if (ar.animator == ar.animators.get(AnimationState.DEFAULT_RIGHT)) {
+            //                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/ArrowRight.png");
+            //            } else {
+            //                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/ArrowLeft.png");
+            //            }
+            //            this.layeredPane.add(arrow, layeredPane.highestLayer());
+            //            ar.shootArrow();
+            //            ar.setMousePressed(false);
+            //        } else {
+        } else {
 
-    //</editor-fold>
+            Point mouseLocation = this.gamedata.getHeldMouse().get(1);
+
+            if (mouseLocation == null) {
+                return;
+            }
+            setMousePressed(true);
+            removeAnimator = animator;
+
+            if (mouseLocation.getX() > this.positionVector.x) {
+                animator = animators.get(AnimationState.SHOOTING_RIGHT);
+            } else {
+                animator = animators.get(AnimationState.SHOOTING_LEFT);
+            }
+            notifyAnimationChangeListeners(removeAnimator);
+        }
+    }
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Movable Implementation">
     @Override
     public DoubleVector getVelocityVector() {
