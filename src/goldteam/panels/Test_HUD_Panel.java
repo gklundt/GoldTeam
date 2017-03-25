@@ -1,39 +1,10 @@
 package goldteam.panels;
 
-import goldteam.GamePanelManager;
-import goldteam.animators.ArcherAnimationStanding;
-import goldteam.animators.ArrowChargeAnimation;
-import goldteam.animators.ArrowHudAnimation;
-import goldteam.animators.BigGhostAnimation;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
-import goldteam.animators.HeartHudAnimation;
-import goldteam.animators.LifeHudAnimation;
-import goldteam.animators.ShieldHudAnimation;
 import goldteam.characters.ArcherBow;
-import goldteam.characters.ArcherMan;
-import goldteam.characters.Arrow;
-import goldteam.characters.Ghost;
-import goldteam.colliders.CollisionDetector;
 import goldteam.colliders.GhostCollider;
-import goldteam.domain.Animatable;
-import goldteam.domain.AnimationBase;
-import goldteam.domain.AnimationState;
-import goldteam.domain.CharacterAnimationBase;
-import goldteam.domain.Collidable;
-import goldteam.domain.Delta;
-import goldteam.domain.DoubleVector;
-import goldteam.domain.GameObject;
-import goldteam.domain.ModType;
-import goldteam.domain.PanelManagerListener;
-import goldteam.domain.VectorMath;
-import goldteam.domain.Weapon;
 import goldteam.gamedata.GameData;
-import goldteam.hud.ArrowChargeIndicator;
-import goldteam.hud.ArrowHudItem;
-import goldteam.hud.HeartHudItem;
-import goldteam.hud.LifeHudItem;
-import goldteam.hud.ShieldHudItem;
 import goldteam.providers.ArcherBuilder;
 import goldteam.providers.ArrowChargeHudBuilder;
 import goldteam.providers.ArrowHudBuilder;
@@ -42,49 +13,24 @@ import goldteam.providers.HudGhostEnemyBuilder;
 import goldteam.providers.LifeHudBuilder;
 import goldteam.providers.ShieldHudBuilder;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.Random;
 
 public class Test_HUD_Panel extends GamePanelBase {
 
-    private static final long serialVersionUID = 1L;
-
-    private ArcherMan archer;
-    public int charge;
-    private Ghost[] bigGhost;
-    private HeartHudItem hearts;
-    private ShieldHudItem shields;
-    private LifeHudItem lives;
-    private ArrowHudItem arrows;
-    private ArrowChargeIndicator chargeBar;
-    private final CollisionDetector collisionDetector;
-
     public Test_HUD_Panel(PanelManager panelManager) {
         super(panelManager, new GameData());
-        collisionDetector = new CollisionDetector(this.gameData);
     }
 
     @Override
     protected void addGameObjects() {
 
-        Random r = new Random();
-
         GhostCollider gc = new GhostCollider();
-//        collisionDetector.addCollisionListener(gc);
         addCollisionListener(gc);
 
-//        archer = new ArcherMan(gameData, new Point(300, 300));
-//        //archer.setChargeValue(Delta.create(0.0, ModType.FIXED));
-//        AnimationBase t = archer.getAnimator();
-//        this.layeredPane.add(t, layeredPane.highestLayer());
-//        archer.addAnimationChangeListener(l -> SwitchArcherListener(l));
         builder = new ArcherBuilder(gameData, new Point(300, 300));
         addGameObject(provider.build(builder));
 
-        builder = new HudGhostEnemyBuilder(gameData, new Point(r.nextInt(800), r.nextInt(600)));
-        addGameObject(provider.build(builder));
+        Random r = new Random();
 
         builder = new HudGhostEnemyBuilder(gameData, new Point(r.nextInt(800), r.nextInt(600)));
         addGameObject(provider.build(builder));
@@ -98,49 +44,24 @@ public class Test_HUD_Panel extends GamePanelBase {
         builder = new HudGhostEnemyBuilder(gameData, new Point(r.nextInt(800), r.nextInt(600)));
         addGameObject(provider.build(builder));
 
-//        hearts = new HeartHudItem(gameData, new Point(10, 10));
-//        hearts.setWatcher(archer);
-//        HeartHudAnimation hha = new HeartHudAnimation(hearts, gameData.getVisibleDimensions(), "assets/heart.png");
-//        hearts.setAnimator(hha);
+        builder = new HudGhostEnemyBuilder(gameData, new Point(r.nextInt(800), r.nextInt(600)));
+        addGameObject(provider.build(builder));
+
         builder = new HeartHudBuilder(gameData, new Point(10, 10), gameData.getAttackableCharacter());
         addGameObject(provider.build(builder));
 
-//        shields = new ShieldHudItem(gameData, new Point(10, 30));
-//        shields.setWatcher(archer);
-//        ShieldHudAnimation sha = new ShieldHudAnimation(shields, gameData.getVisibleDimensions(), "assets/shield.png");
-//        shields.setAnimator(sha);
         builder = new ShieldHudBuilder(gameData, new Point(10, 30), gameData.getAttackableCharacter());
         addGameObject(provider.build(builder));
-//        
-//        lives = new LifeHudItem(gameData, new Point(10, 50));
-//        lives.setWatcher(archer);
-//        LifeHudAnimation lha = new LifeHudAnimation(lives, gameData.getVisibleDimensions(), "assets/Archer_Head.png");
-//        lives.setAnimator(lha);
+
         builder = new LifeHudBuilder(gameData, new Point(10, 50), gameData.getDepletableCharacter());
         addGameObject(provider.build(builder));
-//        
+
         ArcherBow weapon = new ArcherBow(gameData, gameData.getMovableCharacter().PositionVector());
-//        arrows = new ArrowHudItem(gameData, new Point(10, 70));
-//        arrows.setWatcher(archer);
-//        ArrowHudAnimation aha = new ArrowHudAnimation(arrows, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
-//        arrows.setAnimator(aha);
         builder = new ArrowHudBuilder(gameData, new Point(10, 70), weapon);
         addGameObject(provider.build(builder));
 
-//        
-//        chargeBar = new ArrowChargeIndicator(gameData, new Point(archer.PositionVector()));
-//        chargeBar.setWatcher(archer);
-//        ArrowChargeAnimation aca = new ArrowChargeAnimation(chargeBar, gameData.getVisibleDimensions(), archer);
-//        chargeBar.setAnimator(aca);
-//        chargeBar.addAnimationTimerListener(aca);        
         builder = new ArrowChargeHudBuilder(gameData, gameData.getMovableCharacter().PositionVector(), weapon);
         addGameObject(provider.build(builder));
-//        
-//        this.layeredPane.add(hha, this.layeredPane.highestLayer());
-//        this.layeredPane.add(sha, this.layeredPane.highestLayer());
-//        this.layeredPane.add(lha, this.layeredPane.highestLayer());
-//        this.layeredPane.add(aha, this.layeredPane.highestLayer());
-//        this.layeredPane.add(aca, this.layeredPane.highestLayer());
     }
 //
 //    protected CharacterAnimationBase createNewArrow(GameData gd, Point p, DoubleVector speed, String image)
