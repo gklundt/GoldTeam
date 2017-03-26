@@ -41,8 +41,9 @@ public class ArcherMan extends GameObject implements
     private double velocity;
     private int charge;
     private int arrows;
-    private int health, shield;
+    private int health, shield, maxHealth, maxShield;
     private static int lives = 3;
+    private float speedModifier, jumpModifier;
     //---Changed to public members to be accessed in implementing Panel------//
     public final DoubleVector rawVector;
     public AnimationBase animator;
@@ -69,6 +70,8 @@ public class ArcherMan extends GameObject implements
         this.arrows = initialArrows;
         this.health = initialHealth.intValue();
         this.shield = initialShield.intValue();
+        this.maxHealth = this.health;
+        this.maxShield = this.shield;
         this.velocity = initialVelocity;
         this.positionVector = initialPoint;
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
@@ -94,6 +97,8 @@ public class ArcherMan extends GameObject implements
         this.initialHealth = 5.0d;
         this.initialShield = 10.0d;
         this.initialArrows = 10;
+        this.speedModifier = 1.0f;
+        this.jumpModifier = 1.0f;
         CharacterAnimationBase archerDefaultRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
         CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
         CharacterAnimationBase archerWalkingRight = new ArcherAnimation(this, gamedata.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
@@ -328,15 +333,15 @@ public class ArcherMan extends GameObject implements
     protected void Update() {
         double velY = velocityVector.y;
         if (jump && canDoubleJump) {
-            velY = -30;     //Stops Momentum and creats upwards momentup for double jump
+            velY = -30 * jumpModifier;     //Stops Momentum and creats upwards momentup for double jump
             canDoubleJump = false;
         } else
             ;//velY += 3;  //Gravity
 
         if (right && !left) {
-            this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(1d, 0d), velocity);
+            this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(1d, 0d), velocity * speedModifier);
         } else if (left && !right) {
-            this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(-1d, 0d), velocity);
+            this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(-1d, 0d), velocity * speedModifier);
         } else {
             this.velocityVector = new DoubleVector();
         }
@@ -421,8 +426,15 @@ public class ArcherMan extends GameObject implements
         return lives;
     }
 
-    public void die() {
+    public void die()
+    {
         lives--;
+        resetJump();
+        resetSpeed();
+        this.maxHealth = this.initialHealth.intValue();
+        this.maxShield = this.initialShield.intValue();
+        this.health = this.maxHealth;
+        this.shield = this.maxShield;
     }
 
     public void shootArrow() {
@@ -475,6 +487,36 @@ public class ArcherMan extends GameObject implements
     public boolean isCollided() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
+    }
+    
+    public void debuffSpeed()
+    {
+        speedModifier = 0.5f;
+    }
+    
+    public void buffSpeed()
+    {
+        speedModifier = 1.25f;
+    }
+    
+    public void resetSpeed()
+    {
+        speedModifier = 1.0f;
+    }
+    
+    public void debuffJump()
+    {
+        jumpModifier = 0.75f;
+    }
+    
+    public void buffJump()
+    {
+        jumpModifier = 1.1f;
+    }
+    
+    public void resetJump()
+    {
+        jumpModifier = 1.0f;
     }
 
 }
