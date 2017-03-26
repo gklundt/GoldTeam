@@ -3,7 +3,7 @@ package goldteam.panels;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
-import goldteam.providers.MoodyGhostEnemyBuilder;
+import goldteam.builders.MoodyGhostEnemyBuilder;
 import java.awt.Point;
 
 public class TestSwitchAnimPanel extends GamePanelBase {

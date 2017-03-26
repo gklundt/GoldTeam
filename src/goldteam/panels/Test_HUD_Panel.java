@@ -2,16 +2,14 @@ package goldteam.panels;
 
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
-import goldteam.characters.ArcherBow;
 import goldteam.colliders.EnemyArrowCollider;
 import goldteam.gamedata.GameData;
-import goldteam.providers.ArcherBuilder;
-import goldteam.providers.ArrowChargeHudBuilder;
-import goldteam.providers.ArrowHudBuilder;
-import goldteam.providers.HeartHudBuilder;
-import goldteam.providers.HudGhostEnemyBuilder;
-import goldteam.providers.LifeHudBuilder;
-import goldteam.providers.ShieldHudBuilder;
+import goldteam.builders.ArrowChargeHudBuilder;
+import goldteam.builders.ArrowHudBuilder;
+import goldteam.builders.HeartHudBuilder;
+import goldteam.builders.HudGhostEnemyBuilder;
+import goldteam.builders.LifeHudBuilder;
+import goldteam.builders.ShieldHudBuilder;
 import java.awt.Point;
 import java.util.Random;
 

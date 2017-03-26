@@ -3,7 +3,7 @@ package goldteam.panels;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
-import goldteam.providers.OverGameStageBuilder;
+import goldteam.builders.OverGameStageBuilder;
 import java.awt.Point;
 
 public class GameOverStageTestPanel extends GamePanelBase {

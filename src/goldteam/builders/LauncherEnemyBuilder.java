@@ -1,4 +1,4 @@
-package goldteam.providers;
+package goldteam.builders;
 
 import goldteam.animators.GhostAnimation;
 import goldteam.characters.Launcher;

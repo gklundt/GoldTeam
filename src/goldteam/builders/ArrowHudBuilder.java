@@ -1,31 +1,30 @@
-package goldteam.providers;
+package goldteam.builders;
 
-import goldteam.animators.LifeHudAnimation;
+import goldteam.animators.ArrowHudAnimation;
 import goldteam.domain.AnimationState;
 import goldteam.domain.Depletable;
 import goldteam.domain.GameEngine;
 import goldteam.domain.HudBuilderBase;
-import goldteam.hud.LifeHudItem;
+import goldteam.hud.ArrowHudItem;
 
-public class LifeHudBuilder
+public class ArrowHudBuilder
         extends HudBuilderBase {
 
-    private LifeHudItem hudItem;
+    private ArrowHudItem hudItem;
 
-    public LifeHudBuilder(GameEngine gameData) {
+    public ArrowHudBuilder(GameEngine gameData) {
         super(gameData);
-
     }
 
     @Override
     protected void createObject() {
-        this.gameObject = new LifeHudItem(gameData, point);
-        this.hudItem = (LifeHudItem) this.gameObject;
+        this.gameObject = new ArrowHudItem(gameData, point);
+        this.hudItem = (ArrowHudItem) this.gameObject;
     }
 
     @Override
     protected void addAnimations() {
-        LifeHudAnimation hha = new LifeHudAnimation(hudItem, gameData.getVisibleDimensions(), "assets/Archer_Head.png");
+        ArrowHudAnimation hha = new ArrowHudAnimation(hudItem, gameData.getVisibleDimensions(), "assets/Arrow_HUD_Item.png");
         hudItem.addAnimator(AnimationState.DEFAULT, hha);
     }
 

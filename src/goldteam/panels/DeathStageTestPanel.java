@@ -3,7 +3,7 @@ package goldteam.panels;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
-import goldteam.providers.DeathGameStageBuilder;
+import goldteam.builders.DeathGameStageBuilder;
 import java.awt.Point;
 
 public class DeathStageTestPanel extends GamePanelBase {

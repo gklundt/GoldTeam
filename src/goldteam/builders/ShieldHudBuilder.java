@@ -1,30 +1,30 @@
-package goldteam.providers;
+package goldteam.builders;
 
-import goldteam.animators.HeartHudAnimation;
+import goldteam.animators.ShieldHudAnimation;
 import goldteam.domain.AnimationState;
 import goldteam.domain.Attackable;
 import goldteam.domain.GameEngine;
 import goldteam.domain.HudBuilderBase;
-import goldteam.hud.HeartHudItem;
+import goldteam.hud.ShieldHudItem;
 
-public class HeartHudBuilder
+public class ShieldHudBuilder
         extends HudBuilderBase {
 
-    private HeartHudItem hudItem;
+    private ShieldHudItem hudItem;
 
-    public HeartHudBuilder(GameEngine gameData) {
+    public ShieldHudBuilder(GameEngine gameData) {
         super(gameData);
     }
 
     @Override
     protected void createObject() {
-        this.gameObject = new HeartHudItem(gameData, point);
-        this.hudItem = (HeartHudItem) this.gameObject;
+        this.gameObject = new ShieldHudItem(gameData, point);
+        this.hudItem = (ShieldHudItem) this.gameObject;
     }
 
     @Override
     protected void addAnimations() {
-        HeartHudAnimation hha = new HeartHudAnimation(hudItem, gameData.getVisibleDimensions(), "assets/heart.png");
+        ShieldHudAnimation hha = new ShieldHudAnimation(hudItem, gameData.getVisibleDimensions(), "assets/shield.png");
         hudItem.addAnimator(AnimationState.DEFAULT, hha);
     }
 

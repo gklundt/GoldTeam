@@ -4,7 +4,7 @@ import goldteam.domain.PanelManager;
 import goldteam.characters.Ghost;
 import goldteam.domain.GamePanelBase;
 import goldteam.gamedata.GameData;
-import goldteam.providers.GhostEnemyBuilder;
+import goldteam.builders.GhostEnemyBuilder;
 import java.awt.Point;
 
 public class TestGraphicsPanel extends GamePanelBase {

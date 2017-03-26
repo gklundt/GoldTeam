@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package goldteam.providers;
+package goldteam.builders;
 
 import goldteam.animators.ArcherAnimationDrawing;
 import goldteam.animators.ArcherAnimationStanding;
