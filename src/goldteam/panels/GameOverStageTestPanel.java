@@ -15,7 +15,7 @@ public class GameOverStageTestPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-        builder = new OverGameStageBuilder(this.gameData);
-        this.addGameObject(provider.build(builder, new Point(400, 400)));
+        gameObjectBuilder = new OverGameStageBuilder(this.gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
     }
 }

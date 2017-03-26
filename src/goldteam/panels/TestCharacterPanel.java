@@ -14,31 +14,27 @@ import java.awt.Point;
 
 public class TestCharacterPanel extends GamePanelBase {
 
-    private ArcherMan ar;
-    private int charge;
-
     public TestCharacterPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
-        charge = 0;
     }
 
     @Override
     protected void addGameObjects() {
 
-        builder = new ArcherBuilder(this.gameData);
-        this.addGameObject(provider.build(builder, new Point(400, 400)));
+        gameObjectBuilder = new ArcherBuilder(this.gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
 
-        builder = new FlyerEnemyBuilder(gameData);
-        this.addGameObject(provider.build(builder, new Point(400, 100)));
+        gameObjectBuilder = new FlyerEnemyBuilder(gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 100)));
 
-        builder = new WalkerEnemyBuilder(gameData);
-        this.addGameObject(provider.build(builder, new Point(200, 400)));
+        gameObjectBuilder = new WalkerEnemyBuilder(gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(200, 400)));
 
-        builder = new LauncherEnemyBuilder(gameData, true);
-        this.addGameObject(provider.build(builder, new Point(750, 350)));
+        gameObjectBuilder = new LauncherEnemyBuilder(gameData, true);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(750, 350)));
 
-        builder = new ArrowBuilder(gameData, new DoubleVector(10d, 1d));
-        this.addGameObject(provider.build(builder, new Point(0, 0)));
+        projectileBuilder = new ArrowBuilder(gameData);
+        this.addGameObject(projectileProvider.build(projectileBuilder, new Point(0, 0), new DoubleVector(10d, 1d)));
 
     }
 
@@ -49,7 +45,6 @@ public class TestCharacterPanel extends GamePanelBase {
 //        arrow.setAnimator(ga1);
 //        return ga1;
 //    }
-
 //    @Override
 //    public void mouseReleased(MouseEvent e) {
 //        if (ar.canShootArrow()) {
@@ -68,5 +63,4 @@ public class TestCharacterPanel extends GamePanelBase {
 //            //Something? Idk
 //        }
 //    }
-
 }

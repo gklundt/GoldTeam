@@ -9,6 +9,7 @@ import goldteam.gamedata.GameData;
 import goldteam.GamePanelManager;
 import goldteam.colliders.CollisionDetector;
 import goldteam.providers.GameObjectProvider;
+import goldteam.providers.ProjectileProvider;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -38,8 +39,10 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     private final CollisionDetector collisionDetector;
     private final ArrayList<KeyHandler> keyEventListeners;
     private final ArrayList<ClickHandler> clickEventListeners;
-    protected GameObjectBuilderBase builder;
-    protected final GameObjectProvider provider;
+    protected GameObjectBuilderBase gameObjectBuilder;
+    protected final GameObjectProvider gameObjectProvider;
+    protected ProjectileBuilderBase projectileBuilder;
+    protected final ProjectileProvider projectileProvider;
 
     public GamePanelBase(PanelManager panelManager, GameData gameData) {
         super(panelManager);
@@ -54,8 +57,8 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         this.collisionDetector = new CollisionDetector(this.gameData);
         this.keyEventListeners = new ArrayList<>();
         this.clickEventListeners = new ArrayList<>();
-        this.provider = new GameObjectProvider();
-
+        this.gameObjectProvider = new GameObjectProvider();
+        this.projectileProvider = new ProjectileProvider();
     }
 
     protected abstract void addGameObjects();

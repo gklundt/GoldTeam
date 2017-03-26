@@ -10,24 +10,23 @@ import goldteam.animators.ArrowAnimation;
 import goldteam.characters.Arrow;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
-import goldteam.domain.CharacterBuilderBase;
 import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
-import java.awt.Point;
+import goldteam.domain.ProjectileBuilderBase;
 
-public class ArrowBuilder extends CharacterBuilderBase {
+public class ArrowBuilder extends ProjectileBuilderBase {
 
     private Arrow arrow;
-    private final DoubleVector speed;
+    private DoubleVector speed;
 
-    public ArrowBuilder(GameEngine gameData, DoubleVector speed) {
+    public ArrowBuilder(GameEngine gameData) {
         super(gameData);
-        this.speed = speed;
     }
 
     @Override
-    protected void createObject() {
-        this.gameObject = new Arrow(gameData, point, speed);
+    protected void createObject(DoubleVector speed) {
+        this.speed = speed;
+        this.gameObject = new Arrow(gameData, point, this.speed);
         this.arrow = (Arrow) this.gameObject;
     }
 

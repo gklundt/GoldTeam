@@ -22,8 +22,8 @@ public class GameEngineTestPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
 
-        builder = new ArcherBuilder(this.gameData);
-        this.addGameObject(provider.build(builder, new Point(400, 400)));
+        gameObjectBuilder = new ArcherBuilder(this.gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
 
         Random x = new Random();
         Random y = new Random();
@@ -35,20 +35,20 @@ public class GameEngineTestPanel extends GamePanelBase {
             FlyerEnemyBuilder flyerEnemyBuilder = new FlyerEnemyBuilder(this.gameData);
             LauncherEnemyBuilder launcherEnemyBuilder = new LauncherEnemyBuilder(this.gameData, true);
             WalkerEnemyBuilder walkerEnemyBuilder = new WalkerEnemyBuilder(this.gameData);
-            ArrowBuilder arrowBuilder = new ArrowBuilder(this.gameData, new DoubleVector(15d, 0d));
+            ArrowBuilder arrowBuilder = new ArrowBuilder(this.gameData);
 
             switch (i % 4) {
                 case 0:
-                    this.addGameObject(provider.build(flyerEnemyBuilder, new Point(rx, ry)));
+                    this.addGameObject(gameObjectProvider.build(flyerEnemyBuilder, new Point(rx, ry)));
                     break;
                 case 1:
-                    this.addGameObject(provider.build(launcherEnemyBuilder, new Point(rx, ry)));
+                    this.addGameObject(gameObjectProvider.build(launcherEnemyBuilder, new Point(rx, ry)));
                     break;
                 case 2:
-                    this.addGameObject(provider.build(walkerEnemyBuilder, new Point(rx, ry)));
+                    this.addGameObject(gameObjectProvider.build(walkerEnemyBuilder, new Point(rx, ry)));
                     break;
                 case 3:
-                    this.addGameObject(provider.build(arrowBuilder, new Point(rx, ry)));
+                    this.addGameObject(projectileProvider.build(arrowBuilder, new Point(rx, ry), new DoubleVector(15d, 0d)));
                     break;
             }
         }

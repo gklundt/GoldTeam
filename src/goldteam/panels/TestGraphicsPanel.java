@@ -18,8 +18,8 @@ public class TestGraphicsPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
 
-        builder = new GhostEnemyBuilder(gameData);
-        addGameObject(provider.build(builder, new Point(60,60)));
+        gameObjectBuilder = new GhostEnemyBuilder(gameData);
+        addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(60,60)));
         
     }
 }
