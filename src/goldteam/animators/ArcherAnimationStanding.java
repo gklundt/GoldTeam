@@ -5,7 +5,6 @@ import goldteam.domain.GameObject;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 
-@SuppressWarnings("serial")
 public class ArcherAnimationStanding extends CharacterAnimationBase {
 
     public ArcherAnimationStanding(GameObject gameObject, Dimension preferredSize, String assetFile) {

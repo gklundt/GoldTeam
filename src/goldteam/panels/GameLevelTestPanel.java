@@ -6,14 +6,12 @@
 package goldteam.panels;
 
 import goldteam.domain.DoubleVector;
-import goldteam.domain.GameObjectBuilderBase;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
 import goldteam.providers.ArcherBuilder;
 import goldteam.providers.ArrowBuilder;
 import goldteam.providers.FlyerEnemyBuilder;
-import goldteam.providers.GameObjectProvider;
 import goldteam.providers.LauncherEnemyBuilder;
 import goldteam.providers.WalkerEnemyBuilder;
 import java.awt.Point;
