@@ -7,7 +7,15 @@ package goldteam.domain;
 
 import goldteam.gamedata.GameData;
 import goldteam.GamePanelManager;
+import goldteam.characters.ArcherBow;
+import goldteam.colliders.CollisionDetector;
+import goldteam.builders.ArcherBuilder;
+import goldteam.builders.ArrowBuilder;
+import goldteam.providers.GameObjectProvider;
+import goldteam.providers.HudProvider;
+import goldteam.providers.ProjectileProvider;
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -27,11 +35,29 @@ import javax.swing.event.AncestorListener;
  */
 public abstract class GamePanelBase extends ManagedPanelBase implements AncestorListener, KeyListener, MouseListener {
 
+    private Component glassPanel;
+    private final Runnable panelRunner;
+    private Thread panelThread;
+    private JLayeredPane layeredPane;
+    private final CollisionDetector collisionDetector;
+    private final ArrayList<KeyHandler> keyEventListeners;
+    private final ArrayList<ClickHandler> clickEventListeners;
+
     protected final GameData gameData;
-    protected Component glassPanel;
-    protected final Runnable panelRunner;
-    protected Thread panelThread;
-    protected JLayeredPane layeredPane;
+
+    protected GameObjectBuilderBase gameObjectBuilder;
+    protected ProjectileBuilderBase projectileBuilder;
+    protected HudBuilderBase hudBuilder;
+
+    protected final GameObjectProvider gameObjectProvider;
+    protected final ProjectileProvider projectileProvider;
+    protected final HudProvider hudProvider;
+
+    private final ArrowBuilder arrowBuilder;
+
+    protected Point spawnPoint;
+    private ArcherBuilder archerBuilder;
+    protected ArcherBow archerWeapon;
 
     public GamePanelBase(PanelManager panelManager, GameData gameData) {
         super(panelManager);
@@ -43,24 +69,31 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         };
         super.setDoubleBuffered(true);
         super.addAncestorListener(this);
-
+        this.collisionDetector = new CollisionDetector(this.gameData);
+        this.keyEventListeners = new ArrayList<>();
+        this.clickEventListeners = new ArrayList<>();
+        this.gameObjectProvider = new GameObjectProvider();
+        this.projectileProvider = new ProjectileProvider();
+        this.hudProvider = new HudProvider();
+        this.arrowBuilder = new ArrowBuilder(gameData);
+        this.spawnPoint = new Point(400, 300);
     }
 
-    protected abstract void addGameObjects();
-
-    protected void undoGraphics() {
-        glassPanel.removeKeyListener(this);
-        glassPanel.removeMouseListener(this);
-        glassPanel.setVisible(false);
-        validate();
-    }
-
+//<editor-fold defaultstate="collapsed" desc="KeyEvents">
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+
+        int k = e.getKeyCode();
+        if (!checkKey(k)) {
+            addKey(k);
+        }
+
+        this.notifyKeyListeners();
+
         if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
             panelThread.interrupt();
             undoGraphics();
@@ -70,20 +103,56 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 
     @Override
     public void keyReleased(KeyEvent e) {
+        int k = e.getKeyCode();
+        if (checkKey(k)) {
+            removeKey(k);
+        }
+        this.notifyKeyListeners();
     }
 
+    private synchronized boolean checkKey(Integer e) {
+        return this.gameData.getHeldKeys().contains(e);
+    }
+
+    private synchronized void addKey(Integer e) {
+        this.gameData.getHeldKeys().add(e);
+    }
+
+    private synchronized void removeKey(Integer e) {
+        this.gameData.getHeldKeys().remove(e);
+    }
+
+    private void notifyKeyListeners() {
+        ActionEvent e = new ActionEvent(this, 0, null);
+        keyEventListeners.forEach((keyEventListener) -> {
+            keyEventListener.processKeyInput();
+        });
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Mouse Events">
     @Override
     public void mouseClicked(MouseEvent e) {
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
+        int k = e.getButton();
+        Point p = e.getPoint();
+        if (!checkMouse(k)) {
+            addMouse(k, p);
         }
+        this.notifyClickListeners();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        int k = e.getButton();
+        if (checkMouse(k)) {
+            removeMouse(k);
+        }
+        this.notifyClickListeners();
+        this.launchArrow(e.getPoint());
     }
 
     @Override
@@ -94,6 +163,27 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     public void mouseExited(MouseEvent e) {
     }
 
+    private synchronized boolean checkMouse(Integer e) {
+        return this.gameData.getHeldMouse().containsKey(e);
+    }
+
+    private synchronized void addMouse(Integer e, Point p) {
+        this.gameData.getHeldMouse().put(e, p);
+    }
+
+    private synchronized void removeMouse(Integer e) {
+        this.gameData.getHeldMouse().remove(e);
+    }
+
+    private void notifyClickListeners() {
+        ActionEvent e = new ActionEvent(this, 0, null);
+        clickEventListeners.forEach((mouseEventListener) -> {
+            mouseEventListener.processMouseInput();
+        });
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Ancestor Events">
     @Override
     public void ancestorAdded(AncestorEvent event) {
         panelThread = new Thread(panelRunner);
@@ -108,7 +198,9 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     public void ancestorMoved(AncestorEvent event) {
 
     }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Panel Construction and Destruction">
     private void setupLayerdPanels() {
         JRootPane jrp = getRootPane();
         jrp.setDoubleBuffered(true);
@@ -126,7 +218,14 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         glassPanel.requestFocus();
         glassPanel.addKeyListener(this);
         glassPanel.addMouseListener(this);
-        
+
+    }
+
+    protected void addGameObjects() {
+        this.archerBuilder = new ArcherBuilder(this.gameData);
+        addGameObject(gameObjectProvider.build(archerBuilder, spawnPoint));
+        this.archerWeapon = new ArcherBow(gameData, gameData.getMovableCharacter().PositionVector());
+        addGameObject(archerWeapon);
     }
 
     private void addGameListener() {
@@ -136,4 +235,118 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             Toolkit.getDefaultToolkit().sync();
         });
     }
+
+    protected void undoGraphics() {
+        glassPanel.removeKeyListener(this);
+        glassPanel.removeMouseListener(this);
+        glassPanel.setVisible(false);
+        validate();
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Special Game Listener">
+    private void switchAnimation(Animatable addAnimation, AnimationBase removeAnimation) {
+
+        if (removeAnimation != null) {
+            this.layeredPane.remove(removeAnimation);
+        }
+
+        if (addAnimation.getAnimator() != null) {
+            AnimationBase a = addAnimation.getAnimator();
+
+            if (a instanceof ResettableAnimation) {
+                ResettableAnimation gsa = (ResettableAnimation) a;
+                gsa.resetAnimation();
+            }
+
+            this.layeredPane.add(addAnimation.getAnimator(), layeredPane.highestLayer());
+        }
+    }
+
+    private void launchArrow(Point mouseLocation) {
+        if (gameData.getMovableCharacter() == null) {
+            return;
+        }
+        if (this.archerWeapon.getCount() > 0) {
+            Point point = gameData.getMovableCharacter().PositionVector();
+            Point start = new Point(point);
+            Point end = new Point(mouseLocation);
+            DoubleVector speed = VectorMath.getVelocityVector(start, end, this.archerWeapon.getChargeValue() + 20);
+            this.addGameObject(this.projectileProvider.build(this.arrowBuilder, start, speed));
+            this.archerWeapon.setCountDelta(Delta.create(-1d, ModType.FIXED));
+        }
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Add and Remove Game Objects">
+    protected void addGameObject(Object gameObject) {
+
+        if (gameObject instanceof Animatable) {
+            Animatable animatable = (Animatable) gameObject;
+            AnimationBase animationBase = animatable.getAnimator();
+            this.layeredPane.add(animationBase, layeredPane.highestLayer());
+            animatable.addAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
+        }
+
+        if (gameObject instanceof Collidable) {
+            Collidable collidable = (Collidable) gameObject;
+            collisionDetector.registerCollidable(collidable);
+        }
+
+        if (gameObject instanceof ClickHandler) {
+            ClickHandler clickHandler = (ClickHandler) gameObject;
+            this.clickEventListeners.add(clickHandler);
+        }
+
+        if (gameObject instanceof KeyHandler) {
+            KeyHandler keyHandler = (KeyHandler) gameObject;
+            this.keyEventListeners.add(keyHandler);
+        }
+
+        if (gameObject instanceof CollisionListener) {
+            CollisionListener collisionListener = (CollisionListener) gameObject;
+            collisionDetector.addCollisionListener(collisionListener);
+        }
+
+        if (gameObject instanceof Removable) {
+            Removable removable = (Removable) gameObject;
+            removable.addRemovableListener(l -> removeGameObject(l.getSource()));
+        }
+    }
+
+    protected void removeGameObject(Object gameObject) {
+
+        if (gameObject instanceof Animatable) {
+            Animatable animatable = (Animatable) gameObject;
+            AnimationBase animationBase = animatable.getAnimator();
+            this.layeredPane.remove(animationBase);
+            animatable.removeAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
+        }
+
+        if (gameObject instanceof Collidable) {
+            Collidable collidable = (Collidable) gameObject;
+            collisionDetector.removeCollidable(collidable);
+        }
+
+        if (gameObject instanceof ClickHandler) {
+            ClickHandler clickHandler = (ClickHandler) gameObject;
+            this.clickEventListeners.remove(clickHandler);
+        }
+
+        if (gameObject instanceof KeyHandler) {
+            KeyHandler keyHandler = (KeyHandler) gameObject;
+            this.keyEventListeners.remove(keyHandler);
+        }
+
+        if (gameObject instanceof CollisionListener) {
+            CollisionListener collisionListener = (CollisionListener) gameObject;
+            collisionDetector.removeCollisionListener(collisionListener);
+        }
+
+        if (gameObject instanceof Removable) {
+            Removable removable = (Removable) gameObject;
+            removable.removeRemovableListener(l -> removeGameObject(l.getSource()));
+        }
+    }
+//</editor-fold>
 }

@@ -5,8 +5,14 @@
  */
 package goldteam.domain;
 
+import java.awt.Point;
 
-public class MapBuilderBase extends GameObjectBuilderBase {
+
+public abstract class MapBuilderBase extends GameObjectBuilderBase {
+
+    public MapBuilderBase(GameEngine gameData) {
+        super(gameData);
+    }
 
     @Override
     protected void buildTemplate() {

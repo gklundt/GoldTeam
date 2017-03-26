@@ -22,8 +22,8 @@ import java.util.HashMap;
  *
  * @author faaez
  */
-public class FlatPlatform extends GameObject implements Platform, Animatable, Collidable{
-    
+public class FlatPlatform extends GameObject implements Platform, Animatable, Collidable {
+
     private AnimationBase animator;
     private Polygon collider;
     private int width, height;
@@ -33,18 +33,18 @@ public class FlatPlatform extends GameObject implements Platform, Animatable, Co
         super(gamedata, initialPoint);
         this.width = width;
         this.height = height;
-        
+
         colliders = new HashMap<>();
-        
-        int [] xPoly = {this.positionVector.x, 
-                        this.positionVector.x + this.width, 
-                        this.positionVector.x + this.width,
-                        this.positionVector.x
+
+        int[] xPoly = {this.positionVector.x,
+            this.positionVector.x + this.width,
+            this.positionVector.x + this.width,
+            this.positionVector.x
         };
-        int [] yPoly = {this.positionVector.y, 
-                        this.positionVector.y,
-                        this.positionVector.y + this.height,
-                        this.positionVector.y + this.height
+        int[] yPoly = {this.positionVector.y,
+            this.positionVector.y,
+            this.positionVector.y + this.height,
+            this.positionVector.y + this.height
         };
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
@@ -58,16 +58,6 @@ public class FlatPlatform extends GameObject implements Platform, Animatable, Co
     @Override
     protected void GraphicsUpdateHandler() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -121,11 +111,6 @@ public class FlatPlatform extends GameObject implements Platform, Animatable, Co
     }
 
     @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
-    }
-
-    @Override
     public AnimationBase getAnimator() {
         return this.animator;
     }
@@ -141,18 +126,18 @@ public class FlatPlatform extends GameObject implements Platform, Animatable, Co
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void removeAnimationChangeListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animator = animator;
     }
 
     @Override
@@ -190,5 +175,5 @@ public class FlatPlatform extends GameObject implements Platform, Animatable, Co
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
     }
-    
+
 }

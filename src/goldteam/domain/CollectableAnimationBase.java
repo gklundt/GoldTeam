@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
  *
  * @author faaez
  */
-public class CollectableAnimationBase extends AnimationBase{
+public abstract class CollectableAnimationBase extends AnimationBase{
 
     protected final String imgFilename;
     protected final GameObject gameObject;
