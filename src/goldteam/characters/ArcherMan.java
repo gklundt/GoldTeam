@@ -12,7 +12,6 @@ import java.util.HashMap;
 public class ArcherMan extends GameObject
         implements Attackable, /* Shield and Health accessors */
         Animatable, /* Animations */
-        Archer, /* Strength accessor (from Fighter) and ready/aim/fire routines */
         Collidable, /* Information for Collision detection */
         Controllable, /* Process Keyboard and Mouse events */
         Movable, /* Vectors and scalar for movement */
@@ -191,38 +190,6 @@ public class ArcherMan extends GameObject
         for (ActionListener depletableListener : depletableListeners) {
             depletableListener.actionPerformed(e);
         }
-    }
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Archer Implementation">
-    @Override
-    public Integer getStrength() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setStrengthDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addFighterListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void ready() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void aim() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void fire() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 //</editor-fold>
 

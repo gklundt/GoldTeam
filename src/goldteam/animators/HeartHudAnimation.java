@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 
 public class HeartHudAnimation extends HudAnimationBase {
 
-    private AttackableWatcher gameObj;
+    private final AttackableWatcher gameObj;
 
     public HeartHudAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);

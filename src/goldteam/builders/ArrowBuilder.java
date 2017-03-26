@@ -5,7 +5,6 @@
  */
 package goldteam.builders;
 
-import goldteam.animators.ArcherAnimationStanding;
 import goldteam.animators.ArrowAnimation;
 import goldteam.characters.Arrow;
 import goldteam.domain.AnimationState;

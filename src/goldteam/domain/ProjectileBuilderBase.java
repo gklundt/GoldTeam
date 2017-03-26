@@ -7,7 +7,6 @@ package goldteam.domain;
 
 import java.awt.Point;
 
-
 public abstract class ProjectileBuilderBase extends ProjectileObjectBuilderBase {
 
     public ProjectileBuilderBase(GameEngine gameData) {
@@ -21,5 +20,6 @@ public abstract class ProjectileBuilderBase extends ProjectileObjectBuilderBase 
     }
 
     protected abstract void createObject(DoubleVector speed);
+
     protected abstract void addAnimations();
 }

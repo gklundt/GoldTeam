@@ -19,7 +19,7 @@ public abstract class ProjectileObjectBuilderBase {
     public ProjectileObjectBuilderBase(GameEngine gameData) {
         this.gameData = gameData;
     }
-    
+
     protected GameObject gameObject;
 
     public GameObject getGameObject() {

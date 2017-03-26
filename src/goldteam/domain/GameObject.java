@@ -56,9 +56,9 @@ public abstract class GameObject implements Removable {
 
     private void notifyRemovableListeners() {
         ActionEvent e = new ActionEvent(this, 0, null);
-        for (ActionListener removableListener : removableListeners) {
+        removableListeners.forEach((removableListener) -> {
             removableListener.actionPerformed(e);
-        }
+        });
     }
 
     public Point PositionVector() {

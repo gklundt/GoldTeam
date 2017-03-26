@@ -124,9 +124,9 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 
     private void notifyKeyListeners() {
         ActionEvent e = new ActionEvent(this, 0, null);
-        for (KeyHandler keyEventListener : keyEventListeners) {
+        keyEventListeners.forEach((keyEventListener) -> {
             keyEventListener.processKeyInput();
-        }
+        });
     }
 //</editor-fold>
 
@@ -177,9 +177,9 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 
     private void notifyClickListeners() {
         ActionEvent e = new ActionEvent(this, 0, null);
-        for (ClickHandler mouseEventListener : clickEventListeners) {
+        clickEventListeners.forEach((mouseEventListener) -> {
             mouseEventListener.processMouseInput();
-        }
+        });
     }
 //</editor-fold>
 
