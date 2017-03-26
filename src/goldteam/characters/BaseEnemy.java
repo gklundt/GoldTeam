@@ -8,6 +8,7 @@ package goldteam.characters;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
+import goldteam.domain.Enemy;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import java.awt.Point;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author Joshua
  */
-public abstract class BaseEnemy extends GameObject implements Animatable {
+public abstract class BaseEnemy extends GameObject implements Animatable, Enemy {
 
     protected AnimationBase animator;
     protected final ArrayList<ActionListener> animationChangeListeners;

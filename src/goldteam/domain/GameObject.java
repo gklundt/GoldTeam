@@ -14,6 +14,7 @@ public abstract class GameObject implements Removable {
     protected Image image;
     protected GameEngine gamedata;
     protected final ArrayList<ActionListener> removableListeners;
+    protected boolean removeMe;
 
     public GameObject(GameEngine gamedata, Point initialPoint) {
         this.gamedata = gamedata;
@@ -22,6 +23,7 @@ public abstract class GameObject implements Removable {
         this.gamedata.addMapUpdateTimerListener(l -> MapUpdateTimerHandler());
         this.removableListeners = new ArrayList<>();
         this.positionVector = initialPoint;
+        this.removeMe = false;
     }
 
     protected abstract void Update();
@@ -41,18 +43,24 @@ public abstract class GameObject implements Removable {
     public void removeRemovableListener(ActionListener listener) {
         this.removableListeners.remove(listener);
     }
-    
+
     @Override
-    public void remove(){
+    public void markForRemoval() {
+        this.removeMe = true;
+    }
+
+    @Override
+    public void remove() {
         this.notifyRemovableListeners();
     }
 
-    private void notifyRemovableListeners(){
+    private void notifyRemovableListeners() {
         ActionEvent e = new ActionEvent(this, 0, null);
         for (ActionListener removableListener : removableListeners) {
             removableListener.actionPerformed(e);
         }
     }
+
     public Point PositionVector() {
         return this.positionVector;
     }

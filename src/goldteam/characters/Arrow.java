@@ -1,4 +1,3 @@
-
 package goldteam.characters;
 
 import goldteam.domain.Animatable;
@@ -19,8 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-
 
 public class Arrow
         extends GameObject
@@ -78,8 +75,13 @@ public class Arrow
 //<editor-fold defaultstate="collapsed" desc="GameObject Implementation">
     @Override
     protected void Update() {
+        if (removeMe) {
+            this.remove();
+            return;
+        }
+        
         double d = VectorMath.getMagnitude(this.gamedata.getMovableCharacter().PositionVector(), this.positionVector);
-        if(d > 300){
+        if (d > 300) {
             this.remove();
         }
         velocityVector.y += 1.5;  //Gravity
@@ -166,7 +168,6 @@ public class Arrow
     }
 
 //</editor-fold>
-
 //<editor-fold defaultstate="collapsed" desc="Collidable Implementation">
     @Override
     public Polygon getPolygon() {

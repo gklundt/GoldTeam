@@ -16,7 +16,8 @@ public class Ghost
         Collidable, /* Information for Collision detection */
         Movable, /* Vectors and scalar for movement */
         Animatable, /* Getter/Setter for animator */
-        Depletable {
+        Depletable,
+        Enemy {
 
     private final Random random;
     private final Integer initialVelocity;
@@ -47,7 +48,7 @@ public class Ghost
 
         this.initialPoint = initialPoint;
         this.initialVelocity = 10;
-        this.initialHealth = 3.0d;
+        this.initialHealth = 6.0d;
         this.initialShield = 0.0d;
 
         this.positionVector = this.initialPoint;
@@ -81,6 +82,10 @@ public class Ghost
 //<editor-fold defaultstate="collapsed" desc="GameObject Implementation">
     @Override
     protected void Update() {
+
+        if (this.health <= 0) {
+            this.remove();
+        }
 
         if (this.positionVector == null || this.animator == null) {
             return;
@@ -154,12 +159,24 @@ public class Ghost
     @Override
     public void setShieldDelta(Delta delta) {
         this.shield += delta.delta;
+        if (this.animators.get(AnimationState.HURT) == null) {
+            this.removeAnimator = this.animator;
+            this.animator = this.animators.get(AnimationState.HURT);
+            this.notifyAnimationChangeListeners(removeAnimator);
+        }
         this.notifyAttackableListeners();
     }
 
     @Override
     public void setHealthDelta(Delta delta) {
+        
+        if (this.animators.get(AnimationState.HURT) != null) {
+            this.removeAnimator = this.animator;
+            this.animator = this.animators.get(AnimationState.HURT);
+            this.notifyAnimationChangeListeners(removeAnimator);
+        }
         this.health += delta.delta;
+        System.out.println("health = " + health);
         this.notifyAttackableListeners();
     }
 
@@ -269,7 +286,6 @@ public class Ghost
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Animatable Implementation">
-
     @Override
     public AnimationBase getAnimator() {
         return this.animator;
@@ -336,5 +352,4 @@ public class Ghost
 //    private void setRemoveAnimator(AnimationBase animator) {
 //        this.removeAnimator = animator;
 //    }
-
 }

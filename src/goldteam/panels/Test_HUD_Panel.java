@@ -3,7 +3,7 @@ package goldteam.panels;
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
 import goldteam.characters.ArcherBow;
-import goldteam.colliders.GhostCollider;
+import goldteam.colliders.EnemyArrowCollider;
 import goldteam.gamedata.GameData;
 import goldteam.providers.ArcherBuilder;
 import goldteam.providers.ArrowChargeHudBuilder;
@@ -25,7 +25,7 @@ public class Test_HUD_Panel extends GamePanelBase {
     protected void addGameObjects() {
         super.addGameObjects();
 
-        GhostCollider gc = new GhostCollider();
+        EnemyArrowCollider gc = new EnemyArrowCollider();
         addGameObject(gc);
 
         Random r = new Random();

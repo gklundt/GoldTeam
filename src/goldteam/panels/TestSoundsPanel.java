@@ -2,7 +2,7 @@ package goldteam.panels;
 
 import goldteam.characters.Ghost;
 import goldteam.colliders.CollisionDetector;
-import goldteam.colliders.GhostCollider;
+import goldteam.colliders.EnemyArrowCollider;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
@@ -56,7 +56,7 @@ public class TestSoundsPanel extends GamePanelBase {
 //                    break;
 //            }
 //            this.layeredPane.add(ga1, layeredPane.highestLayer());
-            GhostCollider gc = new GhostCollider();
+            EnemyArrowCollider gc = new EnemyArrowCollider();
             collisionDetector.addCollisionListener(gc);
         }
     }

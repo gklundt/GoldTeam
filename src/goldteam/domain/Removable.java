@@ -8,6 +8,8 @@ public interface Removable {
 
     public void removeRemovableListener(ActionListener listener);
     
+    public void markForRemoval();
+    
     public void remove();
 
 }
