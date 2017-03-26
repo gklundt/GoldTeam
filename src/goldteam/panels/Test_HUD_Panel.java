@@ -23,37 +23,32 @@ public class Test_HUD_Panel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
+        super.addGameObjects();
 
         GhostCollider gc = new GhostCollider();
-        addCollisionListener(gc);
-
-        gameObjectBuilder = new ArcherBuilder(gameData);
-        addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(300, 300)));
+        addGameObject(gc);
 
         Random r = new Random();
 
         gameObjectBuilder = new HudGhostEnemyBuilder(gameData);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(r.nextInt(800), r.nextInt(600))));
         }
         
-        gameObjectBuilder = new HeartHudBuilder(gameData, gameData.getAttackableCharacter());
-        addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(10, 10)));
+        hudBuilder = new HeartHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 10), gameData.getAttackableCharacter()));
 
-        gameObjectBuilder = new ShieldHudBuilder(gameData, gameData.getAttackableCharacter());
-        addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(10, 30)));
+        hudBuilder = new ShieldHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 30), gameData.getAttackableCharacter()));
 
-        gameObjectBuilder = new LifeHudBuilder(gameData, gameData.getDepletableCharacter());
-        addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(10, 50)));
+        hudBuilder = new LifeHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 50), gameData.getDepletableCharacter()));
 
-        ArcherBow weapon = new ArcherBow(gameData, gameData.getMovableCharacter().PositionVector());
-        addGameObject(weapon);
-        
-        gameObjectBuilder = new ArrowHudBuilder(gameData, weapon);
-        addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(10, 70)));
+        hudBuilder = new ArrowHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 70),archerWeapon));
 
-        gameObjectBuilder = new ArrowChargeHudBuilder(gameData, weapon);
-        addGameObject(gameObjectProvider.build(gameObjectBuilder, gameData.getMovableCharacter().PositionVector()));
+        hudBuilder = new ArrowChargeHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, gameData.getMovableCharacter().PositionVector(), archerWeapon));
     }
 //
 //    protected CharacterAnimationBase createNewArrow(GameData gd, Point p, DoubleVector speed, String image)

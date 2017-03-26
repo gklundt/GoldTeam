@@ -1,8 +1,6 @@
 package goldteam.domain;
 
-import java.awt.Point;
-
-public abstract class HudBuilderBase extends GameObjectBuilderBase {
+public abstract class HudBuilderBase extends HudObjectBuilderBase {
 
     public HudBuilderBase(GameEngine gameData) {
         super(gameData);

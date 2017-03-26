@@ -66,6 +66,11 @@ public class Arrows extends GameObject implements Animatable, Collidable, Collec
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        // does not change animation
+    }
+
+    @Override
     public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
         // does not change animation
     }

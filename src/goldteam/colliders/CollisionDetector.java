@@ -65,6 +65,11 @@ public class CollisionDetector implements CollisionRegister {
     }
 
     @Override
+    public void removeCollisionListener(CollisionListener listener) {
+        this.collisionListeners.remove(listener);
+    }
+
+    @Override
     public void registerCollidable(Collidable collidable) {
         this.collidableObjects.add(collidable);
     }

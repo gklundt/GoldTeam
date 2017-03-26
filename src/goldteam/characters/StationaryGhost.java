@@ -279,6 +279,11 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

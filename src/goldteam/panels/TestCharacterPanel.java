@@ -2,7 +2,6 @@ package goldteam.panels;
 
 import goldteam.domain.PanelManager;
 import goldteam.domain.GamePanelBase;
-import goldteam.characters.ArcherMan;
 import goldteam.domain.DoubleVector;
 import goldteam.gamedata.GameData;
 import goldteam.providers.ArcherBuilder;
@@ -21,8 +20,7 @@ public class TestCharacterPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
 
-        gameObjectBuilder = new ArcherBuilder(this.gameData);
-        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
+        super.addGameObjects();
 
         gameObjectBuilder = new FlyerEnemyBuilder(gameData);
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 100)));
@@ -33,8 +31,6 @@ public class TestCharacterPanel extends GamePanelBase {
         gameObjectBuilder = new LauncherEnemyBuilder(gameData, true);
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(750, 350)));
 
-        projectileBuilder = new ArrowBuilder(gameData);
-        this.addGameObject(projectileProvider.build(projectileBuilder, new Point(0, 0), new DoubleVector(10d, 1d)));
 
     }
 

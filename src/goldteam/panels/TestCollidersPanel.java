@@ -96,6 +96,7 @@ public class TestCollidersPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
+        super.addGameObjects();
 
 //        objects = new ArrayList<>();
 //

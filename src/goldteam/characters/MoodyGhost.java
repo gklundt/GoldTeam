@@ -21,7 +21,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  *
@@ -184,6 +183,11 @@ public class MoodyGhost extends GameObject implements
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
         this.animationChangeListeners.add(listener);
+    }
+
+    @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.remove(listener);
     }
 
     @Override

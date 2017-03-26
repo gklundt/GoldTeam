@@ -127,6 +127,11 @@ public class SkyPlatform extends GameObject implements Platform, Animatable, Col
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

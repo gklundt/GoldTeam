@@ -6,18 +6,15 @@ import goldteam.domain.Depletable;
 import goldteam.domain.GameEngine;
 import goldteam.domain.HudBuilderBase;
 import goldteam.hud.LifeHudItem;
-import java.awt.Point;
-
 
 public class LifeHudBuilder
         extends HudBuilderBase {
 
-    private Depletable watcher;
     private LifeHudItem hudItem;
 
-    public LifeHudBuilder(GameEngine gameData, Depletable attackable) {
+    public LifeHudBuilder(GameEngine gameData) {
         super(gameData);
-        this.watcher = attackable;
+
     }
 
     @Override
@@ -34,7 +31,7 @@ public class LifeHudBuilder
 
     @Override
     protected void setWatcher() {
-        this.hudItem.setWatcher(watcher);
+        this.hudItem.setWatcher((Depletable) this.watchable);
     }
 
 }

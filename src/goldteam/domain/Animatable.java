@@ -32,6 +32,13 @@ public interface Animatable {
     public void addAnimationChangeListener(ActionListener listener);
     
     /**
+     * Listener interface for animation change
+     * Game Panel switch animation registers with this event
+     * @param listener
+     */
+    public void removeAnimationChangeListener(ActionListener listener);
+    
+    /**
      * Notifies listeners attached to animation change listener when this
      * animation state changes
      */

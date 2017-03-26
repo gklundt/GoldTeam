@@ -65,6 +65,11 @@ public class GameStageItem extends GameObject implements DepletableWatcher, Anim
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationListeners.remove(listener);
+    }
+
+    @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
         this.animator = animator;
     }

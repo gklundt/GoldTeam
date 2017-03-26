@@ -103,6 +103,11 @@ public class BackgroundPanelGhost
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

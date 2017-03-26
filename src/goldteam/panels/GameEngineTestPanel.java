@@ -21,9 +21,7 @@ public class GameEngineTestPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-
-        gameObjectBuilder = new ArcherBuilder(this.gameData);
-        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
+        super.addGameObjects();
 
         Random x = new Random();
         Random y = new Random();
@@ -35,9 +33,8 @@ public class GameEngineTestPanel extends GamePanelBase {
             FlyerEnemyBuilder flyerEnemyBuilder = new FlyerEnemyBuilder(this.gameData);
             LauncherEnemyBuilder launcherEnemyBuilder = new LauncherEnemyBuilder(this.gameData, true);
             WalkerEnemyBuilder walkerEnemyBuilder = new WalkerEnemyBuilder(this.gameData);
-            ArrowBuilder arrowBuilder = new ArrowBuilder(this.gameData);
 
-            switch (i % 4) {
+            switch (i % 3) {
                 case 0:
                     this.addGameObject(gameObjectProvider.build(flyerEnemyBuilder, new Point(rx, ry)));
                     break;
@@ -46,10 +43,6 @@ public class GameEngineTestPanel extends GamePanelBase {
                     break;
                 case 2:
                     this.addGameObject(gameObjectProvider.build(walkerEnemyBuilder, new Point(rx, ry)));
-                    break;
-                case 3:
-                    this.addGameObject(projectileProvider.build(arrowBuilder, new Point(rx, ry), new DoubleVector(15d, 0d)));
-                    break;
             }
         }
     }

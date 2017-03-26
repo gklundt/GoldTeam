@@ -55,7 +55,8 @@ public class TestMapsPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-//
+        super.addGameObjects();
+
 //        g1 = new StationaryGhost(gameData, new Point(1, 490));
 //        g1 = new StationaryGhost(gameData, new Point(1, 490));
 //        g2 = new Ghost(gameData, new Point(1, 490));

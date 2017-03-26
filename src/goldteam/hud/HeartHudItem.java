@@ -80,6 +80,11 @@ public class HeartHudItem extends GameObject implements AttackableWatcher, Anima
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.remove(listener);
+    }
+
+    @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
         this.animator = animator;
     }

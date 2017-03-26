@@ -16,7 +16,7 @@ import java.util.Random;
  * @author Rajiv
  */
 public class TestSoundsPanel extends GamePanelBase {
-    
+
     private CollisionDetector collisionDetector;
     private AudioClip bgClip;
     private ArrayList<Ghost> objectList;
@@ -26,9 +26,11 @@ public class TestSoundsPanel extends GamePanelBase {
         collisionDetector = new CollisionDetector(this.gameData);
         objectList = new ArrayList<>();
     }
-    
+
     @Override
     protected void addGameObjects() {
+        super.addGameObjects();
+
         bgClip = Applet.newAudioClip(getClass().getClassLoader().getResource("assets/Sounds/background_music.wav"));
         bgClip.play();
         Random x = new Random();
@@ -37,7 +39,7 @@ public class TestSoundsPanel extends GamePanelBase {
 
             int rx = ((Double) (x.nextDouble() * 500.00)).intValue() % 500;
             int ry = ((Double) (y.nextDouble() * 500.00)).intValue() % 500;
-            
+
 //            CharacterAnimationBase ga1 = null;
 //            switch (i % 4) {
 //                case 0:
@@ -58,7 +60,7 @@ public class TestSoundsPanel extends GamePanelBase {
             collisionDetector.addCollisionListener(gc);
         }
     }
-        
+
 //    protected CharacterAnimationBase createNewGhost(GameData gd, Point p, Integer speed, String image, int bigOrSmall) {
 //        Ghost g1 = new Ghost(gd, p);
 //        g1.setVelocityScalarDelta(Delta.create(20.0, ModType.FIXED));

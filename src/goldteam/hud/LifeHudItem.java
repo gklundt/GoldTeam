@@ -82,6 +82,11 @@ public class LifeHudItem extends GameObject implements DepletableWatcher, Animat
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.remove(listener);
+    }
+
+    @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
         this.animator = animator;
     }

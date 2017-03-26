@@ -60,6 +60,11 @@ public abstract class BaseEnemy extends GameObject implements Animatable {
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.remove(listener);
+    }
+
+    @Override
     public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
         ActionEvent e = new ActionEvent(animatorToRemove, 0, null);
         for (ActionListener animationChangeListener : animationChangeListeners) {

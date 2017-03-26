@@ -13,6 +13,7 @@ import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.Movable;
+import goldteam.domain.VectorMath;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -78,6 +79,10 @@ public class Arrow
 //<editor-fold defaultstate="collapsed" desc="GameObject Implementation">
     @Override
     protected void Update() {
+        double d = VectorMath.getMagnitude(this.gamedata.getMovableCharacter().PositionVector(), this.positionVector);
+        if(d > 300){
+            this.remove();
+        }
         velocityVector.y += 1.5;  //Gravity
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
@@ -144,6 +149,11 @@ public class Arrow
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
         this.animationChangeListeners.add(listener);
+    }
+
+    @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.remove(listener);
     }
 
     @Override
@@ -235,13 +245,4 @@ public class Arrow
     }
 
 //</editor-fold>
-
-    private void setNewAnimator(String string) {
-        this.animator = null;
-    }
-
-    public void setAnimator(CharacterAnimationBase ga1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

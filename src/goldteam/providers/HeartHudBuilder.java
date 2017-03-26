@@ -6,19 +6,14 @@ import goldteam.domain.Attackable;
 import goldteam.domain.GameEngine;
 import goldteam.domain.HudBuilderBase;
 import goldteam.hud.HeartHudItem;
-import java.awt.Point;
-
 
 public class HeartHudBuilder
         extends HudBuilderBase {
 
-    private Attackable watcher;
     private HeartHudItem hudItem;
 
-    
-    public HeartHudBuilder(GameEngine gameData, Attackable attackable) {
+    public HeartHudBuilder(GameEngine gameData) {
         super(gameData);
-        this.watcher = attackable;
     }
 
     @Override
@@ -35,7 +30,7 @@ public class HeartHudBuilder
 
     @Override
     protected void setWatcher() {
-        this.hudItem.setWatcher(watcher);
+        this.hudItem.setWatcher((Attackable) this.watchable);
     }
 
 }

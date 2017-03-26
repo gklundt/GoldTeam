@@ -169,6 +169,11 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

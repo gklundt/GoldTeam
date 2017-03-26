@@ -148,6 +148,11 @@ public class ArcherMan extends GameObject
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.remove(listener);
+    }
+
+    @Override
     public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
         ActionEvent e = new ActionEvent(animatorToRemove, 0, "");
         for (ActionListener al : this.animationChangeListeners) {

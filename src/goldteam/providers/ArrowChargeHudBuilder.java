@@ -6,18 +6,14 @@ import goldteam.domain.Weapon;
 import goldteam.domain.GameEngine;
 import goldteam.domain.HudBuilderBase;
 import goldteam.hud.ArrowChargeIndicator;
-import java.awt.Point;
 
 public class ArrowChargeHudBuilder
         extends HudBuilderBase {
 
-    private Weapon watcher;
     private ArrowChargeIndicator hudItem;
 
-//        chargeBar.addAnimationTimerListener(aca);        
-    public ArrowChargeHudBuilder(GameEngine gameData, Weapon weapon) {
+    public ArrowChargeHudBuilder(GameEngine gameData) {
         super(gameData);
-        this.watcher = weapon;
 
     }
 
@@ -29,14 +25,14 @@ public class ArrowChargeHudBuilder
 
     @Override
     protected void addAnimations() {
-        ArrowChargeAnimation hha = new ArrowChargeAnimation(hudItem, gameData.getVisibleDimensions(), this.watcher);
+        ArrowChargeAnimation hha = new ArrowChargeAnimation(hudItem, gameData.getVisibleDimensions(), (Weapon) this.watchable);
         hudItem.addAnimator(AnimationState.DEFAULT, hha);
         hudItem.addAnimationTimerListener(hha);
     }
 
     @Override
     protected void setWatcher() {
-        this.hudItem.setWatcher(watcher);
+        this.hudItem.setWatcher((Weapon) this.watchable);
     }
 
 }

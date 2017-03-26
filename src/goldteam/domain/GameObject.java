@@ -3,6 +3,7 @@ package goldteam.domain;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -40,7 +41,18 @@ public abstract class GameObject implements Removable {
     public void removeRemovableListener(ActionListener listener) {
         this.removableListeners.remove(listener);
     }
+    
+    @Override
+    public void remove(){
+        this.notifyRemovableListeners();
+    }
 
+    private void notifyRemovableListeners(){
+        ActionEvent e = new ActionEvent(this, 0, null);
+        for (ActionListener removableListener : removableListeners) {
+            removableListener.actionPerformed(e);
+        }
+    }
     public Point PositionVector() {
         return this.positionVector;
     }

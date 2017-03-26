@@ -286,6 +286,11 @@ public class Ghost
     }
 
     @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.remove(listener);
+    }
+
+    @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
         if (this.animators.isEmpty()) {
             this.animator = animator;

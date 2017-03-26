@@ -6,19 +6,14 @@ import goldteam.domain.Depletable;
 import goldteam.domain.GameEngine;
 import goldteam.domain.HudBuilderBase;
 import goldteam.hud.ArrowHudItem;
-import java.awt.Point;
-
 
 public class ArrowHudBuilder
         extends HudBuilderBase {
 
-    private Depletable watcher;
     private ArrowHudItem hudItem;
 
-    
-    public ArrowHudBuilder(GameEngine gameData, Depletable depletable) {
+    public ArrowHudBuilder(GameEngine gameData) {
         super(gameData);
-        this.watcher = depletable;
     }
 
     @Override
@@ -35,7 +30,7 @@ public class ArrowHudBuilder
 
     @Override
     protected void setWatcher() {
-        this.hudItem.setWatcher(watcher);
+        this.hudItem.setWatcher((Depletable) this.watchable);
     }
 
 }
