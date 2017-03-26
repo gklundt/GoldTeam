@@ -5,7 +5,6 @@ import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
 import goldteam.domain.Attackable;
-import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Delta;
