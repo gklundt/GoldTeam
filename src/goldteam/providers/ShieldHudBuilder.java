@@ -16,8 +16,8 @@ public class ShieldHudBuilder
     private ShieldHudItem hudItem;
 
     
-    public ShieldHudBuilder(GameEngine gameData, Point point, Attackable attackable) {
-        super(gameData, point);
+    public ShieldHudBuilder(GameEngine gameData, Attackable attackable) {
+        super(gameData);
         this.watcher = attackable;
     }
 

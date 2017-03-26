@@ -19,8 +19,8 @@ public class ArcherBuilder extends CharacterBuilderBase {
 
     private ArcherMan archer;
 
-    public ArcherBuilder(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public ArcherBuilder(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

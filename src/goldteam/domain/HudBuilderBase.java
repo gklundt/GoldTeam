@@ -4,8 +4,8 @@ import java.awt.Point;
 
 public abstract class HudBuilderBase extends GameObjectBuilderBase {
 
-    public HudBuilderBase(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public HudBuilderBase(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

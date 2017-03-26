@@ -16,8 +16,8 @@ public class HeartHudBuilder
     private HeartHudItem hudItem;
 
     
-    public HeartHudBuilder(GameEngine gameData, Point point, Attackable attackable) {
-        super(gameData, point);
+    public HeartHudBuilder(GameEngine gameData, Attackable attackable) {
+        super(gameData);
         this.watcher = attackable;
     }
 

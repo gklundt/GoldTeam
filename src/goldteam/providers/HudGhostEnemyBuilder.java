@@ -14,8 +14,8 @@ public class HudGhostEnemyBuilder extends CharacterBuilderBase {
 
     private Ghost enemy;
 
-    public HudGhostEnemyBuilder(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public HudGhostEnemyBuilder(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

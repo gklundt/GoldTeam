@@ -11,8 +11,8 @@ public class FlyerEnemyBuilder extends CharacterBuilderBase {
 
     private Flyer enemy;
 
-    public FlyerEnemyBuilder(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public FlyerEnemyBuilder(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

@@ -22,8 +22,8 @@ public class GameEngineTestPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
 
-        builder = new ArcherBuilder(this.gameData, new Point(400,400));
-        this.addGameObject(provider.build(builder));
+        builder = new ArcherBuilder(this.gameData);
+        this.addGameObject(provider.build(builder, new Point(400, 400)));
 
         Random x = new Random();
         Random y = new Random();
@@ -32,23 +32,23 @@ public class GameEngineTestPanel extends GamePanelBase {
             int rx = ((Double) (x.nextDouble() * 500.00)).intValue() % 500;
             int ry = ((Double) (y.nextDouble() * 500.00)).intValue() % 500;
 
-            CharacterAnimationBase ga1 = null;
+            FlyerEnemyBuilder flyerEnemyBuilder = new FlyerEnemyBuilder(this.gameData);
+            LauncherEnemyBuilder launcherEnemyBuilder = new LauncherEnemyBuilder(this.gameData, true);
+            WalkerEnemyBuilder walkerEnemyBuilder = new WalkerEnemyBuilder(this.gameData);
+            ArrowBuilder arrowBuilder = new ArrowBuilder(this.gameData, new DoubleVector(15d, 0d));
+
             switch (i % 4) {
                 case 0:
-                    builder = new FlyerEnemyBuilder(this.gameData, new Point(rx, ry));
-                    this.addGameObject(provider.build(builder));
+                    this.addGameObject(provider.build(flyerEnemyBuilder, new Point(rx, ry)));
                     break;
                 case 1:
-                    builder = new LauncherEnemyBuilder(this.gameData, new Point(rx, ry), true);
-                    this.addGameObject(provider.build(builder));
+                    this.addGameObject(provider.build(launcherEnemyBuilder, new Point(rx, ry)));
                     break;
                 case 2:
-                    builder = new WalkerEnemyBuilder(this.gameData, new Point(rx, ry));
-                    this.addGameObject(provider.build(builder));
+                    this.addGameObject(provider.build(walkerEnemyBuilder, new Point(rx, ry)));
                     break;
                 case 3:
-                    builder = new ArrowBuilder(this.gameData, new Point(rx, ry), new DoubleVector(15d, 0d));
-                    this.addGameObject(provider.build(builder));
+                    this.addGameObject(provider.build(arrowBuilder, new Point(rx, ry)));
                     break;
             }
         }

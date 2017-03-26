@@ -15,8 +15,8 @@ public class LifeHudBuilder
     private Depletable watcher;
     private LifeHudItem hudItem;
 
-    public LifeHudBuilder(GameEngine gameData, Point point, Depletable attackable) {
-        super(gameData, point);
+    public LifeHudBuilder(GameEngine gameData, Depletable attackable) {
+        super(gameData);
         this.watcher = attackable;
     }
 

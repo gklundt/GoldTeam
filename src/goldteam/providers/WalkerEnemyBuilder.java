@@ -11,8 +11,8 @@ public class WalkerEnemyBuilder extends CharacterBuilderBase {
 
     private Walker enemy;
 
-    public WalkerEnemyBuilder(GameEngine gameData, Point point) {
-        super(gameData,point);
+    public WalkerEnemyBuilder(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

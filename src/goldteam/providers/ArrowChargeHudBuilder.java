@@ -15,8 +15,8 @@ public class ArrowChargeHudBuilder
     private ArrowChargeIndicator hudItem;
 
 //        chargeBar.addAnimationTimerListener(aca);        
-    public ArrowChargeHudBuilder(GameEngine gameData, Point point, Weapon weapon) {
-        super(gameData, point);
+    public ArrowChargeHudBuilder(GameEngine gameData, Weapon weapon) {
+        super(gameData);
         this.watcher = weapon;
 
     }

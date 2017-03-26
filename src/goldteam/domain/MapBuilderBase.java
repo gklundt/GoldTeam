@@ -10,8 +10,8 @@ import java.awt.Point;
 
 public abstract class MapBuilderBase extends GameObjectBuilderBase {
 
-    public MapBuilderBase(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public MapBuilderBase(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

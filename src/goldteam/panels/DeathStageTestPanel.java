@@ -15,8 +15,8 @@ public class DeathStageTestPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
 
-        builder = new DeathGameStageBuilder(this.gameData, new Point(400, 400));
-        this.addGameObject(provider.build(builder));
+        builder = new DeathGameStageBuilder(this.gameData);
+        this.addGameObject(provider.build(builder, new Point(400, 400)));
 
     }
 }

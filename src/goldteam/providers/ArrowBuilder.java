@@ -20,8 +20,8 @@ public class ArrowBuilder extends CharacterBuilderBase {
     private Arrow arrow;
     private final DoubleVector speed;
 
-    public ArrowBuilder(GameEngine gameData, Point point, DoubleVector speed) {
-        super(gameData,point);
+    public ArrowBuilder(GameEngine gameData, DoubleVector speed) {
+        super(gameData);
         this.speed = speed;
     }
 

@@ -14,8 +14,8 @@ public class MoodyGhostEnemyBuilder extends CharacterBuilderBase {
 
     private MoodyGhost enemy;
 
-    public MoodyGhostEnemyBuilder(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public MoodyGhostEnemyBuilder(GameEngine gameData) {
+        super(gameData);
 
     }
 

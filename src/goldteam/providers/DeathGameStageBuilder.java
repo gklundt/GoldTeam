@@ -12,8 +12,8 @@ public class DeathGameStageBuilder extends GameStageBuilderBase {
 
     private GameStageItem DeathGameStage;
 
-    public DeathGameStageBuilder(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public DeathGameStageBuilder(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

@@ -5,10 +5,7 @@
  */
 package goldteam.providers;
 
-import goldteam.animators.ArcherAnimationStanding;
 import goldteam.characters.ArcherMan;
-import goldteam.domain.AnimationState;
-import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.CharacterBuilderBase;
 import goldteam.domain.GameEngine;
 import java.awt.Point;
@@ -16,8 +13,8 @@ import java.awt.Point;
 public class BombBuilder extends CharacterBuilderBase {
 
 
-    public BombBuilder(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public BombBuilder(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

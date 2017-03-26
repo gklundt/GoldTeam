@@ -16,8 +16,8 @@ public class ArrowHudBuilder
     private ArrowHudItem hudItem;
 
     
-    public ArrowHudBuilder(GameEngine gameData, Point point, Depletable depletable) {
-        super(gameData, point);
+    public ArrowHudBuilder(GameEngine gameData, Depletable depletable) {
+        super(gameData);
         this.watcher = depletable;
     }
 

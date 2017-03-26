@@ -15,7 +15,7 @@ public class TestSwitchAnimPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-        builder = new MoodyGhostEnemyBuilder(gameData, new Point(60, 60));
-        addGameObject(provider.build(builder));
+        builder = new MoodyGhostEnemyBuilder(gameData);
+        addGameObject(provider.build(builder, new Point(60, 60)));
     }
 }

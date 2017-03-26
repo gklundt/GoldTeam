@@ -12,8 +12,8 @@ public class OverGameStageBuilder extends GameStageBuilderBase {
 
     private GameStageItem GameOverStage;
 
-    public OverGameStageBuilder(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public OverGameStageBuilder(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

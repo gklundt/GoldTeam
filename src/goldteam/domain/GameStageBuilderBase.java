@@ -5,13 +5,11 @@
  */
 package goldteam.domain;
 
-import java.awt.Point;
-
 
 public abstract class GameStageBuilderBase extends GameObjectBuilderBase {
 
-    public GameStageBuilderBase(GameEngine gameData, Point point) {
-        super(gameData, point);
+    public GameStageBuilderBase(GameEngine gameData) {
+        super(gameData);
     }
 
     @Override

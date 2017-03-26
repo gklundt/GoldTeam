@@ -14,11 +14,10 @@ import java.awt.Point;
 public abstract class GameObjectBuilderBase {
 
     protected final GameEngine gameData;
-    protected final Point point;
+    protected Point point;
 
-    public GameObjectBuilderBase(GameEngine gameData, Point point) {
+    public GameObjectBuilderBase(GameEngine gameData) {
         this.gameData = gameData;
-        this.point = point;
     }
     
     protected GameObject gameObject;
@@ -27,7 +26,8 @@ public abstract class GameObjectBuilderBase {
         return this.gameObject;
     }
 
-    public void createGameObject() {
+    public void createGameObject(Point point) {
+        this.point = point;
         this.buildTemplate();
     }
 

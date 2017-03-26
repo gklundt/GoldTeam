@@ -12,8 +12,8 @@ public class LauncherEnemyBuilder extends CharacterBuilderBase {
     private Launcher enemy;
     private final Boolean left;
 
-    public LauncherEnemyBuilder(GameEngine gameData, Point point, Boolean left) {
-        super(gameData,point);
+    public LauncherEnemyBuilder(GameEngine gameData, Boolean left) {
+        super(gameData);
         this.left = left;
     }
 

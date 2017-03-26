@@ -25,20 +25,20 @@ public class TestCharacterPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
 
-        builder = new ArcherBuilder(this.gameData, new Point(400, 400));
-        this.addGameObject(provider.build(builder));
+        builder = new ArcherBuilder(this.gameData);
+        this.addGameObject(provider.build(builder, new Point(400, 400)));
 
-        builder = new FlyerEnemyBuilder(gameData, new Point(400, 100));
-        this.addGameObject(provider.build(builder));
+        builder = new FlyerEnemyBuilder(gameData);
+        this.addGameObject(provider.build(builder, new Point(400, 100)));
 
-        builder = new WalkerEnemyBuilder(gameData, new Point(200, 400));
-        this.addGameObject(provider.build(builder));
+        builder = new WalkerEnemyBuilder(gameData);
+        this.addGameObject(provider.build(builder, new Point(200, 400)));
 
-        builder = new LauncherEnemyBuilder(gameData, new Point(750, 350), true);
-        this.addGameObject(provider.build(builder));
+        builder = new LauncherEnemyBuilder(gameData, true);
+        this.addGameObject(provider.build(builder, new Point(750, 350)));
 
-        builder = new ArrowBuilder(gameData, new Point(0, 0), new DoubleVector(10d, 1d));
-        this.addGameObject(provider.build(builder));
+        builder = new ArrowBuilder(gameData, new DoubleVector(10d, 1d));
+        this.addGameObject(provider.build(builder, new Point(0, 0)));
 
     }
 
