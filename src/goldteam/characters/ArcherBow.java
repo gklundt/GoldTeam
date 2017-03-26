@@ -12,36 +12,56 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ArcherBow
-        extends GameObject
-        implements Weapon,
-        Depletable,
-        ClickHandler {
+public class ArcherBow extends GameObject implements Weapon,
+        Depletable {
 
     private Boolean mousePressed;
     private Integer charge;
     private Integer arrowCount;
     private final ArrayList<ActionListener> weaponListeners;
     private final ArrayList<ActionListener> depletableListeners;
+    private final Delta decreaseCharge;
+    private final Delta increaseCharge;
 
     public ArcherBow(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
         this.weaponListeners = new ArrayList<>();
         this.depletableListeners = new ArrayList<>();
         this.arrowCount = 100;
-        this.charge = 0;
+        this.charge = 20;
+        this.positionVector = new Point(60, 60);
+
+        decreaseCharge = Delta.create(-1.0, ModType.FIXED);
+        increaseCharge = Delta.create(1.0, ModType.FIXED);
 
     }
 
 // <editor-fold defaultstate="collapsed" desc="GameObject Implementation">
     @Override
     protected void Update() {
+
+        if (gamedata.getHeldMouse().isEmpty()) {
+            mousePressed = false;
+        } else {
+            mousePressed = true;
+        }
+
+        if (mousePressed) {
+            if (charge < 20) {
+                this.setChargeDelta(increaseCharge);
+            }
+        } else {
+            if (charge > 0) {
+                this.setChargeDelta(decreaseCharge);
+            }
+        }
+
         this.positionVector = this.gamedata.getMovableCharacter().PositionVector();
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-        // Weapon does not have an associated animator
+        this.Update();
     }
 
     @Override
@@ -111,13 +131,4 @@ public class ArcherBow
         });
     }
 
-//</editor-fold>
-//<editor-fold defaultstate="collapsed" desc="ClickHandler Implementation">
-    @Override
-    public void processMouseInput() {
-        if (mousePressed && charge < 20) {
-            this.setChargeDelta(Delta.create(1.0, ModType.FIXED));
-        }
-    }
-//</editor-fold>
 }

@@ -1,22 +1,13 @@
 package goldteam.panels;
 
-import goldteam.GamePanelManager;
-import goldteam.animators.BigGhostAnimation;
-import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
 import goldteam.colliders.CollisionDetector;
 import goldteam.colliders.GhostCollider;
-import goldteam.domain.CharacterAnimationBase;
-import goldteam.domain.Delta;
 import goldteam.domain.GamePanelBase;
-import goldteam.domain.GameSounds;
-import goldteam.domain.ModType;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
 import java.applet.Applet;
 import java.applet.AudioClip;
-import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -38,15 +29,15 @@ public class TestSoundsPanel extends GamePanelBase {
     
     @Override
     protected void addGameObjects() {
-//        bgClip = Applet.newAudioClip(getClass().getClassLoader().getResource("assets/Sounds/background_music.wav"));
-//        bgClip.play();
-//        Random x = new Random();
-//        Random y = new Random();
-//        for (int i = 1; i <= 6; ++i) {
-//
-//            int rx = ((Double) (x.nextDouble() * 500.00)).intValue() % 500;
-//            int ry = ((Double) (y.nextDouble() * 500.00)).intValue() % 500;
-//            
+        bgClip = Applet.newAudioClip(getClass().getClassLoader().getResource("assets/Sounds/background_music.wav"));
+        bgClip.play();
+        Random x = new Random();
+        Random y = new Random();
+        for (int i = 1; i <= 6; ++i) {
+
+            int rx = ((Double) (x.nextDouble() * 500.00)).intValue() % 500;
+            int ry = ((Double) (y.nextDouble() * 500.00)).intValue() % 500;
+            
 //            CharacterAnimationBase ga1 = null;
 //            switch (i % 4) {
 //                case 0:
@@ -63,9 +54,9 @@ public class TestSoundsPanel extends GamePanelBase {
 //                    break;
 //            }
 //            this.layeredPane.add(ga1, layeredPane.highestLayer());
-//            GhostCollider gc = new GhostCollider();
-//            collisionDetector.addCollisionListener(gc);
-//        }
+            GhostCollider gc = new GhostCollider();
+            collisionDetector.addCollisionListener(gc);
+        }
     }
         
 //    protected CharacterAnimationBase createNewGhost(GameData gd, Point p, Integer speed, String image, int bigOrSmall) {

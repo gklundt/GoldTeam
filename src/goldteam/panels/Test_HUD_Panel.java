@@ -57,6 +57,8 @@ public class Test_HUD_Panel extends GamePanelBase {
         addGameObject(provider.build(builder));
 
         ArcherBow weapon = new ArcherBow(gameData, gameData.getMovableCharacter().PositionVector());
+        addGameObject(weapon);
+        
         builder = new ArrowHudBuilder(gameData, new Point(10, 70), weapon);
         addGameObject(provider.build(builder));
 

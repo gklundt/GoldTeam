@@ -31,7 +31,7 @@ public class ArrowChargeIndicator extends GameObject implements
 
     public ArrowChargeIndicator(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
-                this.animationChangeListeners = new ArrayList<>();
+        this.animationChangeListeners = new ArrayList<>();
 
     }
 
@@ -42,6 +42,7 @@ public class ArrowChargeIndicator extends GameObject implements
 
     @Override
     protected void GraphicsUpdateHandler() {
+        this.Update();
 
     }
 
@@ -60,22 +61,6 @@ public class ArrowChargeIndicator extends GameObject implements
         return this.animator;
     }
 
-    public double getCurrentCharge() {
-        return currentCharge;
-    }
-
-    public void setCurrentCharge(double currentCharge) {
-        this.currentCharge = currentCharge;
-    }
-
-    public Weapon getWatchedItem() {
-        return watchedItem;
-    }
-
-    public void setWatchedItem(Weapon watchedItem) {
-        this.watchedItem = watchedItem;
-    }
-
     @Override
     public void addAnimationTimerListener(ActionListener listener) {
         this.gamedata.addAnimationUpdateTimerListener(listener);
@@ -83,7 +68,7 @@ public class ArrowChargeIndicator extends GameObject implements
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-           this.animationChangeListeners.add(listener);
+        this.animationChangeListeners.add(listener);
     }
 
     @Override
