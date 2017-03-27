@@ -35,20 +35,18 @@ import java.util.Random;
  */
 public class StationaryGhost extends GameObject implements
         Attackable, /* Shield and Health accessors */
-        Weapon, /* Adds damage to a movable object */
         Collidable, /* Information for Collision detection */
         Movable, /* Vectors and scalar for movement */
-        Animatable, /* Getter/Setter for animator */
-        Depletable,
-        Controllable {
+        Animatable /* Getter/Setter for animator */ {
 
     private final Random random;
     private boolean collidedLeft;
-    
+
     private final Double initialVelocity;
     private final ArrayList<ActionListener> attackableListeners;
     private final ArrayList<ActionListener> depletableListeners;
     private final ArrayList<ActionListener> collidableListeners;
+    private final ArrayList<ActionListener> animationChangeListeners;
     private final Double initialHealth;
     private final Double initialShield;
     private final Point initialPoint;
@@ -64,9 +62,10 @@ public class StationaryGhost extends GameObject implements
     private Polygon collider;
     private final HashMap<Collidable, CollisionPlane> colliders;
     private Integer depletableCount;
-    
+
     private boolean collided;
-    
+    private final HashMap<AnimationState, AnimationBase> animators;
+
     public StationaryGhost(GameEngine gameEngine, Point initialPoint) {
         super(gameEngine, initialPoint);
 
@@ -86,20 +85,22 @@ public class StationaryGhost extends GameObject implements
         health = initialHealth;
         shield = initialShield;
         this.arrows = 10;
+        this.animators = new HashMap<>();
 
         attackableListeners = new ArrayList<>();
         depletableListeners = new ArrayList<>();
         collidableListeners = new ArrayList<>();
-        
-        int [] xPoly = {this.positionVector.x - 10, 
-                        this.positionVector.x + 10, 
-                        this.positionVector.x + 10,
-                        this.positionVector.x - 10
+        animationChangeListeners = new ArrayList<>();
+
+        int[] xPoly = {this.positionVector.x - 10,
+            this.positionVector.x + 10,
+            this.positionVector.x + 10,
+            this.positionVector.x - 10
         };
-        int [] yPoly = {this.positionVector.y - 10, 
-                        this.positionVector.y - 10,
-                        this.positionVector.y + 10,
-                        this.positionVector.y + 10
+        int[] yPoly = {this.positionVector.y - 10,
+            this.positionVector.y - 10,
+            this.positionVector.y + 10,
+            this.positionVector.y + 10
         };
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
@@ -107,18 +108,55 @@ public class StationaryGhost extends GameObject implements
         this.collided = false;
     }
 
-    
+    //<editor-fold defaultstate="collapsed" desc="Animatable Implementation">
+    @Override
+    public void addAnimationTimerListener(ActionListener listener) {
+        this.gamedata.addAnimationUpdateTimerListener(listener);
+    }
+
+    @Override
+    public void addAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.add(listener);
+    }
+
+    @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.remove(listener);
+    }
+
+    @Override
+    public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
+        ActionEvent e = new ActionEvent(animatorToRemove, 0, "");
+        for (ActionListener al : this.animationChangeListeners) {
+            al.actionPerformed(e);
+        }
+    }
+
+    @Override
+    public void addAnimator(AnimationState state, AnimationBase animator) {
+        if (this.animators.isEmpty()) {
+            this.animator = animator;
+        }
+        this.animators.put(state, animator);
+    }
+
+    @Override
+    public AnimationBase getAnimator() {
+        return this.animator;
+    }
+
+//</editor-fold>
     @Override
     protected void Update() {
 
-        if(collidedLeft == false){
+        if (collidedLeft == false) {
             try {
                 if (this.gamedata.getHeldKeys().isEmpty()) {
                     this.velocity = this.velocity > 0.5d ? this.velocity - 0.5d : 0;
                 }
 
                 this.positionVector.x += this.getVelocityVector().x;
-               /*int deltaX = 0, deltaY = 0;
+                /*int deltaX = 0, deltaY = 0;
                 deltaX += this.getVelocityVector().x;
                 deltaY += this.getVelocityVector().y;*/
                 //this.collider.translate(deltaX, deltaY);
@@ -192,18 +230,13 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public AnimationBase getAnimator() {
-        return this.animator;
-    }
-
-    @Override
     public void setVelocityVectorDelta(Delta xDelta, Delta yDelta) {
         /*if(this.velocityVector.x > 0){
             collidedLeft = true;
         }*/
-        if(this.velocityVector.x > 0){
+        if (this.velocityVector.x > 0) {
             this.velocityVector.x *= -1d;
-        } else if(this.velocityVector.x < 0){
+        } else if (this.velocityVector.x < 0) {
             this.velocityVector.x *= 1d;
         }
         this.velocity = 5d;
@@ -230,17 +263,13 @@ public class StationaryGhost extends GameObject implements
     }
 
     @Override
-    public void addWeaponListener(ActionListener listener) {
-    }
-
-    @Override
     public void notifyAttackableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
         for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(e);
         }
     }
-    
+
     @Override
     public void notifyCollidableListeners() {
         ActionEvent e = new ActionEvent(this, 0, "");
@@ -249,83 +278,6 @@ public class StationaryGhost extends GameObject implements
         }
     }
 
-    @Override
-    public void processKeyInput() {
-        if (collidedLeft == false && this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
-            this.velocity = this.initialVelocity;
-            this.rawVector.x += this.velocity;
-        }
-        if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_A)) {
-            this.velocity = this.initialVelocity;
-            this.rawVector.x -= this.velocity;
-            collidedLeft = false;
-        }
-        this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
-    }
-
-    @Override
-    public void processMouseInput() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addAnimationTimerListener(ActionListener listener) {
-        this.gamedata.addAnimationUpdateTimerListener(listener);
-    }
-
-    @Override
-    public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void removeAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getCount() {
-        return this.depletableCount;
-    }
-
-    @Override
-    public void setCountDelta(Delta delta) {
-        this.depletableCount += delta.delta.intValue();
-        this.notifyDepletableListeners();
-    }
-
-    @Override
-    public void addDepletableListener(ActionListener listener) {
-        this.depletableListeners.add(listener);
-    }
-
-    @Override
-    public void notifyDepletableListeners() {
-        ActionEvent e = new ActionEvent(this, 0, "");
-        for (ActionListener dl : this.depletableListeners) {
-            dl.actionPerformed(e);
-        }
-    }
-
-    @Override
-    public double getChargeValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setChargeDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void setCollided(boolean state) {
@@ -338,16 +290,4 @@ public class StationaryGhost extends GameObject implements
         return collided;
     }
 
-    @Override
-    public void notifyWeaponListener() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setChargeValue(double chargeValue) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
 }
-

@@ -12,9 +12,9 @@ import goldteam.domain.Collidable;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
-import goldteam.domain.Platform;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
@@ -22,7 +22,7 @@ import java.util.HashMap;
  *
  * @author Mishal
  */
-public class SkyPlatform extends GameObject implements Platform, Animatable, Collidable {
+public class SkyPlatform extends GameObject implements Animatable {
 
     private AnimationBase animator;
     private Polygon collider;
@@ -70,49 +70,9 @@ public class SkyPlatform extends GameObject implements Platform, Animatable, Col
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Double getDurabilityPercentage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setDurabilityPercentage(Double durabilityPercentage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Double getDecayRate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setDecayRate(Double decayRate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isSolidTop() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isSolidBottom() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setSolidTop(Boolean isSolidTop) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setSolidBottom(Boolean isSolidBottom) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public AnimationBase getAnimator() {
-
         return this.animator;
     }
 
@@ -123,17 +83,14 @@ public class SkyPlatform extends GameObject implements Platform, Animatable, Col
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void removeAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -141,40 +98,5 @@ public class SkyPlatform extends GameObject implements Platform, Animatable, Col
         this.animator = animator;
     }
 
-    @Override
-    public Polygon getPolygon() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setCollider(Collidable obj, CollisionPlane direction) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void removeCollider(Collidable obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public HashMap<Collidable, CollisionPlane> getColliders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notifyCollidableListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setCollided(boolean state) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isCollided() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return false;
-    }
 
 }
