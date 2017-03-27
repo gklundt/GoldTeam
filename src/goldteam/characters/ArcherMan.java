@@ -48,6 +48,7 @@ public class ArcherMan extends GameObject
 
     private int charge;
     private int arrows;
+    private boolean grounded;
     
     private float speedModifier, jumpModifier;
     //---Changed to public members to be accessed in implementing Panel------//
@@ -79,6 +80,7 @@ public class ArcherMan extends GameObject
         this.velocity = initialVelocity;
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
         this.shape = new Polygon();
+        this.grounded = false;
 
         int[] xPoly = {this.positionVector.x - 10,
             this.positionVector.x + 10,
@@ -416,11 +418,16 @@ public class ArcherMan extends GameObject
     @Override
     protected void Update() {
         double velY = velocityVector.y;
-        if (jump && canDoubleJump) {
+        if  (grounded && jump)
+        {
+            velY = -30 * jumpModifier;
+            grounded = false;
+        }
+        else if (jump && canDoubleJump) {
             velY = -30 * jumpModifier;     //Stops Momentum and creats upwards momentup for double jump
             canDoubleJump = false;
-        } else
-            ;//velY += 3;  //Gravity
+        } else if(!grounded)
+            velY += 3;  //Gravity
 
         if (right && !left) {
             this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(1d, 0d), velocity * speedModifier);
@@ -432,6 +439,12 @@ public class ArcherMan extends GameObject
         velocityVector.y = velY;
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
+        if(this.positionVector.y > 525)
+        {
+            this.positionVector.y = 525;
+            grounded = true;
+            velocityVector.y = 0d;
+        }
 
         this.collider = new Polygon();
         this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
@@ -494,6 +507,11 @@ public class ArcherMan extends GameObject
 
     public void setLifeValue(Delta delta) {
         lives = delta.delta.intValue();
+    }
+    
+    public void gainLife()
+    {
+        lives++;
     }
 
 //<editor-fold defaultstate="collapsed" desc="Collidable Interface">
