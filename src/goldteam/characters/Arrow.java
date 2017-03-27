@@ -26,7 +26,8 @@ public class Arrow
 //<editor-fold defaultstate="collapsed" desc="Private Declarations">
     private int health;
     private AnimationBase animator;
-    private final DoubleVector velocityVector;
+    private DoubleVector velocityVector;
+    private Point prevPos;
     private Polygon collider;
     private Polygon initialCollider;
     private final ArrayList<ActionListener> attackableListeners;
@@ -50,6 +51,7 @@ public class Arrow
         super.shape = initialCollider;
         this.velocityVector = velocityVector;
         collided = false;
+        prevPos = (Point)(initialPoint.clone());
         this.animationChangeListeners = new ArrayList<>();
     }
 //</editor-fold>
@@ -88,7 +90,10 @@ public class Arrow
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
 
-        this.positionVector.x += this.getVelocityVector().x;
+        DoubleVector dangle = new DoubleVector((double)(positionVector.x - prevPos.x), (double)(positionVector.y - prevPos.y));
+        double currentAngle = Math.atan(dangle.y/dangle.x);
+        animator.af.setToRotation(currentAngle);
+        
         this.collider.reset();
         this.collider.addPoint(this.positionVector.x - 15, this.positionVector.y - 5);
         this.collider.addPoint(this.positionVector.x + 15, this.positionVector.y - 5);

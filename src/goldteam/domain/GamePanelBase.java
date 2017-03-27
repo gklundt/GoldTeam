@@ -61,6 +61,8 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected Point spawnPoint;
     private ArcherBuilder archerBuilder;
     protected ArcherBow archerWeapon;
+    
+    private ShootingStrategy shootingStrategy;
 
     public GamePanelBase(PanelManager panelManager, GameData gameData) {
         super(panelManager);
@@ -81,6 +83,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         this.platformProvider = new PlatformProvider();
         this.arrowBuilder = new ArrowBuilder(gameData);
         this.spawnPoint = new Point(400, 300);
+        this.shootingStrategy = new ShootBuff();
     }
 
 //<editor-fold defaultstate="collapsed" desc="KeyEvents">
@@ -272,11 +275,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             return;
         }
         if (this.archerWeapon.getCount() > 0) {
-            Point point = gameData.getMovableCharacter().PositionVector();
-            Point start = new Point(point);
-            Point end = new Point(mouseLocation);
-            DoubleVector speed = VectorMath.getVelocityVector(start, end, this.archerWeapon.getChargeValue() + 20);
-            this.addGameObject(this.projectileProvider.build(this.arrowBuilder, start, speed));
+            this.shootingStrategy.shoot(archerWeapon, projectileProvider, arrowBuilder, archerWeapon, mouseLocation, this);
             this.archerWeapon.setCountDelta(Delta.create(-1d, ModType.FIXED));
         }
     }
