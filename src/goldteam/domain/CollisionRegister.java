@@ -14,6 +14,8 @@ public interface CollisionRegister {
     
     public void addCollisionListener(CollisionListener listener);
     
+    public void removeCollisionListener(CollisionListener listener);
+    
     public void registerCollidable(Collidable collidable);
     
     public void removeCollidable(Collidable collidable);

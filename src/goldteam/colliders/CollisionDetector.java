@@ -10,7 +10,6 @@ import goldteam.domain.CollisionListener;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.CollisionRegister;
 import goldteam.domain.GameEngine;
-import goldteam.gamedata.GameData;
 import java.util.ArrayList;
 
 /**
@@ -22,12 +21,14 @@ public class CollisionDetector implements CollisionRegister {
     private final ArrayList<CollisionListener> collisionListeners;
     private final ArrayList<Collidable> collidableObjects;
     private final GameEngine gameEngine;
+    private boolean workingFlag;
 
-    public CollisionDetector(GameEngine gameEngine) {
+    public CollisionDetector(GameEngine gameData) {
         this.collidableObjects = new ArrayList<>();
         this.collisionListeners = new ArrayList<>();
-        this.gameEngine = new GameData();
+        this.gameEngine = gameData;
         this.gameEngine.addCollisionTimer((l) -> this.CheckCollisions());
+        this.workingFlag = false;
     }
     
     private synchronized void CheckCollisions() {
@@ -38,14 +39,6 @@ public class CollisionDetector implements CollisionRegister {
             for (Collidable b : collidableObjects) {
                 if (!a.equals(b)) {
                     if (a.getPolygon().getBounds2D().intersects(b.getPolygon().getBounds2D())) {
-
-                        // Use math to figure out if collision is from top or bottom
-                        // This could go either way.
-                        a.setCollider(b, CollisionPlane.TOP);
-                        b.setCollider(a, CollisionPlane.BOTTOM);
-                     
-                       
-                       
                         this.notifyColliders(a, b);
                     } 
                 }
@@ -63,6 +56,11 @@ public class CollisionDetector implements CollisionRegister {
     @Override
     public void addCollisionListener(CollisionListener listener) {
         this.collisionListeners.add(listener);
+    }
+
+    @Override
+    public void removeCollisionListener(CollisionListener listener) {
+        this.collisionListeners.remove(listener);
     }
 
     @Override

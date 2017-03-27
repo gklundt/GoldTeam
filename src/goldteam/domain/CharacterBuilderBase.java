@@ -5,14 +5,19 @@
  */
 package goldteam.domain;
 
+import java.awt.Point;
+
 
 public abstract class CharacterBuilderBase extends GameObjectBuilderBase {
+
+    public CharacterBuilderBase(GameEngine gameData) {
+        super(gameData);
+    }
 
     @Override
     protected void buildTemplate() {
         this.createObject();
         this.addAnimations();
-        
     }
     
     protected abstract void createObject();

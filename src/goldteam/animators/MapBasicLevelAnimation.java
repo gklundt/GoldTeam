@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package goldteam.animators;
 
 import goldteam.domain.CharacterAnimationBase;
@@ -10,11 +5,7 @@ import goldteam.domain.GameObject;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 
-/**
- *
- * @author Mishal
- */
-public class MapBasicLevelAnimation extends CharacterAnimationBase{
+public class MapBasicLevelAnimation extends CharacterAnimationBase {
 
     public MapBasicLevelAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
@@ -23,14 +14,13 @@ public class MapBasicLevelAnimation extends CharacterAnimationBase{
 
     @Override
     protected void update() {
-
-                 ++currentFrame;    // displays next frame
-               if (currentFrame >= numFrames) {
-                   currentFrame = 0;
-        }    }
+        ++currentFrame;    // displays next frame
+        if (currentFrame >= numFrames) {
+            currentFrame = 0;
+        }
+    }
 
     public void setAnimator(CharacterAnimationBase ga1) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }
