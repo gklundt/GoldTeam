@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+>>>>>>> origin/CharacterBranch
 package goldteam.domain;
 
 import goldteam.gamedata.GameData;
@@ -57,6 +65,8 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected Point spawnPoint;
     private ArcherBuilder archerBuilder;
     protected ArcherBow archerWeapon;
+    
+    private ShootingStrategy shootingStrategy;
 
     public GamePanelBase(PanelManager panelManager, GameData gameData) {
         super(panelManager);
