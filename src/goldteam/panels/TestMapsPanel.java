@@ -8,6 +8,9 @@ import goldteam.animators.MapDoorsAnimation;
 import goldteam.animators.SkyAnimation;
 import goldteam.animators.TestHudAnimation;
 import goldteam.animators.TestMapAnimator;
+import goldteam.builders.FlatPlatformBuilder;
+import goldteam.builders.GhostEnemyBuilder;
+import goldteam.builders.StationaryGhostBuilder;
 import goldteam.characters.BackgroundPanelGhost;
 import goldteam.characters.Ghost;
 import goldteam.characters.StationaryGhost;
@@ -17,6 +20,7 @@ import goldteam.colliders.PlatformCollider;
 import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
+import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.GameStageAnimationBase;
@@ -39,15 +43,6 @@ import java.awt.event.KeyEvent;
  */
 public class TestMapsPanel extends GamePanelBase {
 
-    private StationaryGhost g1;
-    private Ghost g2;
-    private TestMap tm;
-    private DoorsPlatform dp1;
-    private FlatPlatform flatPlatform,raisedPlatform, flatPlatform1, lavaPlatform;
-    private SkyPlatform sky;
-    private TestHudItem gameOverHud;
-    //private GameStageItem gameOverHud;
-
     public TestMapsPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
 
@@ -55,8 +50,31 @@ public class TestMapsPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
+        this.spawnPoint = new Point(1, 490);
         super.addGameObjects();
 
+
+        SkyPlatform sky = new SkyPlatform(gameData, new Point(0, 0), 500, 700);
+        SkyAnimation fpa4 = new SkyAnimation(sky, gameData.getMapDimensions(), "assets/map.png");
+        sky.addAnimator(AnimationState.DEFAULT, fpa4);
+        fpa4.setDimensions(new Dimension(400, 250));
+        addGameObject(sky);
+
+
+        this.gameObjectBuilder = new StationaryGhostBuilder(gameData);
+        addGameObject(this.gameObjectProvider.build(gameObjectBuilder, new Point(1, 490)));
+
+        this.gameObjectBuilder = new GhostEnemyBuilder(gameData);
+        addGameObject(this.gameObjectProvider.build(gameObjectBuilder, new Point(10, 490)));
+
+        this.platformBuilder = new FlatPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(400, 350), 100, 150));
+
+        StationaryGhostCollider sg = new StationaryGhostCollider();
+        addGameObject(sg);
+        
+        PlatformCollider pc = new PlatformCollider();
+        addGameObject(pc);
 //        g1 = new StationaryGhost(gameData, new Point(1, 490));
 //        g1 = new StationaryGhost(gameData, new Point(1, 490));
 //        g2 = new Ghost(gameData, new Point(1, 490));
@@ -64,16 +82,18 @@ public class TestMapsPanel extends GamePanelBase {
 //        CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getMapDimensions(), "assets/GameGhostStripe.png");
 //        //CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getMapDimensions(), "assets/GameGhostStripeRed.png");
 //
-//        //Map platform
-//        sky = new SkyPlatform(gameData, new Point(0, 0),500,700);
-//        SkyAnimation fpa4 = new SkyAnimation(sky, gameData.getMapDimensions(), "assets/map.png");
-//        fpa4.setDimensions(new Dimension(400,250)); 
-//
+        //Map platform
+
 //        //Platforms
-//        flatPlatform = new FlatPlatform(gameData, new Point(0, 500),300,150);
+//        FlatPlatform flatPlatform = new FlatPlatform(gameData, new Point(0, 500), 300, 150);
 //        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getMapDimensions(), "assets/platformTile.jpg");
-//        fpa.setDimensions(new Dimension(300,150));
-//        
+//        fpa.setDimensions(new Dimension(300, 150));
+//        flatPlatform.addAnimator(AnimationState.DEFAULT, fpa);
+//        addGameObject(flatPlatform);
+        this.platformBuilder = new FlatPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(0, 500), 300, 150));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(650, 500), 300, 150));
+
 //        raisedPlatform = new FlatPlatform(gameData, new Point(400 , 350),100,300);
 //        FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getMapDimensions(), "assets/platformTile.jpg");
 //        rpa.setDimensions(new Dimension(100,150));
@@ -123,7 +143,7 @@ public class TestMapsPanel extends GamePanelBase {
 //        dp1 = new DoorsPlatform(gameData, new Point(390, 438),10,60);
 //        MapDoorsAnimation mp1 = new MapDoorsAnimation(dp1, gameData.getMapDimensions(), "assets/S_door.png");
 //        mp1.setDimensions(new Dimension(50,50));
-//        
+//
 //        
 //        g1.setAnimator(ga1);
 //        //g2.setAnimator(ga2);
@@ -141,7 +161,7 @@ public class TestMapsPanel extends GamePanelBase {
 //        flatPlatform1.setAnimator(ob1);
 //        flatPlatform1.setAnimator(ob);
 //        sky.setAnimator(fpa4);
-//      
+//
 //
 //        //raisedPlatform.setCollider(raisedPlatform, CollisionPlane.LEFT);
 //        this.layeredPane.add(mp1,layeredPane.highestLayer()); //ending Door
@@ -163,8 +183,6 @@ public class TestMapsPanel extends GamePanelBase {
 //        //this.layeredPane.add(ga2, layeredPane.highestLayer());
 //        //this.layeredPane.add(ppa, layeredPane.highestLayer());
 //
-//        StationaryGhostCollider sg = new StationaryGhostCollider();
-//
 //        CollisionDetector collisionDetector;
 //        collisionDetector = new CollisionDetector(this.gameData);
 //
@@ -175,7 +193,6 @@ public class TestMapsPanel extends GamePanelBase {
 //        //collisionDetector.registerCollidable(dp);
 //
 //        //-----------------------------------//
-//        PlatformCollider pc = new PlatformCollider();
 //        CollisionDetector collisionDetector2;
 //        collisionDetector2 = new CollisionDetector(this.gameData);
 //        collisionDetector2.addCollisionListener(pc);
@@ -206,7 +223,7 @@ public class TestMapsPanel extends GamePanelBase {
 //        this.layeredPane.add(tma, 5);
 //        fpa1.setDimensions(new Dimension(200,150));
 //         */
-//   
+//
 //
 //        //this.layeredPane.add(bga2, layeredPane.highestLayer());
 //        // this.layeredPane.add(bga1, layeredPane.highestLayer());

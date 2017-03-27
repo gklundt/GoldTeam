@@ -176,7 +176,6 @@ public class Ghost
             this.notifyAnimationChangeListeners(removeAnimator);
         }
         this.health += delta.delta;
-        System.out.println("health = " + health);
         this.notifyAttackableListeners();
     }
 

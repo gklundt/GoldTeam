@@ -22,7 +22,10 @@ import java.util.HashMap;
  *
  * @author faaez
  */
-public class FlatPlatform extends GameObject implements Platform, Animatable, Collidable {
+public class FlatPlatform extends GameObject implements
+        Platform,
+        Animatable,
+        Collidable {
 
     private AnimationBase animator;
     private Polygon collider;
@@ -50,26 +53,7 @@ public class FlatPlatform extends GameObject implements Platform, Animatable, Co
         super.shape = collider;
     }
 
-    @Override
-    protected void Update() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void GraphicsUpdateHandler() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void UpdateEffectHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void MapUpdateTimerHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+//<editor-fold defaultstate="collapsed" desc="Platform Implementation">
     @Override
     public Double getDurabilityPercentage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -109,37 +93,9 @@ public class FlatPlatform extends GameObject implements Platform, Animatable, Co
     public void setSolidBottom(Boolean isSolidBottom) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+//</editor-fold>
 
-    @Override
-    public AnimationBase getAnimator() {
-        return this.animator;
-    }
-
-    @Override
-    public void addAnimationTimerListener(ActionListener listener) {
-        this.gamedata.addAnimationUpdateTimerListener(listener);
-    }
-
-    @Override
-    public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void removeAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addAnimator(AnimationState state, AnimationBase animator) {
-        this.animator = animator;
-    }
-
+//<editor-fold defaultstate="collapsed" desc="Collidable Implementation">
     @Override
     public Polygon getPolygon() {
         return this.collider;
@@ -162,7 +118,7 @@ public class FlatPlatform extends GameObject implements Platform, Animatable, Co
 
     @Override
     public void notifyCollidableListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -175,5 +131,55 @@ public class FlatPlatform extends GameObject implements Platform, Animatable, Co
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
     }
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Game Object Implementation">
+    @Override
+    protected void Update() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
+    @Override
+    protected void GraphicsUpdateHandler() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void UpdateEffectHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void MapUpdateTimerHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Animatable Implementation">
+    @Override
+    public AnimationBase getAnimator() {
+        return this.animator;
+    }
+
+    @Override
+    public void addAnimationTimerListener(ActionListener listener) {
+    }
+
+    @Override
+    public void addAnimationChangeListener(ActionListener listener) {
+    }
+
+    @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+    }
+
+    @Override
+    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
+    }
+
+    @Override
+    public void addAnimator(AnimationState state, AnimationBase animator) {
+        this.animator = animator;
+    }
+
+//</editor-fold>
 }
