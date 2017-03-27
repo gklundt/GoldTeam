@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package goldteam.domain;
 
 import goldteam.gamedata.GameData;
@@ -13,6 +8,7 @@ import goldteam.builders.ArcherBuilder;
 import goldteam.builders.ArrowBuilder;
 import goldteam.providers.GameObjectProvider;
 import goldteam.providers.HudProvider;
+import goldteam.providers.PlatformProvider;
 import goldteam.providers.ProjectileProvider;
 import java.awt.Component;
 import java.awt.Point;
@@ -48,18 +44,19 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected GameObjectBuilderBase gameObjectBuilder;
     protected ProjectileBuilderBase projectileBuilder;
     protected HudBuilderBase hudBuilder;
+    protected PlatformBuilderBase platformBuilder;
 
     protected final GameObjectProvider gameObjectProvider;
     protected final ProjectileProvider projectileProvider;
     protected final HudProvider hudProvider;
+    protected final PlatformProvider platformProvider;
 
     private final ArrowBuilder arrowBuilder;
+    private ShootingStrategy shootingStrategy;
 
     protected Point spawnPoint;
     private ArcherBuilder archerBuilder;
     protected ArcherBow archerWeapon;
-    
-    private ShootingStrategy shootingStrategy;
 
     public GamePanelBase(PanelManager panelManager, GameData gameData) {
         super(panelManager);
@@ -77,6 +74,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         this.gameObjectProvider = new GameObjectProvider();
         this.projectileProvider = new ProjectileProvider();
         this.hudProvider = new HudProvider();
+        this.platformProvider = new PlatformProvider();
         this.arrowBuilder = new ArrowBuilder(gameData);
         this.spawnPoint = new Point(400, 300);
         this.shootingStrategy = new ShootBuff();

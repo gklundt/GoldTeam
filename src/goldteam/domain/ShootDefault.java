@@ -14,6 +14,7 @@ public class ShootDefault implements ShootingStrategy
     @Override
     public void shoot(ArcherBow archerWeapon, ProjectileProvider provider, ArrowBuilder arrowBuilder, GameObject centralGameObject, Point mouseLocation, GamePanelBase panel)
     {
+        mouseLocation = new Point(200, 170);
         Point point = centralGameObject.PositionVector();
         Point start = new Point(point);
         Point end = new Point(mouseLocation);
