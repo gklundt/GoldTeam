@@ -94,7 +94,8 @@ public class VectorMath {
 
     /**
      * Gets the velocity vector between two points
-     * @param point
+     * @param pointA
+     * @param pointB
      * @param velocity
      * @return
      */

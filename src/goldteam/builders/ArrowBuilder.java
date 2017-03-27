@@ -33,8 +33,8 @@ public class ArrowBuilder extends ProjectileBuilderBase {
     protected void addAnimations() {
 
         CharacterAnimationBase arrowAnimation = speed.x >= 0
-                ? new ArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/Archer/Arrow_Shot_Right.png")
-                : new ArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/Archer/Arrow_Shot_Left.png");
+                ? new ArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/Archer/ArrowRight.png")
+                : new ArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/Archer/ArrowLeft.png");
 
         arrow.addAnimator(AnimationState.DEFAULT, arrowAnimation);
     }
