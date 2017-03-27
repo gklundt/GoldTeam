@@ -13,6 +13,7 @@ import goldteam.builders.ArcherBuilder;
 import goldteam.builders.ArrowBuilder;
 import goldteam.providers.GameObjectProvider;
 import goldteam.providers.HudProvider;
+import goldteam.providers.PlatformProvider;
 import goldteam.providers.ProjectileProvider;
 import java.awt.Component;
 import java.awt.Point;
@@ -48,10 +49,12 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected GameObjectBuilderBase gameObjectBuilder;
     protected ProjectileBuilderBase projectileBuilder;
     protected HudBuilderBase hudBuilder;
+    protected PlatformBuilderBase platformBuilder;
 
     protected final GameObjectProvider gameObjectProvider;
     protected final ProjectileProvider projectileProvider;
     protected final HudProvider hudProvider;
+    protected final PlatformProvider platformProvider;
 
     private final ArrowBuilder arrowBuilder;
 
@@ -77,6 +80,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         this.gameObjectProvider = new GameObjectProvider();
         this.projectileProvider = new ProjectileProvider();
         this.hudProvider = new HudProvider();
+        this.platformProvider = new PlatformProvider();
         this.arrowBuilder = new ArrowBuilder(gameData);
         this.spawnPoint = new Point(400, 300);
         this.shootingStrategy = new ShootBuff();
