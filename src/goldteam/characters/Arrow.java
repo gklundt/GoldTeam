@@ -90,9 +90,14 @@ public class Arrow
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
 
-        DoubleVector dangle = new DoubleVector((double)(positionVector.x - prevPos.x), (double)(positionVector.y - prevPos.y));
-        double currentAngle = Math.atan(dangle.y/dangle.x);
-        animator.af.setToRotation(currentAngle);
+        if(animator != null)
+        {
+            DoubleVector dangle = new DoubleVector((double)(positionVector.x - prevPos.x), (double)(positionVector.y - prevPos.y));
+            double currentAngle = Math.atan(dangle.y/dangle.x);// + Math.PI/2;
+            if(velocityVector.x < -0.0005)
+                currentAngle -= Math.PI;
+            animator.af.setToRotation(currentAngle + Math.PI / 2);
+        }
         
         this.collider.reset();
         this.collider.addPoint(this.positionVector.x - 15, this.positionVector.y - 5);

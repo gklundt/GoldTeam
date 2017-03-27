@@ -26,11 +26,9 @@ public class ArcherMan extends GameObject
     private boolean canDoubleJump;
     private Boolean isFacingLeft = false;
 
-    private final Double initialHealth = 5.0d;
-    private final Double initialShield = 5.0d;
+    private final Double initialHealth = 10.0d;
+    private final Double initialShield = 10.0d;
     private final Double initialVelocity = 10.0d;
-    private final int initialArrows = 10;
-    private final Point initialPoint;
     private final DoubleVector rawVector;
     private final double maxVelocity;
 
@@ -60,8 +58,7 @@ public class ArcherMan extends GameObject
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
         super(gameData, initialPoint);
-        this.lives = 3;
-        this.initialPoint = initialPoint;
+        this.lives = 30;
         this.positionVector = initialPoint;
         this.animators = new HashMap<>();
         this.rawVector = new DoubleVector(0d, 0d);
