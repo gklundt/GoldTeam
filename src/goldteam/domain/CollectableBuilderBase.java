@@ -16,12 +16,12 @@ public abstract class CollectableBuilderBase extends CollectableObjectBuilderBas
     }
     
     @Override
-    protected void buildTemplate(int height, int width) {
-        this.createObject(height, width);
+    protected void buildTemplate() {
+        this.createObject();
         this.addAnimations();
     }
 
-    protected abstract void createObject(int height, int width);
+    protected abstract void createObject();
 
     protected abstract void addAnimations();
 }
