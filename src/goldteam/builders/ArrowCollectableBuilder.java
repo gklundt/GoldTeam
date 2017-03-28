@@ -25,6 +25,7 @@ public class ArrowCollectableBuilder extends CollectableBuilderBase{
 
     @Override
     protected void createObject() {
+        this.gameObject = new Arrows(gameData, point);
         this.arrows = (Arrows) this.gameObject;
     }
 

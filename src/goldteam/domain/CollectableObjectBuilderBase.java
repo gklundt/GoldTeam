@@ -28,6 +28,7 @@ public abstract class CollectableObjectBuilderBase {
 
     public void createGameObject(Point point) {
         this.point = point;
+        this.buildTemplate();
     }
 
     protected abstract void buildTemplate();

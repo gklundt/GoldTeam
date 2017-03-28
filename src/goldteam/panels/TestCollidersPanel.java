@@ -30,6 +30,10 @@ import goldteam.platforms.FlatPlatform;
 import goldteam.animators.FlatPlatformAnimation;
 import goldteam.animators.HeartHudAnimation;
 import goldteam.animators.ShieldHudAnimation;
+import goldteam.builders.ArrowCollectableBuilder;
+import goldteam.builders.ArrowHudBuilder;
+import goldteam.builders.ShieldCollectableBuilder;
+import goldteam.builders.ShieldHudBuilder;
 import goldteam.characters.ArcherMan;
 import goldteam.characters.Arrow;
 import goldteam.colliders.ArrowCollider;
@@ -42,6 +46,7 @@ import java.awt.Dimension;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
 import goldteam.colliders.PlatformCollider;
+import goldteam.colliders.ShieldCollectablesCollider;
 import goldteam.domain.Collidable;
 import goldteam.domain.DoubleVector;
 import goldteam.domain.Delta;
@@ -97,7 +102,24 @@ public class TestCollidersPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
         super.addGameObjects();
+        
+        ArrowCollectablesCollider ac = new ArrowCollectablesCollider();
+        addGameObject(ac);
+        
+        ShieldCollectablesCollider sc = new ShieldCollectablesCollider();
+        addGameObject(sc);
+        
+        this.collectableBuilder = new ArrowCollectableBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200,300), gameData.getAttackableCharacter()));
+        
+        this.collectableBuilder = new ShieldCollectableBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(100,300), gameData.getAttackableCharacter()));
 
+         hudBuilder = new ShieldHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 30), gameData.getAttackableCharacter()));
+        
+        hudBuilder = new ArrowHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 70),archerWeapon));
 //        objects = new ArrayList<>();
 //
 //        g1 = new StationaryGhost(gameData, new Point(200, 400));

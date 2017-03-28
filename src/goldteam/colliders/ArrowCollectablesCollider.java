@@ -6,6 +6,7 @@
 package goldteam.colliders;
 
 import goldteam.characters.ArcherBow;
+import goldteam.characters.ArcherMan;
 import goldteam.collectables.Arrows;
 import goldteam.domain.CollectableItem;
 import goldteam.domain.Collidable;
@@ -23,13 +24,13 @@ public class ArrowCollectablesCollider implements CollisionListener {
     private Collidable movable;
     
     public void DoCollision(){
-        ArcherBow am = (ArcherBow) movable;
+        ArcherMan am = (ArcherMan) movable;
         
         CollectableItem item = (CollectableItem) collectableItem;
         
         if(item instanceof Arrows){
-            if(am.getCount()< 20){
-                am.setCountDelta(Delta.create(100.0, ModType.FIXED));
+            if(am.getCount()< 31){
+                am.setCountDelta(Delta.create(200.0, ModType.FIXED));
                 item.setState(false);
                 item.undoCollider();
             }
@@ -38,12 +39,13 @@ public class ArrowCollectablesCollider implements CollisionListener {
     
     @Override
     public void CollisionDetected(Collidable a, Collidable b) {
-        if ((a instanceof Arrows) && (b instanceof ArcherBow)) {
+        
+        if ((a instanceof Arrows) && (b instanceof ArcherMan)) {
             this.collectableItem = a;
             this.movable = b;
             DoCollision();
 
-        } else if ((b instanceof Arrows) && (a instanceof ArcherBow)) {
+        } else if ((b instanceof Arrows) && (a instanceof ArcherMan)) {
             this.collectableItem = b;
             this.movable = a;
             DoCollision();
