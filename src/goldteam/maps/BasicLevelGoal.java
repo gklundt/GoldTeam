@@ -8,6 +8,7 @@ package goldteam.maps;
 import goldteam.domain.*;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 /**
@@ -63,16 +64,6 @@ public class BasicLevelGoal extends GameObject
     }
 
     @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     protected void UpdateEffectHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -96,5 +87,15 @@ public class BasicLevelGoal extends GameObject
     public boolean isCollided() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
+    }
+
+    @Override
+    public void addObjectiveListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeObjectiveListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

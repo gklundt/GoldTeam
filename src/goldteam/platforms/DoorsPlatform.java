@@ -25,29 +25,29 @@ import java.util.HashMap;
  *
  * @author Mishal
  */
-public class DoorsPlatform extends GameObject implements Doors, Movable, Animatable, Collidable{
-    
-     private AnimationBase animator;
+public class DoorsPlatform extends GameObject implements Doors, Movable, Animatable, Collidable {
+
+    private AnimationBase animator;
     private Polygon collider;
     private int width, height;
     private final HashMap<Collidable, CollisionPlane> colliders;
 
-    public DoorsPlatform(GameEngine gamedata, Point initialPoint,int width, int height) {
+    public DoorsPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
         super(gamedata, initialPoint);
         this.width = width;
         this.height = height;
-        
+
         colliders = new HashMap<>();
-        
-        int [] xPoly = {this.positionVector.x, 
-                        this.positionVector.x + this.width, 
-                        this.positionVector.x + this.width,
-                        this.positionVector.x
+
+        int[] xPoly = {this.positionVector.x,
+            this.positionVector.x + this.width,
+            this.positionVector.x + this.width,
+            this.positionVector.x
         };
-        int [] yPoly = {this.positionVector.y, 
-                        this.positionVector.y,
-                        this.positionVector.y + this.height,
-                        this.positionVector.y + this.height
+        int[] yPoly = {this.positionVector.y,
+            this.positionVector.y,
+            this.positionVector.y + this.height,
+            this.positionVector.y + this.height
         };
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
@@ -61,16 +61,6 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
     @Override
     protected void GraphicsUpdateHandler() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void ClickHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void KeyHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -123,11 +113,6 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-     @Override
-    public void setAnimator(AnimationBase animator) {
-        this.animator = animator;
-    }
-
     @Override
     public AnimationBase getAnimator() {
         return this.animator;
@@ -138,7 +123,6 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
         this.gamedata.addAnimationUpdateTimerListener(listener);
     }
 
-    
     @Override
     public DoubleVector getVelocityVector() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -185,18 +169,18 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
     }
 
     @Override
-    public void notifyAnimationChangeListeners() {
+    public void removeAnimationChangeListener(ActionListener listener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public AnimationBase getRemoveAnimator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.animator = animator;
     }
 
     @Override
@@ -215,5 +199,4 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
         return false;
     }
 
-    
 }

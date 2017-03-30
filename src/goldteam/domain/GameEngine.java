@@ -4,20 +4,16 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface GameEngine {
 
     public boolean isGameRunning();
     public Dimension getMapDimensions();
     public Dimension getVisibleDimensions();
-    public Dimension getRunEdgeDimensions();
 
     public ArrayList<Integer> getHeldKeys();
-    public ArrayList<Integer> getHeldMouse();
-    public void addKeysListener(ActionListener listener);
-    public void removeKeysListener(ActionListener listener);
-    public void addClicksListener(ActionListener listener);
-    public void removeClicksListener(ActionListener listener);
+    public HashMap<Integer, Point> getHeldMouse();
     
     public void addMapUpdateTimerListener(ActionListener listener);
     public void removeMapUpdateTimerListener(ActionListener listener);
@@ -30,6 +26,8 @@ public interface GameEngine {
     public void addCollisionTimer(ActionListener listener);
     public void removeCollisionTimer(ActionListener listener);
 
+    public Attackable getAttackableCharacter();
+    public void setAttackableCharacter(Attackable target);
     public Depletable getDepletableCharacter();
     public void setDepletableCharacter(Depletable target);
     public GameObject getMovableCharacter();

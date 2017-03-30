@@ -1,10 +1,10 @@
 package goldteam.panels;
 
 import goldteam.domain.PanelManager;
-import goldteam.animators.GhostAnimation;
 import goldteam.characters.Ghost;
 import goldteam.domain.GamePanelBase;
 import goldteam.gamedata.GameData;
+import goldteam.builders.GhostEnemyBuilder;
 import java.awt.Point;
 
 public class TestGraphicsPanel extends GamePanelBase {
@@ -17,9 +17,10 @@ public class TestGraphicsPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-        ghost = new Ghost(this.gameData, new Point(60, 60));
-        GhostAnimation ghostAnimation = new GhostAnimation(ghost, this.gameData.getRunEdgeDimensions(), "assets/GameGhostStripe.png");
-        ghost.setAnimator(ghostAnimation);
-        this.layeredPane.add(ghostAnimation);
+        super.addGameObjects();
+
+        gameObjectBuilder = new GhostEnemyBuilder(gameData);
+        addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(60,60)));
+        
     }
 }
