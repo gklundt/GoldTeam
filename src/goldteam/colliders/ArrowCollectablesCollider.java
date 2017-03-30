@@ -24,13 +24,14 @@ public class ArrowCollectablesCollider implements CollisionListener {
     private Collidable movable;
     
     public void DoCollision(){
-        ArcherMan am = (ArcherMan) movable;
+        ArcherBow ar = ((ArcherMan) movable).getArcherBow();
         
         CollectableItem item = (CollectableItem) collectableItem;
         
         if(item instanceof Arrows){
-            if(am.getCount()< 31){
-                am.setCountDelta(Delta.create(200.0, ModType.FIXED));
+            System.out.println(ar.getCount());
+            if(ar.getCount()< 101){
+                ar.setCountDelta(Delta.create(200.0, ModType.FIXED));
                 item.setState(false);
                 item.undoCollider();
             }

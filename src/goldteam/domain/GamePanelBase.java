@@ -237,6 +237,8 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         addGameObject(gameObjectProvider.build(archerBuilder, spawnPoint));
         this.archerWeapon = new ArcherBow(gameData, gameData.getMovableCharacter().PositionVector());
         addGameObject(archerWeapon);
+        
+        this.archerBuilder.setArcherBow(archerWeapon);
     }
 
     private void addGameListener() {

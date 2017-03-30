@@ -33,7 +33,7 @@ public class ShieldCollectablesCollider implements CollisionListener {
         CollectableItem item = (CollectableItem) collectableItem;
         
         if (item instanceof Shields) {
-            if (am.getShieldValue() < 11) {
+            if (am.getShieldValue() < 10) {
                 am.setShieldDelta(Delta.create(1.0, ModType.FIXED));
                 item.setState(false);
                 item.undoCollider();

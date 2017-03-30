@@ -54,6 +54,8 @@ public class ArcherMan extends GameObject
     public AnimationBase animator;
     public AnimationBase removeAnimator;
     private Polygon collider;
+    
+    private ArcherBow archerBow; 
 
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
@@ -494,6 +496,14 @@ public class ArcherMan extends GameObject
 
     public void setLifeValue(Delta delta) {
         lives = delta.delta.intValue();
+    }
+    
+    public void setArcherBow(ArcherBow archerBow){
+        this.archerBow = archerBow;
+    }
+    
+    public ArcherBow getArcherBow(){
+        return this.archerBow;
     }
 
 //<editor-fold defaultstate="collapsed" desc="Collidable Interface">
