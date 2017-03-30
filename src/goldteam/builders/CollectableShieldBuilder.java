@@ -6,7 +6,7 @@
 package goldteam.builders;
 
 import goldteam.animators.CollectableShieldAnimation;
-import goldteam.collectables.Shields;
+import goldteam.collectables.CollectableShields;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CollectableBuilderBase;
 import goldteam.domain.GameEngine;
@@ -15,18 +15,18 @@ import goldteam.domain.GameEngine;
  *
  * @author faaez
  */
-public class ShieldCollectableBuilder extends CollectableBuilderBase{
+public class CollectableShieldBuilder extends CollectableBuilderBase{
     
-    private Shields shield;
+    private CollectableShields shield;
 
-    public ShieldCollectableBuilder(GameEngine gameData) {
+    public CollectableShieldBuilder(GameEngine gameData) {
         super(gameData);
     }
 
     @Override
     protected void createObject() {
-        this.gameObject = new Shields(gameData,point);
-        this.shield = (Shields) gameObject;
+        this.gameObject = new CollectableShields(gameData,point);
+        this.shield = (CollectableShields) gameObject;
     }
 
     @Override

@@ -5,7 +5,7 @@
  */
 package goldteam.builders;
 
-import goldteam.collectables.Arrows;
+import goldteam.collectables.CollectableArrows;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CollectableBuilderBase;
 import goldteam.domain.GameEngine;
@@ -15,18 +15,18 @@ import goldteam.animators.CollectableArrowAnimation;
  *
  * @author fchishti-sw
  */
-public class ArrowCollectableBuilder extends CollectableBuilderBase{
+public class CollectableArrowBuilder extends CollectableBuilderBase{
     
-    private Arrows arrows;
+    private CollectableArrows arrows;
 
-    public ArrowCollectableBuilder(GameEngine gameData) {
+    public CollectableArrowBuilder(GameEngine gameData) {
         super(gameData);
     }
 
     @Override
     protected void createObject() {
-        this.gameObject = new Arrows(gameData, point);
-        this.arrows = (Arrows) this.gameObject;
+        this.gameObject = new CollectableArrows(gameData, point);
+        this.arrows = (CollectableArrows) this.gameObject;
     }
 
     @Override

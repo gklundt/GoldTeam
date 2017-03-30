@@ -5,52 +5,53 @@
  */
 package goldteam.colliders;
 
-import goldteam.characters.ArcherBow;
 import goldteam.characters.ArcherMan;
-import goldteam.collectables.Arrows;
+import goldteam.collectables.CollectableArrows;
+import goldteam.collectables.CollectableShields;
+import goldteam.domain.Attackable;
 import goldteam.domain.CollectableItem;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
 import goldteam.domain.Delta;
+import goldteam.domain.Depletable;
 import goldteam.domain.ModType;
+import goldteam.domain.Movable;
+import goldteam.domain.Weapon;
 
 /**
  *
  * @author faaez
  */
-public class ArrowCollectablesCollider implements CollisionListener {
+public class CollectableShieldCollider implements CollisionListener {
 
     private Collidable collectableItem;
     private Collidable movable;
-    
-    public void DoCollision(){
-        ArcherBow ar = ((ArcherMan) movable).getArcherBow();
-        
+
+    public void DoCollision() {
+        Attackable am = (Attackable) movable;
+
         CollectableItem item = (CollectableItem) collectableItem;
         
-        if(item instanceof Arrows){
-            System.out.println(ar.getCount());
-            if(ar.getCount()< 101){
-                ar.setCountDelta(Delta.create(200.0, ModType.FIXED));
-                item.setState(false);
+        if (item instanceof CollectableShields) {
+            if (am.getShieldValue() < 11) {
+                am.setShieldDelta(Delta.create(1.0, ModType.FIXED));
                 item.undoCollider();
             }
-        } 
+        }
     }
-    
+
     @Override
     public void CollisionDetected(Collidable a, Collidable b) {
-        
-        if ((a instanceof Arrows) && (b instanceof ArcherMan)) {
+        if ((a instanceof CollectableShields) && (b instanceof Attackable)) {
             this.collectableItem = a;
             this.movable = b;
             DoCollision();
 
-        } else if ((b instanceof Arrows) && (a instanceof ArcherMan)) {
+        } else if ((b instanceof CollectableShields) && (a instanceof Attackable)) {
             this.collectableItem = b;
             this.movable = a;
             DoCollision();
         }
     }
-    
+
 }

@@ -64,4 +64,9 @@ public abstract class GameObject implements Removable {
     public Point PositionVector() {
         return this.positionVector;
     }
+
+    public boolean isRemoveMe() {
+        return removeMe;
+    }
+    
 }

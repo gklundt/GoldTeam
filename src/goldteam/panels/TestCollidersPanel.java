@@ -5,60 +5,36 @@
  */
 package goldteam.panels;
 
-//import goldteam.collectables.Arrows;
+//import goldteam.collectables.CollectableArrows;
 //import goldteam.Collectables.Health;
 //import goldteam.collectables.Shields;
-import goldteam.collectables.Arrows;
-import goldteam.GamePanelManager;
-import goldteam.animators.ArcherAnimationStanding;
-import goldteam.animators.ArrowHudAnimation;
-import goldteam.animators.CollectableArrowAnimation;
-import goldteam.animators.GhostAnimation;
+import goldteam.collectables.CollectableArrows;
 import goldteam.characters.Ghost;
 import goldteam.characters.StationaryGhost;
 import goldteam.colliders.CollisionDetector;
-import goldteam.colliders.StationaryGhostCollider;
-import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GameObject;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import goldteam.platforms.FlatPlatform;
-import goldteam.animators.FlatPlatformAnimation;
-import goldteam.animators.HeartHudAnimation;
-import goldteam.animators.ShieldHudAnimation;
-import goldteam.builders.ArrowCollectableBuilder;
+import goldteam.builders.CollectableArrowBuilder;
 import goldteam.builders.ArrowHudBuilder;
-import goldteam.builders.ShieldCollectableBuilder;
+import goldteam.builders.HeartHudBuilder;
+import goldteam.builders.CollectableShieldBuilder;
 import goldteam.builders.ShieldHudBuilder;
 import goldteam.characters.ArcherMan;
 import goldteam.characters.Arrow;
-import goldteam.colliders.ArrowCollider;
-import goldteam.colliders.ArrowCollectablesCollider;
-import goldteam.colliders.PlatformCollider;
-import goldteam.domain.Animatable;
-import goldteam.domain.AnimationBase;
+import goldteam.colliders.CollectableArrowCollider;
 import goldteam.domain.Platform;
-import java.awt.Dimension;
-import goldteam.domain.AnimationBase;
-import goldteam.domain.AnimationState;
 import goldteam.colliders.PlatformCollider;
-import goldteam.colliders.ShieldCollectablesCollider;
-import goldteam.domain.Collidable;
-import goldteam.domain.DoubleVector;
-import goldteam.domain.Delta;
-import goldteam.domain.ModType;
-import goldteam.domain.VectorMath;
+import goldteam.colliders.CollectableShieldCollider;
 import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 import goldteam.hud.ShieldHudItem;
-import java.util.Iterator;
-
+import goldteam.builders.CollectableHealthBuilder;
+import goldteam.colliders.CollectableHealthCollider;
 
 /**
  *
@@ -76,7 +52,7 @@ public class TestCollidersPanel extends GamePanelBase {
     private PlatformCollider pc;
     private FlatPlatform flatPlatform, raisedPlatform, flatPlatform1, lavaPlatform;
     private ArrayList<Platform> platforms;
-    private Arrows arrow;
+    private CollectableArrows arrow;
 //    private Health health;
 //    private Shields shield;
     private HeartHudItem hearts;
@@ -102,24 +78,33 @@ public class TestCollidersPanel extends GamePanelBase {
     @Override
     protected void addGameObjects() {
         super.addGameObjects();
-        
-        ArrowCollectablesCollider ac = new ArrowCollectablesCollider();
+
+        CollectableArrowCollider ac = new CollectableArrowCollider();
         addGameObject(ac);
-        
-        ShieldCollectablesCollider sc = new ShieldCollectablesCollider();
+
+        CollectableShieldCollider sc = new CollectableShieldCollider();
         addGameObject(sc);
         
-        this.collectableBuilder = new ArrowCollectableBuilder(gameData);
-        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200,300), gameData.getAttackableCharacter()));
-        
-        this.collectableBuilder = new ShieldCollectableBuilder(gameData);
-        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(100,300), gameData.getAttackableCharacter()));
+        CollectableHealthCollider hc = new CollectableHealthCollider();
+        addGameObject(hc);
 
-         hudBuilder = new ShieldHudBuilder(gameData);
-        addGameObject(hudProvider.build(hudBuilder, new Point(10, 30), gameData.getAttackableCharacter()));
+        this.collectableBuilder = new CollectableArrowBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));
+
+        this.collectableBuilder = new CollectableShieldBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(100, 300), gameData.getAttackableCharacter()));
         
+        this.collectableBuilder = new CollectableHealthBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(250, 300), gameData.getAttackableCharacter()));
+
+        hudBuilder = new ShieldHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 30), gameData.getAttackableCharacter()));
+
         hudBuilder = new ArrowHudBuilder(gameData);
-        addGameObject(hudProvider.build(hudBuilder, new Point(10, 70),archerWeapon));
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 70), archerWeapon));
+        
+        hudBuilder = new HeartHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 10), gameData.getAttackableCharacter()));
 //        objects = new ArrayList<>();
 //
 //        g1 = new StationaryGhost(gameData, new Point(200, 400));
@@ -168,7 +153,7 @@ public class TestCollidersPanel extends GamePanelBase {
 //        fpa1.setDimensions(new Dimension(200, 150));
 //        platforms.add(flatPlatform1);
 //
-//        arrow = new Arrows(gameData, new Point(20, 388));
+//        arrow = new CollectableArrows(gameData, new Point(20, 388));
 //        CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
 ////        
 ////        flatPlatform = new FlatPlatform(gameData, new Point(0, 412), 300, 150);
@@ -191,7 +176,7 @@ public class TestCollidersPanel extends GamePanelBase {
 ////        fpa1.setDimensions(new Dimension(200, 150));
 ////        platforms.add(flatPlatform1);
 ////
-////        arrow = new Arrows(gameData, new Point(20, 388));
+////        arrow = new CollectableArrows(gameData, new Point(20, 388));
 ////        CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
 //////        
 //////        health = new Health(gameData, new Point(80, 390));
@@ -271,7 +256,7 @@ public class TestCollidersPanel extends GamePanelBase {
 ////
 ////        //---------------------------------------------//
 ////        //-------------------------------------//
-////        ArrowCollectablesCollider cd = new ArrowCollectablesCollider();
+////        CollectableArrowCollider cd = new CollectableArrowCollider();
 ////
 ////        collisionDetector3 = new CollisionDetector(this.gameData);
 ////
