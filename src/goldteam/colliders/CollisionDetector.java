@@ -38,7 +38,6 @@ public class CollisionDetector implements CollisionRegister {
         for (int i = 0; i < collidableObjects.size(); i++) {
             try {
                 for (int j = i + 1; j < collidableObjects.size(); j++) {
-
                     Collidable a = collidableObjects.get(i);
                     Collidable b = collidableObjects.get(j);
                     if (a.getPolygon().getBounds2D().intersects(b.getPolygon().getBounds2D())) {
