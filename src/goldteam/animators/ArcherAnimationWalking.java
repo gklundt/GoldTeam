@@ -7,9 +7,9 @@ import java.awt.geom.AffineTransform;
 
 public class ArcherAnimationWalking extends CharacterAnimationBase {
 
-    public ArcherAnimationWalking(GameObject gameObject, Dimension preferredSize, String assetFile) {
+    public ArcherAnimationWalking(GameObject gameObject, Dimension preferredSize, String assetFile, int spriteCount) {
         super(gameObject, preferredSize, assetFile);
-        super.loadImage(imgFilename, 1, 8, new AffineTransform(1, 0, 0, 1, 0, 0));
+        super.loadImage(imgFilename, 1, spriteCount, new AffineTransform(1, 0, 0, 1, 0, 0));
     }
 
     @Override

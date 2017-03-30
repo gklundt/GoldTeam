@@ -22,7 +22,7 @@ public abstract class AnimationBase extends JLayeredPane implements ActionListen
     public AnimationBase() {
         super();
         super.setDoubleBuffered(true);
-        this.defaultTransform = af = new AffineTransform(1.0f, 0.0f, 0.0f, 1.0f, 0, 0);
+        this.defaultTransform = af = new AffineTransform();
     }
 
     /**

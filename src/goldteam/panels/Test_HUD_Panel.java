@@ -6,10 +6,13 @@ import goldteam.colliders.EnemyArrowCollider;
 import goldteam.gamedata.GameData;
 import goldteam.builders.ArrowChargeHudBuilder;
 import goldteam.builders.ArrowHudBuilder;
+import goldteam.builders.FlyerEnemyBuilder;
 import goldteam.builders.HeartHudBuilder;
-import goldteam.builders.HudGhostEnemyBuilder;
+import goldteam.builders.BuffHudBuilder;
+import goldteam.builders.DebuffHudBuilder;
 import goldteam.builders.LifeHudBuilder;
 import goldteam.builders.ShieldHudBuilder;
+import goldteam.builders.WalkerEnemyBuilder;
 import java.awt.Point;
 import java.util.Random;
 
@@ -28,7 +31,12 @@ public class Test_HUD_Panel extends GamePanelBase {
 
         Random r = new Random();
 
-        gameObjectBuilder = new HudGhostEnemyBuilder(gameData);
+        gameObjectBuilder = new WalkerEnemyBuilder(gameData);
+        for (int i = 0; i < 2; i++) {
+            addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(r.nextInt(800), r.nextInt(600))));
+        }
+        
+        gameObjectBuilder = new FlyerEnemyBuilder(gameData);
         for (int i = 0; i < 5; i++) {
             addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(r.nextInt(800), r.nextInt(600))));
         }
@@ -43,11 +51,23 @@ public class Test_HUD_Panel extends GamePanelBase {
         addGameObject(hudProvider.build(hudBuilder, new Point(10, 50), gameData.getDepletableCharacter()));
 
         hudBuilder = new ArrowHudBuilder(gameData);
-        addGameObject(hudProvider.build(hudBuilder, new Point(10, 70),archerWeapon));
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 70), archerWeapon));
 
         hudBuilder = new ArrowChargeHudBuilder(gameData);
         addGameObject(hudProvider.build(hudBuilder, gameData.getMovableCharacter().PositionVector(), archerWeapon));
+        
+//        hudBuilder = new BuffHudBuilder(gameData);
+//        addGameObject(hudProvider.build(hudBuilder, gameData.getMovableCharacter().PositionVector(), gameData.getMovableCharacter()));//watches archer I guess.
+//        
+//        hudBuilder = new DebuffHudBuilder(gameData);
+//        addGameObject(hudProvider.build(hudBuilder, gameData.getMovableCharacter().PositionVector(), gameData.getMovableCharacter()));//watches archer I guess.
     }
+    
+    
+    
+    
+    
+    
 //
 //    protected CharacterAnimationBase createNewArrow(GameData gd, Point p, DoubleVector speed, String image)
 //    {

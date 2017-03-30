@@ -96,7 +96,7 @@ public class ArcherMan extends GameObject
     }
 
 //<editor-fold defaultstate="collapsed" desc="Methods that need to be encapsulated in a role interface">
-    private boolean mousePressed() {
+    public boolean mousePressed() {
         return !gamedata.getHeldMouse().isEmpty();
     }
 //</editor-fold>
@@ -327,8 +327,8 @@ public class ArcherMan extends GameObject
             if (mouseLocation == null) {
                 return;
             }
+            
             removeAnimator = animator;
-
             if (mouseLocation.getX() > this.positionVector.x) {
                 animator = animators.get(AnimationState.SHOOTING_RIGHT);
             } else {
@@ -445,19 +445,14 @@ public class ArcherMan extends GameObject
 
     public void setRight(boolean b) {
         right = b;
-        if(b) 
-            facingRight = true;
     }
     
-    public boolean getLeft()
-    {
+    public boolean getLeft() {
         return left;
     }
 
     public void setLeft(boolean b) {
         left = b;
-        if(b) 
-            facingRight = false;
     }
 
     public void setJump(boolean b) {
@@ -491,7 +486,6 @@ public class ArcherMan extends GameObject
 
     public void shootArrow() {
         arrows--;
-        setChargeDelta(Delta.create(-(double)charge, ModType.FIXED));
     }
 
     public boolean canShootArrow() {
@@ -513,8 +507,7 @@ public class ArcherMan extends GameObject
     }
 
     @Override
-    public void setCollided(boolean state
-    ) {
+    public void setCollided(boolean state) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
