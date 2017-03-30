@@ -61,7 +61,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected Point spawnPoint;
     private ArcherBuilder archerBuilder;
     protected ArcherBow archerWeapon;
-    
+
     private ShootingStrategy shootingStrategy;
 
     public GamePanelBase(PanelManager panelManager, GameData gameData) {
@@ -287,7 +287,19 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         if (gameObject instanceof Animatable) {
             Animatable animatable = (Animatable) gameObject;
             AnimationBase animationBase = animatable.getAnimator();
-            this.layeredPane.add(animationBase, layeredPane.highestLayer());
+
+            int layer;
+            if (gameObject instanceof Enemy) {
+                layer = 10;
+            } else if (gameObject instanceof Platform) {
+                layer = 5;
+            } else if (gameObject instanceof GameStageAnimationBase) {
+                layer = 30;
+            } else {
+                layer = 20;
+            }
+
+            this.layeredPane.add(animationBase, layer);
             animatable.addAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
         }
 
@@ -319,26 +331,9 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 
     protected void removeGameObject(Object gameObject) {
 
-        if (gameObject instanceof Animatable) {
-            Animatable animatable = (Animatable) gameObject;
-            AnimationBase animationBase = animatable.getAnimator();
-            this.layeredPane.remove(animationBase);
-            animatable.removeAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
-        }
-
         if (gameObject instanceof Collidable) {
             Collidable collidable = (Collidable) gameObject;
             collisionDetector.removeCollidable(collidable);
-        }
-
-        if (gameObject instanceof ClickHandler) {
-            ClickHandler clickHandler = (ClickHandler) gameObject;
-            this.clickEventListeners.remove(clickHandler);
-        }
-
-        if (gameObject instanceof KeyHandler) {
-            KeyHandler keyHandler = (KeyHandler) gameObject;
-            this.keyEventListeners.remove(keyHandler);
         }
 
         if (gameObject instanceof CollisionListener) {
@@ -349,6 +344,23 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         if (gameObject instanceof Removable) {
             Removable removable = (Removable) gameObject;
             removable.removeRemovableListener(l -> removeGameObject(l.getSource()));
+        }
+
+        if (gameObject instanceof Animatable) {
+            Animatable animatable = (Animatable) gameObject;
+            AnimationBase animationBase = animatable.getAnimator();
+            this.layeredPane.remove(animationBase);
+            animatable.removeAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
+        }
+
+        if (gameObject instanceof ClickHandler) {
+            ClickHandler clickHandler = (ClickHandler) gameObject;
+            this.clickEventListeners.remove(clickHandler);
+        }
+
+        if (gameObject instanceof KeyHandler) {
+            KeyHandler keyHandler = (KeyHandler) gameObject;
+            this.keyEventListeners.remove(keyHandler);
         }
     }
 //</editor-fold>
