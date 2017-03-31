@@ -5,19 +5,29 @@
  */
 package goldteam.domain;
 
+import java.awt.Point;
+
 /**
  *
  * @author gordon
  */
 public abstract class GameObjectBuilderBase {
 
+    protected final GameEngine gameData;
+    protected Point point;
+
+    public GameObjectBuilderBase(GameEngine gameData) {
+        this.gameData = gameData;
+    }
+    
     protected GameObject gameObject;
 
     public GameObject getGameObject() {
         return this.gameObject;
     }
 
-    public void createGameObject() {
+    public void createGameObject(Point point) {
+        this.point = point;
         this.buildTemplate();
     }
 

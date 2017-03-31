@@ -4,16 +4,14 @@ import java.awt.event.ActionListener;
 
 public interface Weapon {
 
-    public Double getForce();
-
-    public void setForceDelta(Delta delta);
-
-    public DoubleVector getStrikeVector();
-
-    public void setStrikeVector(DoubleVector strikeVector);
-
-    public void setStrikeScalarDelta(Delta delta);
-    
     public void addWeaponListener(ActionListener listener);
+    
+    public void notifyWeaponListener();
+    
+    public double getChargeValue();
+    
+    public void setChargeValue(double chargeValue);
+    
+    public void setChargeDelta(Delta chargeDelta);
 
 }

@@ -92,30 +92,6 @@ public class HeartHudItemTest {
     }
 
     /**
-     * Test of ClickHandler method, of class HeartHudItem.
-     */
-    @Test
-    public void testClickHandler() {
-        System.out.println("ClickHandler");
-        HeartHudItem instance = null;
-        instance.ClickHandler();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of KeyHandler method, of class HeartHudItem.
-     */
-    @Test
-    public void testKeyHandler() {
-        System.out.println("KeyHandler");
-        HeartHudItem instance = null;
-        instance.KeyHandler();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of UpdateEffectHandler method, of class HeartHudItem.
      */
     @Test
@@ -135,19 +111,6 @@ public class HeartHudItemTest {
         System.out.println("MapUpdateTimerHandler");
         HeartHudItem instance = null;
         instance.MapUpdateTimerHandler();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setAnimator method, of class HeartHudItem.
-     */
-    @Test
-    public void testSetAnimator() {
-        System.out.println("setAnimator");
-        HudAnimationBase animator = null;
-        HeartHudItem instance = null;
-        instance.setAnimator(animator);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

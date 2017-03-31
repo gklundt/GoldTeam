@@ -6,7 +6,7 @@
 package goldteam.domain;
 
 /**
- *
+ * Apply to animators that need the ability to reset to a start state
  * @author gordon
  */
 public interface ResettableAnimation {
