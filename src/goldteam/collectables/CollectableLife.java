@@ -20,17 +20,17 @@ import java.util.HashMap;
 
 /**
  *
- * @author faaez
+ * @author cece
  */
-public class CollectableShields extends GameObject implements Animatable, Collidable, CollectableItem {
-
+public class CollectableLife extends GameObject implements Animatable, Collidable, CollectableItem{
+    
     private AnimationBase animator;
     private Polygon collider;
     private final HashMap<Collidable, CollisionPlane> colliders;
 
-    public CollectableShields(GameEngine gamedata, Point initialPoint) {
+    public CollectableLife(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
-
+        
         colliders = new HashMap<>();
 
         int[] xPoly = {this.positionVector.x,
@@ -55,7 +55,7 @@ public class CollectableShields extends GameObject implements Animatable, Collid
 
     @Override
     protected void GraphicsUpdateHandler() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -80,25 +80,23 @@ public class CollectableShields extends GameObject implements Animatable, Collid
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void removeAnimationChangeListener(ActionListener listener) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
         this.animator = animator;
-
     }
-
 
     @Override
     public Polygon getPolygon() {
@@ -121,12 +119,6 @@ public class CollectableShields extends GameObject implements Animatable, Collid
     }
 
     @Override
-    public void undoCollider() {
-        this.collider = null;
-        this.removeMe = true;
-    }
-
-    @Override
     public void notifyCollidableListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -141,4 +133,10 @@ public class CollectableShields extends GameObject implements Animatable, Collid
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void undoCollider() {
+        this.collider = null;
+        this.removeMe = true;
+    }
+    
 }

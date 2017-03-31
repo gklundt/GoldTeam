@@ -60,7 +60,7 @@ public class ArcherMan extends GameObject
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
         super(gameData, initialPoint);
-        this.lives = 30;
+        this.lives = 10;
         this.positionVector = initialPoint;
         this.animators = new HashMap<>();
         this.rawVector = new DoubleVector(0d, 0d);
@@ -186,7 +186,7 @@ public class ArcherMan extends GameObject
 
     @Override
     public void setCountDelta(Delta delta) {
-        lives = delta.delta.intValue();
+        lives += delta.delta.intValue();
     }
 
     @Override

@@ -13,7 +13,9 @@ import goldteam.characters.ArcherMan;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.CharacterBuilderBase;
+import goldteam.domain.Delta;
 import goldteam.domain.GameEngine;
+import goldteam.domain.ModType;
 import java.awt.Point;
 
 public class ArcherBuilder extends CharacterBuilderBase {

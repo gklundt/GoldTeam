@@ -5,31 +5,32 @@
  */
 package goldteam.colliders;
 
-import goldteam.collectables.CollectableHealth;
-import goldteam.domain.Attackable;
+import goldteam.collectables.CollectableLife;
 import goldteam.domain.CollectableItem;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
 import goldteam.domain.Delta;
+import goldteam.domain.Depletable;
 import goldteam.domain.ModType;
 
 /**
  *
- * @author faaez
+ * @author cece
  */
-public class CollectableHealthCollider implements CollisionListener {
+public class CollectableLifeCollider implements CollisionListener {
 
     private Collidable collectableItem;
     private Collidable movable;
 
     public void DoCollision() {
-        Attackable am = (Attackable) movable;
+        Depletable am = (Depletable) movable;
 
         CollectableItem item = (CollectableItem) collectableItem;
 
-        if (item instanceof CollectableHealth) {
-            if (am.getHealthValue() < 10) {
-                am.setHealthDelta(Delta.create(1.0, ModType.FIXED));
+        if (item instanceof CollectableLife) {
+            System.out.println("Archer : "+am.getCount());
+            if (am.getCount() < 10) {
+                am.setCountDelta(Delta.create(1.0, ModType.FIXED));
                 item.undoCollider();
             }
         }
@@ -37,12 +38,12 @@ public class CollectableHealthCollider implements CollisionListener {
 
     @Override
     public void CollisionDetected(Collidable a, Collidable b) {
-        if ((a instanceof CollectableHealth) && (b instanceof Attackable)) {
+        if ((a instanceof CollectableLife) && (b instanceof Depletable)) {
             this.collectableItem = a;
             this.movable = b;
             DoCollision();
 
-        } else if ((b instanceof CollectableHealth) && (a instanceof Attackable)) {
+        } else if ((b instanceof CollectableLife) && (a instanceof Depletable)) {
             this.collectableItem = b;
             this.movable = a;
             DoCollision();

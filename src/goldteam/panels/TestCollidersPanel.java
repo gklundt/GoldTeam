@@ -34,7 +34,12 @@ import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
 import goldteam.hud.ShieldHudItem;
 import goldteam.builders.CollectableHealthBuilder;
+import goldteam.builders.CollectableLifeBuilder;
+import goldteam.builders.LifeHudBuilder;
 import goldteam.colliders.CollectableHealthCollider;
+import goldteam.colliders.CollectableLifeCollider;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
 
 /**
  *
@@ -87,6 +92,9 @@ public class TestCollidersPanel extends GamePanelBase {
         
         CollectableHealthCollider hc = new CollectableHealthCollider();
         addGameObject(hc);
+        
+        CollectableLifeCollider lc = new CollectableLifeCollider();
+        addGameObject(lc);
 
         this.collectableBuilder = new CollectableArrowBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));
@@ -96,6 +104,9 @@ public class TestCollidersPanel extends GamePanelBase {
         
         this.collectableBuilder = new CollectableHealthBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(250, 300), gameData.getAttackableCharacter()));
+        
+        this.collectableBuilder = new CollectableLifeBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(50, 300), gameData.getAttackableCharacter()));
 
         hudBuilder = new ShieldHudBuilder(gameData);
         addGameObject(hudProvider.build(hudBuilder, new Point(10, 30), gameData.getAttackableCharacter()));
@@ -105,6 +116,14 @@ public class TestCollidersPanel extends GamePanelBase {
         
         hudBuilder = new HeartHudBuilder(gameData);
         addGameObject(hudProvider.build(hudBuilder, new Point(10, 10), gameData.getAttackableCharacter()));
+        
+        hudBuilder = new LifeHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 50), gameData.getDepletableCharacter()));
+        
+        gameData.getAttackableCharacter().setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+        gameData.getAttackableCharacter().setShieldDelta(Delta.create(-1.0, ModType.FIXED));
+        gameData.getDepletableCharacter().setCountDelta(Delta.create(-1.0, ModType.FIXED));
+        
 //        objects = new ArrayList<>();
 //
 //        g1 = new StationaryGhost(gameData, new Point(200, 400));
