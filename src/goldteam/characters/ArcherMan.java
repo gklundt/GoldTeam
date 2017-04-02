@@ -16,7 +16,8 @@ public class ArcherMan extends GameObject
         Controllable, /* Process Keyboard and Mouse events */
         Movable, /* Vectors and scalar for movement */
         Spawnable, /* Respawn details */
-        Depletable /* Life Counter */ {
+        Depletable, /* Life Counter */ 
+        Boostable{
 
     private int lives;
 
@@ -55,7 +56,11 @@ public class ArcherMan extends GameObject
     public AnimationBase removeAnimator;
     private Polygon collider;
     
-    private ArcherBow archerBow; 
+    private ArcherBow archerBow;
+    
+    private boolean isBoostableWeapon = false;
+    private boolean isBoostableHealth = false;
+    private boolean isPermanentBoostableWeapon = false;
 
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
@@ -395,7 +400,8 @@ public class ArcherMan extends GameObject
     @Override
     public void setVelocityVectorDelta(Delta xDelta, Delta yDelta
     ) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.velocityVector.x += xDelta.delta;
+        this.velocityVector.y += yDelta.delta;
     }
 //</editor-fold>
 
@@ -480,6 +486,7 @@ public class ArcherMan extends GameObject
         this.maxShield = this.initialShield.intValue();
         this.health = this.maxHealth;
         this.shield = this.maxShield;
+        //this.removeMe = true;
     }
 
     public void shootArrow() {
@@ -565,4 +572,35 @@ public class ArcherMan extends GameObject
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+//<editor-fold defaultstate="collapsed" desc="Boostable Interface">
+    @Override
+    public void setBoostableWeapon(boolean boostable) {
+        this.isBoostableWeapon = boostable;
+    }
+
+    @Override
+    public boolean isBoostableWeapon() {
+        return this.isBoostableWeapon;
+    }
+
+    @Override
+    public void setBoostableHealth(boolean boostable) {
+        this.isBoostableHealth = boostable;
+    }
+
+    @Override
+    public boolean isBoostableHealth() {
+        return this.isBoostableHealth;
+    }
+    
+    @Override
+    public void setPermanentBoostableWeapon(boolean boostable){
+        this.isPermanentBoostableWeapon = boostable;
+    }
+    
+    @Override
+    public boolean isPermanentBoostableWeapon(){
+        return this.isPermanentBoostableWeapon;
+    }
+//</editor-fold>
 }

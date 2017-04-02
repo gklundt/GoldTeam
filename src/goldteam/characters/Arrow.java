@@ -222,7 +222,8 @@ public class Arrow
 //<editor-fold defaultstate="collapsed" desc="Attackable Implementation">
     @Override
     public int getShieldValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0;
     }
 
     @Override

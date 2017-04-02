@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import goldteam.platforms.FlatPlatform;
 import goldteam.builders.CollectableArrowBuilder;
 import goldteam.builders.ArrowHudBuilder;
+import goldteam.builders.CollectableHealthBoostBuilder;
 import goldteam.builders.HeartHudBuilder;
 import goldteam.builders.CollectableShieldBuilder;
 import goldteam.builders.ShieldHudBuilder;
@@ -35,9 +36,17 @@ import goldteam.hud.HeartHudItem;
 import goldteam.hud.ShieldHudItem;
 import goldteam.builders.CollectableHealthBuilder;
 import goldteam.builders.CollectableLifeBuilder;
+import goldteam.builders.CollectablePermanentWeaponBoostBuilder;
+import goldteam.builders.WeaponBoostStatusBarBuilder;
+import goldteam.builders.CollectableWeaponBoostBuilder;
+import goldteam.builders.HealthBoostStatusBarBuilder;
 import goldteam.builders.LifeHudBuilder;
+import goldteam.builders.PitPlatformBuilder;
+import goldteam.colliders.CollectableHealthBoostCollider;
 import goldteam.colliders.CollectableHealthCollider;
 import goldteam.colliders.CollectableLifeCollider;
+import goldteam.colliders.CollectablePermanentWeaponBoostCollider;
+import goldteam.colliders.CollectableWeaponBoostCollider;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 
@@ -89,40 +98,70 @@ public class TestCollidersPanel extends GamePanelBase {
 
         CollectableShieldCollider sc = new CollectableShieldCollider();
         addGameObject(sc);
-        
+
         CollectableHealthCollider hc = new CollectableHealthCollider();
         addGameObject(hc);
-        
+
         CollectableLifeCollider lc = new CollectableLifeCollider();
         addGameObject(lc);
+        
+        CollectableWeaponBoostCollider wbc = new CollectableWeaponBoostCollider();
+        addGameObject(wbc);
+        
+        CollectableHealthBoostCollider hbc = new CollectableHealthBoostCollider();
+        addGameObject(hbc);
+        
+        CollectablePermanentWeaponBoostCollider pwbc = new CollectablePermanentWeaponBoostCollider();
+        addGameObject(pwbc);
+        
+        PlatformCollider pc = new PlatformCollider();
+        addGameObject(pc);
 
         this.collectableBuilder = new CollectableArrowBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));
 
         this.collectableBuilder = new CollectableShieldBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(100, 300), gameData.getAttackableCharacter()));
-        
+
         this.collectableBuilder = new CollectableHealthBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(250, 300), gameData.getAttackableCharacter()));
-        
+
         this.collectableBuilder = new CollectableLifeBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(50, 300), gameData.getAttackableCharacter()));
+        
+        this.collectableBuilder = new CollectableWeaponBoostBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(10, 300), gameData.getAttackableCharacter()));
+        
+        this.collectableBuilder = new CollectableHealthBoostBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(30, 300), gameData.getAttackableCharacter()));
+        
+        this.collectableBuilder = new CollectablePermanentWeaponBoostBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(70, 300), gameData.getAttackableCharacter()));
 
         hudBuilder = new ShieldHudBuilder(gameData);
         addGameObject(hudProvider.build(hudBuilder, new Point(10, 30), gameData.getAttackableCharacter()));
 
         hudBuilder = new ArrowHudBuilder(gameData);
         addGameObject(hudProvider.build(hudBuilder, new Point(10, 70), archerWeapon));
-        
+
         hudBuilder = new HeartHudBuilder(gameData);
         addGameObject(hudProvider.build(hudBuilder, new Point(10, 10), gameData.getAttackableCharacter()));
         
+        hudBuilder = new WeaponBoostStatusBarBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(650, 10), gameData.getAttackableCharacter()));
+        
+        hudBuilder = new HealthBoostStatusBarBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(650, 30), gameData.getAttackableCharacter()));
+
         hudBuilder = new LifeHudBuilder(gameData);
         addGameObject(hudProvider.build(hudBuilder, new Point(10, 50), gameData.getDepletableCharacter()));
-        
+
         gameData.getAttackableCharacter().setHealthDelta(Delta.create(-1.0, ModType.FIXED));
         gameData.getAttackableCharacter().setShieldDelta(Delta.create(-1.0, ModType.FIXED));
         gameData.getDepletableCharacter().setCountDelta(Delta.create(-1.0, ModType.FIXED));
+
+        this.platformBuilder = new PitPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(450, 328), 100, 150));
         
 //        objects = new ArrayList<>();
 //
