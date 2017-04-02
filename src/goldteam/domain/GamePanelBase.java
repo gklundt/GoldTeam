@@ -11,6 +11,7 @@ import goldteam.characters.ArcherBow;
 import goldteam.colliders.CollisionDetector;
 import goldteam.builders.ArcherBuilder;
 import goldteam.builders.ArrowBuilder;
+import goldteam.providers.CollectableProvider;
 import goldteam.providers.GameObjectProvider;
 import goldteam.providers.HudProvider;
 import goldteam.providers.PlatformProvider;
@@ -50,11 +51,13 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected ProjectileBuilderBase projectileBuilder;
     protected HudBuilderBase hudBuilder;
     protected PlatformBuilderBase platformBuilder;
+    protected CollectableBuilderBase collectableBuilder;
 
     protected final GameObjectProvider gameObjectProvider;
     protected final ProjectileProvider projectileProvider;
     protected final HudProvider hudProvider;
     protected final PlatformProvider platformProvider;
+    protected final CollectableProvider collectableProvider;
 
     private final ArrowBuilder arrowBuilder;
 
@@ -79,6 +82,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         this.clickEventListeners = new ArrayList<>();
         this.gameObjectProvider = new GameObjectProvider();
         this.projectileProvider = new ProjectileProvider();
+        this.collectableProvider = new CollectableProvider();
         this.hudProvider = new HudProvider();
         this.platformProvider = new PlatformProvider();
         this.arrowBuilder = new ArrowBuilder(gameData);
@@ -233,6 +237,8 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         addGameObject(gameObjectProvider.build(archerBuilder, spawnPoint));
         this.archerWeapon = new ArcherBow(gameData, gameData.getMovableCharacter().PositionVector());
         addGameObject(archerWeapon);
+        
+        this.archerBuilder.setArcherBow(archerWeapon);
     }
 
     private void addGameListener() {

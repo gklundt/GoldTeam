@@ -8,16 +8,20 @@ package goldteam.builders;
 import goldteam.animators.ArcherAnimationDrawing;
 import goldteam.animators.ArcherAnimationStanding;
 import goldteam.animators.ArcherAnimationWalking;
+import goldteam.characters.ArcherBow;
 import goldteam.characters.ArcherMan;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.CharacterBuilderBase;
+import goldteam.domain.Delta;
 import goldteam.domain.GameEngine;
+import goldteam.domain.ModType;
 import java.awt.Point;
 
 public class ArcherBuilder extends CharacterBuilderBase {
 
     private ArcherMan archer;
+    private ArcherBow archerBow;
 
     public ArcherBuilder(GameEngine gameData) {
         super(gameData);
@@ -46,6 +50,10 @@ public class ArcherBuilder extends CharacterBuilderBase {
         this.archer.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
         this.archer.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
         this.archer.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
+    }
+    
+    public void setArcherBow(ArcherBow archerBow){
+        this.archer.setArcherBow(archerBow);
     }
 
 }

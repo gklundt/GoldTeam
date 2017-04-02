@@ -21,7 +21,7 @@ public class ArrowCollider implements CollisionListener{
     private void DoCollision(){
         Arrow a = (Arrow) arrow;
         Collidable g = (Collidable) enemy;
-        
+        a.remove();
         a.setCollided(true);
         g.setCollided(true);
     }

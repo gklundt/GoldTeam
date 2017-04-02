@@ -5,55 +5,50 @@
  */
 package goldteam.panels;
 
-//import goldteam.collectables.Arrows;
+//import goldteam.collectables.CollectableArrows;
 //import goldteam.Collectables.Health;
 //import goldteam.collectables.Shields;
-import goldteam.collectables.Arrows;
-import goldteam.GamePanelManager;
-import goldteam.animators.ArcherAnimationStanding;
-import goldteam.animators.ArrowHudAnimation;
-import goldteam.animators.CollectableArrowAnimation;
-import goldteam.animators.GhostAnimation;
+import goldteam.collectables.CollectableArrows;
 import goldteam.characters.Ghost;
 import goldteam.characters.StationaryGhost;
 import goldteam.colliders.CollisionDetector;
-import goldteam.colliders.StationaryGhostCollider;
-import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GameObject;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import goldteam.platforms.FlatPlatform;
-import goldteam.animators.FlatPlatformAnimation;
-import goldteam.animators.HeartHudAnimation;
-import goldteam.animators.ShieldHudAnimation;
+import goldteam.builders.CollectableArrowBuilder;
+import goldteam.builders.ArrowHudBuilder;
+import goldteam.builders.CollectableHealthBoostBuilder;
+import goldteam.builders.HeartHudBuilder;
+import goldteam.builders.CollectableShieldBuilder;
+import goldteam.builders.ShieldHudBuilder;
 import goldteam.characters.ArcherMan;
 import goldteam.characters.Arrow;
-import goldteam.colliders.ArrowCollider;
-import goldteam.colliders.ArrowCollectablesCollider;
-import goldteam.colliders.PlatformCollider;
-import goldteam.domain.Animatable;
-import goldteam.domain.AnimationBase;
+import goldteam.colliders.CollectableArrowCollider;
 import goldteam.domain.Platform;
-import java.awt.Dimension;
-import goldteam.domain.AnimationBase;
-import goldteam.domain.AnimationState;
 import goldteam.colliders.PlatformCollider;
-import goldteam.domain.Collidable;
-import goldteam.domain.DoubleVector;
-import goldteam.domain.Delta;
-import goldteam.domain.ModType;
-import goldteam.domain.VectorMath;
+import goldteam.colliders.CollectableShieldCollider;
 import goldteam.hud.ArrowHudItem;
 import goldteam.hud.HeartHudItem;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 import goldteam.hud.ShieldHudItem;
-import java.util.Iterator;
-
+import goldteam.builders.CollectableHealthBuilder;
+import goldteam.builders.CollectableLifeBuilder;
+import goldteam.builders.CollectablePermanentWeaponBoostBuilder;
+import goldteam.builders.WeaponBoostStatusBarBuilder;
+import goldteam.builders.CollectableWeaponBoostBuilder;
+import goldteam.builders.HealthBoostStatusBarBuilder;
+import goldteam.builders.LifeHudBuilder;
+import goldteam.builders.PitPlatformBuilder;
+import goldteam.colliders.CollectableHealthBoostCollider;
+import goldteam.colliders.CollectableHealthCollider;
+import goldteam.colliders.CollectableLifeCollider;
+import goldteam.colliders.CollectablePermanentWeaponBoostCollider;
+import goldteam.colliders.CollectableWeaponBoostCollider;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
 
 /**
  *
@@ -71,7 +66,7 @@ public class TestCollidersPanel extends GamePanelBase {
     private PlatformCollider pc;
     private FlatPlatform flatPlatform, raisedPlatform, flatPlatform1, lavaPlatform;
     private ArrayList<Platform> platforms;
-    private Arrows arrow;
+    private CollectableArrows arrow;
 //    private Health health;
 //    private Shields shield;
     private HeartHudItem hearts;
@@ -98,6 +93,76 @@ public class TestCollidersPanel extends GamePanelBase {
     protected void addGameObjects() {
         super.addGameObjects();
 
+        CollectableArrowCollider ac = new CollectableArrowCollider();
+        addGameObject(ac);
+
+        CollectableShieldCollider sc = new CollectableShieldCollider();
+        addGameObject(sc);
+
+        CollectableHealthCollider hc = new CollectableHealthCollider();
+        addGameObject(hc);
+
+        CollectableLifeCollider lc = new CollectableLifeCollider();
+        addGameObject(lc);
+        
+        CollectableWeaponBoostCollider wbc = new CollectableWeaponBoostCollider();
+        addGameObject(wbc);
+        
+        CollectableHealthBoostCollider hbc = new CollectableHealthBoostCollider();
+        addGameObject(hbc);
+        
+        CollectablePermanentWeaponBoostCollider pwbc = new CollectablePermanentWeaponBoostCollider();
+        addGameObject(pwbc);
+        
+        PlatformCollider pc = new PlatformCollider();
+        addGameObject(pc);
+
+        this.collectableBuilder = new CollectableArrowBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));
+
+        this.collectableBuilder = new CollectableShieldBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(100, 300), gameData.getAttackableCharacter()));
+
+        this.collectableBuilder = new CollectableHealthBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(250, 300), gameData.getAttackableCharacter()));
+
+        this.collectableBuilder = new CollectableLifeBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(50, 300), gameData.getAttackableCharacter()));
+        
+        this.collectableBuilder = new CollectableWeaponBoostBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(10, 300), gameData.getAttackableCharacter()));
+        
+        this.collectableBuilder = new CollectableHealthBoostBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(30, 300), gameData.getAttackableCharacter()));
+        
+        this.collectableBuilder = new CollectablePermanentWeaponBoostBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(70, 300), gameData.getAttackableCharacter()));
+
+        hudBuilder = new ShieldHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 30), gameData.getAttackableCharacter()));
+
+        hudBuilder = new ArrowHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 70), archerWeapon));
+
+        hudBuilder = new HeartHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 10), gameData.getAttackableCharacter()));
+        
+        hudBuilder = new WeaponBoostStatusBarBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(650, 10), gameData.getAttackableCharacter()));
+        
+        hudBuilder = new HealthBoostStatusBarBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(650, 30), gameData.getAttackableCharacter()));
+
+        hudBuilder = new LifeHudBuilder(gameData);
+        addGameObject(hudProvider.build(hudBuilder, new Point(10, 50), gameData.getDepletableCharacter()));
+
+        gameData.getAttackableCharacter().setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+        gameData.getAttackableCharacter().setShieldDelta(Delta.create(-1.0, ModType.FIXED));
+        gameData.getDepletableCharacter().setCountDelta(Delta.create(-1.0, ModType.FIXED));
+
+        this.platformBuilder = new PitPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(450, 328), 100, 150));
+        
 //        objects = new ArrayList<>();
 //
 //        g1 = new StationaryGhost(gameData, new Point(200, 400));
@@ -146,7 +211,7 @@ public class TestCollidersPanel extends GamePanelBase {
 //        fpa1.setDimensions(new Dimension(200, 150));
 //        platforms.add(flatPlatform1);
 //
-//        arrow = new Arrows(gameData, new Point(20, 388));
+//        arrow = new CollectableArrows(gameData, new Point(20, 388));
 //        CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
 ////        
 ////        flatPlatform = new FlatPlatform(gameData, new Point(0, 412), 300, 150);
@@ -169,7 +234,7 @@ public class TestCollidersPanel extends GamePanelBase {
 ////        fpa1.setDimensions(new Dimension(200, 150));
 ////        platforms.add(flatPlatform1);
 ////
-////        arrow = new Arrows(gameData, new Point(20, 388));
+////        arrow = new CollectableArrows(gameData, new Point(20, 388));
 ////        CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
 //////        
 //////        health = new Health(gameData, new Point(80, 390));
@@ -249,7 +314,7 @@ public class TestCollidersPanel extends GamePanelBase {
 ////
 ////        //---------------------------------------------//
 ////        //-------------------------------------//
-////        ArrowCollectablesCollider cd = new ArrowCollectablesCollider();
+////        CollectableArrowCollider cd = new CollectableArrowCollider();
 ////
 ////        collisionDetector3 = new CollisionDetector(this.gameData);
 ////
@@ -264,156 +329,4 @@ public class TestCollidersPanel extends GamePanelBase {
 ////        ar.setShieldDelta(Delta.create(-1.0, ModType.FIXED)); //Purposely started wounded to demonstrate collectable items.
 ////        ar.setArrowDelta(Delta.create(-1.0, ModType.FIXED));
     }
-//
-//    @Override
-//    public void keyTyped(KeyEvent e) {
-//
-//    }
-//
-//    @Override
-//    public void keyPressed(KeyEvent e) {
-//        if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
-//            panelThread.interrupt();
-//            undoGraphics();
-//            for (GameObject go : objects) {
-//                collisionDetector.removeCollidable((Collidable) go);
-//            }
-//            for (Platform p : platforms) {
-//                collisionDetector2.removeCollidable((Collidable) p);
-//            }
-//            for (GameObject p : objects) {
-//                collisionDetector3.removeCollidable((Collidable) p);
-//            }
-//            panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
-//            return;
-//        }
-//
-//        int k = e.getKeyCode();
-//        if (!check(k)) {
-//            addKey(k);
-//        }
-//
-//        //g1.processKeyInput(e);
-//        switch (e.getKeyCode()) {
-//            case KeyEvent.VK_A:
-//                ar.setLeft(true);
-//                ar.removeAnimator = ar.animator;
-//                ar.animator = ar.animators.get(AnimationState.WALKING_LEFT);
-//                ar.notifyAnimationChangeListeners();
-//                break;
-//            case KeyEvent.VK_D:
-//                ar.setRight(true);
-//                ar.removeAnimator = ar.animator;
-//                ar.animator = ar.animators.get(AnimationState.WALKING_RIGHT);
-//                ar.notifyAnimationChangeListeners();
-//                break;
-//            case KeyEvent.VK_SPACE:
-//                ar.setJump(true);
-//                break;
-//        }
-//    }
-//
-//    @Override
-//    public void keyReleased(KeyEvent e) {
-//
-//        int k = e.getKeyCode();
-//        if (check(k)) {
-//            removeKey(k);
-//        }
-//        //g1.processKeyInput(e);
-//
-//        ar.removeAnimator = ar.animator;
-//        switch (e.getKeyCode()) {
-//            case KeyEvent.VK_A:
-//                ar.setLeft(false);
-//                ar.animator = ar.animators.get(AnimationState.DEFAULT_LEFT);
-//                break;
-//            case KeyEvent.VK_D:
-//                ar.setRight(false);
-//                ar.animator = ar.animators.get(AnimationState.DEFAULT_RIGHT);
-//                break;
-//            case KeyEvent.VK_SPACE:
-//                ar.setJump(false);
-//                //ar.animator = ar.animators.get(AnimationState.DEFAULT_JUMP);
-//                break;
-//        }
-//        ar.notifyAnimationChangeListeners();
-//    }
-//
-//    private synchronized boolean check(Integer e) {
-//        return this.gameData.getHeldKeys().contains(e);
-//    }
-//
-//    private synchronized void addKey(Integer e) {
-//        this.gameData.getHeldKeys().add(e);
-//    }
-//
-//    private synchronized void removeKey(Integer e) {
-//        this.gameData.getHeldKeys().remove(e);
-//    }
-//
-//    private void SwitchArcherListener(ActionEvent event) {
-//        Animatable obj = (Animatable) event.getSource();
-//        this.layeredPane.remove(obj.getRemoveAnimator());
-//        this.layeredPane.add(obj.getAnimator());
-//    }
-//
-//    protected CharacterAnimationBase createNewArrow(GameData gd, Point p, DoubleVector speed, String image) {
-//        characterArrow = new Arrow(gd, (Point) (p.clone()), speed);
-//        CharacterAnimationBase ga1;
-//        ga1 = new ArcherAnimationStanding(characterArrow, gd.getVisibleDimensions(), image);
-//        arrow.setAnimator(ga1);
-//        return ga1;
-//    }
-//
-//    @Override
-//    public void mousePressed(MouseEvent e) {
-//        super.mousePressed(e);
-//        ar.setMousePressed(true);
-//        ar.removeAnimator = ar.animator;
-//
-//        if (e.getX() > ar.PositionVector().x) {
-//            ar.animator = ar.animators.get(AnimationState.SHOOTING_RIGHT);
-//        } else {
-//            ar.animator = ar.animators.get(AnimationState.SHOOTING_LEFT);
-//        }
-//        ar.notifyAnimationChangeListeners();
-//    }
-//
-//    @Override
-//    public void mouseReleased(MouseEvent e) {
-//        ar.removeAnimator = ar.animator;
-//        if (ar.animator == ar.animators.get(AnimationState.SHOOTING_RIGHT)) {
-//            ar.animator = ar.animators.get(AnimationState.DEFAULT_RIGHT);
-//        } else if (ar.animator == ar.animators.get(AnimationState.SHOOTING_LEFT)) {
-//            ar.animator = ar.animators.get(AnimationState.DEFAULT_LEFT);
-//        }
-//        ar.notifyAnimationChangeListeners();
-//        if (ar.canShootArrow()) {
-//            CharacterAnimationBase arrow = null;
-//            DoubleVector velocity = VectorMath.getVelocityVector(new DoubleVector(e.getX() - ar.PositionVector().getX(), e.getY() - ar.PositionVector().getY()), 15 + ar.getMouseCharge() * 3);
-//            //velocity = new DoubleVector(velocity.x + ar.getVelocityVector().x, velocity.y + ar.getVelocityVector().y); //Player Momentum transfers to arrow
-//            if (ar.animator == ar.animators.get(AnimationState.DEFAULT_RIGHT)) {
-//                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Right.png");
-//            } else {
-//                arrow = this.createNewArrow(gameData, ar.PositionVector(), velocity, "assets/Archer/Arrow_Shot_Left.png");
-//            }
-//            this.layeredPane.add(arrow, layeredPane.highestLayer());
-//
-//            ar.shootArrow();
-//            ar.setMousePressed(false);
-//
-//            ArrowCollider ad = new ArrowCollider();
-//
-//            collisionDetector4 = new CollisionDetector(this.gameData);
-//
-//            collisionDetector4.addCollisionListener(ad);
-//
-//            collisionDetector4.registerCollidable(g1);
-//            collisionDetector4.registerCollidable(g2);
-//            collisionDetector4.registerCollidable(characterArrow);
-//        } else {
-//            //Something? Idk
-//        }
-//    }
 }

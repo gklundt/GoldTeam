@@ -22,11 +22,13 @@ public class CollisionDetector implements CollisionRegister {
 
     private final ArrayList<CollisionListener> collisionListeners;
     private final ArrayList<Collidable> collidableObjects;
+    private final ArrayList<Collidable> copyCollidableObjects;
     private final GameEngine gameEngine;
     private boolean workingFlag;
 
     public CollisionDetector(GameEngine gameData) {
         this.collidableObjects = new ArrayList<>();
+        this.copyCollidableObjects = new ArrayList<>();
         this.collisionListeners = new ArrayList<>();
         this.gameEngine = gameData;
         this.gameEngine.addCollisionTimer((l) -> this.CheckCollisions());
@@ -66,6 +68,7 @@ public class CollisionDetector implements CollisionRegister {
         //System.out.println(String.format("%1$s collided with %2$s", a.getClass().getName(), b.getClass().getName()));
         collisionListeners.forEach((listener) -> {
             listener.CollisionDetected(a, b);
+            
         });
     }
 

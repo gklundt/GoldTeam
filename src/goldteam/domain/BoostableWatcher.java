@@ -9,10 +9,6 @@ package goldteam.domain;
  *
  * @author faaez
  */
-public interface CollectableItem {
+public interface BoostableWatcher extends Watcher<Boostable>{
     
-    /**
-     * Seems to create a new polygon ... not sure of the intended usage
-     */
-    public void undoCollider();
 }
