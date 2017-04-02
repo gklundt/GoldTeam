@@ -10,6 +10,8 @@ import goldteam.animators.TestHudAnimation;
 import goldteam.animators.TestMapAnimator;
 import goldteam.builders.FlatPlatformBuilder;
 import goldteam.builders.GhostEnemyBuilder;
+import goldteam.builders.HorizontalPlatformBuilder;
+import goldteam.builders.MapDoorsBuilder;
 import goldteam.builders.StationaryGhostBuilder;
 import goldteam.characters.BackgroundPanelGhost;
 import goldteam.characters.Ghost;
@@ -85,7 +87,17 @@ public class TestMapsPanel extends GamePanelBase {
 
         this.platformBuilder = new FlatPlatformBuilder(gameData);
         addGameObject(this.platformProvider.build(platformBuilder, new Point(400, 350), 100, 150));
+        
+        this.platformBuilder = new HorizontalPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(300, 380), 10, 60));
+        
+        this.platformBuilder = new HorizontalPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(250, 430), 10, 60));
 
+        this.platformBuilder = new MapDoorsBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(770, 440), 60, 10));
+        
+        
         //Platforms
 //        flatPlatform = new FlatPlatform(gameData, new Point(0, 500),300,150);
 //        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getMapDimensions(), "assets/platformTile.jpg");
