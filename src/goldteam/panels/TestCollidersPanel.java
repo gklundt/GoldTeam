@@ -39,6 +39,7 @@ import goldteam.builders.CollectableLifeBuilder;
 import goldteam.builders.CollectablePermanentWeaponBoostBuilder;
 import goldteam.builders.WeaponBoostStatusBarBuilder;
 import goldteam.builders.CollectableWeaponBoostBuilder;
+import goldteam.builders.FlatPlatformBuilder;
 import goldteam.builders.HealthBoostStatusBarBuilder;
 import goldteam.builders.LifeHudBuilder;
 import goldteam.builders.PitPlatformBuilder;
@@ -117,26 +118,26 @@ public class TestCollidersPanel extends GamePanelBase {
         PlatformCollider pc = new PlatformCollider();
         addGameObject(pc);
 
-        this.collectableBuilder = new CollectableArrowBuilder(gameData);
+       /* this.collectableBuilder = new CollectableArrowBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));
 
         this.collectableBuilder = new CollectableShieldBuilder(gameData);
-        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(100, 300), gameData.getAttackableCharacter()));
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(100, 300), gameData.getAttackableCharacter()));*/
 
         this.collectableBuilder = new CollectableHealthBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(250, 300), gameData.getAttackableCharacter()));
 
-        this.collectableBuilder = new CollectableLifeBuilder(gameData);
-        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(50, 300), gameData.getAttackableCharacter()));
-        
         this.collectableBuilder = new CollectableWeaponBoostBuilder(gameData);
-        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(10, 300), gameData.getAttackableCharacter()));
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));
+        
+        this.collectableBuilder = new CollectableLifeBuilder(gameData);
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(150, 300), gameData.getAttackableCharacter()));
         
         this.collectableBuilder = new CollectableHealthBoostBuilder(gameData);
-        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(30, 300), gameData.getAttackableCharacter()));
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(100, 300), gameData.getAttackableCharacter()));
         
         this.collectableBuilder = new CollectablePermanentWeaponBoostBuilder(gameData);
-        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(70, 300), gameData.getAttackableCharacter()));
+        addGameObject(this.collectableProvider.build(collectableBuilder, new Point(50, 300), gameData.getAttackableCharacter()));
 
         hudBuilder = new ShieldHudBuilder(gameData);
         addGameObject(hudProvider.build(hudBuilder, new Point(10, 30), gameData.getAttackableCharacter()));
@@ -160,8 +161,17 @@ public class TestCollidersPanel extends GamePanelBase {
         gameData.getAttackableCharacter().setShieldDelta(Delta.create(-1.0, ModType.FIXED));
         gameData.getDepletableCharacter().setCountDelta(Delta.create(-1.0, ModType.FIXED));
 
+        this.platformBuilder = new FlatPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(0, 328), 100, 150));
+        
+        this.platformBuilder = new FlatPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(200, 328), 100, 150));
+        
         this.platformBuilder = new PitPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(450, 328), 100, 150));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(450, 328), 100, 250));
+        
+        this.platformBuilder = new FlatPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(600, 328), 100, 150));
         
 //        objects = new ArrayList<>();
 //

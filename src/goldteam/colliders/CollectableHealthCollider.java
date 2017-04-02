@@ -5,6 +5,7 @@
  */
 package goldteam.colliders;
 
+import goldteam.characters.ArcherMan;
 import goldteam.collectables.CollectableHealth;
 import goldteam.domain.Attackable;
 import goldteam.domain.CollectableItem;
@@ -23,7 +24,7 @@ public class CollectableHealthCollider implements CollisionListener {
     private Collidable movable;
 
     public void DoCollision() {
-        Attackable am = (Attackable) movable;
+        ArcherMan am = (ArcherMan) movable;
 
         CollectableItem item = (CollectableItem) collectableItem;
 
@@ -38,12 +39,12 @@ public class CollectableHealthCollider implements CollisionListener {
 
     @Override
     public void CollisionDetected(Collidable a, Collidable b) {
-        if ((a instanceof CollectableHealth) && (b instanceof Attackable)) {
+        if ((a instanceof CollectableHealth) && (b instanceof ArcherMan)) {
             this.collectableItem = a;
             this.movable = b;
             DoCollision();
 
-        } else if ((b instanceof CollectableHealth) && (a instanceof Attackable)) {
+        } else if ((b instanceof CollectableHealth) && (a instanceof ArcherMan)) {
             this.collectableItem = b;
             this.movable = a;
             DoCollision();

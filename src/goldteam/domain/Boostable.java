@@ -29,10 +29,10 @@ public interface Boostable {
      * Anything that needs to be notified of health boost or shield boost
      * @param listener
      */
-    public void addAttackableListener(ActionListener listener);
+    public void addBoostableListener(ActionListener listener);
 
     /**
      * Notifies listeners of changes to health boost and/or shield boost events
      */
-    public void notifyAttackableListeners();
+    public void notifyBoostableListeners();
 }

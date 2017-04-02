@@ -67,7 +67,7 @@ public class BoostStatusBar extends GameObject implements Animatable, BoostableW
     public void setWatcher(Boostable target) {
         this.watchedItem = target;
         this.draw = this.watchedItem.isBoostableWeapon();
-        this.watchedItem.addAttackableListener(l -> Update());
+        this.watchedItem.addBoostableListener(l -> Update());
     }
 
     @Override

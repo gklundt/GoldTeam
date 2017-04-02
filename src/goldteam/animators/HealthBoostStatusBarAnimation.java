@@ -17,10 +17,10 @@ import java.awt.geom.AffineTransform;
  *
  * @author faaez
  */
-public class HealthBoostStatusBarAnimation extends BoostStatusBarAnimationBase{
-    
+public class HealthBoostStatusBarAnimation extends BoostStatusBarAnimationBase {
+
     private BoostableWatcher gameObj;
-    
+
     public HealthBoostStatusBarAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         super.loadImage(assetFile, new AffineTransform(.25, 0, 0, .25, 0, 0));
@@ -29,16 +29,20 @@ public class HealthBoostStatusBarAnimation extends BoostStatusBarAnimationBase{
 
     @Override
     protected void update() {
-        
-        if(this.gameObj.getWatcher().isBoostableHealth()){
-            super.draw = true;
-            super.setProgress(Delta.create(-1.0, ModType.FIXED));
-        }
-        
-        if(super.getProgress() <= 0){
-            super.draw = false;
-            this.gameObj.getWatcher().setBoostableHealth(false);
-            super.resetProgress();
+
+        try {
+            if (this.gameObj.getWatcher().isBoostableHealth()) {
+                super.draw = true;
+                super.setProgress(Delta.create(-1.0, ModType.FIXED));
+            }
+
+            if (super.getProgress() <= 0) {
+                super.draw = false;
+                this.gameObj.getWatcher().setBoostableHealth(false);
+                super.resetProgress();
+            }
+        } catch (Exception e) {
         }
     }
+
 }

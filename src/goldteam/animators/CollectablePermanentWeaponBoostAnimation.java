@@ -18,6 +18,6 @@ public class CollectablePermanentWeaponBoostAnimation extends CollectableAnimati
     
     public CollectablePermanentWeaponBoostAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
-        super.loadImage(imgFilename, new AffineTransform(.25, 0, 0, .25, 0, 0));
+        super.loadImage(imgFilename, new AffineTransform(.05, 0, 0, .05, 0, 0));
     }
 }

@@ -18,10 +18,10 @@ import java.awt.geom.AffineTransform;
  *
  * @author faaez
  */
-public class WeaponBoostStatusBarAnimation extends BoostStatusBarAnimationBase{
+public class WeaponBoostStatusBarAnimation extends BoostStatusBarAnimationBase {
 
     private BoostableWatcher gameObj;
-    
+
     public WeaponBoostStatusBarAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         super.loadImage(assetFile, new AffineTransform(0.5, 0, 0, 0.5, 0, 0));
@@ -30,17 +30,20 @@ public class WeaponBoostStatusBarAnimation extends BoostStatusBarAnimationBase{
 
     @Override
     protected void update() {
-        
-        if(this.gameObj.getWatcher().isBoostableWeapon()){
-            super.draw = true;
-            super.setProgress(Delta.create(-1.0, ModType.FIXED));
-        }
-        
-        if(super.getProgress() <= 0){
-            super.draw = false;
-            this.gameObj.getWatcher().setBoostableWeapon(false);
-            super.resetProgress();
+        try {
+            if (this.gameObj.getWatcher().isBoostableWeapon()) {
+                super.draw = true;
+                super.setProgress(Delta.create(-1.0, ModType.FIXED));
+            }
+
+            if (super.getProgress() <= 0) {
+                super.draw = false;
+                this.gameObj.getWatcher().setBoostableWeapon(false);
+                super.resetProgress();
+            }
+        } catch (Exception e) {
+
         }
     }
-    
+
 }
