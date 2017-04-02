@@ -32,6 +32,7 @@ public class CollectableLifeCollider implements CollisionListener {
             if (am.getCount() < 10) {
                 am.setCountDelta(Delta.create(1.0, ModType.FIXED));
                 item.undoCollider();
+                ((CollectableLife) item).remove();
             }
         }
     }

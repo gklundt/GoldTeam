@@ -33,6 +33,7 @@ public class CollectableArrowCollider implements CollisionListener {
             if(ar.getCount()< 101){
                 ar.setCountDelta(Delta.create(200.0, ModType.FIXED));
                 item.undoCollider();
+                ((CollectableArrows) item).remove();
             }
         } 
     }

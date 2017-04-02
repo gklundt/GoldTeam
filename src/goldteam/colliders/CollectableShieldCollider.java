@@ -36,6 +36,7 @@ public class CollectableShieldCollider implements CollisionListener {
             if (am.getShieldValue() < 10) {
                 am.setShieldDelta(Delta.create(1.0, ModType.FIXED));
                 item.undoCollider();
+                ((CollectableShields) item).remove();
             }
         }
     }

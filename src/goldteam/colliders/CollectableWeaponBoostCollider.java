@@ -29,6 +29,7 @@ public class CollectableWeaponBoostCollider implements CollisionListener{
             if (am.isBoostableWeapon() == false) {
                 am.setBoostableWeapon(true);
                 item.undoCollider();
+                ((CollectableWeaponBoost) item).remove();
             }
         }
     }

@@ -31,6 +31,7 @@ public class CollectableHealthCollider implements CollisionListener {
             if (am.getHealthValue() < 10) {
                 am.setHealthDelta(Delta.create(1.0, ModType.FIXED));
                 item.undoCollider();
+                ((CollectableHealth) item).remove();
             }
         }
     }

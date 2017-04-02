@@ -29,6 +29,7 @@ public class CollectablePermanentWeaponBoostCollider implements CollisionListene
             if (am.isPermanentBoostableWeapon() == false) {
                 am.setPermanentBoostableWeapon(true);
                 item.undoCollider();
+                ((CollectablePermanentWeaponBoost) item).remove();
             }
         }
     }

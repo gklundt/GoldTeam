@@ -10,8 +10,9 @@ import goldteam.domain.CollisionListener;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.CollisionRegister;
 import goldteam.domain.GameEngine;
-import goldteam.domain.GameObject;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 
 /**
  *
@@ -35,35 +36,32 @@ public class CollisionDetector implements CollisionRegister {
     }
 
     private synchronized void CheckCollisions() {
-        
-        for(Collidable a : collidableObjects){
-            GameObject go = (GameObject) a;
-            if(go.isRemoveMe()){
-                copyCollidableObjects.add(a);
-            }
-        }
-        
-        for(Collidable a : copyCollidableObjects){
-            GameObject go = (GameObject) a;
-            if(go.isRemoveMe()){
-                collidableObjects.remove(a);
-                go.remove();
+
+        for (int i = 0; i < collidableObjects.size(); i++) {
+            try {
+                for (int j = i + 1; j < collidableObjects.size(); j++) {
+                    Collidable a = collidableObjects.get(i);
+                    Collidable b = collidableObjects.get(j);
+                    if (a.getPolygon().getBounds2D().intersects(b.getPolygon().getBounds2D())) {
+                        this.notifyColliders(a, b);
+                    }
+                }
+            } catch (Exception e) {
+                break;
             }
         }
 
         // do logic to find colliding objects 
         // call collision listener event on all listeners
-        for (Collidable a : collidableObjects) {
-            for (Collidable b : collidableObjects) {
-                if (!a.equals(b)) {
-                    if (a.getPolygon() != null && b.getPolygon() != null) {
-                        if (a.getPolygon().getBounds2D().intersects(b.getPolygon().getBounds2D())) {
-                            this.notifyColliders(a, b);
-                        }
-                    }
-                }
-            }
-        }
+//        for (Collidable a : collidableObjects) {
+//            for (Collidable b : collidableObjects) {
+//                if (!a.equals(b)) {
+//                    if (a.getPolygon().getBounds2D().intersects(b.getPolygon().getBounds2D())) {
+//                        this.notifyColliders(a, b);
+//                    }
+//                }
+//            }
+//        }
     }
 
     private synchronized void notifyColliders(Collidable a, Collidable b) {

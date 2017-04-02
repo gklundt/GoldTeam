@@ -30,6 +30,7 @@ public class CollectableHealthBoostCollider implements CollisionListener {
             if (am.isBoostableHealth()== false) {
                 am.setBoostableHealth(true);
                 item.undoCollider();
+                ((CollectableHealthBoost) item).remove();
             }
         }
     }
