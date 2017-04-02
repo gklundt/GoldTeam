@@ -31,7 +31,7 @@ public class CollectablePermanentWeaponBoostBuilder extends CollectableBuilderBa
 
     @Override
     protected void addAnimations() {
-        CollectablePermanentWeaponBoostAnimation wba = new CollectablePermanentWeaponBoostAnimation(this.boost, gameData.getMapDimensions(), "assets/shield.png");
+        CollectablePermanentWeaponBoostAnimation wba = new CollectablePermanentWeaponBoostAnimation(this.boost, gameData.getMapDimensions(), "assets/permBoost.png");
         this.boost.addAnimator(AnimationState.DEFAULT, wba);
     }
 }

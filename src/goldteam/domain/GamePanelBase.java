@@ -237,8 +237,9 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         addGameObject(gameObjectProvider.build(archerBuilder, spawnPoint));
         this.archerWeapon = new ArcherBow(gameData, gameData.getMovableCharacter().PositionVector());
         addGameObject(archerWeapon);
-        
+
         this.archerBuilder.setArcherBow(archerWeapon);
+        switchWeapon((Boostable) this.gameData.getMovableCharacter());
     }
 
     private void addGameListener() {
@@ -285,6 +286,18 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             this.archerWeapon.setCountDelta(Delta.create(-1d, ModType.FIXED));
         }
     }
+
+    private void switchWeapon(Boostable boostable) {
+        if (boostable.isPermanentBoostableWeapon()) {
+            shootingStrategy = new ShootBuff();
+        } else {
+            if (boostable.isBoostableWeapon()) {
+                shootingStrategy = new ShootBuff();
+            } else {
+                shootingStrategy = new ShootDefault();
+            }
+        }
+    }
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Add and Remove Game Objects">
@@ -307,6 +320,11 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 
             this.layeredPane.add(animationBase, layer);
             animatable.addAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
+        }
+
+        if (gameObject instanceof Boostable) {
+            Boostable boostable = (Boostable) gameObject;
+            boostable.addBoostableListener(l -> switchWeapon(boostable));
         }
 
         if (gameObject instanceof Collidable) {
