@@ -31,7 +31,7 @@ public class HealthBoostStatusBarBuilder extends HudBuilderBase{
 
     @Override
     protected void addAnimations() {
-        HealthBoostStatusBarAnimation csba = new HealthBoostStatusBarAnimation(this.bar, gameData.getMapDimensions(),"assets/Heart.png");
+        HealthBoostStatusBarAnimation csba = new HealthBoostStatusBarAnimation(this.bar, gameData.getMapDimensions(),"assets/heart.png");
         this.bar.addAnimator(AnimationState.DEFAULT, csba);
     }
 

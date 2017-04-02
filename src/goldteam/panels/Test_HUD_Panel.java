@@ -29,7 +29,7 @@ public class Test_HUD_Panel extends GamePanelBase {
         Random r = new Random();
 
         gameObjectBuilder = new HudGhostEnemyBuilder(gameData);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 5; i++) {
             addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(r.nextInt(800), r.nextInt(600))));
         }
         
