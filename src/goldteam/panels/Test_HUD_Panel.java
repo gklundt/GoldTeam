@@ -6,10 +6,12 @@ import goldteam.colliders.EnemyArrowCollider;
 import goldteam.gamedata.GameData;
 import goldteam.builders.ArrowChargeHudBuilder;
 import goldteam.builders.ArrowHudBuilder;
+import goldteam.builders.FlyerEnemyBuilder;
 import goldteam.builders.HeartHudBuilder;
 import goldteam.builders.HudGhostEnemyBuilder;
 import goldteam.builders.LifeHudBuilder;
 import goldteam.builders.ShieldHudBuilder;
+import goldteam.builders.WalkerEnemyBuilder;
 import java.awt.Point;
 import java.util.Random;
 
@@ -28,7 +30,12 @@ public class Test_HUD_Panel extends GamePanelBase {
 
         Random r = new Random();
 
-        gameObjectBuilder = new HudGhostEnemyBuilder(gameData);
+        gameObjectBuilder = new WalkerEnemyBuilder(gameData);
+        for (int i = 0; i < 2; i++) {
+            addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(r.nextInt(800), r.nextInt(600))));
+        }
+        
+        gameObjectBuilder = new FlyerEnemyBuilder(gameData);
         for (int i = 0; i < 5; i++) {
             addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(r.nextInt(800), r.nextInt(600))));
         }
