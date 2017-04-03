@@ -6,6 +6,9 @@
 package goldteam.builders;
 
 import goldteam.animators.ArcherAnimationDrawing;
+import goldteam.animators.ArcherAnimationDying;
+import goldteam.animators.ArcherAnimationHurting;
+import goldteam.animators.ArcherAnimationJumping;
 import goldteam.animators.ArcherAnimationStanding;
 import goldteam.animators.ArcherAnimationWalking;
 import goldteam.characters.ArcherBow;
@@ -44,12 +47,24 @@ public class ArcherBuilder extends CharacterBuilderBase {
         CharacterAnimationBase archerWalkingLeft = new ArcherAnimationWalking(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png");
         CharacterAnimationBase archerDrawingRight = new ArcherAnimationDrawing(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png");
         CharacterAnimationBase archerDrawingLeft = new ArcherAnimationDrawing(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png");
+        CharacterAnimationBase archerHurtLeft = new ArcherAnimationHurting(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Hurt_Left.png");
+        CharacterAnimationBase archerHurtRight = new ArcherAnimationHurting(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Hurt_Right.png");
+        CharacterAnimationBase archerJumpRight = new ArcherAnimationJumping(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Jump_Right.png");
+        CharacterAnimationBase archerJumpLeft = new ArcherAnimationJumping(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Jump_Left.png");
+        CharacterAnimationBase archerDyingRight = new ArcherAnimationDying(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Death_Right.png");
+        CharacterAnimationBase archerDyingLeft = new ArcherAnimationDying(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Death_Left.png");
         this.archer.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
         this.archer.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
         this.archer.addAnimator(AnimationState.WALKING_RIGHT, archerWalkingRight);
         this.archer.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
         this.archer.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
         this.archer.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
+        this.archer.addAnimator(AnimationState.HURT_RIGHT, archerHurtRight);
+        this.archer.addAnimator(AnimationState.HURT_LEFT, archerHurtLeft);
+        this.archer.addAnimator(AnimationState.JUMPING_RIGHT, archerJumpRight);
+        this.archer.addAnimator(AnimationState.JUMPING_LEFT, archerJumpLeft);
+        this.archer.addAnimator(AnimationState.DYING_RIGHT, archerDyingRight);
+        this.archer.addAnimator(AnimationState.DYING_LEFT, archerDyingLeft);
     }
     
     public void setArcherBow(ArcherBow archerBow){
