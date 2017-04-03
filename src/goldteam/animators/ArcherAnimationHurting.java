@@ -5,11 +5,11 @@ import goldteam.domain.GameObject;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 
-public class ArcherAnimationStanding extends CharacterAnimationBase {
+public class ArcherAnimationHurting extends CharacterAnimationBase {
 
-    public ArcherAnimationStanding(GameObject gameObject, Dimension preferredSize, String assetFile) {
+    public ArcherAnimationHurting(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
-        super.loadImage(imgFilename, 1, 16, new AffineTransform(1, 0, 0, 1, 0, 0));
+        super.loadImage(imgFilename, 1, 8, new AffineTransform(1, 0, 0, 1, 0, 0));
     }
 
     @Override
