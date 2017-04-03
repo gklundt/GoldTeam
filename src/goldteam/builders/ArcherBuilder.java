@@ -45,8 +45,8 @@ public class ArcherBuilder extends CharacterBuilderBase {
         CharacterAnimationBase archerDefaultLeft = new ArcherAnimationStanding(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png");
         CharacterAnimationBase archerWalkingRight = new ArcherAnimationWalking(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png");
         CharacterAnimationBase archerWalkingLeft = new ArcherAnimationWalking(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png");
-        CharacterAnimationBase archerDrawingRight = new ArcherAnimationDrawing(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png");
-        CharacterAnimationBase archerDrawingLeft = new ArcherAnimationDrawing(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png");
+        CharacterAnimationBase archerDrawingRight = new ArcherAnimationDrawing(gameObject, gameData, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png");
+        CharacterAnimationBase archerDrawingLeft = new ArcherAnimationDrawing(gameObject, gameData, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png");
         CharacterAnimationBase archerHurtLeft = new ArcherAnimationHurting(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Hurt_Left.png");
         CharacterAnimationBase archerHurtRight = new ArcherAnimationHurting(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Hurt_Right.png");
         CharacterAnimationBase archerJumpRight = new ArcherAnimationJumping(gameObject, gameData.getVisibleDimensions(), "assets/Archer/Archer_Jump_Right.png");
