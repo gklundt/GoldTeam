@@ -40,6 +40,7 @@ public class TestHudItem extends GameObject implements AttackableWatcher, Animat
     }
 
     @Override
+<<<<<<< HEAD
     protected void ClickHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -50,6 +51,8 @@ public class TestHudItem extends GameObject implements AttackableWatcher, Animat
     }
 
     @Override
+=======
+>>>>>>> dev
     protected void UpdateEffectHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -72,11 +75,14 @@ public class TestHudItem extends GameObject implements AttackableWatcher, Animat
     }
 
     @Override
+<<<<<<< HEAD
     public void setAnimator(AnimationBase animator) {
         this.animator = animator;
     }
 
     @Override
+=======
+>>>>>>> dev
     public AnimationBase getAnimator() {
         return this.animator;
     }
@@ -92,18 +98,33 @@ public class TestHudItem extends GameObject implements AttackableWatcher, Animat
     }
 
     @Override
+<<<<<<< HEAD
     public void notifyAnimationChangeListeners() {
+=======
+    public void removeAnimationChangeListener(ActionListener listener) {
+>>>>>>> dev
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
+<<<<<<< HEAD
     public void addAnimator(AnimationState state, AnimationBase animator) {
+=======
+    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
+>>>>>>> dev
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
+<<<<<<< HEAD
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+=======
+    public void addAnimator(AnimationState state, AnimationBase animator) {
+        this.animator = animator;
+    }
+
+>>>>>>> dev
     
 }

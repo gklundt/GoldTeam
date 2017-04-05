@@ -17,5 +17,13 @@ public enum AnimationState {
     FIGHTING_RIGHT,
     SHOOTING_LEFT,
     SHOOTING_RIGHT,
+<<<<<<< HEAD
     HURT
+=======
+    HURT, 
+    HURT_RIGHT, 
+    HURT_LEFT, 
+    DYING_RIGHT,
+    DYING_LEFT
+>>>>>>> dev
 }

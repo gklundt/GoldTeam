@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -46,4 +47,28 @@ public class DeathStageTestPanel extends GamePanelBase {
      * purposes By default Escape takes you back to the game options panel
      *
      */
+=======
+package goldteam.panels;
+
+import goldteam.domain.GamePanelBase;
+import goldteam.domain.PanelManager;
+import goldteam.gamedata.GameData;
+import goldteam.builders.DeathGameStageBuilder;
+import java.awt.Point;
+
+public class DeathStageTestPanel extends GamePanelBase {
+
+    public DeathStageTestPanel(PanelManager panelManager) {
+        super(panelManager, new GameData());
+    }
+
+    @Override
+    protected void addGameObjects() {
+
+        gameObjectBuilder = new DeathGameStageBuilder(this.gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
+
+        super.addGameObjects();
+    }
+>>>>>>> dev
 }

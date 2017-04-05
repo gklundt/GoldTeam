@@ -8,17 +8,27 @@ package goldteam.hud;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
+<<<<<<< HEAD
 import goldteam.domain.Attackable;
 import goldteam.domain.AttackableWatcher;
+=======
+import goldteam.domain.Depletable;
+import goldteam.domain.DepletableWatcher;
+>>>>>>> dev
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+>>>>>>> dev
 
 /**
  *
  * @author Caleb Dunham
  */
+<<<<<<< HEAD
 public class LifeHudItem extends GameObject implements AttackableWatcher, Animatable {
     
     public int count;
@@ -27,23 +37,51 @@ public class LifeHudItem extends GameObject implements AttackableWatcher, Animat
     
     public LifeHudItem(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
+=======
+public class LifeHudItem extends GameObject implements DepletableWatcher, Animatable {
+    
+    public int count;
+    private Depletable watchedItem;
+    private AnimationBase animator;
+        private final ArrayList<ActionListener> animationChangeListeners;
+
+    public LifeHudItem(GameEngine gamedata, Point initialPoint) {
+        super(gamedata, initialPoint);
+                this.animationChangeListeners = new ArrayList<>();
+
+>>>>>>> dev
     }
     
     @Override
     public void Update() {
+<<<<<<< HEAD
         this.count = this.watchedItem.getLifeValue();
     }
     
     @Override
     public Attackable getWatcher() {
+=======
+        this.count = this.watchedItem.getCount();
+    }
+    
+    @Override
+    public Depletable getWatcher() {
+>>>>>>> dev
         return this.watchedItem;
     }
 
     @Override
+<<<<<<< HEAD
     public void setWatcher(Attackable target) {
         this.watchedItem=target;
         this.count = this.watchedItem.getLifeValue();
         this.watchedItem.addAttackableListener(l -> Update());
+=======
+    public void setWatcher(Depletable target) {
+        this.watchedItem=target;
+        this.count = this.watchedItem.getCount();
+        this.watchedItem.addDepletableListener(l -> Update());
+>>>>>>> dev
     }
 
     @Override
@@ -52,6 +90,7 @@ public class LifeHudItem extends GameObject implements AttackableWatcher, Animat
     }
 
     @Override
+<<<<<<< HEAD
     protected void ClickHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -62,6 +101,8 @@ public class LifeHudItem extends GameObject implements AttackableWatcher, Animat
     }
 
     @Override
+=======
+>>>>>>> dev
     protected void UpdateEffectHandler() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -71,10 +112,13 @@ public class LifeHudItem extends GameObject implements AttackableWatcher, Animat
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+<<<<<<< HEAD
     @Override
     public void setAnimator(AnimationBase animator) {
         this.animator = animator;
     }
+=======
+>>>>>>> dev
 
     @Override
     public AnimationBase getAnimator() {
@@ -88,6 +132,7 @@ public class LifeHudItem extends GameObject implements AttackableWatcher, Animat
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
+<<<<<<< HEAD
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -105,4 +150,24 @@ public class LifeHudItem extends GameObject implements AttackableWatcher, Animat
     public AnimationBase getRemoveAnimator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+=======
+        this.animationChangeListeners.add(listener);
+    }
+
+    @Override
+    public void removeAnimationChangeListener(ActionListener listener) {
+        this.animationChangeListeners.remove(listener);
+    }
+
+    @Override
+    public void addAnimator(AnimationState state, AnimationBase animator) {
+        this.animator = animator;
+    }
+
+    @Override
+    public void notifyAnimationChangeListeners(AnimationBase animationToRemove) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+>>>>>>> dev
 }

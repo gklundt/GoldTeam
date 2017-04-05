@@ -3,6 +3,10 @@ package goldteam;
 import goldteam.panels.GameEngineTestPanel;
 import goldteam.domain.PanelManager;
 import goldteam.panels.DeathStageTestPanel;
+<<<<<<< HEAD
+=======
+import goldteam.panels.GameLevelTestPanel;
+>>>>>>> dev
 import goldteam.panels.GameOverStageTestPanel;
 import goldteam.panels.TestCharacterPanel;
 import goldteam.panels.TestCollidersPanel;
@@ -51,6 +55,10 @@ class Bootstrap {
         addTestMapsPanel(pm);
         addGameOverStageTestPanel(pm);
         addDeathStageTestPanel(pm);
+<<<<<<< HEAD
+=======
+        addGameLevelTestPanel(pm);
+>>>>>>> dev
 
         /* Register game window */
         GameWindow gw = new GameWindow(gc, pm);
@@ -164,4 +172,12 @@ class Bootstrap {
         pm.addPanel(GamePanelManager.TEST_DEATH_STAGE_PANEL, testPanel);
     }
 
+<<<<<<< HEAD
+=======
+    private void addGameLevelTestPanel(PanelManager pm) {
+        String testPanel = GameLevelTestPanel.class.getName();
+        pm.addPanel(GamePanelManager.GAME_LEVEL_TEST_PANEL, testPanel);
+    }
+
+>>>>>>> dev
 }

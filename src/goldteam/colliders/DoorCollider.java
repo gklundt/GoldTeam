@@ -8,9 +8,18 @@ package goldteam.colliders;
 import goldteam.characters.StationaryGhost;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
+<<<<<<< HEAD
 import goldteam.domain.Delta;
 import goldteam.domain.Depletable;
 import goldteam.domain.ModType;
+=======
+import goldteam.domain.CollisionPlane;
+import goldteam.domain.Delta;
+import goldteam.domain.ModType;
+import goldteam.domain.Movable;
+import goldteam.domain.Platform;
+import javax.xml.stream.events.Characters;
+>>>>>>> dev
 
 /**
  *
@@ -25,15 +34,24 @@ public class DoorCollider implements CollisionListener{
     }
 
     private void DoCollision() {
+<<<<<<< HEAD
         Depletable g1 = (Depletable) collidable;
         g1.setCountDelta(Delta.create(-1.0, ModType.FIXED));
+=======
+        StationaryGhost g1 = (StationaryGhost) collidable;
+        g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+>>>>>>> dev
     }
     
 
     @Override
     public void CollisionDetected(Collidable a, Collidable b) {
         //System.out.println(a + "   " + b);
+<<<<<<< HEAD
         if ((b instanceof Depletable)) {
+=======
+        if ((b instanceof StationaryGhost)) {
+>>>>>>> dev
             this.collidable = b;
             DoCollision();
 

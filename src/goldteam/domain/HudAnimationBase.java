@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +36,8 @@ public abstract class HudAnimationBase extends AnimationBase {
     private final AffineTransform af;
     private JLabel countSpace;
 
+
+    //HUD Items: Hearts, Shields, Lives
     public HudAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super();
         super.setSize(preferredSize);
@@ -82,9 +85,9 @@ public abstract class HudAnimationBase extends AnimationBase {
         for (int i = 0; i < count; ++i) {
             imgArray[i] = img;
         }
-        this.count = numberOfItems;
     }
     
+<<<<<<< HEAD
     protected void loadImage(String imgFileName, int numberOfItems, AffineTransform transform, int dummy_not_used_only_for_distinction) {
 
         ClassLoader cl = getClass().getClassLoader();
@@ -117,6 +120,8 @@ public abstract class HudAnimationBase extends AnimationBase {
         this.count = numberOfItems;
     }
 
+=======
+>>>>>>> dev
     /**
      * Custom painting codes on this JPanel
      */
@@ -125,10 +130,13 @@ public abstract class HudAnimationBase extends AnimationBase {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         int dy = gameObject.PositionVector().y;
-        for (int i = 0; i < count; i++) {
+        int i = 0;
+        for(int j = 0; j < count; j++){
             int dx = gameObject.PositionVector().x + i * imgWidth;
             af.setTransform(1.0, 0, 0, 1.0, dx, dy);
-            g2d.drawImage(imgArray[i], af, null);
+            //if(imgArray[j]!=null)
+                g2d.drawImage(imgArray[j], af, null);
+            i++;
         }
     }
 
@@ -136,4 +144,6 @@ public abstract class HudAnimationBase extends AnimationBase {
     public void actionPerformed(ActionEvent e) {
         update(); // update the image
     }
+
 }
+

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -23,11 +24,24 @@ public class GameOverStageTestPanel extends GamePanelBase {
      *
      * @param panelManager
      */
+=======
+package goldteam.panels;
+
+import goldteam.domain.GamePanelBase;
+import goldteam.domain.PanelManager;
+import goldteam.gamedata.GameData;
+import goldteam.builders.OverGameStageBuilder;
+import java.awt.Point;
+
+public class GameOverStageTestPanel extends GamePanelBase {
+
+>>>>>>> dev
     public GameOverStageTestPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
 
     }
 
+<<<<<<< HEAD
     /**
      * Create a game object Create an animator for the game object Add the
      * animator to the this.layeredPane
@@ -46,4 +60,13 @@ public class GameOverStageTestPanel extends GamePanelBase {
      * purposes By default Escape takes you back to the game options panel
      *
      */
+=======
+    @Override
+    protected void addGameObjects() {
+                super.addGameObjects();
+
+        gameObjectBuilder = new OverGameStageBuilder(this.gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
+    }
+>>>>>>> dev
 }

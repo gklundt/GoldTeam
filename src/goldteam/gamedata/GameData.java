@@ -1,5 +1,6 @@
 package goldteam.gamedata;
 
+import goldteam.domain.Attackable;
 import goldteam.domain.Depletable;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
@@ -9,6 +10,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.Timer;
 
 /**
@@ -18,15 +20,10 @@ import javax.swing.Timer;
 public class GameData implements GameEngine,
         MapLocationConverter {
 
-    private Boolean isGameRunning;
     private final Dimension mapDimensions;
     private final Dimension visibleDimensions;
-    //  private final Dimension runEdgeDimensions;
     private final ArrayList<Integer> heldKeys;
-    private final ArrayList<Integer> heldMouse;
-    private Depletable depletableCharacter;
-    private GameObject centralGameObject;
-
+    private final HashMap<Integer, Point> heldMouse;
     private final Timer mapUpdateTimer;
     private final Timer graphicsUpdateTimer;
     private final Timer animationGraphicsUpdateTimer;
@@ -34,7 +31,13 @@ public class GameData implements GameEngine,
     private final Timer effectsUpdateTimer;
     private final Timer collisionTimer;
     private final CoordConv mapLocationConverter;
+
+    private Boolean isGameRunning;
+    private Depletable depletableCharacter;
+    private GameObject centralGameObject;
+
     private Point mapLocation;
+    private Attackable attackableCharacter;
 
     public GameData() {
 
@@ -43,19 +46,18 @@ public class GameData implements GameEngine,
         this.animationGraphicsUpdateTimer = new Timer(1000 / 10, null);
         this.mapUpdateTimer = new Timer(1000 / 24, null);
         this.collisionTimer = new Timer(1000 / 48, null);
-
         this.heldKeys = new ArrayList<>();
-        this.heldMouse = new ArrayList<>();
-
+        this.heldMouse = new HashMap<>();
         this.visibleDimensions = new Dimension(800, 600);
-//        this.runEdgeDimensions = new Dimension(600, 400);
-        this.mapDimensions = new Dimension(1500, 900);
 
+        // needs to be set from map dimensions if that exists
+        this.mapDimensions = new Dimension(800, 600);
         this.mapLocationConverter = new CoordConv(mapDimensions, visibleDimensions);
+        this.mapLocation = new Point();
+
         graphicsUpdateTimer.start();
         collisionTimer.start();
         animationGraphicsUpdateTimer.start();
-        this.mapLocation = new Point();
     }
 
     @Override
@@ -74,30 +76,13 @@ public class GameData implements GameEngine,
     }
 
     @Override
-    public Dimension getRunEdgeDimensions() {
-        return this.visibleDimensions;
-    }
-
-    @Override
     public ArrayList<Integer> getHeldKeys() {
         return this.heldKeys;
     }
 
     @Override
-    public ArrayList<Integer> getHeldMouse() {
+    public HashMap<Integer, Point> getHeldMouse() {
         return this.heldMouse;
-    }
-
-    @Override
-    public void addKeysListener(ActionListener listener) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
-    }
-
-    @Override
-    public void addClicksListener(ActionListener listener) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
     }
 
     @Override
@@ -143,16 +128,6 @@ public class GameData implements GameEngine,
     @Override
     public void addCollisionTimer(ActionListener listener) {
         this.collisionTimer.addActionListener(listener);
-    }
-
-    @Override
-    public void removeKeysListener(ActionListener listener) {
-        //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void removeClicksListener(ActionListener listener) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -202,5 +177,15 @@ public class GameData implements GameEngine,
         mapLocation.x = (0 - mapLocation.x) + vis.x;
         mapLocation.y = (0 - mapLocation.y) + vis.y;
         return mapLocation;
+    }
+
+    @Override
+    public Attackable getAttackableCharacter() {
+        return this.attackableCharacter;
+    }
+
+    @Override
+    public void setAttackableCharacter(Attackable target) {
+        this.attackableCharacter = target;
     }
 }

@@ -21,7 +21,11 @@ import javax.imageio.ImageIO;
  *
  * @author faaez
  */
+<<<<<<< HEAD
 public class CollectableAnimationBase extends AnimationBase{
+=======
+public abstract class CollectableAnimationBase extends AnimationBase {
+>>>>>>> dev
 
     protected final String imgFilename;
     protected final GameObject gameObject;
@@ -31,8 +35,13 @@ public class CollectableAnimationBase extends AnimationBase{
     private BufferedImage img;
     protected int imgWidth;
     protected int imgHeight;
+<<<<<<< HEAD
     
     public CollectableAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile){
+=======
+
+    public CollectableAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
+>>>>>>> dev
         super();
         super.setSize(preferredSize);
         this.imgFilename = assetFile;
@@ -41,9 +50,15 @@ public class CollectableAnimationBase extends AnimationBase{
         this.animatableGameObject.addAnimationTimerListener(this);
         this.color = Color.BLACK;
     }
+<<<<<<< HEAD
     
     public void loadImage(String imgFileName, AffineTransform transform){
         if(imgFileName != null){
+=======
+
+    public void loadImage(String imgFileName, AffineTransform transform) {
+        if (imgFileName != null) {
+>>>>>>> dev
             ClassLoader cl = getClass().getClassLoader();
             URL imgUrl = cl.getResource(imgFileName);
             if (imgUrl == null) {
@@ -69,23 +84,35 @@ public class CollectableAnimationBase extends AnimationBase{
             this.imgWidth = img.getWidth(null);
         }
     }
+<<<<<<< HEAD
     
     @Override
     protected void update() {
  //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+=======
+
+    @Override
+    protected void update() {
+        //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+>>>>>>> dev
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         update();
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> dev
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         CollectableItem a = (CollectableItem) this.gameObject; //not needed
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(this.color);
+<<<<<<< HEAD
         if(this.imgFilename == null){
             g2d.fillRect(gameObject.positionVector.x,
                          gameObject.positionVector.y,
@@ -98,6 +125,17 @@ public class CollectableAnimationBase extends AnimationBase{
             } else {
                 g2d.drawImage(img, this.gameObject.positionVector.x, this.gameObject.positionVector.y, this);
             }
+=======
+        if (this.imgFilename == null) {
+            g2d.fillRect(gameObject.positionVector.x,
+                    gameObject.positionVector.y,
+                    platfromDimensions.width,
+                    platfromDimensions.height
+            );
+        } else {
+            g2d.drawImage(img, this.gameObject.positionVector.x, this.gameObject.positionVector.y, this);
+
+>>>>>>> dev
         }
     }
 }
