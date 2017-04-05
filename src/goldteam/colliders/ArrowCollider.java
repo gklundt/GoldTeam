@@ -6,8 +6,6 @@
 package goldteam.colliders;
 
 import goldteam.characters.Arrow;
-import goldteam.characters.Ghost;
-import goldteam.characters.StationaryGhost;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
 
@@ -23,7 +21,7 @@ public class ArrowCollider implements CollisionListener{
     private void DoCollision(){
         Arrow a = (Arrow) arrow;
         Collidable g = (Collidable) enemy;
-        
+        a.remove();
         a.setCollided(true);
         g.setCollided(true);
     }

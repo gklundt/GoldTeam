@@ -1,7 +1,6 @@
 package goldteam.domain;
 
 import java.awt.Polygon;
-import java.awt.event.ActionListener;
 import java.util.*;
 
 public interface Collidable {

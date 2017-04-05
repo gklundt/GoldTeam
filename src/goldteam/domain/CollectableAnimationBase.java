@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
  *
  * @author faaez
  */
-public class CollectableAnimationBase extends AnimationBase{
+public abstract class CollectableAnimationBase extends AnimationBase {
 
     protected final String imgFilename;
     protected final GameObject gameObject;
@@ -31,8 +31,8 @@ public class CollectableAnimationBase extends AnimationBase{
     private BufferedImage img;
     protected int imgWidth;
     protected int imgHeight;
-    
-    public CollectableAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile){
+
+    public CollectableAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super();
         super.setSize(preferredSize);
         this.imgFilename = assetFile;
@@ -41,9 +41,9 @@ public class CollectableAnimationBase extends AnimationBase{
         this.animatableGameObject.addAnimationTimerListener(this);
         this.color = Color.BLACK;
     }
-    
-    public void loadImage(String imgFileName, AffineTransform transform){
-        if(imgFileName != null){
+
+    public void loadImage(String imgFileName, AffineTransform transform) {
+        if (imgFileName != null) {
             ClassLoader cl = getClass().getClassLoader();
             URL imgUrl = cl.getResource(imgFileName);
             if (imgUrl == null) {
@@ -69,35 +69,32 @@ public class CollectableAnimationBase extends AnimationBase{
             this.imgWidth = img.getWidth(null);
         }
     }
-    
+
     @Override
     protected void update() {
- //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         update();
     }
-    
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         CollectableItem a = (CollectableItem) this.gameObject; //not needed
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(this.color);
-        if(this.imgFilename == null){
+        if (this.imgFilename == null) {
             g2d.fillRect(gameObject.positionVector.x,
-                         gameObject.positionVector.y,
-                         platfromDimensions.width, 
-                         platfromDimensions.height
+                    gameObject.positionVector.y,
+                    platfromDimensions.width,
+                    platfromDimensions.height
             );
-        } else{
-            if(a.getState() == false){
-                g2d.fillRect(0, 0, 0, 0);
-            } else {
-                g2d.drawImage(img, this.gameObject.positionVector.x, this.gameObject.positionVector.y, this);
-            }
+        } else {
+            g2d.drawImage(img, this.gameObject.positionVector.x, this.gameObject.positionVector.y, this);
+
         }
     }
 }
