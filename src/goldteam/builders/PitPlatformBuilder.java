@@ -14,13 +14,13 @@ import java.awt.Dimension;
 
 /**
  *
- * @author faaez
+ * @author Mishal
  */
-public class PitPlatformBuilder extends PlatformBuilderBase {
-
-    private PitPlatform platform;
-    private int width;
-    private int height;
+public class PitPlatformBuilder extends PlatformBuilderBase{
+    
+        private PitPlatform pit;
+        private int width;
+        private int height;
 
     public PitPlatformBuilder(GameEngine gameData) {
         super(gameData);
@@ -30,15 +30,14 @@ public class PitPlatformBuilder extends PlatformBuilderBase {
     protected void createObject(int height, int width) {
         this.height = height;
         this.width = width;
-        this.gameObject = new PitPlatform(gameData, point, width, height);
-        this.platform = (PitPlatform) this.gameObject;
+        this.gameObject = new PitPlatform (gameData, point, width, height);
+        this.pit = (PitPlatform) this.gameObject;
     }
 
     @Override
     protected void addAnimations() {
-        PitPlatformAnimation ppa = new PitPlatformAnimation(this.platform, gameData.getMapDimensions(), "assets/pit.png");
-        this.platform.addAnimator(AnimationState.DEFAULT, ppa);
+        PitPlatformAnimation ppa = new PitPlatformAnimation(this.pit, gameData.getMapDimensions(), "assets/lavaTile.png");
+        this.pit.addAnimator(AnimationState.DEFAULT, ppa);
         ppa.setDimensions(new Dimension(height, width));
-    }
-
+    } 
 }

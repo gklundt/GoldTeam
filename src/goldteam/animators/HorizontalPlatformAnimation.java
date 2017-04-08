@@ -14,14 +14,13 @@ import java.awt.geom.AffineTransform;
 /**
  *
  * @author Mishal
- * @author faaez
  */
-public class PitPlatformAnimation extends PlatformAnimationBase{
+public class HorizontalPlatformAnimation extends PlatformAnimationBase{
     
-    public PitPlatformAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
+    public HorizontalPlatformAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         super.setColor(Color.DARK_GRAY);
-        super.loadImage(imgFilename, new AffineTransform(0.55, 0, 0, 0.55, 0, 0));
+        super.loadImage(imgFilename, new AffineTransform(1, 0, 0, 1, 0, 0));
     }
     
 }

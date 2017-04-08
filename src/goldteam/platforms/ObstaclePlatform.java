@@ -21,18 +21,17 @@ import java.util.HashMap;
 /**
  *
  * @author Mishal
- * @author faaez
  */
-public class PitPlatform extends GameObject implements Platform,
+public class ObstaclePlatform  extends GameObject implements Platform,
         Animatable,
-        Collidable
-{
+        Collidable{
+    
     private AnimationBase animator;
     private Polygon collider;
     private int width, height;
     private final HashMap<Collidable, CollisionPlane> colliders;
 
-    public PitPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
+    public ObstaclePlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
         super(gamedata, initialPoint);
         
         this.width = width;
@@ -141,10 +140,10 @@ public class PitPlatform extends GameObject implements Platform,
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
-        this.animator = animator;
+                this.animator = animator;
     }
 
-   @Override
+    @Override
     public Polygon getPolygon() {
         return this.collider;
     }
@@ -175,10 +174,8 @@ public class PitPlatform extends GameObject implements Platform,
     }
 
     @Override
-    public boolean isCollided()
-    {
+    public boolean isCollided() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
       return false;
     }
-    
 }

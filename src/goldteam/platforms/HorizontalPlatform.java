@@ -21,18 +21,17 @@ import java.util.HashMap;
 /**
  *
  * @author Mishal
- * @author faaez
  */
-public class PitPlatform extends GameObject implements Platform,
+public class HorizontalPlatform extends GameObject implements Platform,
         Animatable,
-        Collidable
-{
+        Collidable{
+
     private AnimationBase animator;
     private Polygon collider;
     private int width, height;
     private final HashMap<Collidable, CollisionPlane> colliders;
-
-    public PitPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
+    
+    public HorizontalPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
         super(gamedata, initialPoint);
         
         this.width = width;
@@ -56,12 +55,12 @@ public class PitPlatform extends GameObject implements Platform,
 
     @Override
     protected void Update() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+ //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -96,7 +95,8 @@ public class PitPlatform extends GameObject implements Platform,
 
     @Override
     public boolean isSolidTop() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     @Override
@@ -106,7 +106,8 @@ public class PitPlatform extends GameObject implements Platform,
 
     @Override
     public void setSolidTop(Boolean isSolidTop) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         
     }
 
     @Override
@@ -116,27 +117,24 @@ public class PitPlatform extends GameObject implements Platform,
 
     @Override
     public AnimationBase getAnimator() {
-       return this.animator;
+        return this.animator;
     }
 
     @Override
     public void addAnimationTimerListener(ActionListener listener) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void removeAnimationChangeListener(ActionListener listener) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -175,10 +173,10 @@ public class PitPlatform extends GameObject implements Platform,
     }
 
     @Override
-    public boolean isCollided()
-    {
+    public boolean isCollided() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-      return false;
+        return false;
     }
     
 }
+    

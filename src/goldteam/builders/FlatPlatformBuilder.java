@@ -35,5 +35,6 @@ public class FlatPlatformBuilder extends PlatformBuilderBase {
         FlatPlatformAnimation fpa = new FlatPlatformAnimation(this.platform, gameData.getMapDimensions(), "assets/platformTile.jpg");
         this.platform.addAnimator(AnimationState.DEFAULT, fpa);
         fpa.setDimensions(new Dimension(height, width));
+          
     }
 }
