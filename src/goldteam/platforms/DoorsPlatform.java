@@ -25,7 +25,7 @@ import java.util.HashMap;
  *
  * @author Mishal
  */
-public class DoorsPlatform extends GameObject implements Doors, Movable, Animatable, Collidable {
+public class DoorsPlatform extends GameObject implements Doors, Animatable, Collidable {
 
     private AnimationBase animator;
     private Polygon collider;
@@ -55,7 +55,7 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
 
     @Override
     protected void Update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -120,27 +120,7 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
 
     @Override
     public void addAnimationTimerListener(ActionListener listener) {
-        this.gamedata.addAnimationUpdateTimerListener(listener);
-    }
-
-    @Override
-    public DoubleVector getVelocityVector() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setVelocityScalarDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setVelocityVectorDelta(Delta xDelta, Delta yDelta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getVelocity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //this.gamedata.addAnimationUpdateTimerListener(listener);
     }
 
     @Override
@@ -165,7 +145,7 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -185,7 +165,7 @@ public class DoorsPlatform extends GameObject implements Doors, Movable, Animata
 
     @Override
     public void notifyCollidableListeners() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

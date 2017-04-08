@@ -98,6 +98,57 @@ public class TestCollidersPanel extends GamePanelBase {
     protected void addGameObjects() {
         super.addGameObjects();
 
+        objects = new ArrayList<>();
+
+        g1 = new StationaryGhost(gameData, new Point(200, 400));
+        g2 = new Ghost(gameData, new Point(200, 400));
+        objects.add(g1);
+        objects.add(g2);
+
+        CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
+        CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
+
+        ar = new ArcherMan(gameData, new Point(200, 380));
+//        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
+//        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
+//        CharacterAnimationBase archerWalkingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
+//        CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", charge);
+//        CharacterAnimationBase archerDrawingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", charge);
+//        CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", charge);
+//        ar.setAnimator(archerDefaultRight);
+//        ar.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
+//        ar.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
+//        ar.addAnimator(AnimationState.WALKING_RIGHT, archerWalkingRight);
+//        ar.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
+//        ar.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
+//        ar.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
+//        AnimationBase t = ar.getAnimator();
+//        this.layeredPane.add(t, layeredPane.highestLayer());
+//        ar.addAnimationChangeListener(l -> SwitchArcherListener(l));
+        
+        flatPlatform = new FlatPlatform(gameData, new Point(0, 412), 300, 150);
+        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
+        fpa.setDimensions(new Dimension(300, 150));
+        platforms.add(flatPlatform);
+
+        raisedPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width, 300), 100, 300);
+        FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
+        rpa.setDimensions(new Dimension(100, 300));
+        platforms.add(raisedPlatform);
+        
+        lavaPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width, 412), 200, 150);
+        FlatPlatformAnimation lpa = new FlatPlatformAnimation(lavaPlatform, gameData.getVisibleDimensions(), "assets/lavaTile1.jpg");
+        lpa.setDimensions(new Dimension(200,150));
+        platforms.add(lavaPlatform);
+
+        flatPlatform1 = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width + lpa.getDimensions().width, 412), 200, 150);
+        FlatPlatformAnimation fpa1 = new FlatPlatformAnimation(flatPlatform1, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
+        fpa1.setDimensions(new Dimension(200, 150));
+        platforms.add(flatPlatform1);
+
+        arrow = new Arrows(gameData, new Point(20, 388));
+        CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
+
 //        objects = new ArrayList<>();
 //
 //        g1 = new StationaryGhost(gameData, new Point(200, 400));
@@ -125,6 +176,7 @@ public class TestCollidersPanel extends GamePanelBase {
 //        AnimationBase t = ar.getAnimator();
 //        this.layeredPane.add(t, layeredPane.highestLayer());
 //        ar.addAnimationChangeListener(l -> SwitchArcherListener(l));
+
 //        
 //        flatPlatform = new FlatPlatform(gameData, new Point(0, 412), 300, 150);
 //        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
