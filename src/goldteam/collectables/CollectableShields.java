@@ -22,14 +22,13 @@ import java.util.HashMap;
  *
  * @author faaez
  */
-public class Shields extends GameObject implements Animatable, Collidable, CollectableItem {
+public class CollectableShields extends GameObject implements Animatable, Collidable, CollectableItem {
 
     private AnimationBase animator;
     private Polygon collider;
     private final HashMap<Collidable, CollisionPlane> colliders;
-    private boolean state;
 
-    public Shields(GameEngine gamedata, Point initialPoint) {
+    public CollectableShields(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
 
         colliders = new HashMap<>();
@@ -47,8 +46,6 @@ public class Shields extends GameObject implements Animatable, Collidable, Colle
 
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
-
-        this.state = true;
     }
 
     @Override
@@ -124,18 +121,9 @@ public class Shields extends GameObject implements Animatable, Collidable, Colle
     }
 
     @Override
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    @Override
-    public boolean getState() {
-        return this.state;
-    }
-
-    @Override
     public void undoCollider() {
-        this.collider = new Polygon();
+        this.collider = null;
+        this.removeMe = true;
     }
 
     @Override

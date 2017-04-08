@@ -20,17 +20,17 @@ import java.util.HashMap;
 
 /**
  *
- * @author faaez
+ * @author cece
  */
-public class Arrows extends GameObject implements Animatable, Collidable, CollectableItem {
-
+public class CollectableLife extends GameObject implements Animatable, Collidable, CollectableItem{
+    
     private AnimationBase animator;
     private Polygon collider;
     private final HashMap<Collidable, CollisionPlane> colliders;
-    private boolean state;
 
-    public Arrows(GameEngine gamedata, Point initialPoint) {
+    public CollectableLife(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
+        
         colliders = new HashMap<>();
 
         int[] xPoly = {this.positionVector.x,
@@ -46,8 +46,26 @@ public class Arrows extends GameObject implements Animatable, Collidable, Collec
 
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
+    }
 
-        this.state = true;
+    @Override
+    protected void Update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void GraphicsUpdateHandler() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void UpdateEffectHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void MapUpdateTimerHandler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -62,17 +80,17 @@ public class Arrows extends GameObject implements Animatable, Collidable, Collec
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-        // does not change animation
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void removeAnimationChangeListener(ActionListener listener) {
-        // does not change animation
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
-        // does not change animation
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -101,41 +119,6 @@ public class Arrows extends GameObject implements Animatable, Collidable, Collec
     }
 
     @Override
-    protected void Update() {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void GraphicsUpdateHandler() {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void UpdateEffectHandler() {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void MapUpdateTimerHandler() {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    @Override
-    public boolean getState() {
-        return this.state;
-    }
-
-    @Override
-    public void undoCollider() {
-        this.collider = new Polygon();
-    }
-
-    @Override
     public void notifyCollidableListeners() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -149,4 +132,11 @@ public class Arrows extends GameObject implements Animatable, Collidable, Collec
     public boolean isCollided() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void undoCollider() {
+        this.collider = null;
+        this.removeMe = true;
+    }
+    
 }

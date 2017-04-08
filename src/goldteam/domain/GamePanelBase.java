@@ -11,6 +11,7 @@ import goldteam.characters.ArcherBow;
 import goldteam.colliders.CollisionDetector;
 import goldteam.builders.ArcherBuilder;
 import goldteam.builders.ArrowBuilder;
+import goldteam.providers.CollectableProvider;
 import goldteam.providers.GameObjectProvider;
 import goldteam.providers.HudProvider;
 import goldteam.providers.PlatformProvider;
@@ -50,18 +51,20 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected ProjectileBuilderBase projectileBuilder;
     protected HudBuilderBase hudBuilder;
     protected PlatformBuilderBase platformBuilder;
+    protected CollectableBuilderBase collectableBuilder;
 
     protected final GameObjectProvider gameObjectProvider;
     protected final ProjectileProvider projectileProvider;
     protected final HudProvider hudProvider;
     protected final PlatformProvider platformProvider;
+    protected final CollectableProvider collectableProvider;
 
     private final ArrowBuilder arrowBuilder;
 
     protected Point spawnPoint;
     private ArcherBuilder archerBuilder;
     protected ArcherBow archerWeapon;
-    
+
     private ShootingStrategy shootingStrategy;
 
     public GamePanelBase(PanelManager panelManager, GameData gameData) {
@@ -79,6 +82,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         this.clickEventListeners = new ArrayList<>();
         this.gameObjectProvider = new GameObjectProvider();
         this.projectileProvider = new ProjectileProvider();
+        this.collectableProvider = new CollectableProvider();
         this.hudProvider = new HudProvider();
         this.platformProvider = new PlatformProvider();
         this.arrowBuilder = new ArrowBuilder(gameData);
@@ -233,6 +237,9 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         addGameObject(gameObjectProvider.build(archerBuilder, spawnPoint));
         this.archerWeapon = new ArcherBow(gameData, gameData.getMovableCharacter().PositionVector());
         addGameObject(archerWeapon);
+
+        this.archerBuilder.setArcherBow(archerWeapon);
+        switchWeapon((Boostable) this.gameData.getMovableCharacter());
     }
 
     private void addGameListener() {
@@ -279,6 +286,18 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             this.archerWeapon.setCountDelta(Delta.create(-1d, ModType.FIXED));
         }
     }
+
+    private void switchWeapon(Boostable boostable) {
+        if (boostable.isPermanentBoostableWeapon()) {
+            shootingStrategy = new ShootBuff();
+        } else {
+            if (boostable.isBoostableWeapon()) {
+                shootingStrategy = new ShootBuff();
+            } else {
+                shootingStrategy = new ShootDefault();
+            }
+        }
+    }
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Add and Remove Game Objects">
@@ -287,8 +306,25 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         if (gameObject instanceof Animatable) {
             Animatable animatable = (Animatable) gameObject;
             AnimationBase animationBase = animatable.getAnimator();
-            this.layeredPane.add(animationBase, layeredPane.highestLayer());
+
+            int layer;
+            if (gameObject instanceof Enemy) {
+                layer = 10;
+            } else if (gameObject instanceof Platform) {
+                layer = 5;
+            } else if (gameObject instanceof GameStageAnimationBase) {
+                layer = 30;
+            } else {
+                layer = 20;
+            }
+
+            this.layeredPane.add(animationBase, layer);
             animatable.addAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
+        }
+
+        if (gameObject instanceof Boostable) {
+            Boostable boostable = (Boostable) gameObject;
+            boostable.addBoostableListener(l -> switchWeapon(boostable));
         }
 
         if (gameObject instanceof Collidable) {
@@ -319,26 +355,9 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 
     protected void removeGameObject(Object gameObject) {
 
-        if (gameObject instanceof Animatable) {
-            Animatable animatable = (Animatable) gameObject;
-            AnimationBase animationBase = animatable.getAnimator();
-            this.layeredPane.remove(animationBase);
-            animatable.removeAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
-        }
-
         if (gameObject instanceof Collidable) {
             Collidable collidable = (Collidable) gameObject;
             collisionDetector.removeCollidable(collidable);
-        }
-
-        if (gameObject instanceof ClickHandler) {
-            ClickHandler clickHandler = (ClickHandler) gameObject;
-            this.clickEventListeners.remove(clickHandler);
-        }
-
-        if (gameObject instanceof KeyHandler) {
-            KeyHandler keyHandler = (KeyHandler) gameObject;
-            this.keyEventListeners.remove(keyHandler);
         }
 
         if (gameObject instanceof CollisionListener) {
@@ -349,6 +368,23 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         if (gameObject instanceof Removable) {
             Removable removable = (Removable) gameObject;
             removable.removeRemovableListener(l -> removeGameObject(l.getSource()));
+        }
+
+        if (gameObject instanceof Animatable) {
+            Animatable animatable = (Animatable) gameObject;
+            AnimationBase animationBase = animatable.getAnimator();
+            this.layeredPane.remove(animationBase);
+            animatable.removeAnimationChangeListener(l -> switchAnimation(animatable, (AnimationBase) l.getSource()));
+        }
+
+        if (gameObject instanceof ClickHandler) {
+            ClickHandler clickHandler = (ClickHandler) gameObject;
+            this.clickEventListeners.remove(clickHandler);
+        }
+
+        if (gameObject instanceof KeyHandler) {
+            KeyHandler keyHandler = (KeyHandler) gameObject;
+            this.keyEventListeners.remove(keyHandler);
         }
     }
 //</editor-fold>

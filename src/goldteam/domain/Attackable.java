@@ -44,4 +44,8 @@ public interface Attackable {
      * Notifies listeners of changes to health and/or shield events
      */
     public void notifyAttackableListeners();
+
+    public double getChargeValue();
+    
+    public void setChargeDelta(Delta delta);
 }

@@ -16,7 +16,8 @@ public class ArcherMan extends GameObject
         Controllable, /* Process Keyboard and Mouse events */
         Movable, /* Vectors and scalar for movement */
         Spawnable, /* Respawn details */
-        Depletable /* Life Counter */ {
+        Depletable, /* Life Counter */
+        Boostable {
 
     private int lives;
 
@@ -42,23 +43,30 @@ public class ArcherMan extends GameObject
     private final ArrayList<ActionListener> depletableListeners;
     private final HashMap<AnimationState, AnimationBase> animators;
     private final HashMap<Collidable, CollisionPlane> colliders;
+    private final ArrayList<ActionListener> boostableListeners;
 
     private DoubleVector velocityVector;
     private double velocity;
 
     private int charge;
     private int arrows;
-    
+
     private float speedModifier, jumpModifier;
     //---Changed to public members to be accessed in implementing Panel------//
     public AnimationBase animator;
     public AnimationBase removeAnimator;
     private Polygon collider;
 
+    private ArcherBow archerBow;
+
+    private boolean isBoostableWeapon = false;
+    private boolean isBoostableHealth = false;
+    private boolean isPermanentBoostableWeapon = false;
+
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
         super(gameData, initialPoint);
-        this.lives = 30;
+        this.lives = 10;
         this.positionVector = initialPoint;
         this.animators = new HashMap<>();
         this.rawVector = new DoubleVector(0d, 0d);
@@ -66,9 +74,10 @@ public class ArcherMan extends GameObject
         this.attackableListeners = new ArrayList<>();
         this.depletableListeners = new ArrayList<>();
         this.animationChangeListeners = new ArrayList<>();
+        this.boostableListeners = new ArrayList<>();
         this.canDoubleJump = true;
         this.maxVelocity = 10d;
-        
+
         this.speedModifier = 1.0f;
         this.jumpModifier = 1.0f;
 
@@ -120,8 +129,15 @@ public class ArcherMan extends GameObject
 
     @Override
     public void setHealthDelta(Delta delta) {
-        this.health += delta.delta;
-        this.notifyAttackableListeners();
+        if (this.isBoostableHealth == false) {
+            this.health += delta.delta;
+            this.notifyAttackableListeners();
+        } else {
+            if (delta.delta > 0) {
+                this.health += delta.delta;
+                this.notifyAttackableListeners();
+            }
+        }
     }
 
     @Override
@@ -184,7 +200,7 @@ public class ArcherMan extends GameObject
 
     @Override
     public void setCountDelta(Delta delta) {
-        lives = delta.delta.intValue();
+        lives += delta.delta.intValue();
     }
 
     @Override
@@ -393,7 +409,8 @@ public class ArcherMan extends GameObject
     @Override
     public void setVelocityVectorDelta(Delta xDelta, Delta yDelta
     ) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.velocityVector.x += xDelta.delta;
+        this.velocityVector.y += yDelta.delta;
     }
 //</editor-fold>
 
@@ -442,7 +459,6 @@ public class ArcherMan extends GameObject
     }
 //</editor-fold>
 
-
     public void setRight(boolean b) {
         right = b;
     }
@@ -469,8 +485,7 @@ public class ArcherMan extends GameObject
         return lives;
     }
 
-    public void die()
-    {
+    public void die() {
         lives--;
         resetJump();
         resetSpeed();
@@ -478,6 +493,7 @@ public class ArcherMan extends GameObject
         this.maxShield = this.initialShield.intValue();
         this.health = this.maxHealth;
         this.shield = this.maxShield;
+        //this.removeMe = true;
     }
 
     public void shootArrow() {
@@ -494,6 +510,14 @@ public class ArcherMan extends GameObject
 
     public void setLifeValue(Delta delta) {
         lives = delta.delta.intValue();
+    }
+
+    public void setArcherBow(ArcherBow archerBow) {
+        this.archerBow = archerBow;
+    }
+
+    public ArcherBow getArcherBow() {
+        return this.archerBow;
     }
 
 //<editor-fold defaultstate="collapsed" desc="Collidable Interface">
@@ -513,35 +537,87 @@ public class ArcherMan extends GameObject
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
     }
-    
-    public void debuffSpeed()
-    {
+
+    public void debuffSpeed() {
         speedModifier = 0.5f;
     }
-    
-    public void buffSpeed()
-    {
+
+    public void buffSpeed() {
         speedModifier = 1.25f;
     }
-    
-    public void resetSpeed()
-    {
+
+    public void resetSpeed() {
         speedModifier = 1.0f;
     }
-    
-    public void debuffJump()
-    {
+
+    public void debuffJump() {
         jumpModifier = 0.75f;
     }
-    
-    public void buffJump()
-    {
+
+    public void buffJump() {
         jumpModifier = 1.1f;
     }
-    
-    public void resetJump()
-    {
+
+    public void resetJump() {
         jumpModifier = 1.0f;
+    }
+//</editor-fold>
+
+    @Override
+    public double getChargeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setChargeDelta(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+//<editor-fold defaultstate="collapsed" desc="Boostable Interface">
+    @Override
+    public void setBoostableWeapon(boolean boostable) {
+        this.isBoostableWeapon = boostable;
+        this.notifyBoostableListeners();
+    }
+
+    @Override
+    public boolean isBoostableWeapon() {
+        return this.isBoostableWeapon;
+    }
+
+    @Override
+    public void setBoostableHealth(boolean boostable) {
+        this.isBoostableHealth = boostable;
+        this.notifyBoostableListeners();
+    }
+
+    @Override
+    public boolean isBoostableHealth() {
+        return this.isBoostableHealth;
+    }
+
+    @Override
+    public void setPermanentBoostableWeapon(boolean boostable) {
+        this.isPermanentBoostableWeapon = boostable;
+        this.notifyBoostableListeners();
+    }
+
+    @Override
+    public boolean isPermanentBoostableWeapon() {
+        return this.isPermanentBoostableWeapon;
+    }
+
+    @Override
+    public void addBoostableListener(ActionListener listener) {
+        this.boostableListeners.add(listener);
+    }
+
+    @Override
+    public void notifyBoostableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener al : this.boostableListeners) {
+            al.actionPerformed(e);
+        }
     }
 //</editor-fold>
 

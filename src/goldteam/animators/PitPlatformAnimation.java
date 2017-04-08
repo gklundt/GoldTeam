@@ -14,6 +14,7 @@ import java.awt.geom.AffineTransform;
 /**
  *
  * @author Mishal
+ * @author faaez
  */
 public class PitPlatformAnimation extends PlatformAnimationBase{
     
@@ -21,7 +22,6 @@ public class PitPlatformAnimation extends PlatformAnimationBase{
         super(gameObject, preferredSize, assetFile);
         super.setColor(Color.DARK_GRAY);
         super.loadImage(imgFilename, new AffineTransform(0.55, 0, 0, 0.55, 0, 0));
-    
     }
     
 }

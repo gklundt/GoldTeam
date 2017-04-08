@@ -33,7 +33,7 @@ public class ArcherBow extends GameObject implements Weapon,
 
         decreaseCharge = Delta.create(-1.0, ModType.FIXED);
         increaseCharge = Delta.create(1.0, ModType.FIXED);
-
+        
     }
 
 // <editor-fold defaultstate="collapsed" desc="GameObject Implementation">
