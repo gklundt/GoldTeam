@@ -8,7 +8,7 @@ package goldteam.panels;
 //import goldteam.collectables.Arrows;
 //import goldteam.Collectables.Health;
 //import goldteam.collectables.Shields;
-import goldteam.collectables.Arrows;
+//import goldteam.collectables.Arrows;
 import goldteam.GamePanelManager;
 import goldteam.animators.ArcherAnimationStanding;
 import goldteam.animators.ArrowHudAnimation;
@@ -71,7 +71,7 @@ public class TestCollidersPanel extends GamePanelBase {
     private PlatformCollider pc;
     private FlatPlatform flatPlatform, raisedPlatform, flatPlatform1, lavaPlatform;
     private ArrayList<Platform> platforms;
-    private Arrows arrow;
+    //private Arrows arrow;
 //    private Health health;
 //    private Shields shield;
     private HeartHudItem hearts;
@@ -126,28 +126,28 @@ public class TestCollidersPanel extends GamePanelBase {
 //        this.layeredPane.add(t, layeredPane.highestLayer());
 //        ar.addAnimationChangeListener(l -> SwitchArcherListener(l));
         
-        flatPlatform = new FlatPlatform(gameData, new Point(0, 412), 300, 150);
-        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
-        fpa.setDimensions(new Dimension(300, 150));
-        platforms.add(flatPlatform);
-
-        raisedPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width, 300), 100, 300);
-        FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
-        rpa.setDimensions(new Dimension(100, 300));
-        platforms.add(raisedPlatform);
-        
-        lavaPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width, 412), 200, 150);
-        FlatPlatformAnimation lpa = new FlatPlatformAnimation(lavaPlatform, gameData.getVisibleDimensions(), "assets/lavaTile1.jpg");
-        lpa.setDimensions(new Dimension(200,150));
-        platforms.add(lavaPlatform);
-
-        flatPlatform1 = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width + lpa.getDimensions().width, 412), 200, 150);
-        FlatPlatformAnimation fpa1 = new FlatPlatformAnimation(flatPlatform1, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
-        fpa1.setDimensions(new Dimension(200, 150));
-        platforms.add(flatPlatform1);
-
-        arrow = new Arrows(gameData, new Point(20, 388));
-        CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
+//        flatPlatform = new FlatPlatform(gameData, new Point(0, 412), 300, 150);
+//        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
+//        fpa.setDimensions(new Dimension(300, 150));
+//        platforms.add(flatPlatform);
+//
+//        raisedPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width, 300), 100, 300);
+//        FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
+//        rpa.setDimensions(new Dimension(100, 300));
+//        platforms.add(raisedPlatform);
+//        
+//        lavaPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width, 412), 200, 150);
+//        FlatPlatformAnimation lpa = new FlatPlatformAnimation(lavaPlatform, gameData.getVisibleDimensions(), "assets/lavaTile1.jpg");
+//        lpa.setDimensions(new Dimension(200,150));
+//        platforms.add(lavaPlatform);
+//
+//        flatPlatform1 = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width + lpa.getDimensions().width, 412), 200, 150);
+//        FlatPlatformAnimation fpa1 = new FlatPlatformAnimation(flatPlatform1, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
+//        fpa1.setDimensions(new Dimension(200, 150));
+//        platforms.add(flatPlatform1);
+//
+//        arrow = new Arrows(gameData, new Point(20, 388));
+//        CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
 
 //        objects = new ArrayList<>();
 //
