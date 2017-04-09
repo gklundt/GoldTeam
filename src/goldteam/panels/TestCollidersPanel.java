@@ -40,9 +40,12 @@ import goldteam.builders.CollectablePermanentWeaponBoostBuilder;
 import goldteam.builders.WeaponBoostStatusBarBuilder;
 import goldteam.builders.CollectableWeaponBoostBuilder;
 import goldteam.builders.FlatPlatformBuilder;
+import goldteam.builders.FlyerEnemyBuilder;
 import goldteam.builders.HealthBoostStatusBarBuilder;
+import goldteam.builders.LauncherEnemyBuilder;
 import goldteam.builders.LifeHudBuilder;
 import goldteam.builders.PitPlatformBuilder;
+import goldteam.builders.WalkerEnemyBuilder;
 import goldteam.colliders.CollectableHealthBoostCollider;
 import goldteam.colliders.CollectableHealthCollider;
 import goldteam.colliders.CollectableLifeCollider;
@@ -55,29 +58,13 @@ import goldteam.domain.ModType;
  *
  * @author fchishti
  */
-public class TestCollidersPanel extends GamePanelBase {
-
-    private StationaryGhost g1;
-    private Ghost g2;
+public class TestCollidersPanel extends GamePanelBase
+{
     private ArrayList<GameObject> objects;
     private CollisionDetector collisionDetector;
     private CollisionDetector collisionDetector2;
-    private CollisionDetector collisionDetector3;
-    private CollisionDetector collisionDetector4;
     private PlatformCollider pc;
-    private FlatPlatform flatPlatform, raisedPlatform, flatPlatform1, lavaPlatform;
     private ArrayList<Platform> platforms;
-    private CollectableArrows arrow;
-//    private Health health;
-//    private Shields shield;
-    private HeartHudItem hearts;
-    private ShieldHudItem shields;
-    private ArrowHudItem hudArrow;
-
-    private ArcherMan ar;
-    private int charge;
-
-    private Arrow characterArrow;
 
     //private Component gp;
     public TestCollidersPanel(PanelManager panelManager) {
@@ -87,63 +74,12 @@ public class TestCollidersPanel extends GamePanelBase {
         collisionDetector2 = new CollisionDetector(this.gameData);
         pc = new PlatformCollider();
         platforms = new ArrayList<>();
-        charge = 0;
     }
 
     @Override
     protected void addGameObjects() {
+        this.spawnPoint = new Point(200, 0);
         super.addGameObjects();
-
-        objects = new ArrayList<>();
-
-        g1 = new StationaryGhost(gameData, new Point(200, 400));
-        g2 = new Ghost(gameData, new Point(200, 400));
-        objects.add(g1);
-        objects.add(g2);
-
-        CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getVisibleDimensions(), "assets/GameGhostStripe.png");
-        CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getVisibleDimensions(), "assets/GameGhostStripeRed.png");
-
-        ar = new ArcherMan(gameData, new Point(200, 380));
-//        CharacterAnimationBase archerDefaultRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Right.png", charge, charge);
-//        CharacterAnimationBase archerDefaultLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Standing_Left.png", charge, charge);
-//        CharacterAnimationBase archerWalkingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Right.png", charge);
-//        CharacterAnimationBase archerWalkingLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Walking_Left.png", charge);
-//        CharacterAnimationBase archerDrawingRight = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Right.png", charge);
-//        CharacterAnimationBase archerDrawingLeft = new ArcherAnimation(ar, gameData.getVisibleDimensions(), "assets/Archer/Archer_Drawing_Left.png", charge);
-//        ar.setAnimator(archerDefaultRight);
-//        ar.addAnimator(AnimationState.DEFAULT_RIGHT, archerDefaultRight);
-//        ar.addAnimator(AnimationState.DEFAULT_LEFT, archerDefaultLeft);
-//        ar.addAnimator(AnimationState.WALKING_RIGHT, archerWalkingRight);
-//        ar.addAnimator(AnimationState.WALKING_LEFT, archerWalkingLeft);
-//        ar.addAnimator(AnimationState.SHOOTING_RIGHT, archerDrawingRight);
-//        ar.addAnimator(AnimationState.SHOOTING_LEFT, archerDrawingLeft);
-//        AnimationBase t = ar.getAnimator();
-//        this.layeredPane.add(t, layeredPane.highestLayer());
-//        ar.addAnimationChangeListener(l -> SwitchArcherListener(l));
-        
-        flatPlatform = new FlatPlatform(gameData, new Point(0, 412), 300, 150);
-        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
-        fpa.setDimensions(new Dimension(300, 150));
-        platforms.add(flatPlatform);
-
-        raisedPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width, 300), 100, 300);
-        FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
-        rpa.setDimensions(new Dimension(100, 300));
-        platforms.add(raisedPlatform);
-        
-        lavaPlatform = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width, 412), 200, 150);
-        FlatPlatformAnimation lpa = new FlatPlatformAnimation(lavaPlatform, gameData.getVisibleDimensions(), "assets/lavaTile1.jpg");
-        lpa.setDimensions(new Dimension(200,150));
-        platforms.add(lavaPlatform);
-
-        flatPlatform1 = new FlatPlatform(gameData, new Point(fpa.getDimensions().width + rpa.getDimensions().width + lpa.getDimensions().width, 412), 200, 150);
-        FlatPlatformAnimation fpa1 = new FlatPlatformAnimation(flatPlatform1, gameData.getVisibleDimensions(), "assets/platformTile.jpg");
-        fpa1.setDimensions(new Dimension(200, 150));
-        platforms.add(flatPlatform1);
-
-        arrow = new Arrows(gameData, new Point(20, 388));
-        CollectableArrowAnimation aa = new CollectableArrowAnimation(arrow, gameData.getVisibleDimensions(), "assets/crate.png");
 
         CollectableArrowCollider ac = new CollectableArrowCollider();
         addGameObject(ac);
@@ -171,7 +107,6 @@ public class TestCollidersPanel extends GamePanelBase {
 
        /* this.collectableBuilder = new CollectableArrowBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));
-
         this.collectableBuilder = new CollectableShieldBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(100, 300), gameData.getAttackableCharacter()));*/
 
@@ -223,5 +158,14 @@ public class TestCollidersPanel extends GamePanelBase {
         
         this.platformBuilder = new FlatPlatformBuilder(gameData);
         addGameObject(this.platformProvider.build(platformBuilder, new Point(600, 328), 100, 150));
+        
+        this.gameObjectBuilder = new WalkerEnemyBuilder(gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(0, 0)));
+        
+        this.gameObjectBuilder = new LauncherEnemyBuilder(gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 200)));
+        
+        this.gameObjectBuilder = new FlyerEnemyBuilder(gameData, this); //Passed so Flyers can create Launchers
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 100)));
     }
 }

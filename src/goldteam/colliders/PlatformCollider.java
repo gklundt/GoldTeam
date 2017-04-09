@@ -5,9 +5,11 @@ import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Delta;
+import goldteam.domain.Fallable;
 import goldteam.domain.ModType;
 import goldteam.domain.Movable;
 import goldteam.domain.Platform;
+import goldteam.platforms.*;
 import goldteam.platforms.PitPlatform;
 
 public class PlatformCollider implements CollisionListener {
@@ -30,13 +32,23 @@ public class PlatformCollider implements CollisionListener {
             m.setVelocityVectorDelta(xdelta, ydelta);
         }*/
         
-        if(platform instanceof PitPlatform && collidable instanceof ArcherMan){
-            ArcherMan am = (ArcherMan) collidable;
+        if(platform instanceof PitPlatform && collidable instanceof Fallable){
+            ((Fallable)(collidable)).fall();
+            /*
             am.setVelocityVectorDelta(Delta.create(0.0d, ModType.FIXED), 
                     Delta.create(1.0d, ModType.PERCENTAGE));
             if(am.PositionVector().y > 400){
                 am.die();
             }
+            */
+        }
+        
+        if(platform instanceof FlatPlatform && collidable instanceof Fallable)
+        {
+            FlatPlatform fp = (FlatPlatform) platform;
+            ((Fallable) collidable).land(fp.getPositionVector().y);
+            if(collidable instanceof goldteam.characters.Walker)
+                System.out.println("Poop");
         }
     }
 

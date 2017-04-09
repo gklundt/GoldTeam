@@ -39,13 +39,13 @@ public class GameLevelTestPanel extends GamePanelBase {
 
         super.addGameObjects();
 
-        gameObjectBuilder = new FlyerEnemyBuilder(gameData);
+        gameObjectBuilder = new FlyerEnemyBuilder(gameData, this);
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 100)));
 
         gameObjectBuilder = new WalkerEnemyBuilder(gameData);
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(200, 400)));
 
-        gameObjectBuilder = new LauncherEnemyBuilder(gameData, true);
+        gameObjectBuilder = new LauncherEnemyBuilder(gameData);
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(750, 350)));
     }
 }

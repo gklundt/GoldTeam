@@ -1,16 +1,23 @@
 package goldteam.characters;
 
+import goldteam.builders.LauncherEnemyBuilder;
 import goldteam.domain.GameEngine;
+import goldteam.domain.GameObjectBuilderBase;
+import goldteam.domain.GamePanelBase;
 import goldteam.gamedata.GameData;
+import goldteam.providers.GameObjectProvider;
 import java.awt.Point;
 
-public class Flyer extends BaseEnemy {
-
+public class Flyer extends BaseEnemy
+{
+    private GamePanelBase panel;
     private int timeSinceAttacked;
     private final int maxSpeed;
 
-    public Flyer(GameEngine gamedata, Point initialPoint) {
-        super(gamedata, initialPoint);
+    public Flyer(GameEngine gamedata, Point point, GamePanelBase panel)
+    {
+        super(gamedata, point);
+        this.panel = panel;
         maxSpeed = 6;
     }
 
@@ -47,8 +54,9 @@ public class Flyer extends BaseEnemy {
 
     }
 
-    private void attack() {
-//        ((GameData) (gamedata)).createBomb(this.positionVector);
+    private void attack()
+    {
+        this.panel.createLauncher(positionVector);
         timeSinceAttacked = 0;
     }
 

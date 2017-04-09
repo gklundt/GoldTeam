@@ -17,14 +17,15 @@ public class ArcherMan extends GameObject
         Movable, /* Vectors and scalar for movement */
         Spawnable, /* Respawn details */
         Depletable, /* Life Counter */
-        Boostable {
+        Boostable ,
+        Fallable {
 
     private int lives;
 
     private boolean right;
     private boolean left;
     private boolean jump;
-    private boolean canDoubleJump;
+    private boolean canDoubleJump, grounded;
     private Boolean isFacingLeft = false;
 
     private final Double initialHealth = 10.0d;
@@ -62,6 +63,7 @@ public class ArcherMan extends GameObject
     private boolean isBoostableWeapon = false;
     private boolean isBoostableHealth = false;
     private boolean isPermanentBoostableWeapon = false;
+    private double yAcceleration;
 
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
@@ -76,6 +78,7 @@ public class ArcherMan extends GameObject
         this.animationChangeListeners = new ArrayList<>();
         this.boostableListeners = new ArrayList<>();
         this.canDoubleJump = true;
+        this.grounded = false;
         this.maxVelocity = 10d;
 
         this.speedModifier = 1.0f;
@@ -102,6 +105,7 @@ public class ArcherMan extends GameObject
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
         colliders = new HashMap<>();
+        this.yAcceleration = 3.0;
     }
 
 //<editor-fold defaultstate="collapsed" desc="Methods that need to be encapsulated in a role interface">
@@ -244,7 +248,7 @@ public class ArcherMan extends GameObject
     public void processKeyInput() {
 
         if (this.gamedata.getHeldKeys().isEmpty()) {
-            this.velocity = 0;
+            //this.velocity = 0;
             this.rawVector.x = initialVelocity;
         }
 
@@ -256,13 +260,14 @@ public class ArcherMan extends GameObject
                 animator = animators.get(AnimationState.WALKING_RIGHT);
                 notifyAnimationChangeListeners(removeAnimator);
             }
-
+            /*
             if (velocity < maxVelocity) {
                 this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
                 this.rawVector.x += this.velocity;
                 this.velocityVector = VectorMath.getScaledVector(
                         VectorMath.getUnitVector(rawVector), velocity);
             }
+            */
 
         } else {
             right = false;
@@ -276,18 +281,20 @@ public class ArcherMan extends GameObject
                 animator = animators.get(AnimationState.WALKING_LEFT);
                 notifyAnimationChangeListeners(removeAnimator);
             }
+            /*
             if (velocity < maxVelocity) {
-
                 this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
                 this.rawVector.x -= this.velocity;
-                this.velocityVector = VectorMath.getScaledVector(
-                        VectorMath.getUnitVector(rawVector), velocity);
+                //this.velocityVector = VectorMath.getScaledVector(
+                        //VectorMath.getUnitVector(rawVector), velocity);
             }
+            */
 
         } else {
             left = false;
         }
 
+        /*
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_W)) {
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.y -= this.velocity;
@@ -297,6 +304,7 @@ public class ArcherMan extends GameObject
             this.velocity = this.velocity > this.initialVelocity - .5 ? this.velocity + .5 : this.initialVelocity;
             this.rawVector.y += this.velocity;
         }
+        */
 
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_SPACE)) {
             jump = true;
@@ -312,7 +320,7 @@ public class ArcherMan extends GameObject
             notifyAnimationChangeListeners(removeAnimator);
         }
 
-        this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
+        //this.velocityVector = VectorMath.getVelocityVector(rawVector, velocity);
     }
 
     @Override
@@ -433,11 +441,20 @@ public class ArcherMan extends GameObject
     @Override
     protected void Update() {
         double velY = velocityVector.y;
+        if(jump && grounded)
+        {
+            velY = -30 * jumpModifier;
+            jump = false;
+            grounded = false;
+            yAcceleration = 3.0;
+        }
         if (jump && canDoubleJump) {
             velY = -30 * jumpModifier;     //Stops Momentum and creats upwards momentup for double jump
             canDoubleJump = false;
-        } else
-            ;//velY += 3;  //Gravity
+            yAcceleration = 3.0;
+        }
+        else
+            velY += yAcceleration;  //Gravity
 
         if (right && !left) {
             this.velocityVector = VectorMath.getVelocityVector(new DoubleVector(1d, 0d), velocity * speedModifier);
@@ -621,4 +638,26 @@ public class ArcherMan extends GameObject
     }
 //</editor-fold>
 
+    
+//<editor-fold defaultstate="collapsed" desc="Fallable Interface">
+    @Override
+    public void land(double yPos)
+    {
+        if(!grounded)
+        {
+            this.positionVector.y = (int)(yPos - 28);
+            this.yAcceleration = 0.0;
+            this.velocityVector.y = 0.0;
+            this.grounded = true;
+            this.canDoubleJump = true;
+        }
+    }
+    
+    @Override
+    public void fall()
+    {
+        this.yAcceleration = 3.0;
+        this.grounded = false;
+    }
+//</editor-fold>
 }

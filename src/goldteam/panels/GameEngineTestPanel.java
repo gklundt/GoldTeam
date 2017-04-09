@@ -26,8 +26,8 @@ public class GameEngineTestPanel extends GamePanelBase {
             int rx = ((Double) (x.nextDouble() * 500.00)).intValue() % 500;
             int ry = ((Double) (y.nextDouble() * 500.00)).intValue() % 500;
 
-            FlyerEnemyBuilder flyerEnemyBuilder = new FlyerEnemyBuilder(this.gameData);
-            LauncherEnemyBuilder launcherEnemyBuilder = new LauncherEnemyBuilder(this.gameData, true);
+            FlyerEnemyBuilder flyerEnemyBuilder = new FlyerEnemyBuilder(this.gameData, this);
+            LauncherEnemyBuilder launcherEnemyBuilder = new LauncherEnemyBuilder(this.gameData);
             WalkerEnemyBuilder walkerEnemyBuilder = new WalkerEnemyBuilder(this.gameData);
 
             switch (i % 3) {
