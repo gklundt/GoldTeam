@@ -35,7 +35,7 @@ public class Test_HUD_Panel extends GamePanelBase {
             addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(r.nextInt(800), r.nextInt(600))));
         }
         
-        gameObjectBuilder = new FlyerEnemyBuilder(gameData);
+        gameObjectBuilder = new FlyerEnemyBuilder(gameData, this);
         for (int i = 0; i < 5; i++) {
             addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(r.nextInt(800), r.nextInt(600))));
         }

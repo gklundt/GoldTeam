@@ -10,16 +10,14 @@ import java.awt.Point;
 public class LauncherEnemyBuilder extends CharacterBuilderBase {
 
     private Launcher enemy;
-    private final Boolean left;
 
-    public LauncherEnemyBuilder(GameEngine gameData, Boolean left) {
+    public LauncherEnemyBuilder(GameEngine gameData) {
         super(gameData);
-        this.left = left;
     }
 
     @Override
     protected void createObject() {
-        this.gameObject = new Launcher(gameData, point, left);
+        this.gameObject = new Launcher(gameData, point);
         this.enemy = (Launcher) this.gameObject;
     }
 

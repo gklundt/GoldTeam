@@ -8,19 +8,27 @@ import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.CharacterBuilderBase;
 import goldteam.domain.GameEngine;
+import goldteam.domain.GameObjectBuilderBase;
+import goldteam.domain.GamePanelBase;
+import goldteam.gamedata.GameData;
+import goldteam.panels.TestCollidersPanel;
+import goldteam.providers.GameObjectProvider;
 import java.awt.Point;
 
 public class FlyerEnemyBuilder extends CharacterBuilderBase {
 
+    GamePanelBase panel;
     private Flyer enemy;
 
-    public FlyerEnemyBuilder(GameEngine gameData) {
+    public FlyerEnemyBuilder(GameData gameData, GamePanelBase panel)
+    {
         super(gameData);
+        this.panel = panel;
     }
 
     @Override
     protected void createObject() {
-        this.gameObject = new Flyer(gameData, point);
+        this.gameObject = new Flyer(gameData, point, panel);
         this.enemy = (Flyer) this.gameObject;
     }
 

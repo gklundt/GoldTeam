@@ -11,6 +11,8 @@ import goldteam.characters.ArcherBow;
 import goldteam.colliders.CollisionDetector;
 import goldteam.builders.ArcherBuilder;
 import goldteam.builders.ArrowBuilder;
+import goldteam.builders.FlyerEnemyBuilder;
+import goldteam.builders.LauncherEnemyBuilder;
 import goldteam.providers.CollectableProvider;
 import goldteam.providers.GameObjectProvider;
 import goldteam.providers.HudProvider;
@@ -386,6 +388,13 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             KeyHandler keyHandler = (KeyHandler) gameObject;
             this.keyEventListeners.remove(keyHandler);
         }
+    }
+    
+    public void createLauncher(Point p)
+    {
+        this.gameObjectBuilder = new LauncherEnemyBuilder(gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, (Point)(p.clone())));
+        System.out.println("AAODSJOASD");
     }
 //</editor-fold>
 }
