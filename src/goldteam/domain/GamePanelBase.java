@@ -393,8 +393,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     public void createLauncher(Point p)
     {
         this.gameObjectBuilder = new LauncherEnemyBuilder(gameData);
-        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, (Point)(p.clone())));
-        System.out.println("AAODSJOASD");
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, p));
     }
 //</editor-fold>
 }
