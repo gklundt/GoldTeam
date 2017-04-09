@@ -15,7 +15,7 @@ public class DeathGameStageBuilder extends GameStageBuilderBase {
     public DeathGameStageBuilder(GameEngine gameData) {
         super(gameData);
     }
-//comment
+
     @Override
     protected void createObject() {
         this.gameObject = new GameStageItem(this.gameData, new Point());
