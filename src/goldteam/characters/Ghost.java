@@ -36,7 +36,7 @@ public class Ghost
     private final HashMap<AnimationState, AnimationBase> animators;
     private final ArrayList<ActionListener> animationChangeListeners;
     private AnimationBase removeAnimator;
-    private final Polygon collider;
+    private Polygon collider;
     private final HashMap<Collidable, CollisionPlane> currentColliders;
     private Iterable<ActionListener> animationListeners;
     private boolean collided;

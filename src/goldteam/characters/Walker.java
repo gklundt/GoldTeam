@@ -3,6 +3,7 @@ package goldteam.characters;
 import goldteam.domain.Fallable;
 import goldteam.domain.GameEngine;
 import java.awt.Point;
+import java.awt.Polygon;
 
 public class Walker extends BaseEnemy implements Fallable {
 
@@ -16,6 +17,20 @@ public class Walker extends BaseEnemy implements Fallable {
         maxSpeed = 6;
         yVelocity = 0;
         yAcceleration = 3.0;
+        
+        int[] xPoly = {this.positionVector.x - 12,
+            this.positionVector.x + 12,
+            this.positionVector.x + 12,
+            this.positionVector.x - 12
+        };
+        int[] yPoly = {this.positionVector.y - 12,
+            this.positionVector.y - 12,
+            this.positionVector.y + 12,
+            this.positionVector.y + 12
+        };
+        
+        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        super.shape = collider;
     }
 
     @Override
@@ -28,6 +43,13 @@ public class Walker extends BaseEnemy implements Fallable {
         }
         yVelocity += yAcceleration;
         positionVector.y += yVelocity;
+        
+        this.collider = new Polygon();
+        this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y - 42);
+        this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y - 42);
+        this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y + 42);
+        this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y + 42);
+        super.shape = collider;
     }
 
     private void moveLeft(int xdif) {
@@ -51,7 +73,7 @@ public class Walker extends BaseEnemy implements Fallable {
     @Override
     public void land(double yPos)
     {
-        System.out.println("ADUISD");
+        //System.out.println("ADUISD");
         if(!grounded)
         {
             this.positionVector.y = (int)(yPos - 28);

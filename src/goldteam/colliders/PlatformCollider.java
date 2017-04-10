@@ -25,13 +25,6 @@ public class PlatformCollider implements CollisionListener {
     }
 
     private void DoCollision() {
-        // No change in x direction
-        // Reduce y dirction by 100% or subtract y from y to net 0 ... 
-       /* if (platform.getColliders().get(collidable) == CollisionPlane.TOP) {
-            Movable m = (Movable) collidable;
-            m.setVelocityVectorDelta(xdelta, ydelta);
-        }*/
-        
         if(platform instanceof PitPlatform && collidable instanceof Fallable){
             ((Fallable)(collidable)).fall();
             /*
@@ -47,19 +40,17 @@ public class PlatformCollider implements CollisionListener {
         {
             FlatPlatform fp = (FlatPlatform) platform;
             ((Fallable) collidable).land(fp.getPositionVector().y);
-            if(collidable instanceof goldteam.characters.Walker)
-                System.out.println("Poop");
         }
     }
 
     @Override
     public void CollisionDetected(Collidable a, Collidable b) {
-        if ((a instanceof Platform) && (b instanceof Movable)) {
+        if ((a instanceof Platform) && (b instanceof Fallable)) {
             this.platform = a;
             this.collidable = b;
             DoCollision();
 
-        } else if ((b instanceof Platform) && (a instanceof Movable)) {
+        } else if ((b instanceof Platform) && (a instanceof Fallable)) {
             this.platform = b;
             this.collidable = a;
             DoCollision();
