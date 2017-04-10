@@ -12,8 +12,8 @@ public abstract class PlatformBuilderBase extends PlatformObjectBuilderBase {
     }
 
     @Override
-    protected void buildTemplate(int height, int width) {
-        this.createObject(height, width);
+    protected void buildTemplate(int width, int height) {
+        this.createObject(width, height);
         this.addAnimations();
     }
 
