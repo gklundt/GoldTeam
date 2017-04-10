@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
  *
  * @author faaez
  */
-public abstract class PlatformAnimationBase extends AnimationBase{
+public abstract class PlatformAnimationBase extends AnimationBase {
 
     protected final String imgFilename;
     protected final GameObject gameObject;
@@ -31,8 +31,8 @@ public abstract class PlatformAnimationBase extends AnimationBase{
     private BufferedImage img;
     protected int imgWidth;
     protected int imgHeight;
-    
-    public PlatformAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile){
+
+    public PlatformAnimationBase(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super();
         super.setSize(preferredSize);
         this.imgFilename = assetFile;
@@ -41,21 +41,21 @@ public abstract class PlatformAnimationBase extends AnimationBase{
         this.animatableGameObject.addAnimationTimerListener(this);
         this.color = Color.BLACK;
     }
-    
-    public void setDimensions(Dimension platfromDimensions){
+
+    public void setDimensions(Dimension platfromDimensions) {
         this.platfromDimensions = platfromDimensions;
     }
-    
-    public Dimension getDimensions(){
+
+    public Dimension getDimensions() {
         return this.platfromDimensions;
     }
-    
-    public void setColor(Color color){
+
+    public void setColor(Color color) {
         this.color = color;
     }
-    
-    public void loadImage(String imgFileName, AffineTransform transform){
-        if(imgFileName != null){
+
+    public void loadImage(String imgFileName, AffineTransform transform) {
+        if (imgFileName != null) {
             ClassLoader cl = getClass().getClassLoader();
             URL imgUrl = cl.getResource(imgFileName);
             if (imgUrl == null) {
@@ -81,7 +81,7 @@ public abstract class PlatformAnimationBase extends AnimationBase{
             this.imgWidth = img.getWidth(null);
         }
     }
-    
+
     @Override
     protected void update() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -91,23 +91,64 @@ public abstract class PlatformAnimationBase extends AnimationBase{
     public void actionPerformed(ActionEvent e) {
         update();
     }
-    
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(this.color);
-        if(this.imgFilename == null){
+        if (this.imgFilename == null) {
             g2d.fillRect(gameObject.positionVector.x,
-                         gameObject.positionVector.y,
-                         platfromDimensions.width, 
-                         platfromDimensions.height
+                    gameObject.positionVector.y,
+                    platfromDimensions.width,
+                    platfromDimensions.height
             );
-        } else{
-           for(int x = this.gameObject.positionVector.x; x < this.gameObject.positionVector.x + this.gameObject.shape.getBounds().width; x += imgWidth){
-                for(int y = this.gameObject.positionVector.y; y < this.gameObject.positionVector.y + this.gameObject.shape.getBounds().height; y += imgHeight){
-                    g2d.drawImage(img, x, y, null);
+        } else {
+            int widthCounter = 1;
+            int heightCounter = 1;
+
+            for (int x = this.gameObject.positionVector.x; x < this.gameObject.positionVector.x + platfromDimensions.width; x += imgWidth) {
+                heightCounter = 1;
+                for (int y = this.gameObject.positionVector.y; y < this.gameObject.positionVector.y + platfromDimensions.height; y += imgHeight) {
+
+                    if ((x + imgWidth) > this.gameObject.positionVector.x + platfromDimensions.width
+                            || (y + imgHeight) > this.gameObject.positionVector.y + platfromDimensions.height) {
+
+                        int widthDifference = 0;
+                        int heightDifference = 0;
+
+                        if ((x + imgWidth) > this.gameObject.positionVector.x + platfromDimensions.width) {
+                            if (imgWidth > platfromDimensions.width) {
+                                widthDifference = platfromDimensions.width;
+                            } else {
+                                widthDifference = platfromDimensions.width - (imgWidth * (widthCounter - 1));
+                            }
+                        } else {
+                            widthDifference = imgWidth;
+                        }
+
+                        if ((y + imgHeight) > this.gameObject.positionVector.y + platfromDimensions.height) {
+                            if (imgHeight > platfromDimensions.height) {
+                                heightDifference = platfromDimensions.height;
+                            } else {
+                                heightDifference = platfromDimensions.height - (imgHeight * (heightCounter - 1));
+                            }
+                        } else {
+                            heightDifference = imgHeight;
+                        }
+
+                        try {
+                            BufferedImage croppedImage = img.getSubimage(0, 0, widthDifference, heightDifference);
+                            g2d.drawImage(croppedImage, x, y, null);
+                        } catch (Exception e) {
+
+                        }
+                    } else {
+                        g2d.drawImage(img, x, y, imgWidth, imgHeight, null);
+                    }
+                    heightCounter++;
                 }
+                widthCounter++;
             }
         }
     }

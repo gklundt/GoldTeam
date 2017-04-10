@@ -23,7 +23,7 @@ public class FlatPlatformBuilder extends PlatformBuilderBase {
     }
 
     @Override
-    protected void createObject(int height, int width) {
+    protected void createObject(int width, int height) {
         this.height = height;
         this.width = width;
         this.gameObject = new FlatPlatform(gameData, point, width, height);
@@ -34,7 +34,7 @@ public class FlatPlatformBuilder extends PlatformBuilderBase {
     protected void addAnimations() {
         FlatPlatformAnimation fpa = new FlatPlatformAnimation(this.platform, gameData.getMapDimensions(), "assets/platformTile.jpg");
         this.platform.addAnimator(AnimationState.DEFAULT, fpa);
-        fpa.setDimensions(new Dimension(height, width));
+        fpa.setDimensions(new Dimension(width, height));
           
     }
 }

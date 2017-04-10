@@ -148,16 +148,13 @@ public class TestCollidersPanel extends GamePanelBase
         gameData.getDepletableCharacter().setCountDelta(Delta.create(-1.0, ModType.FIXED));
 
         this.platformBuilder = new FlatPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(0, 328), 100, 150));
-        
-        this.platformBuilder = new FlatPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(200, 328), 100, 150));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(0, 328), 450, 250));
         
         this.platformBuilder = new PitPlatformBuilder(gameData);
         addGameObject(this.platformProvider.build(platformBuilder, new Point(450, 328), 100, 250));
         
         this.platformBuilder = new FlatPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(600, 328), 100, 150));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(550, 328), 250, 250));
         
         this.gameObjectBuilder = new WalkerEnemyBuilder(gameData);
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(0, 0)));

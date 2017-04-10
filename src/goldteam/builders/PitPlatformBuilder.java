@@ -27,7 +27,7 @@ public class PitPlatformBuilder extends PlatformBuilderBase{
     }
 
     @Override
-    protected void createObject(int height, int width) {
+    protected void createObject(int width, int height) {
         this.height = height;
         this.width = width;
         this.gameObject = new PitPlatform (gameData, point, width, height);
@@ -38,6 +38,6 @@ public class PitPlatformBuilder extends PlatformBuilderBase{
     protected void addAnimations() {
         PitPlatformAnimation ppa = new PitPlatformAnimation(this.pit, gameData.getMapDimensions(), "assets/lavaTile.png");
         this.pit.addAnimator(AnimationState.DEFAULT, ppa);
-        ppa.setDimensions(new Dimension(height, width));
+        ppa.setDimensions(new Dimension(width, height));
     } 
 }
