@@ -73,7 +73,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         super(panelManager);
         this.gameData = gameData;
         this.panelRunner = () -> {
-            setupLayerdPanels();
+            setupLayeredPanels();
             addGameObjects();
             addGameListener();
         };
@@ -214,7 +214,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Panel Construction and Destruction">
-    private void setupLayerdPanels() {
+    private void setupLayeredPanels() {
         JRootPane jrp = getRootPane();
         jrp.setDoubleBuffered(true);
         layeredPane = new JLayeredPane();
@@ -393,7 +393,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     public void createLauncher(Point p)
     {
         this.gameObjectBuilder = new LauncherEnemyBuilder(gameData);
-        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, p));
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, (Point)p.clone()));
     }
 //</editor-fold>
 }
