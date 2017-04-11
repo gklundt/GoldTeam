@@ -52,7 +52,9 @@ public class EnemyArrowCollider implements CollisionListener {
         this.workingFlag = true;
         if (this.ghost instanceof Attackable) {
             Attackable attackable = (Attackable) ghost;
-            attackable.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+            if(attackable.getHealthValue() > 0){
+                attackable.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+            }
         }
 
         this.workingFlag = false;
