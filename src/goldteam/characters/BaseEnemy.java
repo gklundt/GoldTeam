@@ -8,8 +8,10 @@ package goldteam.characters;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
+import goldteam.domain.Attackable;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionPlane;
+import goldteam.domain.Delta;
 import goldteam.domain.Enemy;
 import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
@@ -24,17 +26,20 @@ import java.util.HashMap;
  *
  * @author Joshua
  */
-public abstract class BaseEnemy extends GameObject implements Animatable, Enemy, Collidable {
+public abstract class BaseEnemy extends GameObject implements Animatable, Enemy, Collidable, Attackable {
 
     protected AnimationBase animator;
     protected final ArrayList<ActionListener> animationChangeListeners;
+    protected final ArrayList<ActionListener> attackableListeners;
     protected Polygon collider;
     protected final HashMap<Collidable, CollisionPlane> currentColliders;
     private boolean collided;
+    protected int health;
 
     public BaseEnemy(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
         this.animationChangeListeners = new ArrayList<>();
+        this.attackableListeners = new ArrayList<>();
         this.collider = new Polygon();
         this.currentColliders = new HashMap<>();
         collided = false;
@@ -89,7 +94,7 @@ public abstract class BaseEnemy extends GameObject implements Animatable, Enemy,
         this.animator = animator;
     }
 
- //<editor-fold defaultstate="collapsed" desc="Collidable Implementation">
+    //<editor-fold defaultstate="collapsed" desc="Collidable Implementation">
     @Override
     public Polygon getPolygon() {
         return this.collider;
@@ -129,4 +134,48 @@ public abstract class BaseEnemy extends GameObject implements Animatable, Enemy,
         return this.collided;
     }
 //</editor-fold>
+
+    @Override
+    public int getShieldValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getHealthValue() {
+        return this.health;
+    }
+
+    @Override
+    public void setShieldDelta(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setHealthDelta(Delta delta) {
+        this.health += delta.delta;
+        this.notifyAttackableListeners();
+    }
+
+    @Override
+    public void addAttackableListener(ActionListener listener) {
+        this.attackableListeners.add(listener);
+    }
+
+    @Override
+    public void notifyAttackableListeners() {
+        ActionEvent e = new ActionEvent(this, 0, "");
+        for (ActionListener al : this.attackableListeners) {
+            al.actionPerformed(e);
+        }
+    }
+
+    @Override
+    public double getChargeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setChargeDelta(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

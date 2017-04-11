@@ -31,6 +31,8 @@ public class Walker extends BaseEnemy implements Fallable {
         
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
+        
+        super.health = 5;
     }
 
     @Override

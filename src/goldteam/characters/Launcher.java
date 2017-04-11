@@ -24,6 +24,7 @@ public class Launcher extends BaseEnemy
         
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
+        super.health = 1;
     }
 
     @Override
