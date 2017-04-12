@@ -4,11 +4,27 @@ import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
 import goldteam.domain.VectorMath;
 import java.awt.Point;
+import java.awt.Polygon;
 
 public class Launcher extends BaseEnemy
 {
     public Launcher(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
+        
+        int[] xPoly = {this.positionVector.x - 12,
+            this.positionVector.x + 12,
+            this.positionVector.x + 12,
+            this.positionVector.x - 12
+        };
+        int[] yPoly = {this.positionVector.y - 12,
+            this.positionVector.y - 12,
+            this.positionVector.y + 12,
+            this.positionVector.y + 12
+        };
+        
+        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        super.shape = collider;
+        super.health = 1;
     }
 
     @Override
@@ -20,6 +36,13 @@ public class Launcher extends BaseEnemy
         positionVector.x += velocityVector.x;
         positionVector.y += velocityVector.y;
         
+        this.collider = new Polygon();
+        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 10);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 10);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 10);
+        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 10);
+        super.shape = collider;
+        
         if(this.animator != null)
         {
             DoubleVector dangle = new DoubleVector((double)(positionVector.x - prevPos.x), (double)(positionVector.y - prevPos.y));
@@ -28,5 +51,7 @@ public class Launcher extends BaseEnemy
                 currentAngle -= Math.PI;
             animator.af.setToRotation(currentAngle + Math.PI / 2);
         }
+        
+        
     }
 }

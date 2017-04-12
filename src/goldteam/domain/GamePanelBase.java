@@ -300,6 +300,12 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             }
         }
     }
+    
+    private void checkAttackableforRemoval(Attackable attackable){
+        if(attackable.getHealthValue() == 0){
+            this.removeGameObject(attackable);
+        }
+    }
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Add and Remove Game Objects">
@@ -327,6 +333,11 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         if (gameObject instanceof Boostable) {
             Boostable boostable = (Boostable) gameObject;
             boostable.addBoostableListener(l -> switchWeapon(boostable));
+        }
+        
+        if (gameObject instanceof Attackable) {
+            Attackable attackable = (Attackable) gameObject;
+            attackable.addAttackableListener(l -> checkAttackableforRemoval(attackable));
         }
 
         if (gameObject instanceof Collidable) {
