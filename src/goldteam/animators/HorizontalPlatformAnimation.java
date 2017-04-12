@@ -20,7 +20,7 @@ public class HorizontalPlatformAnimation extends PlatformAnimationBase{
     public HorizontalPlatformAnimation(GameObject gameObject, Dimension preferredSize, String assetFile) {
         super(gameObject, preferredSize, assetFile);
         super.setColor(Color.DARK_GRAY);
-        super.loadImage(imgFilename, new AffineTransform(1, 0, 0, 1, 0, 0));
+        super.loadImage(imgFilename, new AffineTransform(0.5, 0, 0, 0.5, 0, 0));
     }
     
 }

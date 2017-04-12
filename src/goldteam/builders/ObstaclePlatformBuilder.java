@@ -38,7 +38,7 @@ public class ObstaclePlatformBuilder extends PlatformBuilderBase {
 
     @Override
     protected void addAnimations() {
-        ObstaclePlatformAnimation op = new ObstaclePlatformAnimation(this.obstacle, gameData.getMapDimensions(), "assets/obstacle.png");
+        ObstaclePlatformAnimation op = new ObstaclePlatformAnimation(this.obstacle, gameData.getMapDimensions(), "assets/spike1.png");
         this.obstacle.addAnimator(AnimationState.DEFAULT, op);
         op.setDimensions(new Dimension(height, width));
     }   

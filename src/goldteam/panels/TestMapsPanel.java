@@ -1,45 +1,24 @@
 package goldteam.panels;
 
-import goldteam.GamePanelManager;
-import goldteam.animators.FlatPlatformAnimation;
-import goldteam.animators.GameStageAnimation;
-import goldteam.animators.GhostAnimation;
-import goldteam.animators.MapDoorsAnimation;
+
 import goldteam.animators.SkyAnimation;
-import goldteam.animators.TestHudAnimation;
-import goldteam.animators.TestMapAnimator;
 import goldteam.builders.FlatPlatformBuilder;
 import goldteam.builders.GhostEnemyBuilder;
+import goldteam.builders.HeartHudBuilder;
 import goldteam.builders.HorizontalPlatformBuilder;
 import goldteam.builders.MapDoorsBuilder;
 import goldteam.builders.ObstaclePlatformBuilder;
 import goldteam.builders.PitPlatformBuilder;
-import goldteam.builders.StationaryGhostBuilder;
-import goldteam.characters.BackgroundPanelGhost;
-import goldteam.characters.Ghost;
-import goldteam.characters.StationaryGhost;
-import goldteam.colliders.CollisionDetector;
-import goldteam.colliders.DoorCollider;
 import goldteam.colliders.PlatformCollider;
 import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
-import goldteam.domain.AnimationBase;
 import goldteam.domain.AnimationState;
-import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.GamePanelBase;
-import goldteam.domain.GameStageAnimationBase;
 import goldteam.domain.PanelManager;
-import goldteam.domain.ResettableAnimation;
 import goldteam.gamedata.GameData;
-import goldteam.hud.GameStageItem;
-import goldteam.hud.TestHudItem;
-import goldteam.maps.TestMap;
-import goldteam.platforms.DoorsPlatform;
-import goldteam.platforms.FlatPlatform;
 import goldteam.platforms.SkyPlatform;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 
 /**
  *
@@ -56,166 +35,43 @@ public class TestMapsPanel extends GamePanelBase {
 
     @Override
     protected void addGameObjects() {
-        this.spawnPoint = new Point(1, 470);
+        this.spawnPoint = new Point(1, 370);
         super.addGameObjects();
 
 
-        SkyPlatform sky = new SkyPlatform(gameData, new Point(0, 0), 500, 700);
-        SkyAnimation fpa4 = new SkyAnimation(sky, gameData.getMapDimensions(), "assets/map.png");
-        sky.addAnimator(AnimationState.DEFAULT, fpa4);
-        fpa4.setDimensions(new Dimension(400, 250));
-        addGameObject(sky);
+        
 
-
-        //Map platform
-//        sky = new SkyPlatform(gameData, new Point(0, 0),500,700);
-//        SkyAnimation fpa4 = new SkyAnimation(sky, gameData.getMapDimensions(), "assets/map.png");
-//        fpa4.setDimensions(new Dimension(400,250)); 
-
-       // this.gameObjectBuilder = new StationaryGhostBuilder(gameData);
-       // addGameObject(this.gameObjectProvider.build(gameObjectBuilder, new Point(1, 490)));
 
         this.gameObjectBuilder = new GhostEnemyBuilder(gameData);
         addGameObject(this.gameObjectProvider.build(gameObjectBuilder, new Point(10, 490)));
 
         this.platformBuilder = new FlatPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(395, 350), 100, 150));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(0, 400), 300, 200));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(400, 250), 150, 150));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(400, 400), 300, 200));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(650, 400), 300, 200));
         
         this.platformBuilder = new HorizontalPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(280, 420), 10, 60));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(320, 300), 50, 10));
         
-        this.platformBuilder = new HorizontalPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(250, 660), 10, 60));
-
         this.platformBuilder = new MapDoorsBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(770, 440), 60, 10));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(775, 440), 60, 10));
         
         this.platformBuilder = new PitPlatformBuilder (gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(255, 500), 120, 125));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(300, 400), 120, 200));
         
         this.platformBuilder = new ObstaclePlatformBuilder (gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(470, 290), 10, 10));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(440, 238), 47, 13));
         
+        SkyPlatform sky = new SkyPlatform(gameData, new Point(0, 0), 500, 700);
+        SkyAnimation fpa4 = new SkyAnimation(sky, gameData.getMapDimensions(), "assets/map.png");
+        sky.addAnimator(AnimationState.DEFAULT, fpa4);
+        fpa4.setDimensions(new Dimension(400, 250));
+        addGameObject(sky);
         
-        //Platforms
-//        flatPlatform = new FlatPlatform(gameData, new Point(0, 500),300,150);
-//        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getMapDimensions(), "assets/platformTile.jpg");
-//        fpa.setDimensions(new Dimension(300,150));
-//        
-//        raisedPlatform = new FlatPlatform(gameData, new Point(400 , 350),100,300);
-//        FlatPlatformAnimation rpa = new FlatPlatformAnimation(raisedPlatform, gameData.getMapDimensions(), "assets/platformTile.jpg");
-//        rpa.setDimensions(new Dimension(100,150));
-//        
-//        lavaPlatform = new FlatPlatform(gameData, new Point(412 + rpa.getDimensions().width, 500), 200, 150);
-//        FlatPlatformAnimation lpa = new FlatPlatformAnimation(lavaPlatform, gameData.getMapDimensions(), "assets/lavaTile.png");
-//        lpa.setDimensions(new Dimension(200,150));
-//        
-//        flatPlatform1 = new FlatPlatform(gameData, new Point(448 + rpa.getDimensions().width + lpa.getDimensions().width, 500),200,150);
-//        FlatPlatformAnimation fpa1 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/platformTile.jpg");
-//        fpa1.setDimensions(new Dimension(200,150));
-//        
-//        flatPlatform1 = new FlatPlatform(gameData, new Point(704 + rpa.getDimensions().width + lpa.getDimensions().width, 500),200,150);
-//        FlatPlatformAnimation fpa2 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/platformTile.jpg");
-//        fpa1.setDimensions(new Dimension(200,150));
-//        
-//        flatPlatform1 = new FlatPlatform(gameData, new Point(960 + rpa.getDimensions().width + lpa.getDimensions().width, 500),200,150);
-//        FlatPlatformAnimation fpa3 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/platformTile.jpg");
-//        fpa1.setDimensions(new Dimension(200,150));
-//        
-//        flatPlatform1 = new FlatPlatform(gameData, new Point(700 ,400),70, 15);
-//        FlatPlatformAnimation hp = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/horizontal_plat.png");
-//        hp.setDimensions(new Dimension(200,150));
-//        
-//        flatPlatform1 = new FlatPlatform(gameData, new Point(290 ,400),40, 15);
-//        FlatPlatformAnimation hp1 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/horizontal_plat.png");
-//        hp1.setDimensions(new Dimension(200,150));
-//        
-//        flatPlatform1 = new FlatPlatform(gameData, new Point(190 ,430),40, 15);
-//        FlatPlatformAnimation hp2 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/horizontal_plat.png");
-//        hp2.setDimensions(new Dimension(200,150));
-//        
-//        flatPlatform1 = new FlatPlatform(gameData, new Point(570 ,270),80, 10);
-//        FlatPlatformAnimation hp3 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/horizontal_plat.png");
-//        hp3.setDimensions(new Dimension(200,150));
-//        
-//        flatPlatform1 = new FlatPlatform(gameData, new Point(90 ,410),80, 80);
-//        FlatPlatformAnimation ob1 = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/obstacle1.png");
-//        ob1.setDimensions(new Dimension(200,150));
-//        
-//        flatPlatform1 = new FlatPlatform(gameData, new Point(430 ,260),80, 80);
-//        FlatPlatformAnimation ob = new FlatPlatformAnimation(flatPlatform1, gameData.getMapDimensions(), "assets/obstacle.png");
-//        ob.setDimensions(new Dimension(200,150));
-        
-        //door Platform
-        //ending door 
-//        dp1 = new DoorsPlatform(gameData, new Point(390, 438),10,60);
-//        MapDoorsAnimation mp1 = new MapDoorsAnimation(dp1, gameData.getMapDimensions(), "assets/S_door.png");
-//        mp1.setDimensions(new Dimension(50,50));
-        
-        
-//        g1.setAnimator(ga1);
-//        //g2.setAnimator(ga2);
-//        dp1.setAnimator(mp1);
-//        flatPlatform.setAnimator(fpa);
-//        raisedPlatform.setAnimator(rpa);
-//        lavaPlatform.setAnimator(lpa);
-//        flatPlatform1.setAnimator(fpa1);
-//        flatPlatform1.setAnimator(fpa2);
-//        flatPlatform1.setAnimator(fpa3);   
-//        flatPlatform1.setAnimator(hp);
-//        flatPlatform1.setAnimator(hp1);
-//        flatPlatform1.setAnimator(hp2);
-//        flatPlatform1.setAnimator(hp3);
-//        flatPlatform1.setAnimator(ob1);
-//        flatPlatform1.setAnimator(ob);
-//        sky.setAnimator(fpa4);
-      
-
-        //raisedPlatform.setCollider(raisedPlatform, CollisionPlane.LEFT);
-//        this.layeredPane.add(mp1,layeredPane.highestLayer()); //ending Door
-//        this.layeredPane.add(fpa, layeredPane.highestLayer());
-//        this.layeredPane.add(lpa, layeredPane.highestLayer());
-//        this.layeredPane.add(rpa, layeredPane.highestLayer());
-//        this.layeredPane.add(fpa4, 20);
-//        this.layeredPane.add(fpa3, layeredPane.highestLayer());
-//        this.layeredPane.add(fpa2, layeredPane.highestLayer());
-//        this.layeredPane.add(fpa1, layeredPane.highestLayer());
-//        this.layeredPane.add(ga1, layeredPane.highestLayer());
-//        this.layeredPane.add(hp,  layeredPane.highestLayer());
-//        this.layeredPane.add(hp1, layeredPane.highestLayer());
-//        this.layeredPane.add(hp2, layeredPane.highestLayer());
-//        this.layeredPane.add(hp3, layeredPane.highestLayer());
-//        this.layeredPane.add(ob1, layeredPane.highestLayer());
-//        this.layeredPane.add(ob, layeredPane.highestLayer());
-
-        //this.layeredPane.add(ga2, layeredPane.highestLayer());
-        //this.layeredPane.add(ppa, layeredPane.highestLayer());
-
-
-        StationaryGhostCollider sg = new StationaryGhostCollider();
-        
-        PlatformCollider pc = new PlatformCollider();
-        addGameObject(pc);
-//        g1 = new StationaryGhost(gameData, new Point(1, 490));
-//        g1 = new StationaryGhost(gameData, new Point(1, 490));
-//        g2 = new Ghost(gameData, new Point(1, 490));
-//
-//        CharacterAnimationBase ga1 = new GhostAnimation(g1, gameData.getMapDimensions(), "assets/GameGhostStripe.png");
-//        //CharacterAnimationBase ga2 = new GhostAnimation(g2, gameData.getMapDimensions(), "assets/GameGhostStripeRed.png");
-//
-        //Map platform
-
-//        //Platforms
-//        FlatPlatform flatPlatform = new FlatPlatform(gameData, new Point(0, 500), 300, 150);
-//        FlatPlatformAnimation fpa = new FlatPlatformAnimation(flatPlatform, gameData.getMapDimensions(), "assets/platformTile.jpg");
-//        fpa.setDimensions(new Dimension(300, 150));
-//        flatPlatform.addAnimator(AnimationState.DEFAULT, fpa);
-//        addGameObject(flatPlatform);
-        this.platformBuilder = new FlatPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(0, 500), 300, 150));
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(650, 500), 300, 150));
-
-
+        //StationaryGhostCollider sg = new StationaryGhostCollider();
+        //PlatformCollider pc = new PlatformCollider();
+        //addGameObject(pc);
 //
 //        //this.layeredPane.add(ga2, layeredPane.highestLayer());
 //        //this.layeredPane.add(ppa, layeredPane.highestLayer());

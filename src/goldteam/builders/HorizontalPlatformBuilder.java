@@ -36,7 +36,7 @@ public class HorizontalPlatformBuilder extends PlatformBuilderBase {
 
     @Override
     protected void addAnimations() {
-        HorizontalPlatformAnimation hp = new HorizontalPlatformAnimation(this.platform, gameData.getMapDimensions(), "assets/horizontal_plat.png");
+        HorizontalPlatformAnimation hp = new HorizontalPlatformAnimation(this.platform, gameData.getMapDimensions(), "assets/grass_block.png");
         this.platform.addAnimator(AnimationState.DEFAULT, hp);
         hp.setDimensions(new Dimension(height, width));
           

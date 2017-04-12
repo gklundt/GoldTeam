@@ -8,7 +8,7 @@ package goldteam.panels;
 //import goldteam.collectables.CollectableArrows;
 //import goldteam.Collectables.Health;
 //import goldteam.collectables.Shields;
-import goldteam.collectables.CollectableArrows;
+//import goldteam.collectables.CollectableArrows;
 import goldteam.characters.Ghost;
 import goldteam.characters.StationaryGhost;
 import goldteam.colliders.CollisionDetector;
