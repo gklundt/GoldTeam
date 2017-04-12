@@ -78,7 +78,7 @@ public class Walker extends BaseEnemy implements Fallable {
         //System.out.println("ADUISD");
         if(!grounded)
         {
-            this.positionVector.y = (int)(yPos - 28);
+            this.positionVector.y = (int)(yPos - 46);
             this.yAcceleration = 0.0;
             this.yVelocity = 0.0;
             this.grounded = true;

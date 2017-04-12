@@ -42,7 +42,8 @@ public class Flyer extends BaseEnemy
     @Override
     protected void Update() {
         timeSinceAttacked++;
-        int xdif = gamedata.getMovableCharacter().PositionVector().x - positionVector.x;
+        int dif = (int)(Math.sin(System.currentTimeMillis() / 1000) * 150);
+        int xdif = ((gamedata.getMovableCharacter().PositionVector().x + dif) - positionVector.x);
         if (xdif > 0) {
             moveRight(xdif);
         } else {
