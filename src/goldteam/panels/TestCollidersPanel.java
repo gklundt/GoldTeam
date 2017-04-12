@@ -46,11 +46,13 @@ import goldteam.builders.LauncherEnemyBuilder;
 import goldteam.builders.LifeHudBuilder;
 import goldteam.builders.PitPlatformBuilder;
 import goldteam.builders.WalkerEnemyBuilder;
+import goldteam.colliders.ArcherCollider;
 import goldteam.colliders.CollectableHealthBoostCollider;
 import goldteam.colliders.CollectableHealthCollider;
 import goldteam.colliders.CollectableLifeCollider;
 import goldteam.colliders.CollectablePermanentWeaponBoostCollider;
 import goldteam.colliders.CollectableWeaponBoostCollider;
+import goldteam.colliders.EnemyArrowCollider;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 
@@ -104,7 +106,13 @@ public class TestCollidersPanel extends GamePanelBase
         
         PlatformCollider pc = new PlatformCollider();
         addGameObject(pc);
+        
+        EnemyArrowCollider ec = new EnemyArrowCollider();
+        addGameObject(ec);
 
+        ArcherCollider arc = new ArcherCollider();
+        addGameObject(arc);
+        
        /* this.collectableBuilder = new CollectableArrowBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));
         this.collectableBuilder = new CollectableShieldBuilder(gameData);
