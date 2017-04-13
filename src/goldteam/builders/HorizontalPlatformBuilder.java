@@ -27,10 +27,10 @@ public class HorizontalPlatformBuilder extends PlatformBuilderBase {
     }
 
     @Override
-    protected void createObject(int height, int width) {
+    protected void createObject(int width, int height) {
         this.height = height;
         this.width = width;
-        this.gameObject = new HorizontalPlatform(gameData, point, width, height);
+        this.gameObject = new HorizontalPlatform(gameData, point, width, height + 50);
         this.platform = (HorizontalPlatform) this.gameObject;
     }
 
@@ -38,7 +38,7 @@ public class HorizontalPlatformBuilder extends PlatformBuilderBase {
     protected void addAnimations() {
         HorizontalPlatformAnimation hp = new HorizontalPlatformAnimation(this.platform, gameData.getMapDimensions(), "assets/grass_block.png");
         this.platform.addAnimator(AnimationState.DEFAULT, hp);
-        hp.setDimensions(new Dimension(height, width));
+        hp.setDimensions(new Dimension(width, height));
           
     }
     

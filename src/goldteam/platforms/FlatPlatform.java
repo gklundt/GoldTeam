@@ -52,6 +52,18 @@ public class FlatPlatform extends GameObject implements
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
     }
+    
+    @Override
+    public int getWidth()
+    {
+        return width;
+    }
+    
+    @Override
+    public int getHeight()
+    {
+        return height;
+    }
 
 //<editor-fold defaultstate="collapsed" desc="Platform Implementation">
     @Override

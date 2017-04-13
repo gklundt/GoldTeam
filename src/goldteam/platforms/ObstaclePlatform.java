@@ -52,6 +52,18 @@ public class ObstaclePlatform  extends GameObject implements Platform,
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
     }
+    
+    @Override
+    public int getWidth()
+    {
+        return width;
+    }
+    
+    @Override
+    public int getHeight()
+    {
+        return height;
+    }
 
     @Override
     protected void Update() {

@@ -6,6 +6,7 @@ import goldteam.domain.CollisionListener;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Delta;
 import goldteam.domain.Fallable;
+import goldteam.domain.GameObject;
 import goldteam.domain.ModType;
 import goldteam.domain.Movable;
 import goldteam.domain.Platform;
@@ -39,7 +40,30 @@ public class PlatformCollider implements CollisionListener {
         if(platform instanceof FlatPlatform && collidable instanceof Fallable)
         {
             FlatPlatform fp = (FlatPlatform) platform;
-            ((Fallable) collidable).land(fp.getPositionVector().y);
+            GameObject obj = (GameObject) collidable;
+            //if(obj.PositionVector().x < fp.PositionVector().x + fp.getWidth() && obj.PositionVector().x > fp.PositionVector().x - fp.getWidth())
+            if(obj.getVelocityVector().y > 0)
+                ((Fallable) collidable).land(fp.getPositionVector().y);
+        }
+        
+        if(platform instanceof HorizontalPlatform && collidable instanceof Fallable)
+        {
+            HorizontalPlatform hp = (HorizontalPlatform) platform;
+            if(collidable instanceof ArcherMan)
+            {
+                ArcherMan am = (ArcherMan) collidable;
+                if(am.checkPlatformList(hp))
+                    return;
+                if(am.getDown())
+                {
+                    am.specialFall(hp);
+                    return;
+                }
+            }
+            GameObject obj = (GameObject) collidable;
+            //if(obj.PositionVector().x < hp.PositionVector().x + hp.getWidth() && obj.PositionVector().x > hp.PositionVector().x - hp.getWidth())
+            if(obj.getVelocityVector().y > 0 && obj.getPositionVector().y - hp.getPositionVector().y + ((Fallable)(obj)).getOffset() < 40)
+                ((Fallable) collidable).land(hp.getPositionVector().y);
         }
     }
 

@@ -22,7 +22,8 @@ import java.util.HashMap;
  *
  * @author Mishal
  */
-public class HorizontalPlatform extends GameObject implements Platform,
+public class HorizontalPlatform extends GameObject implements
+        Platform,
         Animatable,
         Collidable{
 
@@ -32,13 +33,13 @@ public class HorizontalPlatform extends GameObject implements Platform,
     private final HashMap<Collidable, CollisionPlane> colliders;
     
     public HorizontalPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
-        super(gamedata, initialPoint);
-        
+        super(gamedata, initialPoint);    
         this.width = width;
         this.height = height;
 
         colliders = new HashMap<>();
 
+        System.out.println(width + " " + height);
         int[] xPoly = {this.positionVector.x,
             this.positionVector.x + this.width,
             this.positionVector.x + this.width,
@@ -51,6 +52,18 @@ public class HorizontalPlatform extends GameObject implements Platform,
         };
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
+    }
+    
+    @Override
+    public int getWidth()
+    {
+        return width;
+    }
+    
+    @Override
+    public int getHeight()
+    {
+        return height;
     }
 
     @Override

@@ -23,10 +23,10 @@ public class Walker extends BaseEnemy implements Fallable {
             this.positionVector.x + 12,
             this.positionVector.x - 12
         };
-        int[] yPoly = {this.positionVector.y - 12,
-            this.positionVector.y - 12,
-            this.positionVector.y + 12,
-            this.positionVector.y + 12
+        int[] yPoly = {this.positionVector.y - 48,
+            this.positionVector.y - 48,
+            this.positionVector.y + 48,
+            this.positionVector.y + 48
         };
         
         collider = new Polygon(xPoly, yPoly, xPoly.length);
@@ -44,13 +44,14 @@ public class Walker extends BaseEnemy implements Fallable {
             moveLeft(xdif);
         }
         yVelocity += yAcceleration;
+        this.velocityVector.y = yVelocity;
         positionVector.y += yVelocity;
         
         this.collider = new Polygon();
-        this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y - 42);
-        this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y - 42);
-        this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y + 42);
-        this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y + 42);
+        this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y - 48);
+        this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y - 48);
+        this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y + 48);
+        this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y + 48);
         super.shape = collider;
     }
 
@@ -75,7 +76,6 @@ public class Walker extends BaseEnemy implements Fallable {
     @Override
     public void land(double yPos)
     {
-        //System.out.println("ADUISD");
         if(!grounded)
         {
             this.positionVector.y = (int)(yPos - 46);
@@ -90,6 +90,12 @@ public class Walker extends BaseEnemy implements Fallable {
     {
         this.yAcceleration = 3.0;
         grounded = false;
+    }
+    
+    @Override
+    public int getOffset()
+    {
+        return 46;
     }
 
 }

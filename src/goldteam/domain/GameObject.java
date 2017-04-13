@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public abstract class GameObject implements Removable {
 
     protected Point positionVector;
+    protected DoubleVector velocityVector;
     protected Polygon shape;
     protected Image image;
     protected GameEngine gamedata;
@@ -23,6 +24,7 @@ public abstract class GameObject implements Removable {
         this.gamedata.addMapUpdateTimerListener(l -> MapUpdateTimerHandler());
         this.removableListeners = new ArrayList<>();
         this.positionVector = initialPoint;
+        this.velocityVector = new DoubleVector();
         this.removeMe = false;
     }
 
@@ -72,6 +74,11 @@ public abstract class GameObject implements Removable {
     public Point getPositionVector()
     {
         return this.positionVector;
+    }
+
+    public DoubleVector getVelocityVector()
+    {
+        return this.velocityVector;
     }
     
 }
