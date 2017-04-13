@@ -1,6 +1,7 @@
 package goldteam.builders;
 
 import goldteam.animators.GhostAnimation;
+import goldteam.animators.LauncherAnimation;
 import goldteam.characters.Launcher;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterBuilderBase;
@@ -23,8 +24,8 @@ public class LauncherEnemyBuilder extends CharacterBuilderBase {
 
     @Override
     protected void addAnimations() {
-        GhostAnimation ghostAnimation = new GhostAnimation(enemy, this.gameData.getMapDimensions(), "assets/GameGhostStripe.png");
-        enemy.addAnimator(AnimationState.DEFAULT, ghostAnimation);
+        LauncherAnimation launcherAnimation = new LauncherAnimation(enemy, this.gameData.getMapDimensions(), "assets/Launcher.png");
+        enemy.addAnimator(AnimationState.DEFAULT, launcherAnimation);
     }
 
 }
