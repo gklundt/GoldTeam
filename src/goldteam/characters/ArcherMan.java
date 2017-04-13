@@ -1,6 +1,7 @@
 package goldteam.characters;
 
 import goldteam.domain.*;
+import goldteam.platforms.HorizontalPlatform;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -45,8 +46,8 @@ public class ArcherMan extends GameObject
     private final HashMap<AnimationState, AnimationBase> animators;
     private final HashMap<Collidable, CollisionPlane> colliders;
     private final ArrayList<ActionListener> boostableListeners;
+    private final ArrayList<PlatformHelper> platformList;
 
-    private DoubleVector velocityVector;
     private double velocity;
 
     private int charge;
@@ -64,6 +65,7 @@ public class ArcherMan extends GameObject
     private boolean isBoostableHealth = false;
     private boolean isPermanentBoostableWeapon = false;
     private double yAcceleration;
+    private boolean down;
 
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
@@ -72,7 +74,6 @@ public class ArcherMan extends GameObject
         this.positionVector = initialPoint;
         this.animators = new HashMap<>();
         this.rawVector = new DoubleVector(0d, 0d);
-        this.velocityVector = new DoubleVector();
         this.attackableListeners = new ArrayList<>();
         this.depletableListeners = new ArrayList<>();
         this.animationChangeListeners = new ArrayList<>();
@@ -106,6 +107,8 @@ public class ArcherMan extends GameObject
         super.shape = collider;
         colliders = new HashMap<>();
         this.yAcceleration = 3.0;
+        
+        platformList = new ArrayList<>(4);
     }
 
 //<editor-fold defaultstate="collapsed" desc="Methods that need to be encapsulated in a role interface">
@@ -252,6 +255,8 @@ public class ArcherMan extends GameObject
             this.rawVector.x = initialVelocity;
         }
 
+        down = this.gamedata.getHeldKeys().contains(KeyEvent.VK_S);
+        
         if (this.gamedata.getHeldKeys().contains(KeyEvent.VK_D)) {
             right = true;
             isFacingLeft = false;
@@ -440,6 +445,18 @@ public class ArcherMan extends GameObject
 
     @Override
     protected void Update() {
+        
+        for(int i = 0; i < platformList.size(); i++)
+        {
+            PlatformHelper ph = platformList.get(i);
+            ph.timer--;
+            if(ph.timer == 0)
+            {
+                platformList.remove(ph);
+                i--;
+            }     
+        }
+        
         double velY = velocityVector.y;
         if(jump && grounded)
         {
@@ -447,11 +464,13 @@ public class ArcherMan extends GameObject
             jump = false;
             grounded = false;
             yAcceleration = 3.0;
+            platformList.clear();
         }
         if (jump && canDoubleJump) {
-            velY = -30 * jumpModifier;     //Stops Momentum and creats upwards momentup for double jump
+            velY = -22 * jumpModifier;     //Stops Momentum and creats upwards momentup for double jump
             canDoubleJump = false;
             yAcceleration = 3.0;
+            platformList.clear();
         }
         else
             velY += yAcceleration;  //Gravity
@@ -492,6 +511,16 @@ public class ArcherMan extends GameObject
         if (!b) {
             charge = 0;
         }
+    }
+    
+    public void setDown(boolean b)
+    {
+        down = b;
+    }
+    
+    public boolean getDown()
+    {
+        return down;
     }
 
     public int getMouseCharge() {
@@ -645,7 +674,7 @@ public class ArcherMan extends GameObject
     {
         if(!grounded)
         {
-            this.positionVector.y = (int)(yPos - 28);
+            this.positionVector.y = (int)(yPos - getOffset());
             this.yAcceleration = 0.0;
             this.velocityVector.y = 0.0;
             this.grounded = true;
@@ -658,6 +687,40 @@ public class ArcherMan extends GameObject
     {
         this.yAcceleration = 3.0;
         this.grounded = false;
+    }
+    
+    @Override
+    public int getOffset()
+    {
+        return 28;
+    }
+    
+    public void specialFall(HorizontalPlatform pf)
+    {
+        this.fall();
+        this.platformList.add(new PlatformHelper(pf, 25));
+        
+    }
+    
+    public boolean checkPlatformList(HorizontalPlatform hp)
+    {
+        for(PlatformHelper ph : platformList)
+        {
+            if(ph.platform == hp)
+                return true;
+        }
+        return false;
+    }
+    
+    private class PlatformHelper
+    {
+        HorizontalPlatform platform;
+        int timer;
+        public PlatformHelper(HorizontalPlatform p, int t)
+        {
+            this.platform = p;
+            this.timer = t;
+        }
     }
 //</editor-fold>
 }

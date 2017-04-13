@@ -17,5 +17,9 @@ public interface Platform {
     public void setSolidTop(Boolean isSolidTop);
 
     public void setSolidBottom(Boolean isSolidBottom);
+    
+    public int getWidth();
+    
+    public int getHeight();
 
 }
