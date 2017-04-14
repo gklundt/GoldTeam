@@ -12,6 +12,7 @@ import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
 import goldteam.domain.Delta;
 import goldteam.domain.Enemy;
+import goldteam.domain.GameSounds;
 import goldteam.domain.ModType;
 
 /**
@@ -27,9 +28,11 @@ public class ArcherCollider implements CollisionListener {
         Attackable am = (Attackable) archer;
 
         if (am.getShieldValue() > 0) {
+            GameSounds.sounds[3].play();
             am.setShieldDelta(Delta.create(-1.0, ModType.FIXED));
         } else {
             if (am.getHealthValue() > 0) {
+                GameSounds.sounds[5].play();
                 am.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
             }
         }

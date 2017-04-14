@@ -8,6 +8,7 @@ import goldteam.domain.CollisionListener;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 import goldteam.domain.Enemy;
+import goldteam.domain.GameSounds;
 
 /**
  * If an Arrow hits an Enemy Decrease the health of the enemy
@@ -49,6 +50,7 @@ public class EnemyArrowCollider implements CollisionListener {
         if (this.workingFlag) {
             return;
         }
+        GameSounds.sounds[2].play();
         this.workingFlag = true;
         if (this.ghost instanceof Attackable) {
             Attackable attackable = (Attackable) ghost;
