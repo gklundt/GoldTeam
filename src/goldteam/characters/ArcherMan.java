@@ -50,7 +50,7 @@ public class ArcherMan extends GameObject
 
     private double velocity;
 
-    private int charge;
+    private int charge, debuffTime;
     private int arrows;
 
     private float speedModifier, jumpModifier;
@@ -457,6 +457,10 @@ public class ArcherMan extends GameObject
             }     
         }
         
+        debuffTime--;
+        if(debuffTime == 0)
+            this.resetBuffs();
+        
         double velY = velocityVector.y;
         if(jump && grounded)
         {
@@ -584,27 +588,46 @@ public class ArcherMan extends GameObject
         return false;
     }
 
-    public void debuffSpeed() {
+    public void debuff()
+    {
+        debuffSpeed();
+        debuffJump();
+        debuffTime = 120;
+    }
+    
+    public void buff()
+    {
+        buffSpeed();
+        buffJump();
+    }
+    
+    private void resetBuffs()
+    {
+        resetSpeed();
+        resetJump();
+    }
+    
+    private void debuffSpeed() {
         speedModifier = 0.5f;
     }
 
-    public void buffSpeed() {
+    private void buffSpeed() {
         speedModifier = 1.25f;
     }
 
-    public void resetSpeed() {
+    private void resetSpeed() {
         speedModifier = 1.0f;
     }
 
-    public void debuffJump() {
+    private void debuffJump() {
         jumpModifier = 0.75f;
     }
 
-    public void buffJump() {
+    private void buffJump() {
         jumpModifier = 1.1f;
     }
 
-    public void resetJump() {
+    private void resetJump() {
         jumpModifier = 1.0f;
     }
 //</editor-fold>

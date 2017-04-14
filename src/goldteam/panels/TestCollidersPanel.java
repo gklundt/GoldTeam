@@ -165,7 +165,7 @@ public class TestCollidersPanel extends GamePanelBase
         this.platformBuilder = new FlatPlatformBuilder(gameData);
         addGameObject(this.platformProvider.build(platformBuilder, new Point(550, 328), 250, 250));
         
-        /*
+        
         this.gameObjectBuilder = new WalkerEnemyBuilder(gameData);
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(0, 0)));
         
@@ -174,7 +174,7 @@ public class TestCollidersPanel extends GamePanelBase
         
         this.gameObjectBuilder = new FlyerEnemyBuilder(gameData, this); //Passed so Flyers can create Launchers
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 100)));
-        */
+        
         
         //Little platform
         this.platformBuilder = new HorizontalPlatformBuilder(gameData);
