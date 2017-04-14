@@ -20,6 +20,7 @@ public class EnemyArrowCollider implements CollisionListener {
     private Collidable ghost;
     private Collidable arrow;
     private boolean workingFlag;
+    private GameSounds arrowHit = GameSounds.sounds[2];
 
     public EnemyArrowCollider() {
         this.workingFlag = false;
@@ -50,7 +51,7 @@ public class EnemyArrowCollider implements CollisionListener {
         if (this.workingFlag) {
             return;
         }
-        GameSounds.sounds[2].play();
+        arrowHit.play();
         this.workingFlag = true;
         if (this.ghost instanceof Attackable) {
             Attackable attackable = (Attackable) ghost;

@@ -11,6 +11,7 @@ import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterAnimationBase;
 import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
+import goldteam.domain.GameSounds;
 import goldteam.domain.ProjectileBuilderBase;
 
 public class ArrowBuilder extends ProjectileBuilderBase {
@@ -27,6 +28,7 @@ public class ArrowBuilder extends ProjectileBuilderBase {
         this.speed = speed;
         this.gameObject = new Arrow(gameData, point, this.speed);
         this.arrow = (Arrow) this.gameObject;
+        GameSounds.sounds[0].play();
     }
 
     @Override

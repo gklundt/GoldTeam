@@ -1,5 +1,6 @@
 package goldteam;
 
+import goldteam.domain.GameSounds;
 import goldteam.domain.PanelManager;
 import goldteam.domain.PanelManagerListener;
 import java.lang.reflect.Constructor;
@@ -26,6 +27,7 @@ public class GamePanelManager implements PanelManager {
     public static final String TEST_GAME_OVER_STAGE_PANEL = "TEST_GAME_OVER_STAGE_PANEL";
     public static final String TEST_DEATH_STAGE_PANEL = "TEST_DEATH_STAGE_PANEL";
     public static final String GAME_LEVEL_TEST_PANEL = "GAME_LEVEL_TEST_PANEL";
+    public final GameSounds backgroundMusic = GameSounds.sounds[17];
 
     /* Do not edit below */
     private final ArrayList<PanelManagerListener> listeners;
@@ -94,6 +96,12 @@ public class GamePanelManager implements PanelManager {
                 this.notifyListeners();
                 break;
             }
+        }
+        
+        if(panel.equals("TEST_COLLIDERS_PANEL")) {
+            this.backgroundMusic.play();
+        } else {
+            this.backgroundMusic.stop();
         }
     }
 

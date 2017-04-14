@@ -1,12 +1,10 @@
 package goldteam.builders;
 
-import goldteam.animators.GhostAnimation;
 import goldteam.animators.LauncherAnimation;
 import goldteam.characters.Launcher;
 import goldteam.domain.AnimationState;
 import goldteam.domain.CharacterBuilderBase;
 import goldteam.domain.GameEngine;
-import java.awt.Point;
 
 public class LauncherEnemyBuilder extends CharacterBuilderBase {
 

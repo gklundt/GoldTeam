@@ -57,7 +57,7 @@ public class Flyer extends BaseEnemy
         this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y + 12);
         super.shape = collider;
 
-        if (timeSinceAttacked > 60) {
+        if (timeSinceAttacked > 60 && health > 0) {
             attack();
         }
     }

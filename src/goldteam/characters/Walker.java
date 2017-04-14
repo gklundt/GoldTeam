@@ -88,7 +88,7 @@ public class Walker extends BaseEnemy implements Fallable {
     @Override
     public void fall()
     {
-        this.yAcceleration = 3.0;
+        this.yAcceleration = 10.0;
         grounded = false;
     }
     

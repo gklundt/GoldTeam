@@ -145,6 +145,9 @@ public class ArcherMan extends GameObject
                 this.notifyAttackableListeners();
             }
         }
+        if(this.health == 0) {
+            die();
+        }
     }
 
     @Override
@@ -577,8 +580,7 @@ public class ArcherMan extends GameObject
     }
 
     @Override
-    public void setCollided(boolean state
-    ) {
+    public void setCollided(boolean state) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -718,11 +720,9 @@ public class ArcherMan extends GameObject
         return 28;
     }
     
-    public void specialFall(HorizontalPlatform pf)
-    {
+    public void specialFall(HorizontalPlatform pf) {
         this.fall();
         this.platformList.add(new PlatformHelper(pf, 25));
-        
     }
     
     public boolean checkPlatformList(HorizontalPlatform hp)

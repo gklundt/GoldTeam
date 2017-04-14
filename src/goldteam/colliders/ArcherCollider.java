@@ -23,16 +23,22 @@ public class ArcherCollider implements CollisionListener {
 
     private Collidable archer;
     private Collidable enemy;
+    private final GameSounds heartHit = GameSounds.sounds[5];
+    private final GameSounds shieldHit = GameSounds.sounds[3];
+    private final GameSounds deathHit = GameSounds.sounds[11];
 
     public void DoCollision() {
         Attackable am = (Attackable) archer;
 
         if (am.getShieldValue() > 0) {
-            GameSounds.sounds[3].play();
+            shieldHit.play();
             am.setShieldDelta(Delta.create(-1.0, ModType.FIXED));
         } else {
-            if (am.getHealthValue() > 0) {
-                GameSounds.sounds[5].play();
+            if (am.getHealthValue() > 1) {
+                heartHit.play();
+                am.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+            } else {
+                deathHit.play();
                 am.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
             }
         }
