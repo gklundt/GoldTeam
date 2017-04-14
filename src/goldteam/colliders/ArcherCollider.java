@@ -39,7 +39,8 @@ public class ArcherCollider implements CollisionListener {
             if(l.getHealthValue() > 0){
                 l.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
             }
-        }
+            ((ArcherMan)(am)).debuff();
+        }     
     }
 
     @Override
