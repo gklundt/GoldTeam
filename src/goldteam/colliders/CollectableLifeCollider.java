@@ -28,7 +28,6 @@ public class CollectableLifeCollider implements CollisionListener {
         CollectableItem item = (CollectableItem) collectableItem;
 
         if (item instanceof CollectableLife) {
-            System.out.println("Archer : "+am.getCount());
             if (am.getCount() < 10) {
                 am.setCountDelta(Delta.create(1.0, ModType.FIXED));
                 item.undoCollider();

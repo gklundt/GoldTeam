@@ -477,7 +477,6 @@ public class ArcherMan extends GameObject
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
 
-        System.out.println("velX = " + this.positionVector);
         this.collider.reset();
         this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
         this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);

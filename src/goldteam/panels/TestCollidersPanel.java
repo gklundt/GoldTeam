@@ -154,8 +154,8 @@ public class TestCollidersPanel extends GamePanelBase
         addGameObject(this.platformProvider.build(platformBuilder, new Point(550, 928), 1200, 250));
         
         
-//        this.gameObjectBuilder = new WalkerEnemyBuilder(gameData);
-//        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(0, 0)));
+        this.gameObjectBuilder = new WalkerEnemyBuilder(gameData);
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(0, 0)));
 //        
 //        this.gameObjectBuilder = new LauncherEnemyBuilder(gameData);
 //        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 200)));
