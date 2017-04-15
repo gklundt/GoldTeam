@@ -28,6 +28,7 @@ public class Arrow
     private AnimationBase animator;
     private DoubleVector velocityVector;
     private Point prevPos;
+    private final DoubleVector dangle;
     private Polygon collider;
     private Polygon initialCollider;
     private final ArrayList<ActionListener> attackableListeners;
@@ -37,9 +38,11 @@ public class Arrow
     public final ArrayList<ActionListener> animationChangeListeners;
 //</editor-fold>
 
+
 //<editor-fold defaultstate="collapsed" desc="Constructor">
     public Arrow(GameEngine gamedata, Point initialPoint, DoubleVector velocityVector) {
         super(gamedata, initialPoint);
+        this.dangle = new DoubleVector();
         attackableListeners = new ArrayList<>();
         collidableListeners = new ArrayList<>();
         colliders = new HashMap<>();
@@ -92,7 +95,8 @@ public class Arrow
 
         if(animator != null)
         {
-            DoubleVector dangle = new DoubleVector((double)(positionVector.x - prevPos.x), (double)(positionVector.y - prevPos.y));
+            dangle.x = (double)(positionVector.x - prevPos.x);
+            dangle.y = (double)(positionVector.y - prevPos.y);
             double currentAngle = Math.atan(dangle.y/dangle.x);// + Math.PI/2;
             if(velocityVector.x < -0.0005)
                 currentAngle -= Math.PI;

@@ -47,7 +47,7 @@ public class Walker extends BaseEnemy implements Fallable {
         this.velocityVector.y = yVelocity;
         positionVector.y += yVelocity;
         
-        this.collider = new Polygon();
+        this.collider.reset();
         this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y - 48);
         this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y - 48);
         this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y + 48);

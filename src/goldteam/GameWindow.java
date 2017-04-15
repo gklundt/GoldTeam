@@ -46,7 +46,7 @@ public final class GameWindow extends JFrame implements PanelManagerListener {
             return;
         }
 
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 5; i++) {
 
             renderSplashFrame(g, i);
             splash.update();

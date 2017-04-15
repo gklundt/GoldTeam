@@ -275,7 +275,18 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
                 gsa.resetAnimation();
             }
 
-            this.layeredPane.add(addAnimation.getAnimator(), layeredPane.highestLayer());
+            int layer;
+            if (addAnimation instanceof Enemy) {
+                layer = 10;
+            } else if (addAnimation instanceof Platform) {
+                layer = 1;
+            } else if (addAnimation instanceof GameStageAnimationBase) {
+                layer = 30;
+            } else {
+                layer = 20;
+            }
+
+            this.layeredPane.add(addAnimation.getAnimator(), layer);
         }
     }
 
@@ -300,9 +311,9 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             }
         }
     }
-    
-    private void checkAttackableforRemoval(Attackable attackable){
-        if(attackable.getHealthValue() == 0){
+
+    private void checkAttackableforRemoval(Attackable attackable) {
+        if (attackable.getHealthValue() == 0) {
             this.removeGameObject(attackable);
         }
     }
@@ -319,7 +330,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             if (gameObject instanceof Enemy) {
                 layer = 10;
             } else if (gameObject instanceof Platform) {
-                layer = 5;
+                layer = 1;
             } else if (gameObject instanceof GameStageAnimationBase) {
                 layer = 30;
             } else {
@@ -334,7 +345,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             Boostable boostable = (Boostable) gameObject;
             boostable.addBoostableListener(l -> switchWeapon(boostable));
         }
-        
+
         if (gameObject instanceof Attackable) {
             Attackable attackable = (Attackable) gameObject;
             attackable.addAttackableListener(l -> checkAttackableforRemoval(attackable));
@@ -400,11 +411,10 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             this.keyEventListeners.remove(keyHandler);
         }
     }
-    
-    public void createLauncher(Point p)
-    {
+
+    public void createLauncher(Point p) {
         this.gameObjectBuilder = new LauncherEnemyBuilder(gameData);
-        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, (Point)p.clone()));
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, (Point) p.clone()));
     }
 //</editor-fold>
 }

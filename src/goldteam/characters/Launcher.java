@@ -31,7 +31,8 @@ public class Launcher extends BaseEnemy
     protected void Update()
     {
         Point prevPos = (Point)positionVector.clone();
-        DoubleVector velocityVector = new DoubleVector((double)gamedata.getMovableCharacter().PositionVector().x - positionVector.x, (double)gamedata.getMovableCharacter().PositionVector().y - positionVector.y);
+        velocityVector.x = (double)gamedata.getMovableCharacter().PositionVector().x - positionVector.x;
+        velocityVector.y = (double)gamedata.getMovableCharacter().PositionVector().y - positionVector.y;
         velocityVector = VectorMath.getVelocityVector(velocityVector, 5.0);
         positionVector.x += velocityVector.x;
         positionVector.y += velocityVector.y;

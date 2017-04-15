@@ -148,13 +148,20 @@ public class FlatPlatform extends GameObject implements
     protected void Update() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
-        this.positionVector.x = this.gamedata.getMapLocation().x;
-        this.positionVector.y = this.gamedata.getMapLocation().y;
+//        this.positionVector.x = this.gamedata.getMapLocation().x;
+//        this.positionVector.y = this.gamedata.getMapLocation().y;
+//
+//        this.collider.reset();
+//        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
+//        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);
+//        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 30);
+//        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 30);
+
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.Update();
     }
 
     @Override
@@ -164,7 +171,6 @@ public class FlatPlatform extends GameObject implements
 
     @Override
     protected void MapUpdateTimerHandler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 //</editor-fold>

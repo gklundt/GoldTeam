@@ -50,7 +50,7 @@ public class Flyer extends BaseEnemy
             moveLeft(xdif);
         }
         
-        this.collider = new Polygon();
+        this.collider.reset();
         this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y - 12);
         this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y - 12);
         this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y + 12);

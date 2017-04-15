@@ -63,20 +63,8 @@ import goldteam.domain.ModType;
  */
 public class TestCollidersPanel extends GamePanelBase
 {
-    private ArrayList<GameObject> objects;
-    private CollisionDetector collisionDetector;
-    private CollisionDetector collisionDetector2;
-    private PlatformCollider pc;
-    private ArrayList<Platform> platforms;
-
-    //private Component gp;
     public TestCollidersPanel(PanelManager panelManager) {
         super(panelManager, new GameData());
-        objects = new ArrayList<>();
-        collisionDetector = new CollisionDetector(this.gameData);
-        collisionDetector2 = new CollisionDetector(this.gameData);
-        pc = new PlatformCollider();
-        platforms = new ArrayList<>();
     }
 
     @Override
