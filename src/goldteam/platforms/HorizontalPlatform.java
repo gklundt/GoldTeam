@@ -31,6 +31,7 @@ public class HorizontalPlatform extends GameObject implements
     private Polygon collider;
     private int width, height;
     private final HashMap<Collidable, CollisionPlane> colliders;
+    private final Point initialPoint;
 
     public HorizontalPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
         super(gamedata, initialPoint);
@@ -39,18 +40,14 @@ public class HorizontalPlatform extends GameObject implements
 
         colliders = new HashMap<>();
 
-        System.out.println(width + " " + height);
-        int[] xPoly = {this.positionVector.x,
-            this.positionVector.x + this.width,
-            this.positionVector.x + this.width,
-            this.positionVector.x
-        };
-        int[] yPoly = {this.positionVector.y,
-            this.positionVector.y,
-            this.positionVector.y + this.height,
-            this.positionVector.y + this.height
-        };
-        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        this.initialPoint = initialPoint.getLocation();
+
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
+
+        collider = new Polygon();
         super.shape = collider;
     }
 
@@ -66,18 +63,17 @@ public class HorizontalPlatform extends GameObject implements
 
     @Override
     protected void Update() {
-        //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
 
-        this.positionVector.x = this.gamedata.getMapLocation().x;
-        this.positionVector.y = this.gamedata.getMapLocation().y;
-
-        System.out.println("this = " + this.positionVector.toString());
         this.collider.reset();
         this.collider.addPoint(this.positionVector.x, this.positionVector.y);
         this.collider.addPoint(this.positionVector.x + this.width, this.positionVector.y);
         this.collider.addPoint(this.positionVector.x + this.width, this.positionVector.y + this.height);
         this.collider.addPoint(this.positionVector.x, this.positionVector.y + this.height);
 
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
     }
 
     @Override

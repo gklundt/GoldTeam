@@ -29,7 +29,7 @@ public class ArcherBow extends GameObject implements Weapon,
         this.depletableListeners = new ArrayList<>();
         this.arrowCount = 100;
         this.charge = 0;
-        this.positionVector = new Point();
+        this.positionVector = initialPoint.getLocation();
 
         decreaseCharge = Delta.create(-1.0, ModType.FIXED);
         increaseCharge = Delta.create(1.0, ModType.FIXED);

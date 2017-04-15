@@ -22,40 +22,47 @@ import java.util.HashMap;
  *
  * @author faaez
  */
-public class CollectableWeaponBoost extends GameObject implements Animatable, Collidable, CollectableItem{
-    
+public class CollectableWeaponBoost extends GameObject implements Animatable, Collidable, CollectableItem {
+
     private AnimationBase animator;
     private Polygon collider;
     private final HashMap<Collidable, CollisionPlane> colliders;
+    private final Point initialPoint;
 
     public CollectableWeaponBoost(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
         colliders = new HashMap<>();
 
-        int[] xPoly = {this.positionVector.x,
-            this.positionVector.x + 50,
-            this.positionVector.x + 50,
-            this.positionVector.x
-        };
-        int[] yPoly = {this.positionVector.y,
-            this.positionVector.y,
-            this.positionVector.y + 50,
-            this.positionVector.y + 50
-        };
+        this.initialPoint = initialPoint.getLocation();
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
 
-        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        collider = new Polygon();
         super.shape = collider;
-        
+
     }
 
     @Override
     protected void Update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
+        if (this.collider != null) {
+            this.collider.reset();
+            this.collider.addPoint(this.positionVector.x, this.positionVector.y);
+            this.collider.addPoint(this.positionVector.x + 50, this.positionVector.y);
+            this.collider.addPoint(this.positionVector.x + 50, this.positionVector.y + 50);
+            this.collider.addPoint(this.positionVector.x, this.positionVector.y + 50);
+        }
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.Update();
     }
 
     @Override
@@ -68,7 +75,6 @@ public class CollectableWeaponBoost extends GameObject implements Animatable, Co
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
     @Override
     public AnimationBase getAnimator() {
         return this.animator;
@@ -81,19 +87,18 @@ public class CollectableWeaponBoost extends GameObject implements Animatable, Co
 
     @Override
     public void addAnimationChangeListener(ActionListener listener) {
-     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void removeAnimationChangeListener(ActionListener listener) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void notifyAnimationChangeListeners(AnimationBase animatorToRemove) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
     @Override
     public void addAnimator(AnimationState state, AnimationBase animator) {
@@ -119,7 +124,7 @@ public class CollectableWeaponBoost extends GameObject implements Animatable, Co
     public HashMap<Collidable, CollisionPlane> getColliders() {
         return this.colliders;
     }
-    
+
     @Override
     public void undoCollider() {
         this.collider = null;
@@ -141,5 +146,4 @@ public class CollectableWeaponBoost extends GameObject implements Animatable, Co
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
 }

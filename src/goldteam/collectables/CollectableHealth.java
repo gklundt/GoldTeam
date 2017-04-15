@@ -28,24 +28,19 @@ public class CollectableHealth extends GameObject implements Animatable, Collida
     private Polygon collider;
     private final HashMap<Collidable, CollisionPlane> colliders;
     private boolean state;
+    private final Point initialPoint;
 
     public CollectableHealth(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
-        
         colliders = new HashMap<>();
 
-        int[] xPoly = {this.positionVector.x,
-            this.positionVector.x + 50,
-            this.positionVector.x + 50,
-            this.positionVector.x
-        };
-        int[] yPoly = {this.positionVector.y,
-            this.positionVector.y,
-            this.positionVector.y + 50,
-            this.positionVector.y + 50
-        };
+        this.initialPoint = initialPoint.getLocation();
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
 
-        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        collider = new Polygon();
         super.shape = collider;
 
         this.state = true;
@@ -53,12 +48,22 @@ public class CollectableHealth extends GameObject implements Animatable, Collida
 
     @Override
     protected void Update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
+        if (this.collider != null) {
+            this.collider.reset();
+            this.collider.addPoint(this.positionVector.x, this.positionVector.y);
+            this.collider.addPoint(this.positionVector.x + 50, this.positionVector.y);
+            this.collider.addPoint(this.positionVector.x + 50, this.positionVector.y + 50);
+            this.collider.addPoint(this.positionVector.x, this.positionVector.y + 50);
+        }
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.Update();
     }
 
     @Override
@@ -120,7 +125,7 @@ public class CollectableHealth extends GameObject implements Animatable, Collida
     public HashMap<Collidable, CollisionPlane> getColliders() {
         return this.colliders;
     }
-    
+
     @Override
     public void undoCollider() {
         this.collider = null;

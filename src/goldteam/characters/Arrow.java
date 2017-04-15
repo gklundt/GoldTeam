@@ -54,7 +54,7 @@ public class Arrow
         super.shape = initialCollider;
         this.velocityVector = velocityVector;
         collided = false;
-        prevPos = (Point)(initialPoint.clone());
+        prevPos = initialPoint.getLocation();
         this.animationChangeListeners = new ArrayList<>();
     }
 //</editor-fold>

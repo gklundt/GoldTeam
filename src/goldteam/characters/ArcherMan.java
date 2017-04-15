@@ -458,20 +458,20 @@ public class ArcherMan extends GameObject
             velX = 0d;
             this.positionVector.x = 0;
         }
-        if (this.positionVector.x > this.gamedata.getMapDimensions().width){
+        if (this.positionVector.x > this.gamedata.getVisibleDimensions().width) {
             velX = 0;
-            this.positionVector.x = this.gamedata.getMapDimensions().width;
+            this.positionVector.x = this.gamedata.getVisibleDimensions().width;
         }
         if (this.positionVector.y < 0) {
             velY = 0d;
             this.positionVector.y = 0;
         }
-        if (this.positionVector.y > this.gamedata.getMapDimensions().height){
+        if (this.positionVector.y > this.gamedata.getVisibleDimensions().height) {
             velY = 0d;
-            this.positionVector.y = this.gamedata.getMapDimensions().height;
+            this.positionVector.y = this.gamedata.getVisibleDimensions().height;
         }
 
-                velocityVector.y = velY;
+        velocityVector.y = velY;
         velocityVector.x = velX;
 
         this.positionVector.x += this.getVelocityVector().x;
@@ -693,7 +693,10 @@ public class ArcherMan extends GameObject
 
     @Override
     public int getOffset() {
-        return 28;
+        Double mapY = gamedata.getMapDimensions().getHeight();
+        Double visY = gamedata.getVisibleDimensions().getHeight();
+        Double offset = 30 * (visY / mapY);
+        return offset.intValue();
     }
 
     public void specialFall(HorizontalPlatform pf) {

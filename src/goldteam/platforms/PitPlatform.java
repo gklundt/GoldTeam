@@ -31,26 +31,22 @@ public class PitPlatform extends GameObject implements Platform,
     private Polygon collider;
     private int width, height;
     private final HashMap<Collidable, CollisionPlane> colliders;
+    private final Point initialPoint;
 
     public PitPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
         super(gamedata, initialPoint);
         
         this.width = width;
         this.height = height;
+        this.initialPoint = initialPoint.getLocation();
+
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
 
         colliders = new HashMap<>();
-
-        int[] xPoly = {this.positionVector.x,
-            this.positionVector.x + this.width,
-            this.positionVector.x + this.width,
-            this.positionVector.x
-        };
-        int[] yPoly = {this.positionVector.y,
-            this.positionVector.y,
-            this.positionVector.y + this.height,
-            this.positionVector.y + this.height
-        };
-        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        collider = new Polygon();
         super.shape = collider;
     }
     
@@ -68,12 +64,22 @@ public class PitPlatform extends GameObject implements Platform,
 
     @Override
     protected void Update() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+
+        this.collider.reset();
+        this.collider.addPoint(this.positionVector.x, this.positionVector.y);
+        this.collider.addPoint(this.positionVector.x + this.width, this.positionVector.y);
+        this.collider.addPoint(this.positionVector.x + this.width, this.positionVector.y + this.height);
+        this.collider.addPoint(this.positionVector.x, this.positionVector.y + this.height);
+
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.Update();
     }
 
     @Override
