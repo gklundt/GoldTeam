@@ -52,16 +52,14 @@ public class FlatPlatform extends GameObject implements
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
     }
-    
+
     @Override
-    public int getWidth()
-    {
+    public int getWidth() {
         return width;
     }
-    
+
     @Override
-    public int getHeight()
-    {
+    public int getHeight() {
         return height;
     }
 
@@ -145,10 +143,13 @@ public class FlatPlatform extends GameObject implements
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Game Object Implementation">
+
     @Override
     protected void Update() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-this.positionVector = this.gamedata.getMapLocation();
+
+        this.positionVector.x = this.gamedata.getMapLocation().x;
+        this.positionVector.y = this.gamedata.getMapLocation().y;
     }
 
     @Override
