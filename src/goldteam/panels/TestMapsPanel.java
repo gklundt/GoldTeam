@@ -2,6 +2,7 @@ package goldteam.panels;
 
 
 import goldteam.animators.SkyAnimation;
+import goldteam.animators.TestMapAnimator;
 import goldteam.builders.FlatPlatformBuilder;
 import goldteam.builders.GhostEnemyBuilder;
 import goldteam.builders.HeartHudBuilder;
@@ -16,6 +17,7 @@ import goldteam.domain.AnimationState;
 import goldteam.domain.GamePanelBase;
 import goldteam.domain.PanelManager;
 import goldteam.gamedata.GameData;
+import goldteam.maps.TestMap;
 import goldteam.platforms.SkyPlatform;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -38,7 +40,11 @@ public class TestMapsPanel extends GamePanelBase {
         this.spawnPoint = new Point(1, 370);
         super.addGameObjects();
 
-
+        TestMap tm = new TestMap(gameData, new Point(0, 0));
+        TestMapAnimator tma = new TestMapAnimator(tm, gameData.getMapDimensions());
+        tm.addAnimator(AnimationState.DEFAULT,tma);
+        this.addGameObject(tm);
+        //this.layeredPane.add(tma, 5);
         
 
 

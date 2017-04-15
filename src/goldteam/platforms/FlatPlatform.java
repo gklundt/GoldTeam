@@ -148,6 +148,7 @@ public class FlatPlatform extends GameObject implements
     @Override
     protected void Update() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+this.positionVector = this.gamedata.getMapLocation();
     }
 
     @Override

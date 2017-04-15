@@ -51,7 +51,7 @@ public class GameData implements GameEngine,
         this.visibleDimensions = new Dimension(800, 600);
 
         // needs to be set from map dimensions if that exists
-        this.mapDimensions = new Dimension(800, 600);
+        this.mapDimensions = new Dimension(1600, 1200);
         this.mapLocationConverter = new CoordConv(mapDimensions, visibleDimensions);
         this.mapLocation = new Point();
 

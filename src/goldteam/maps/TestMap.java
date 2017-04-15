@@ -22,9 +22,7 @@ public class TestMap extends GameObject implements Animatable {
 // <editor-fold defaultstate="collapsed" desc="GameObject Implementation">
     @Override
     protected void Update() {
-
         this.positionVector = this.gamedata.getMapLocation();
-
     }
 
     @Override
