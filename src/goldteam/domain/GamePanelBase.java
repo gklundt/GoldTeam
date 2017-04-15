@@ -110,7 +110,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
             panelThread.interrupt();
             undoGraphics();
-            panelManager.setActivePanel(GamePanelManager.OPTIONS_PANEL);
+            panelManager.setActivePanel(GamePanelManager.START_PANEL);
         }
     }
 

@@ -38,6 +38,7 @@ class Bootstrap {
         GraphicsConfiguration gc = device.getDefaultConfiguration();
 
         PanelManager pm = GamePanelManager.getGamePanelManager();
+        addStartPanel(pm);
         addOptionsPanel(pm);
 
         /* Add additional test/game panels here. */
@@ -154,6 +155,12 @@ class Bootstrap {
 //        JPanel optionsPanel = new OptionsPanel(pm);
         String testPanel = OptionsPanel.class.getName();
         pm.addPanel(GamePanelManager.OPTIONS_PANEL, testPanel);
+    }
+
+    private void addStartPanel(PanelManager pm) {
+//        JPanel optionsPanel = new OptionsPanel(pm);
+        String testPanel = StartPanel.class.getName();
+        pm.addPanel(GamePanelManager.START_PANEL, testPanel);
     }
 
     private void addGameOverStageTestPanel(PanelManager pm) {

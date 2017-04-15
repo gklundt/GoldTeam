@@ -15,6 +15,7 @@ public class GamePanelManager implements PanelManager {
 
     /* Constants to locate panel managers */
     public static final String OPTIONS_PANEL = "OPTIONS_PANEL";
+    public static final String START_PANEL = "START_PANEL";
     public static final String TEST_GRAPHICS_PANEL = "TEST_GRAPHICS_PANEL";
     public static final String TEST_HUD_PANEL = "TEST_HUD_PANEL";
     public static final String TEST_GAME_ENGINE_PANEL = "TEST_GAME_ENGINE_PANEL";
