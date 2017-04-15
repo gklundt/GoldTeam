@@ -99,17 +99,7 @@ public class ArcherMan extends GameObject
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
         this.shape = new Polygon();
 
-        int[] xPoly = {this.positionVector.x - 10,
-            this.positionVector.x + 10,
-            this.positionVector.x + 10,
-            this.positionVector.x - 10
-        };
-        int[] yPoly = {this.positionVector.y - 30,
-            this.positionVector.y - 30,
-            this.positionVector.y + 30,
-            this.positionVector.y + 30
-        };
-        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        collider = new Polygon();
         super.shape = collider;
         colliders = new HashMap<>();
         this.yAcceleration = 3.0;
@@ -678,7 +668,7 @@ public class ArcherMan extends GameObject
         if (!grounded) {
             this.positionVector.y = (int) (yPos - getOffset());
             this.yAcceleration = 0.0;
-            this.velocityVector.y = 0.0;
+            this.velocityVector.y = yAcceleration;
             this.grounded = true;
             this.canDoubleJump = true;
         }
@@ -688,6 +678,7 @@ public class ArcherMan extends GameObject
     public void fall() {
         this.yAcceleration = 3.0;
         this.grounded = false;
+        this.velocityVector.y = yAcceleration;
     }
 
     @Override
