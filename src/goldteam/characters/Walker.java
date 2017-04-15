@@ -20,8 +20,6 @@ public class Walker extends BaseEnemy implements Fallable {
         maxSpeed = 6;
         yAcceleration = 3.0;
         this.velocityVector.y = yAcceleration;
-                
-        
 
         this.initialPoint = initialPoint.getLocation();
 

@@ -62,7 +62,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected final CollectableProvider collectableProvider;
 
     private final ArrowBuilder arrowBuilder;
-
+    private final LauncherEnemyBuilder launcherBuilder;
     protected Point spawnPoint;
     private ArcherBuilder archerBuilder;
     protected ArcherBow archerWeapon;
@@ -88,6 +88,8 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         this.hudProvider = new HudProvider();
         this.platformProvider = new PlatformProvider();
         this.arrowBuilder = new ArrowBuilder(gameData);
+        this.launcherBuilder = new LauncherEnemyBuilder(gameData);
+
         this.spawnPoint = new Point(400, 300);
         this.shootingStrategy = new ShootBuff();
     }
@@ -413,8 +415,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     }
 
     public void createLauncher(Point p) {
-        this.gameObjectBuilder = new LauncherEnemyBuilder(gameData);
-        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, (Point) p.clone()));
+        this.addGameObject(gameObjectProvider.build(launcherBuilder, p.getLocation()));
     }
 //</editor-fold>
 }

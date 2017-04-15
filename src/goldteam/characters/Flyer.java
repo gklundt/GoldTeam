@@ -1,13 +1,9 @@
 package goldteam.characters;
 
-import goldteam.builders.LauncherEnemyBuilder;
-import goldteam.domain.Delta;
+import goldteam.domain.DoubleVector;
 import goldteam.domain.GameEngine;
-import goldteam.domain.GameObjectBuilderBase;
 import goldteam.domain.GamePanelBase;
-import goldteam.domain.ModType;
-import goldteam.gamedata.GameData;
-import goldteam.providers.GameObjectProvider;
+import goldteam.domain.VectorMath;
 import java.awt.Point;
 import java.awt.Polygon;
 
@@ -16,6 +12,8 @@ public class Flyer extends BaseEnemy
     private GamePanelBase panel;
     private int timeSinceAttacked;
     private final int maxSpeed;
+    private final Point initialPoint;
+    private final Point projection;
 
     public Flyer(GameEngine gamedata, Point point, GamePanelBase panel)
     {
@@ -23,18 +21,16 @@ public class Flyer extends BaseEnemy
         this.panel = panel;
         maxSpeed = 6;
         
-        int[] xPoly = {this.positionVector.x - 12,
-            this.positionVector.x + 12,
-            this.positionVector.x + 12,
-            this.positionVector.x - 12
-        };
-        int[] yPoly = {this.positionVector.y - 12,
-            this.positionVector.y - 12,
-            this.positionVector.y + 12,
-            this.positionVector.y + 12
-        };
-        
-        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        this.initialPoint = point.getLocation();
+
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
+
+        projection = new Point();
+
+        collider = new Polygon();
         super.shape = collider;
         super.health = 3;
     }
@@ -42,47 +38,36 @@ public class Flyer extends BaseEnemy
     @Override
     protected void Update() {
         timeSinceAttacked++;
-        int dif = (int)(Math.sin(System.currentTimeMillis() / 1000) * 150);
-        int xdif = ((gamedata.getMovableCharacter().PositionVector().x + dif) - positionVector.x);
-        if (xdif > 0) {
-            moveRight(xdif);
-        } else {
-            moveLeft(xdif);
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+
+        Point mainCharMapLocation = gamedata.getMovableCharacter().PositionVector();
+        projection.y = mainCharMapLocation.y;
+        projection.x = this.positionVector.x;
+
+        DoubleVector diff = VectorMath.getVelocityVector(projection, mainCharMapLocation, this.maxSpeed);
+        this.initialPoint.x += diff.x;
+        this.initialPoint.y += diff.y;
+
+        this.positionVector.y = initialPoint.y + mapY;
+        this.positionVector.x = initialPoint.x + mapX;
+
+        if (this.collider != null) {
+            this.collider.reset();
+            this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y - 12);
+            this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y - 12);
+            this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y + 12);
+            this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y + 12);
         }
-        
-        this.collider.reset();
-        this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y - 12);
-        this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y - 12);
-        this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y + 12);
-        this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y + 12);
-        super.shape = collider;
 
         if (timeSinceAttacked > 60 && health > 0) {
-            attack();
+            attack(this.initialPoint);
         }
     }
 
-    private void moveLeft(int xdif) {
-        xdif /= 10;
-        if (xdif < -maxSpeed) {
-            xdif = -maxSpeed;
-        }
-        positionVector.x += xdif;
-
-    }
-
-    private void moveRight(int xdif) {
-        xdif /= 10;
-        if (xdif > maxSpeed) {
-            xdif = maxSpeed;
-        }
-        positionVector.x += xdif;
-
-    }
-
-    private void attack()
+    private void attack(Point location)
     {
-        this.panel.createLauncher(positionVector);
+        this.panel.createLauncher(location);
         timeSinceAttacked = 0;
     }
 

@@ -6,53 +6,54 @@ import goldteam.domain.VectorMath;
 import java.awt.Point;
 import java.awt.Polygon;
 
-public class Launcher extends BaseEnemy
-{
+public class Launcher extends BaseEnemy {
+
+    private final Point initialPoint;
+
     public Launcher(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
-        
-        int[] xPoly = {this.positionVector.x - 12,
-            this.positionVector.x + 12,
-            this.positionVector.x + 12,
-            this.positionVector.x - 12
-        };
-        int[] yPoly = {this.positionVector.y - 12,
-            this.positionVector.y - 12,
-            this.positionVector.y + 12,
-            this.positionVector.y + 12
-        };
-        
-        collider = new Polygon(xPoly, yPoly, xPoly.length);
+        this.initialPoint = initialPoint.getLocation();
+
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+        this.positionVector.x = initialPoint.x + mapX;
+        this.positionVector.y = initialPoint.y + mapY;
+
+        collider = new Polygon();
         super.shape = collider;
         super.health = 1;
     }
 
     @Override
-    protected void Update()
-    {
-        Point prevPos = (Point)positionVector.clone();
-        velocityVector.x = (double)gamedata.getMovableCharacter().PositionVector().x - positionVector.x;
-        velocityVector.y = (double)gamedata.getMovableCharacter().PositionVector().y - positionVector.y;
-        velocityVector = VectorMath.getVelocityVector(velocityVector, 5.0);
-        positionVector.x += velocityVector.x;
-        positionVector.y += velocityVector.y;
-        
-        this.collider = new Polygon();
-        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 10);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 10);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 10);
-        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 10);
-        super.shape = collider;
-        
-        if(this.animator != null)
-        {
-            DoubleVector dangle = new DoubleVector((double)(positionVector.x - prevPos.x), (double)(positionVector.y - prevPos.y));
-            double currentAngle = Math.atan(dangle.y/dangle.x);// + Math.PI/2;
-            if(velocityVector.x < -0.0005)
+    protected void Update() {
+        int mapX = this.gamedata.getMapLocation().x;
+        int mapY = this.gamedata.getMapLocation().y;
+
+        Point mainCharMapLocation = gamedata.getMovableCharacter().PositionVector();
+
+        DoubleVector diff = VectorMath.getVelocityVector(positionVector, mainCharMapLocation, 10d);
+        this.initialPoint.x += diff.x;
+        this.initialPoint.y += diff.y;
+
+        this.positionVector.y = initialPoint.y + mapY;
+        this.positionVector.x = initialPoint.x + mapX;
+
+        if (this.collider != null) {
+            this.collider.reset();
+            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 10);
+            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 10);
+            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 10);
+            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 10);
+        }
+
+        if (this.animator != null) {
+
+            double currentAngle = Math.atan(diff.y / diff.x);// + Math.PI/2;
+            if (velocityVector.x < -0.0005) {
                 currentAngle -= Math.PI;
+            }
             animator.af.setToRotation(currentAngle + Math.PI / 2);
         }
-        
-        
+
     }
 }
