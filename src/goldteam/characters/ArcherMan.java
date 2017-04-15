@@ -446,10 +446,8 @@ public class ArcherMan extends GameObject
         }
         
         if (right && !left) {
-            //this.velocityVector = VectorMath.getVelocityVector(rightVector, velocity * speedModifier);
             velX = velocity * speedModifier;
         } else if (left && !right) {
-            //this.velocityVector = VectorMath.getVelocityVector(leftVector, velocity * speedModifier);
             velX = -1*(velocity * speedModifier);
         } else {
             velX = 0d;
@@ -457,9 +455,6 @@ public class ArcherMan extends GameObject
         
         velocityVector.y = velY;
         velocityVector.x = velX;
-        
-        //velocityVector = VectorMath.getUnitVector(velocityVector);
-        //velocityVector = VectorMath.getVelocityVector(velocityVector, velocity);
         
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
@@ -469,8 +464,7 @@ public class ArcherMan extends GameObject
         this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);
         this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 30);
         this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 30);
-        
-        
+
         super.shape = collider;
     }
 //</editor-fold>
