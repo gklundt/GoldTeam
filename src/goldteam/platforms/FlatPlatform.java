@@ -151,6 +151,8 @@ public class FlatPlatform extends GameObject implements
 //        this.positionVector.x = this.gamedata.getMapLocation().x;
 //        this.positionVector.y = this.gamedata.getMapLocation().y;
 //
+//        System.out.println("this = " + this.positionVector.toString());
+//        
 //        this.collider.reset();
 //        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
 //        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);

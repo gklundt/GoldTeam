@@ -163,7 +163,7 @@ public class ArcherMan extends GameObject
 
     @Override
     public void notifyAttackableListeners() {
-        
+
         for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(null);
         }
@@ -226,7 +226,7 @@ public class ArcherMan extends GameObject
 
     @Override
     public void notifyDepletableListeners() {
-        
+
         for (ActionListener depletableListener : depletableListeners) {
             depletableListener.actionPerformed(null);
         }
@@ -428,7 +428,7 @@ public class ArcherMan extends GameObject
 
         double velY = velocityVector.y;
         double velX = velocityVector.x;
-        
+
         if (jump && grounded) {
             velY = -30 * jumpModifier;
             jump = false;
@@ -444,21 +444,40 @@ public class ArcherMan extends GameObject
         } else {
             velY += yAcceleration;  //Gravity
         }
-        
+
         if (right && !left) {
             velX = velocity * speedModifier;
         } else if (left && !right) {
-            velX = -1*(velocity * speedModifier);
+            velX = -1 * (velocity * speedModifier);
         } else {
             velX = 0d;
         }
-        
-        velocityVector.y = velY;
+
+        // Edge Check
+        if (this.positionVector.x < 0) {
+            velX = 0d;
+            this.positionVector.x = 0;
+        }
+        if (this.positionVector.x > this.gamedata.getMapDimensions().width){
+            velX = 0;
+            this.positionVector.x = this.gamedata.getMapDimensions().width;
+        }
+        if (this.positionVector.y < 0) {
+            velY = 0d;
+            this.positionVector.y = 0;
+        }
+        if (this.positionVector.y > this.gamedata.getMapDimensions().height){
+            velY = 0d;
+            this.positionVector.y = this.gamedata.getMapDimensions().height;
+        }
+
+                velocityVector.y = velY;
         velocityVector.x = velX;
-        
+
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
 
+        System.out.println("velX = " + this.positionVector);
         this.collider.reset();
         this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
         this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);
@@ -647,7 +666,7 @@ public class ArcherMan extends GameObject
 
     @Override
     public void notifyBoostableListeners() {
-        
+
         for (ActionListener al : this.boostableListeners) {
             al.actionPerformed(null);
         }

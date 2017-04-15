@@ -25,15 +25,15 @@ import java.util.HashMap;
 public class HorizontalPlatform extends GameObject implements
         Platform,
         Animatable,
-        Collidable{
+        Collidable {
 
     private AnimationBase animator;
     private Polygon collider;
     private int width, height;
     private final HashMap<Collidable, CollisionPlane> colliders;
-    
+
     public HorizontalPlatform(GameEngine gamedata, Point initialPoint, int width, int height) {
-        super(gamedata, initialPoint);    
+        super(gamedata, initialPoint);
         this.width = width;
         this.height = height;
 
@@ -53,27 +53,36 @@ public class HorizontalPlatform extends GameObject implements
         collider = new Polygon(xPoly, yPoly, xPoly.length);
         super.shape = collider;
     }
-    
+
     @Override
-    public int getWidth()
-    {
+    public int getWidth() {
         return width;
     }
-    
+
     @Override
-    public int getHeight()
-    {
+    public int getHeight() {
         return height;
     }
 
     @Override
     protected void Update() {
- //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        this.positionVector.x = this.gamedata.getMapLocation().x;
+        this.positionVector.y = this.gamedata.getMapLocation().y;
+
+        System.out.println("this = " + this.positionVector.toString());
+        this.collider.reset();
+        this.collider.addPoint(this.positionVector.x, this.positionVector.y);
+        this.collider.addPoint(this.positionVector.x + this.width, this.positionVector.y);
+        this.collider.addPoint(this.positionVector.x + this.width, this.positionVector.y + this.height);
+        this.collider.addPoint(this.positionVector.x, this.positionVector.y + this.height);
+
     }
 
     @Override
     protected void GraphicsUpdateHandler() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.Update();
     }
 
     @Override
@@ -108,8 +117,8 @@ public class HorizontalPlatform extends GameObject implements
 
     @Override
     public boolean isSolidTop() {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-       
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
@@ -119,8 +128,8 @@ public class HorizontalPlatform extends GameObject implements
 
     @Override
     public void setSolidTop(Boolean isSolidTop) {
-       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-         
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
@@ -135,7 +144,7 @@ public class HorizontalPlatform extends GameObject implements
 
     @Override
     public void addAnimationTimerListener(ActionListener listener) {
-        
+
     }
 
     @Override
@@ -155,7 +164,7 @@ public class HorizontalPlatform extends GameObject implements
         this.animator = animator;
     }
 
-   @Override
+    @Override
     public Polygon getPolygon() {
         return this.collider;
     }
@@ -190,6 +199,5 @@ public class HorizontalPlatform extends GameObject implements
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
     }
-    
+
 }
-    
