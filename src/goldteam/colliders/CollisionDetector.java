@@ -35,7 +35,7 @@ public class CollisionDetector implements CollisionRegister {
         this.workingFlag = false;
     }
 
-    private synchronized void CheckCollisions() {
+    private void CheckCollisions() {
 
         for (int i = 0; i < collidableObjects.size(); i++) {
             try {
@@ -64,7 +64,7 @@ public class CollisionDetector implements CollisionRegister {
 //        }
     }
 
-    private synchronized void notifyColliders(Collidable a, Collidable b) {
+    private void notifyColliders(Collidable a, Collidable b) {
         //System.out.println(String.format("%1$s collided with %2$s", a.getClass().getName(), b.getClass().getName()));
         collisionListeners.forEach((listener) -> {
             listener.CollisionDetected(a, b);

@@ -665,8 +665,12 @@ public class ArcherMan extends GameObject
 //<editor-fold defaultstate="collapsed" desc="Fallable Interface">
     @Override
     public void land(double yPos) {
+        double locationRatio = (double)gamedata.getVisibleDimensions().height/(double)gamedata.getMapDimensions().height;
+        double diff = ((this.positionVector.y - 30d) - yPos);
+        double adjustment = (diff) * locationRatio;
+        
         if (!grounded) {
-            this.positionVector.y = (int) (yPos - getOffset());
+            this.positionVector.y += (int) (adjustment);
             this.yAcceleration = 0.0;
             this.velocityVector.y = yAcceleration;
             this.grounded = true;
@@ -683,10 +687,8 @@ public class ArcherMan extends GameObject
 
     @Override
     public int getOffset() {
-        Double mapY = gamedata.getMapDimensions().getHeight();
-        Double visY = gamedata.getVisibleDimensions().getHeight();
-        Double offset = 30 * (visY / mapY);
-        return offset.intValue();
+        
+        return 28;
     }
 
     public void specialFall(HorizontalPlatform pf) {

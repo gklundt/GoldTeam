@@ -8,12 +8,14 @@ import goldteam.domain.CollisionListener;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Delta;
 import goldteam.domain.Fallable;
+import goldteam.domain.GameEngine;
 import goldteam.domain.GameObject;
 import goldteam.domain.ModType;
 import goldteam.domain.Movable;
 import goldteam.domain.Platform;
 import goldteam.platforms.*;
 import goldteam.platforms.PitPlatform;
+import java.awt.Dimension;
 
 public class PlatformCollider implements CollisionListener {
 
@@ -59,7 +61,7 @@ public class PlatformCollider implements CollisionListener {
                 GameObject obj = (GameObject) collidable;
                 //if(obj.PositionVector().x < hp.PositionVector().x + hp.getWidth() && obj.PositionVector().x > hp.PositionVector().x - hp.getWidth())
                 if(obj.getVelocityVector().y > 0 && obj.getPositionVector().y - hp.getPositionVector().y + ((Fallable)(obj)).getOffset() < 40)
-                    ((Fallable) collidable).land(hp.getPositionVector().y);
+                    ((Fallable) collidable).land((double)hp.getPositionVector().y);
             }
         }
         else if(collidable instanceof Launcher)
