@@ -575,6 +575,7 @@ public class ArcherMan extends GameObject
             velY = velY < 0 ? velY + 3 : 0d; // if rising slow down otherwise stop
             switch (this.jumpstate) {
                 case NONE:
+                    System.out.println("Not Falling/Not Jumping");
                     switch (ydir) {
                         case UP:
                             // you were on your way up anyway for some reason
@@ -593,6 +594,7 @@ public class ArcherMan extends GameObject
                     }
                     break;
                 case JUMP_1_RISING:
+                    System.out.println("Not Falling/Jump 1 Rising");
                     switch (ydir) {
                         case UP:
                             velY = velY < 0 ? velY + 3 : 0d; // if rising slow down otherwise stop
@@ -612,6 +614,7 @@ public class ArcherMan extends GameObject
                     }
                     break;
                 case JUMP_1_FALLING:
+                    System.out.println("Not Falling/Jump 1 Falling");
                     switch (ydir) {
                         case UP:
                             // not really possible in this state
@@ -632,6 +635,7 @@ public class ArcherMan extends GameObject
                     }
                     break;
                 case JUMP_2_RISING:
+                    System.out.println("Not Falling/Jump 2 Rising");
                     switch (ydir) {
                         case UP:
                             velY = velY < 0 ? velY + 3 : 0d; // if rising slow down otherwise stop
@@ -651,6 +655,7 @@ public class ArcherMan extends GameObject
                     }
                     break;
                 case JUMP_2_FALLING:
+                    System.out.println("Not Falling/Jump 2 Falling");
                     switch (ydir) {
                         case UP:
                             // not really possible in this state
