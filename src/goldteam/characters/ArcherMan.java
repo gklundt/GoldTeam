@@ -96,12 +96,12 @@ public class ArcherMan extends GameObject
         this.leftVector = new DoubleVector(-1d, 0d);
         this.rightVector = new DoubleVector(1d, 0d);
         this.positionVector = initialPoint;
-        this.initialVelocity = 10.0d;
+        this.initialVelocity = 7.5d;
         this.maxVelocity = 10d;
         this.speedModifier = 1.0f;
         this.jumpModifier = 1.0f;
-        this.gravity = 20d;
-        this.jumpVelocity = -30d;
+        this.gravity = 3d;
+        this.jumpVelocity = -25d;
         this.velocity = initialVelocity;
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
         this.isFalling = true;
@@ -379,7 +379,7 @@ public class ArcherMan extends GameObject
 
         if (this.gamedata.getHeldKeys().isEmpty()) {
             //this.velocity = 0;
-            this.rawVector.x = initialVelocity;
+            this.rawVector.x = 0d;//initialVelocity;
         }
 
         down = this.gamedata.getHeldKeys().contains(KeyEvent.VK_S);
@@ -558,7 +558,7 @@ public class ArcherMan extends GameObject
         if (this.isFalling) {
             // let gravity work 
             System.out.println("Falling");
-            velY = velY < gravity ? velY + 3 : gravity;
+            velY += gravity;
         } else {
 
             YDir ydir = YDir.STOPPED;
@@ -674,6 +674,8 @@ public class ArcherMan extends GameObject
                     throw new AssertionError(this.jumpstate.name());
             }
         }
+        
+        this.velocityVector.y = velY;
 
         // jump key is pressed
         if (jump) {
@@ -726,7 +728,10 @@ public class ArcherMan extends GameObject
         } else {
             velX = 0d;
         }
-
+        
+        this.positionVector.x += this.getVelocityVector().x;
+        this.positionVector.y += this.getVelocityVector().y;
+        
         // Edge Check
         if (this.positionVector.x < 0) {
             velX = 0d;
@@ -747,9 +752,6 @@ public class ArcherMan extends GameObject
 
         velocityVector.y = velY;
         velocityVector.x = velX;
-
-        this.positionVector.x += this.getVelocityVector().x;
-        this.positionVector.y += this.getVelocityVector().y;
 
         this.collider.reset();
         this.collider.addPoint(this.positionVector.x, this.positionVector.y);
@@ -874,8 +876,18 @@ public class ArcherMan extends GameObject
     }
 
     @Override
-    public void stopFalling() {
-        this.isFalling = false;
+    public void stopFalling(int y) {
+        if(isFalling)
+        {
+            this.positionVector.y = y - getOffset();
+            this.isFalling = false;
+        }
+    }
+    
+    @Override
+    public int getOffset()
+    {
+        return 32;
     }
 //</editor-fold>
 }
