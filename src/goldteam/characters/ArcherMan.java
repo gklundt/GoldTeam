@@ -48,6 +48,8 @@ public class ArcherMan extends GameObject
     private final ArrayList<ActionListener> boostableListeners;
     private final ArrayList<PlatformHelper> platformList;
 
+    private HashMap<CollisionPlane, Polygon> colldierList;
+
     private double velocity;
 
     private int charge;
@@ -459,7 +461,7 @@ public class ArcherMan extends GameObject
     @Override
     public void setVelocityScalarDelta(Delta delta
     ) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.velocityVector.x = delta.delta;
     }
 
     @Override
@@ -557,7 +559,7 @@ public class ArcherMan extends GameObject
         // Stopped by platforms started by jumping
         if (this.isFalling) {
             // let gravity work 
-            System.out.println("Falling");
+            //System.out.println("Falling");
             velY = velY < gravity ? velY + 3 : gravity;
         } else {
 
@@ -751,13 +753,33 @@ public class ArcherMan extends GameObject
         this.positionVector.x += this.getVelocityVector().x;
         this.positionVector.y += this.getVelocityVector().y;
 
-        this.collider.reset();
-        this.collider.addPoint(this.positionVector.x, this.positionVector.y);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 60);
-        this.collider.addPoint(this.positionVector.x, this.positionVector.y + 60);
+        if (this.collider != null) {
+            this.collider.reset();
+            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
+            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);
+            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 30);
+            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 30);
 
-        super.shape = collider;
+            super.shape = collider;
+        }
+
+        Polygon leftCollider = new Polygon();
+        leftCollider.addPoint(this.positionVector.x + 8, this.positionVector.y - 20);
+        leftCollider.addPoint(this.positionVector.x + 10, this.positionVector.y - 20);
+        leftCollider.addPoint(this.positionVector.x + 10, this.positionVector.y + 20);
+        leftCollider.addPoint(this.positionVector.x + 8, this.positionVector.y + 20);
+        
+        Polygon rightCollider = new Polygon();
+        rightCollider.addPoint(this.positionVector.x - 10, this.positionVector.y - 20);
+        rightCollider.addPoint(this.positionVector.x - 8, this.positionVector.y - 20);
+        rightCollider.addPoint(this.positionVector.x - 8, this.positionVector.y + 20);
+        rightCollider.addPoint(this.positionVector.x - 10, this.positionVector.y + 20);
+        try {
+            this.colldierList.put(CollisionPlane.LEFT, leftCollider);
+            this.colldierList.put(CollisionPlane.RIGHT, rightCollider);
+        } catch (Exception e) {
+
+        }
     }
 //</editor-fold>
 
@@ -878,4 +900,8 @@ public class ArcherMan extends GameObject
         this.isFalling = false;
     }
 //</editor-fold>
+
+    public Polygon getColldierList(CollisionPlane key) {
+        return colldierList.get(key);
+    }
 }

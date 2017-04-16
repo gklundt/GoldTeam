@@ -36,7 +36,7 @@ public class PitPlatformBuilder extends PlatformBuilderBase{
 
     @Override
     protected void addAnimations() {
-        PitPlatformAnimation ppa = new PitPlatformAnimation(this.pit, gameData.getMapDimensions(), "assets/lavaTile.png");
+        PitPlatformAnimation ppa = new PitPlatformAnimation(this.pit, gameData.getMapDimensions(), "assets/emptyPit.png");
         this.pit.addAnimator(AnimationState.DEFAULT, ppa);
         ppa.setDimensions(new Dimension(width, height));
     } 
