@@ -11,16 +11,18 @@ public class Walker extends BaseEnemy implements Fallable {
 
     private final int maxSpeed;
     private boolean grounded;
-    private double yAcceleration;
+    private final double gravity;
     private final Point initialPoint;
     private final Point projection;
+    private boolean isFalling;
 
     public Walker(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
-        maxSpeed = 6;
-        yAcceleration = 3.0;
-        this.velocityVector.y = yAcceleration;
+        this.maxSpeed = 6;
+        this.gravity = 3.0;
+        this.velocityVector.y = this.gravity;
 
+        this.isFalling = true;
         this.initialPoint = initialPoint.getLocation();
 
         int mapX = this.gamedata.getMapLocation().x;
@@ -39,6 +41,15 @@ public class Walker extends BaseEnemy implements Fallable {
     @Override
     protected void Update() {
 
+        Double velY = this.velocityVector.y;
+        Double velX = this.velocityVector.x;
+
+        if (this.isFalling) {
+            velY = velY < gravity ? velY + 1 : gravity;
+        } else {
+            velY = velY > 0 ? 0d : velY;
+        }
+
         int mapX = this.gamedata.getMapLocation().x;
         int mapY = this.gamedata.getMapLocation().y;
 
@@ -48,7 +59,7 @@ public class Walker extends BaseEnemy implements Fallable {
 
         DoubleVector diff = VectorMath.getVelocityVector(projection, mainCharMapLocation, this.maxSpeed);
         this.initialPoint.x += diff.x;
-        this.initialPoint.y += yAcceleration; // fall
+        this.initialPoint.y += velY; // fall
 
         this.positionVector.y = initialPoint.y + mapY;
         this.positionVector.x = initialPoint.x + mapX;
@@ -63,25 +74,13 @@ public class Walker extends BaseEnemy implements Fallable {
     }
 
     @Override
-    public void land(double yPos) {
-        if (!grounded) {
-            this.positionVector.y = (int) (yPos - 46);
-            this.yAcceleration = 0.0;
-            this.velocityVector.y = yAcceleration;
-            this.grounded = true;
-        }
+    public void startFalling() {
+        this.isFalling = true;
     }
 
     @Override
-    public void fall() {
-        this.yAcceleration = 10.0;
-        this.velocityVector.y = yAcceleration;
-        grounded = false;
-    }
-
-    @Override
-    public int getOffset() {
-        return 48;
+    public void stopFalling() {
+        this.isFalling = false;
     }
 
 }

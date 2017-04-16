@@ -26,12 +26,12 @@ public class ArcherMan extends GameObject
     private boolean right;
     private boolean left;
     private boolean jump;
-    private boolean canDoubleJump, grounded;
-    private Boolean isFacingLeft = false;
+    private boolean canDoubleJump;
+    private boolean isFacingLeft;
 
-    private final Double initialHealth = 10.0d;
-    private final Double initialShield = 10.0d;
-    private final Double initialVelocity = 10.0d;
+    private final Double initialHealth;
+    private final Double initialShield;
+    private final Double initialVelocity;
     private final DoubleVector rawVector;
     private final double maxVelocity;
 
@@ -50,13 +50,16 @@ public class ArcherMan extends GameObject
 
     private double velocity;
 
-    private int charge, debuffTime;
+    private int charge;
+    private int debuffTime;
     private int arrows;
 
-    private float speedModifier, jumpModifier;
+    private float speedModifier;
+    private float jumpModifier;
+
     //---Changed to public members to be accessed in implementing Panel------//
-    public AnimationBase animator;
-    public AnimationBase removeAnimator;
+    private AnimationBase animator;
+    private AnimationBase removeAnimator;
     private final Polygon collider;
 
     private ArcherBow archerBow;
@@ -64,52 +67,167 @@ public class ArcherMan extends GameObject
     private boolean isBoostableWeapon = false;
     private boolean isBoostableHealth = false;
     private boolean isPermanentBoostableWeapon = false;
-    private double yAcceleration;
+    private final double gravity;
+    private final double jumpVelocity;
     private boolean down;
     private final DoubleVector rightVector;
     private final DoubleVector leftVector;
     private final DoubleVector stationaryVector;
+    private boolean isFalling;
+
+    private enum JumpState {
+        NONE, JUMP_1_RISING, JUMP_1_FALLING, JUMP_2_RISING, JUMP_2_FALLING
+    };
+
+    private enum YDir {
+        UP, DOWN, STOPPED
+    }
+
+    private JumpState jumpstate;
 
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
         super(gameData, initialPoint);
-        this.stationaryVector = new DoubleVector();
+        this.initialShield = 10.0d;
+        this.initialHealth = 10.0d;
+        this.lives = 10;
+
+        this.rawVector = new DoubleVector(0d, 0d);
         this.leftVector = new DoubleVector(-1d, 0d);
         this.rightVector = new DoubleVector(1d, 0d);
-        this.lives = 10;
         this.positionVector = initialPoint;
-        this.animators = new HashMap<>();
-        this.rawVector = new DoubleVector(0d, 0d);
-        this.attackableListeners = new ArrayList<>();
-        this.depletableListeners = new ArrayList<>();
-        this.animationChangeListeners = new ArrayList<>();
-        this.boostableListeners = new ArrayList<>();
-        this.canDoubleJump = true;
-        this.grounded = false;
+        this.initialVelocity = 10.0d;
         this.maxVelocity = 10d;
-
         this.speedModifier = 1.0f;
         this.jumpModifier = 1.0f;
+        this.gravity = 20d;
+        this.jumpVelocity = -30d;
+        this.velocity = initialVelocity;
+        this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
+        this.isFalling = true;
+        this.platformList = new ArrayList<>();
+        jumpstate = JumpState.NONE;
 
+        this.isFacingLeft = false;
+        this.stationaryVector = new DoubleVector();
+        this.animators = new HashMap<>();
+        this.canDoubleJump = true;
         this.health = initialHealth.intValue();
         this.shield = initialShield.intValue();
         this.maxHealth = this.health;
         this.maxShield = this.shield;
-        this.velocity = initialVelocity;
-        this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
         this.shape = new Polygon();
+        this.collider = new Polygon();
+        this.colliders = new HashMap<>();
 
-        collider = new Polygon();
+        this.attackableListeners = new ArrayList<>();
+        this.depletableListeners = new ArrayList<>();
+        this.animationChangeListeners = new ArrayList<>();
+        this.boostableListeners = new ArrayList<>();
+
         super.shape = collider;
-        colliders = new HashMap<>();
-        this.yAcceleration = 3.0;
 
-        platformList = new ArrayList<>(4);
     }
 
-//<editor-fold defaultstate="collapsed" desc="Methods that need to be encapsulated in a role interface">
+//<editor-fold defaultstate="collapsed" desc="Private parts">
     private boolean mousePressed() {
         return !gamedata.getHeldMouse().isEmpty();
+    }
+
+    private void setRight(boolean b) {
+        right = b;
+    }
+
+    private void setLeft(boolean b) {
+        left = b;
+    }
+
+    private void setJump(boolean b) {
+        jump = b;
+    }
+
+    private void setMousePressed(boolean b) {
+        if (!b) {
+            charge = 0;
+        }
+    }
+
+    private void setDown(boolean b) {
+        down = b;
+    }
+
+    private int getMouseCharge() {
+        return charge;
+    }
+
+    private int getNumLives() {
+        return lives;
+    }
+
+    private void die() {
+        lives--;
+        resetJump();
+        resetSpeed();
+        this.maxHealth = this.initialHealth.intValue();
+        this.maxShield = this.initialShield.intValue();
+        this.health = this.maxHealth;
+        this.shield = this.maxShield;
+        //this.removeMe = true;
+    }
+
+    private void shootArrow() {
+        arrows--;
+    }
+
+    private boolean canShootArrow() {
+        return arrows > 0;
+    }
+
+    private int getLifeValue() {
+        return lives;
+    }
+
+    private void setLifeValue(Delta delta) {
+        lives = delta.delta.intValue();
+    }
+
+    public boolean getDown() {
+        return down;
+    }
+
+    private class PlatformHelper {
+
+        HorizontalPlatform platform;
+        int timer;
+
+        public PlatformHelper(HorizontalPlatform p, int t) {
+            this.platform = p;
+            this.timer = t;
+        }
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Methods that need to be encapsulated in a role interface">
+    public void setArcherBow(ArcherBow archerBow) {
+        this.archerBow = archerBow;
+    }
+
+    public ArcherBow getArcherBow() {
+        return this.archerBow;
+    }
+
+    public void specialFall(HorizontalPlatform pf) {
+        this.startFalling();
+        this.platformList.add(new PlatformHelper(pf, 25));
+    }
+
+    public boolean checkPlatformList(HorizontalPlatform hp) {
+        for (PlatformHelper ph : platformList) {
+            if (ph.platform == hp) {
+                return true;
+            }
+        }
+        return false;
     }
 //</editor-fold>
 
@@ -157,6 +275,16 @@ public class ArcherMan extends GameObject
         for (ActionListener al : this.attackableListeners) {
             al.actionPerformed(null);
         }
+    }
+
+    @Override
+    public double getChargeValue() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setChargeDelta(Delta delta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 //</editor-fold>
 
@@ -399,40 +527,201 @@ public class ArcherMan extends GameObject
 
     @Override
     protected void Update() {
-        if (platformList == null) {
-            return;
+
+        Double velY = velocityVector.y;
+        Double velX = velocityVector.x;
+
+        // Considered stopped and transition jump state
+        double epsilon = .001d;
+        boolean transitioned = false;
+        if (velY > (-1d * epsilon) && velY < epsilon) {
+            velY = 0d;
+            if (this.jumpstate == JumpState.JUMP_2_FALLING && !transitioned) {
+                this.jumpstate = JumpState.NONE;
+                transitioned = true;
+            }
+            if (this.jumpstate == JumpState.JUMP_2_RISING && !transitioned) {
+                this.jumpstate = JumpState.JUMP_2_FALLING;
+                transitioned = true;
+            }
+            if (this.jumpstate == JumpState.JUMP_1_FALLING && !transitioned) {
+                this.jumpstate = JumpState.NONE;
+                transitioned = true;
+            }
+            if (this.jumpstate == JumpState.JUMP_1_RISING && !transitioned) {
+                this.jumpstate = JumpState.JUMP_1_FALLING;
+                transitioned = true;
+            }
         }
-        for (int i = 0; i < platformList.size(); i++) {
-            PlatformHelper ph = platformList.get(i);
-            ph.timer--;
-            if (ph.timer == 0) {
-                platformList.remove(ph);
-                i--;
+
+        // Stopped by platforms started by jumping
+        if (this.isFalling) {
+            // let gravity work 
+            System.out.println("Falling");
+            velY = velY < gravity ? velY + 3 : gravity;
+        } else {
+
+            YDir ydir = YDir.STOPPED;
+            if (velY > 0) {
+                ydir = YDir.DOWN;
+            }
+            if (velY < 0) {
+                ydir = YDir.UP;
+            }
+
+            // platform stopped gravity so continue to rise if needed
+            velY = velY > 0 ? 0d : velY; // if dropping stop otherwise continue at rate
+            velY = velY < gravity ? velY + 3 : gravity; // if falling slower than gravity fall faster until you reach gravity
+            velY = velY < 0 ? velY + 3 : 0d; // if rising slow down otherwise stop
+            switch (this.jumpstate) {
+                case NONE:
+                    System.out.println("Not Falling/Not Jumping");
+                    switch (ydir) {
+                        case UP:
+                            // you were on your way up anyway for some reason
+                            velY = velY < 0 ? velY + 3 : 0d; // if rising slow down otherwise stop
+                            startFalling();
+                            break;
+                        case DOWN:
+                            // stop downward velocity
+                            velY = velY > 0 ? 0d : velY; // if dropping stop otherwise continue up at rate
+                            break;
+                        case STOPPED:
+                            // stay stopped
+                            break;
+                        default:
+                            throw new AssertionError(ydir.name());
+                    }
+                    break;
+                case JUMP_1_RISING:
+                    System.out.println("Not Falling/Jump 1 Rising");
+                    switch (ydir) {
+                        case UP:
+                            velY = velY < 0 ? velY + 3 : 0d; // if rising slow down otherwise stop
+                            startFalling();
+                            break;
+                        case DOWN:
+                            // not really possible for this state
+                            velY = velY > 0 ? 0d : velY; // if dropping stop otherwise continue up at rate
+                            this.jumpstate = JumpState.JUMP_1_FALLING;
+                            break;
+                        case STOPPED:
+                            // stay stopped and change state to none
+                            this.jumpstate = JumpState.NONE;
+                            break;
+                        default:
+                            throw new AssertionError(ydir.name());
+                    }
+                    break;
+                case JUMP_1_FALLING:
+                    System.out.println("Not Falling/Jump 1 Falling");
+                    switch (ydir) {
+                        case UP:
+                            // not really possible in this state
+                            velY = velY < 0 ? velY + 3 : 0d; // if rising slow down otherwise stop
+                            startFalling();
+                            break;
+                        case DOWN:
+                            // stop because you hit a platform and go back to none
+                            velY = velY > 0 ? 0d : velY; // if dropping stop otherwise continue up at rate
+                            this.jumpstate = JumpState.NONE;
+                            break;
+                        case STOPPED:
+                            // stay stopped and change state to none
+                            this.jumpstate = JumpState.NONE;
+                            break;
+                        default:
+                            throw new AssertionError(ydir.name());
+                    }
+                    break;
+                case JUMP_2_RISING:
+                    System.out.println("Not Falling/Jump 2 Rising");
+                    switch (ydir) {
+                        case UP:
+                            velY = velY < 0 ? velY + 3 : 0d; // if rising slow down otherwise stop
+                            startFalling();
+                            break;
+                        case DOWN:
+                            // not really possible for this state
+                            velY = velY > 0 ? 0d : velY; // if dropping stop otherwise continue up at rate
+                            this.jumpstate = JumpState.JUMP_2_FALLING;
+                            break;
+                        case STOPPED:
+                            // stay stopped and change state to none
+                            this.jumpstate = JumpState.NONE;
+                            break;
+                        default:
+                            throw new AssertionError(ydir.name());
+                    }
+                    break;
+                case JUMP_2_FALLING:
+                    System.out.println("Not Falling/Jump 2 Falling");
+                    switch (ydir) {
+                        case UP:
+                            // not really possible in this state
+                            velY = velY < 0 ? velY + 3 : 0d; // if rising slow down otherwise stop
+                            startFalling();
+                            break;
+                        case DOWN:
+                            // stop because you hit a platform and go back to none
+                            velY = velY > 0 ? 0d : velY; // if dropping stop otherwise continue up at rate
+                            this.jumpstate = JumpState.NONE;
+                            break;
+                        case STOPPED:
+                            // stay stopped and change state to none
+                            this.jumpstate = JumpState.NONE;
+                            break;
+                        default:
+                            throw new AssertionError(ydir.name());
+                    }
+                    break;
+                default:
+                    throw new AssertionError(this.jumpstate.name());
+            }
+        }
+
+        // jump key is pressed
+        if (jump) {
+            jump = false;
+            platformList.clear();
+
+            switch (this.jumpstate) {
+                case NONE:
+                    velY = velY > jumpVelocity * jumpModifier ? jumpVelocity * jumpModifier : velY;
+                    this.jumpstate = JumpState.JUMP_1_RISING;
+                    this.startFalling();
+                    break;
+                case JUMP_1_RISING:
+                    velY = velY > jumpVelocity * jumpModifier ? jumpVelocity * jumpModifier : velY;
+                    this.jumpstate = JumpState.JUMP_2_RISING;
+                    break;
+                case JUMP_1_FALLING:
+                    velY = velY > jumpVelocity * jumpModifier ? jumpVelocity * jumpModifier : velY;
+                    this.jumpstate = JumpState.JUMP_2_RISING;
+                    break;
+                case JUMP_2_RISING:
+                    break;
+                case JUMP_2_FALLING:
+                    break;
+                default:
+                    throw new AssertionError(this.jumpstate.name());
+            }
+        }
+
+        if (platformList != null) {
+            for (int i = 0; i < platformList.size(); i++) {
+                PlatformHelper ph = platformList.get(i);
+                ph.timer--;
+                if (ph.timer == 0) {
+                    platformList.remove(ph);
+                    i--;
+                }
             }
         }
 
         debuffTime--;
         if (debuffTime == 0) {
             this.resetBuffs();
-        }
-
-        double velY = velocityVector.y;
-        double velX = velocityVector.x;
-
-        if (jump && grounded) {
-            velY = -30 * jumpModifier;
-            jump = false;
-            grounded = false;
-            yAcceleration = 3.0;
-            platformList.clear();
-        }
-        if (jump && canDoubleJump) {
-            velY = -22 * jumpModifier;     //Stops Momentum and creats upwards momentup for double jump
-            canDoubleJump = false;
-            yAcceleration = 3.0;
-            platformList.clear();
-        } else {
-            velY += yAcceleration;  //Gravity
         }
 
         if (right && !left) {
@@ -449,7 +738,7 @@ public class ArcherMan extends GameObject
             this.positionVector.x = 0;
         }
         if (this.positionVector.x > this.gamedata.getVisibleDimensions().width) {
-            velX = 0;
+            velX = 0d;
             this.positionVector.x = this.gamedata.getVisibleDimensions().width;
         }
         if (this.positionVector.y < 0) {
@@ -468,83 +757,14 @@ public class ArcherMan extends GameObject
         this.positionVector.y += this.getVelocityVector().y;
 
         this.collider.reset();
-        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);
-        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 30);
-        this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 30);
+        this.collider.addPoint(this.positionVector.x, this.positionVector.y);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y);
+        this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 60);
+        this.collider.addPoint(this.positionVector.x, this.positionVector.y + 60);
 
         super.shape = collider;
     }
 //</editor-fold>
-
-    public void setRight(boolean b) {
-        right = b;
-    }
-
-    public void setLeft(boolean b) {
-        left = b;
-    }
-
-    public void setJump(boolean b) {
-        jump = b;
-    }
-
-    public void setMousePressed(boolean b) {
-        if (!b) {
-            charge = 0;
-        }
-    }
-
-    public void setDown(boolean b) {
-        down = b;
-    }
-
-    public boolean getDown() {
-        return down;
-    }
-
-    public int getMouseCharge() {
-        return charge;
-    }
-
-    public int getNumLives() {
-        return lives;
-    }
-
-    public void die() {
-        lives--;
-        resetJump();
-        resetSpeed();
-        this.maxHealth = this.initialHealth.intValue();
-        this.maxShield = this.initialShield.intValue();
-        this.health = this.maxHealth;
-        this.shield = this.maxShield;
-        //this.removeMe = true;
-    }
-
-    public void shootArrow() {
-        arrows--;
-    }
-
-    public boolean canShootArrow() {
-        return arrows > 0;
-    }
-
-    public int getLifeValue() {
-        return lives;
-    }
-
-    public void setLifeValue(Delta delta) {
-        lives = delta.delta.intValue();
-    }
-
-    public void setArcherBow(ArcherBow archerBow) {
-        this.archerBow = archerBow;
-    }
-
-    public ArcherBow getArcherBow() {
-        return this.archerBow;
-    }
 
 //<editor-fold defaultstate="collapsed" desc="Collidable Interface">
     @Override
@@ -604,16 +824,6 @@ public class ArcherMan extends GameObject
     }
 //</editor-fold>
 
-    @Override
-    public double getChargeValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setChargeDelta(Delta delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 //<editor-fold defaultstate="collapsed" desc="Boostable Interface">
     @Override
     public void setBoostableWeapon(boolean boostable) {
@@ -664,56 +874,13 @@ public class ArcherMan extends GameObject
 
 //<editor-fold defaultstate="collapsed" desc="Fallable Interface">
     @Override
-    public void land(double yPos) {
-        double locationRatio = (double)gamedata.getVisibleDimensions().height/(double)gamedata.getMapDimensions().height;
-        double diff = ((this.positionVector.y - 30d) - yPos);
-        double adjustment = (diff) * locationRatio;
-        
-        if (!grounded) {
-            this.positionVector.y += (int) (adjustment);
-            this.yAcceleration = 0.0;
-            this.velocityVector.y = yAcceleration;
-            this.grounded = true;
-            this.canDoubleJump = true;
-        }
+    public void startFalling() {
+        this.isFalling = true;
     }
 
     @Override
-    public void fall() {
-        this.yAcceleration = 3.0;
-        this.grounded = false;
-        this.velocityVector.y = yAcceleration;
-    }
-
-    @Override
-    public int getOffset() {
-        
-        return 28;
-    }
-
-    public void specialFall(HorizontalPlatform pf) {
-        this.fall();
-        this.platformList.add(new PlatformHelper(pf, 25));
-    }
-
-    public boolean checkPlatformList(HorizontalPlatform hp) {
-        for (PlatformHelper ph : platformList) {
-            if (ph.platform == hp) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private class PlatformHelper {
-
-        HorizontalPlatform platform;
-        int timer;
-
-        public PlatformHelper(HorizontalPlatform p, int t) {
-            this.platform = p;
-            this.timer = t;
-        }
+    public void stopFalling() {
+        this.isFalling = false;
     }
 //</editor-fold>
 }

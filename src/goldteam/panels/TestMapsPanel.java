@@ -5,13 +5,10 @@ import goldteam.animators.SkyAnimation;
 import goldteam.animators.TestMapAnimator;
 import goldteam.builders.FlatPlatformBuilder;
 import goldteam.builders.GhostEnemyBuilder;
-import goldteam.builders.HeartHudBuilder;
 import goldteam.builders.HorizontalPlatformBuilder;
 import goldteam.builders.MapDoorsBuilder;
 import goldteam.builders.ObstaclePlatformBuilder;
 import goldteam.builders.PitPlatformBuilder;
-import goldteam.colliders.PlatformCollider;
-import goldteam.colliders.StationaryGhostCollider;
 import goldteam.domain.Animatable;
 import goldteam.domain.AnimationState;
 import goldteam.domain.GamePanelBase;
@@ -76,7 +73,7 @@ public class TestMapsPanel extends GamePanelBase {
         addGameObject(sky);
         
         //StationaryGhostCollider sg = new StationaryGhostCollider();
-        //PlatformCollider pc = new PlatformCollider();
+        //PlatformCollider pc = new FlatPlatformFallableCollider();
         //addGameObject(pc);
 //
 //        //this.layeredPane.add(ga2, layeredPane.highestLayer());
@@ -220,7 +217,7 @@ public class TestMapsPanel extends GamePanelBase {
         //collisionDetector.registerCollidable(dp);
 
         //-----------------------------------//
-//        PlatformCollider pc = new PlatformCollider();
+//        FlatPlatformFallableCollider pc = new FlatPlatformFallableCollider();
 //        CollisionDetector collisionDetector2;
 //        collisionDetector2 = new CollisionDetector(this.gameData);
 //        collisionDetector2.addCollisionListener(pc);

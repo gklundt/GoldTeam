@@ -18,7 +18,7 @@ import goldteam.builders.CollectableHealthBoostBuilder;
 import goldteam.builders.HeartHudBuilder;
 import goldteam.builders.ShieldHudBuilder;
 import goldteam.colliders.CollectableArrowCollider;
-import goldteam.colliders.PlatformCollider;
+import goldteam.colliders.FlatPlatformFallableCollider;
 import goldteam.colliders.CollectableShieldCollider;
 import goldteam.builders.CollectableHealthBuilder;
 import goldteam.builders.CollectableLifeBuilder;
@@ -39,6 +39,9 @@ import goldteam.colliders.CollectableLifeCollider;
 import goldteam.colliders.CollectablePermanentWeaponBoostCollider;
 import goldteam.colliders.CollectableWeaponBoostCollider;
 import goldteam.colliders.EnemyArrowCollider;
+import goldteam.colliders.HorizontalPlatformArcherCollider;
+import goldteam.colliders.PitPlatformFallableCollider;
+import goldteam.colliders.PlatformLauncherCollider;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 
@@ -57,35 +60,19 @@ public class TestCollidersPanel extends GamePanelBase
         this.spawnPoint = new Point(200, 0);
         super.addGameObjects();
 
-        CollectableArrowCollider ac = new CollectableArrowCollider();
-        addGameObject(ac);
-
-        CollectableShieldCollider sc = new CollectableShieldCollider();
-        addGameObject(sc);
-
-        CollectableHealthCollider hc = new CollectableHealthCollider();
-        addGameObject(hc);
-
-        CollectableLifeCollider lc = new CollectableLifeCollider();
-        addGameObject(lc);
-        
-        CollectableWeaponBoostCollider wbc = new CollectableWeaponBoostCollider();
-        addGameObject(wbc);
-        
-        CollectableHealthBoostCollider hbc = new CollectableHealthBoostCollider();
-        addGameObject(hbc);
-        
-        CollectablePermanentWeaponBoostCollider pwbc = new CollectablePermanentWeaponBoostCollider();
-        addGameObject(pwbc);
-        
-        PlatformCollider pc = new PlatformCollider();
-        addGameObject(pc);
-        
-        EnemyArrowCollider ec = new EnemyArrowCollider();
-        addGameObject(ec);
-
-        ArcherCollider arc = new ArcherCollider();
-        addGameObject(arc);
+        addGameObject(new CollectableArrowCollider());
+        addGameObject(new CollectableShieldCollider());
+        addGameObject(new CollectableHealthCollider());
+        addGameObject(new CollectableLifeCollider());
+        addGameObject(new CollectableWeaponBoostCollider());
+        addGameObject(new CollectableHealthBoostCollider());
+        addGameObject(new CollectablePermanentWeaponBoostCollider());
+        addGameObject(new FlatPlatformFallableCollider());
+        addGameObject (new HorizontalPlatformArcherCollider());
+        addGameObject (new PitPlatformFallableCollider());
+        addGameObject (new PlatformLauncherCollider());
+        addGameObject(new EnemyArrowCollider());
+        addGameObject(new ArcherCollider());
         
        /* this.collectableBuilder = new CollectableArrowBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));

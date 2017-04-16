@@ -6,9 +6,6 @@ package goldteam.domain;
  */
 public interface Fallable
 {
-    public void fall();
-    
-    public void land(double yPos);
-    
-    public int getOffset();
+    public void startFalling();
+    public void stopFalling();
 }
