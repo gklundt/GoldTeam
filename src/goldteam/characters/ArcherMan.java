@@ -76,6 +76,8 @@ public class ArcherMan extends GameObject
     private final DoubleVector leftVector;
     private final DoubleVector stationaryVector;
     private boolean isFalling;
+    private final Polygon leftCollider;
+    private final Polygon rightCollider;
 
     private enum JumpState {
         NONE, JUMP_1_RISING, JUMP_1_FALLING, JUMP_2_RISING, JUMP_2_FALLING
@@ -90,6 +92,8 @@ public class ArcherMan extends GameObject
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
         super(gameData, initialPoint);
+        this.rightCollider = new Polygon();
+        this.leftCollider = new Polygon();
         this.initialShield = 10.0d;
         this.initialHealth = 10.0d;
         this.lives = 10;
@@ -108,7 +112,7 @@ public class ArcherMan extends GameObject
         this.velocityVector = VectorMath.getVelocityVector(rawVector, this.velocity);
         this.isFalling = true;
         this.platformList = new ArrayList<>();
-        jumpstate = JumpState.NONE;
+        this.jumpstate = JumpState.NONE;
 
         this.isFacingLeft = false;
         this.stationaryVector = new DoubleVector();
@@ -126,6 +130,12 @@ public class ArcherMan extends GameObject
         this.depletableListeners = new ArrayList<>();
         this.animationChangeListeners = new ArrayList<>();
         this.boostableListeners = new ArrayList<>();
+        try {
+            this.colldierList.put(CollisionPlane.LEFT, leftCollider);
+            this.colldierList.put(CollisionPlane.RIGHT, rightCollider);
+        } catch (Exception e) {
+
+        }
 
         super.shape = collider;
 
@@ -765,23 +775,17 @@ public class ArcherMan extends GameObject
             super.shape = collider;
         }
         
-        Polygon leftCollider = new Polygon();
+        leftCollider.reset();
         leftCollider.addPoint(this.positionVector.x + 8, this.positionVector.y - 20);
         leftCollider.addPoint(this.positionVector.x + 10, this.positionVector.y - 20);
         leftCollider.addPoint(this.positionVector.x + 10, this.positionVector.y + 20);
         leftCollider.addPoint(this.positionVector.x + 8, this.positionVector.y + 20);
 
-        Polygon rightCollider = new Polygon();
+        rightCollider.reset();
         rightCollider.addPoint(this.positionVector.x - 10, this.positionVector.y - 20);
         rightCollider.addPoint(this.positionVector.x - 8, this.positionVector.y - 20);
         rightCollider.addPoint(this.positionVector.x - 8, this.positionVector.y + 20);
         rightCollider.addPoint(this.positionVector.x - 10, this.positionVector.y + 20);
-        try {
-            this.colldierList.put(CollisionPlane.LEFT, leftCollider);
-            this.colldierList.put(CollisionPlane.RIGHT, rightCollider);
-        } catch (Exception e) {
-
-        }
     }
 //</editor-fold>
 
