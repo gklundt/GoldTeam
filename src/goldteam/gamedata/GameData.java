@@ -48,7 +48,7 @@ public class GameData implements GameEngine,
         this.collisionTimer = new Timer(1000 / 48, null);
         this.heldKeys = new ArrayList<>();
         this.heldMouse = new HashMap<>();
-        this.visibleDimensions = new Dimension(800, 600);
+        this.visibleDimensions = new Dimension(800, 1200);
 
         // needs to be set from map dimensions if that exists
         this.mapDimensions = new Dimension(1600, 1200);
@@ -175,7 +175,7 @@ public class GameData implements GameEngine,
         Point vis = this.centralGameObject.PositionVector();
         this.getMapLocation(vis, mapLocation);
         mapLocation.x = (0 - mapLocation.x) + vis.x;
-        mapLocation.y = (0 - mapLocation.y) + vis.y;
+        mapLocation.y = (0 - mapLocation.y) + vis.y - 400;
         return mapLocation;
     }
 

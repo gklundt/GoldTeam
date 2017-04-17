@@ -42,6 +42,7 @@ import goldteam.colliders.EnemyArrowCollider;
 import goldteam.colliders.HorizontalPlatformArcherCollider;
 import goldteam.colliders.PitPlatformFallableCollider;
 import goldteam.colliders.PlatformLauncherCollider;
+import goldteam.colliders.WallCollider;
 import goldteam.domain.Delta;
 import goldteam.domain.ModType;
 
@@ -73,6 +74,7 @@ public class TestCollidersPanel extends GamePanelBase
         addGameObject (new PlatformLauncherCollider());
         addGameObject(new EnemyArrowCollider());
         addGameObject(new ArcherCollider());
+        addGameObject(new WallCollider());
         
        /* this.collectableBuilder = new CollectableArrowBuilder(gameData);
         addGameObject(this.collectableProvider.build(collectableBuilder, new Point(200, 300), gameData.getAttackableCharacter()));
@@ -123,8 +125,13 @@ public class TestCollidersPanel extends GamePanelBase
         addGameObject(this.platformProvider.build(platformBuilder, new Point(450, 928), 100, 250));
         
         this.platformBuilder = new FlatPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(550, 928), 1200, 250));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(550, 928), 200, 250));
         
+        this.platformBuilder = new FlatPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(750, 800), 100, 400));
+        
+        this.platformBuilder = new FlatPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(850, 928), 1200, 250));
         
         this.gameObjectBuilder = new WalkerEnemyBuilder(gameData);
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(500, 600)));

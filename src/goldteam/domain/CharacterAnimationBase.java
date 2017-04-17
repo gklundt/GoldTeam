@@ -74,7 +74,11 @@ public abstract class CharacterAnimationBase extends AnimationBase {
         for (int i = 0; i < numFrames; ++i) {
             int x1 = getcurrentFrameX();
             int y1 = getCurrentFrameY();
-            imgArray[i] = img.getSubimage(x1, y1, imgWidth, imgHeight);
+            try{
+                imgArray[i] = img.getSubimage(x1, y1, imgWidth, imgHeight);
+            } catch (Exception e){
+                
+            }
             ++currentFrame;
         }
         currentFrame = 0;

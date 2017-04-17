@@ -19,7 +19,7 @@ public class Walker extends BaseEnemy implements Fallable {
     public Walker(GameEngine gamedata, Point initialPoint) {
         super(gamedata, initialPoint);
         this.maxSpeed = 6;
-        this.gravity = 3.0;
+        this.gravity = 6.0;
         this.velocityVector.y = this.gravity;
 
         this.isFalling = true;
@@ -45,9 +45,9 @@ public class Walker extends BaseEnemy implements Fallable {
         Double velX = this.velocityVector.x;
 
         if (this.isFalling) {
-            velY = velY < gravity ? velY + 1 : gravity;
+            velY += gravity / 5;
         } else {
-            velY = velY > 0 ? 0d : velY;
+            velY = 0d;
         }
 
         int mapX = this.gamedata.getMapLocation().x;
@@ -61,7 +61,7 @@ public class Walker extends BaseEnemy implements Fallable {
         this.initialPoint.x += diff.x;
         this.initialPoint.y += velY; // fall
 
-        this.positionVector.y = initialPoint.y + mapY;
+        this.positionVector.y = initialPoint.y;
         this.positionVector.x = initialPoint.x + mapX;
 
         if (this.collider != null) {
@@ -71,6 +71,9 @@ public class Walker extends BaseEnemy implements Fallable {
             this.collider.addPoint(this.positionVector.x + 12, this.positionVector.y + 48);
             this.collider.addPoint(this.positionVector.x - 12, this.positionVector.y + 48);
         }
+        
+        this.velocityVector.x = velX;
+        this.velocityVector.y = velY;
     }
 
     @Override
@@ -79,8 +82,18 @@ public class Walker extends BaseEnemy implements Fallable {
     }
 
     @Override
-    public void stopFalling() {
-        this.isFalling = false;
+    public void stopFalling(int y) {
+        if(this.isFalling)
+        {
+            this.initialPoint.y = y - getOffset();
+            this.isFalling = false;
+        }
+    }
+    
+    @Override
+    public int getOffset()
+    {
+        return 46;
     }
 
 }
