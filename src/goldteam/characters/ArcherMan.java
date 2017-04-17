@@ -757,10 +757,10 @@ public class ArcherMan extends GameObject
 
         if (this.collider != null) {
             this.collider.reset();
-            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 30);
-            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 30);
-            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 30);
-            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 30);
+            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y - 34);
+            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y - 34);
+            this.collider.addPoint(this.positionVector.x + 10, this.positionVector.y + 34);
+            this.collider.addPoint(this.positionVector.x - 10, this.positionVector.y + 34);
 
             super.shape = collider;
         }
