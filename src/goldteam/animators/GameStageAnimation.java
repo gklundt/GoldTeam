@@ -31,7 +31,7 @@ public class GameStageAnimation extends GameStageAnimationBase {
 
     @Override
     public void resetAnimation() {
-        this.alpha = 0.0f;
+        this.alpha = 1.0f;
     }
 
 }

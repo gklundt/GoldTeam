@@ -27,6 +27,7 @@ import goldteam.builders.WeaponBoostStatusBarBuilder;
 import goldteam.builders.CollectableWeaponBoostBuilder;
 import goldteam.builders.DeathGameStageBuilder;
 import goldteam.builders.DeathPlatformBuilder;
+import goldteam.builders.DoorBuilder;
 import goldteam.builders.FlatPlatformBuilder;
 import goldteam.builders.FlyerEnemyBuilder;
 import goldteam.builders.HealthBoostStatusBarBuilder;
@@ -138,25 +139,27 @@ public class TestCollidersPanel extends GamePanelBase
         addGameObject(this.platformProvider.build(platformBuilder, new Point(850, 928), 1200, 250));
         
         this.gameObjectBuilder = new WalkerEnemyBuilder(gameData);
-        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(500, 600)));
+        this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(1500, 600)));
         
         this.gameObjectBuilder = new FlyerEnemyBuilder(gameData, this); //Passed so Flyers can create Launchers
         this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 500)));
         
         //Little platform
+        int helpx = 1025, helpy = 825;
         this.platformBuilder = new PitPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(310, 775), 10, 10));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(helpx - 10, helpy), 10, 10));
         this.platformBuilder = new HorizontalPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(320, 775), 50, 10));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(helpx, helpy), 50, 10));
         this.platformBuilder = new PitPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(370, 775), 10, 10));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(helpx + 50, helpy), 10, 10));
         
+        helpx = 320; helpy = 825;
         this.platformBuilder = new PitPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(310, 825), 10, 10));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(helpx - 10, helpy), 10, 10));
         this.platformBuilder = new HorizontalPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(320, 825), 50, 10));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(helpx, helpy), 50, 10));
         this.platformBuilder = new PitPlatformBuilder(gameData);
-        addGameObject(this.platformProvider.build(platformBuilder, new Point(370, 825), 10, 10));
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(helpx + 50, helpy), 10, 10));
         
         this.platformBuilder = new DeathPlatformBuilder(gameData);
         addGameObject(this.platformProvider.build(platformBuilder, new Point(450, 935), 100, 100));

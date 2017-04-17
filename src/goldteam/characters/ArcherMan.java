@@ -92,6 +92,8 @@ public class ArcherMan extends GameObject
     private Point spawnPosition;
     
     private GamePanelBase subscribedPanel;
+    
+    private int respawnCount, winCount;
 
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
@@ -101,7 +103,7 @@ public class ArcherMan extends GameObject
         this.leftCollider = new Polygon();
         this.initialShield = 10.0d;
         this.initialHealth = 10.0d;
-        this.lives = 10;
+        this.lives = 3;
 
         this.rawVector = new DoubleVector(0d, 0d);
         this.leftVector = new DoubleVector(-1d, 0d);
@@ -143,6 +145,9 @@ public class ArcherMan extends GameObject
         }
 
         super.shape = collider;
+        
+        this.respawnCount = -1;
+        this.winCount = -1;
 
     }
     
@@ -190,7 +195,8 @@ public class ArcherMan extends GameObject
         this.health = 0;
         this.shield = 0;
 
-        respawn();
+        this.subscribedPanel.showDeath();
+        respawnCount = 0;
     }
 
     private void shootArrow() {
@@ -236,6 +242,11 @@ public class ArcherMan extends GameObject
         this.shield = this.maxShield;
         this.positionVector = this.spawnPosition;
                 */
+    }
+    
+    public void win()
+    {
+        this.subscribedPanel.win();
     }
 //</editor-fold>
 
@@ -560,6 +571,20 @@ public class ArcherMan extends GameObject
     @Override
     protected void Update() {
 
+        if(respawnCount != -1)
+        {
+            respawnCount++;
+            if(respawnCount == 60)
+                respawn();
+        }
+        
+        if(winCount != -1)
+        {
+            winCount++;
+            if(winCount == 60)
+                this.subscribedPanel.showWin();
+        }
+        
         Double velY = velocityVector.y;
         Double velX = velocityVector.x;
 

@@ -57,8 +57,11 @@ public class Walker extends BaseEnemy implements Fallable {
         projection.y = mainCharMapLocation.y;
         projection.x = this.positionVector.x;
 
-        DoubleVector diff = VectorMath.getVelocityVector(projection, mainCharMapLocation, this.maxSpeed);
-        this.initialPoint.x += diff.x;
+        if(Math.abs(projection.x - mainCharMapLocation.x) < 500)
+        {
+            DoubleVector diff = VectorMath.getVelocityVector(projection, mainCharMapLocation, this.maxSpeed);
+            this.initialPoint.x += diff.x;
+        }
         this.initialPoint.y += velY; // fall
 
         this.positionVector.y = initialPoint.y;

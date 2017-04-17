@@ -11,8 +11,11 @@ import goldteam.characters.ArcherBow;
 import goldteam.colliders.CollisionDetector;
 import goldteam.builders.ArcherBuilder;
 import goldteam.builders.ArrowBuilder;
+import goldteam.builders.DeathGameStageBuilder;
 import goldteam.builders.FlyerEnemyBuilder;
 import goldteam.builders.LauncherEnemyBuilder;
+import goldteam.builders.OverGameStageBuilder;
+import goldteam.builders.WinGameStageBuilder;
 import goldteam.characters.ArcherMan;
 import goldteam.characters.Flyer;
 import goldteam.panels.TestCollidersPanel;
@@ -25,14 +28,18 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLayeredPane;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -432,16 +439,49 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 
     public void respawn()
     {
-        int lives = ((ArcherMan)(this.gameData.getMovableCharacter())).getLifeValue();
+        int lives = ((ArcherMan)(gameData.getMovableCharacter())).getLifeValue();
+        if(lives == 0)
+        {
+            win();
+            return;
+        }
         for(Object o : gameObjects)
-            this.removeGameObject(o);
+            removeGameObject(o);
         gameObjects.clear();
-        this.addGameObjects();
-        ((ArcherMan)(this.gameData.getMovableCharacter())).setLifeValue(lives - 1);
+        addGameObjects();
+        ((ArcherMan)(gameData.getMovableCharacter())).setLifeValue(lives - 1);
+    }
+    
+    public void win()
+    {
+        panelThread.interrupt();
+        undoGraphics();
+        this.panelManager.setActivePanel(GamePanelManager.START_PANEL);
     }
     
     public void createLauncher(Point p) {
         this.addGameObject(gameObjectProvider.build(launcherBuilder, p.getLocation()));
     }
 //</editor-fold>
+
+    public void showDeath()
+    {
+        int lives = ((ArcherMan)(gameData.getMovableCharacter())).getLifeValue();
+        if(lives != 0)
+        {
+            gameObjectBuilder = new DeathGameStageBuilder(gameData);
+            addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
+        }
+        else
+        {
+            gameObjectBuilder = new OverGameStageBuilder(this.gameData);
+            this.addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
+        }
+    }
+    
+    public void showWin()
+    {
+        gameObjectBuilder = new WinGameStageBuilder(gameData);
+        addGameObject(gameObjectProvider.build(gameObjectBuilder, new Point(400, 400)));
+    }
 }

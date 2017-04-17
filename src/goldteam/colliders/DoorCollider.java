@@ -5,14 +5,17 @@
  */
 package goldteam.colliders;
 
+import goldteam.characters.ArcherMan;
 import goldteam.characters.StationaryGhost;
 import goldteam.domain.Collidable;
 import goldteam.domain.CollisionListener;
 import goldteam.domain.CollisionPlane;
 import goldteam.domain.Delta;
+import goldteam.domain.Enemy;
 import goldteam.domain.ModType;
 import goldteam.domain.Movable;
 import goldteam.domain.Platform;
+import goldteam.platforms.DoorsPlatform;
 import javax.xml.stream.events.Characters;
 
 /**
@@ -22,28 +25,28 @@ import javax.xml.stream.events.Characters;
 
 public class DoorCollider implements CollisionListener{
     private Collidable door;
-    private Collidable collidable;
+    private Collidable c;
     
     public DoorCollider() {
     }
 
-    private void DoCollision() {
-        StationaryGhost g1 = (StationaryGhost) collidable;
-        g1.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+    private void DoCollision()
+    {
+        ((ArcherMan)(c)).win();
     }
     
 
     @Override
     public void CollisionDetected(Collidable a, Collidable b) {
-        //System.out.println(a + "   " + b);
-        if ((b instanceof StationaryGhost)) {
-            this.collidable = b;
+        if ((a instanceof ArcherMan) && (b instanceof DoorsPlatform)) {
+            this.door = b;
+            this.c = a;
             DoCollision();
 
-        } else if ((a instanceof StationaryGhost)) {
-            this.collidable = a;
+        } else if ((b instanceof ArcherMan) && (a instanceof DoorsPlatform)) {
+            this.c = b;
+            this.door = a;
             DoCollision();
         }
-        // Otherwise ignore the event, another colider should be used
     }
 }
