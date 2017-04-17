@@ -67,8 +67,11 @@ public class Flyer extends BaseEnemy
 
     private void attack(Point location)
     {
-        this.panel.createLauncher(location);
-        timeSinceAttacked = 0;
+        if(!this.removeMe)
+        {
+            this.panel.createLauncher(location);
+            timeSinceAttacked = 0;
+        }
     }
 
 }

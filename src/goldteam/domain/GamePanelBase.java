@@ -14,6 +14,7 @@ import goldteam.builders.ArrowBuilder;
 import goldteam.builders.FlyerEnemyBuilder;
 import goldteam.builders.LauncherEnemyBuilder;
 import goldteam.characters.ArcherMan;
+import goldteam.characters.Flyer;
 import goldteam.panels.TestCollidersPanel;
 import goldteam.providers.CollectableProvider;
 import goldteam.providers.GameObjectProvider;
@@ -421,6 +422,11 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         if (gameObject instanceof KeyHandler) {
             KeyHandler keyHandler = (KeyHandler) gameObject;
             this.keyEventListeners.remove(keyHandler);
+        }
+        
+        if (gameObject instanceof Flyer)
+        {
+            ((GameObject) gameObject).markForRemoval();
         }
     }
 
