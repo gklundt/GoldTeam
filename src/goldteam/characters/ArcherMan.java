@@ -88,10 +88,15 @@ public class ArcherMan extends GameObject
     }
 
     private JumpState jumpstate;
+    
+    private Point spawnPosition;
+    
+    private GamePanelBase subscribedPanel;
 
     public ArcherMan(GameEngine gameData, Point initialPoint) {
 
         super(gameData, initialPoint);
+        this.spawnPosition = (Point)(initialPoint.clone());
         this.rightCollider = new Polygon();
         this.leftCollider = new Polygon();
         this.initialShield = 10.0d;
@@ -140,6 +145,11 @@ public class ArcherMan extends GameObject
         super.shape = collider;
 
     }
+    
+    public void subscribe(GamePanelBase b)
+    {
+        this.subscribedPanel = b;
+    }
 
 //<editor-fold defaultstate="collapsed" desc="Private parts">
     private boolean mousePressed() {
@@ -176,15 +186,11 @@ public class ArcherMan extends GameObject
         return lives;
     }
 
-    private void die() {
-        lives--;
-        resetJump();
-        resetSpeed();
-        this.maxHealth = this.initialHealth.intValue();
-        this.maxShield = this.initialShield.intValue();
-        this.health = this.maxHealth;
-        this.shield = this.maxShield;
-        //this.removeMe = true;
+    public void die() {
+        this.health = 0;
+        this.shield = 0;
+
+        respawn();
     }
 
     private void shootArrow() {
@@ -195,12 +201,12 @@ public class ArcherMan extends GameObject
         return arrows > 0;
     }
 
-    private int getLifeValue() {
+    public int getLifeValue() {
         return lives;
     }
 
-    private void setLifeValue(Delta delta) {
-        lives = delta.delta.intValue();
+    public void setLifeValue(int l) {
+        lives = l;
     }
 
     public boolean getDown() {
@@ -216,6 +222,20 @@ public class ArcherMan extends GameObject
             this.platform = p;
             this.timer = t;
         }
+    }
+    
+    public void respawn()
+    {
+        this.subscribedPanel.respawn();
+        /*
+        resetJump();
+        resetSpeed();
+        this.maxHealth = this.initialHealth.intValue();
+        this.maxShield = this.initialShield.intValue();
+        this.health = this.maxHealth;
+        this.shield = this.maxShield;
+        this.positionVector = this.spawnPosition;
+                */
     }
 //</editor-fold>
 

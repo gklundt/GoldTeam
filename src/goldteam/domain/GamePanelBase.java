@@ -13,6 +13,8 @@ import goldteam.builders.ArcherBuilder;
 import goldteam.builders.ArrowBuilder;
 import goldteam.builders.FlyerEnemyBuilder;
 import goldteam.builders.LauncherEnemyBuilder;
+import goldteam.characters.ArcherMan;
+import goldteam.panels.TestCollidersPanel;
 import goldteam.providers.CollectableProvider;
 import goldteam.providers.GameObjectProvider;
 import goldteam.providers.HudProvider;
@@ -40,14 +42,14 @@ import javax.swing.event.AncestorListener;
 public abstract class GamePanelBase extends ManagedPanelBase implements AncestorListener, KeyListener, MouseListener {
 
     private Component glassPanel;
-    private final Runnable panelRunner;
+    private Runnable panelRunner;
     private Thread panelThread;
     private JLayeredPane layeredPane;
-    private final CollisionDetector collisionDetector;
-    private final ArrayList<KeyHandler> keyEventListeners;
-    private final ArrayList<ClickHandler> clickEventListeners;
+    private CollisionDetector collisionDetector;
+    private ArrayList<KeyHandler> keyEventListeners;
+    private ArrayList<ClickHandler> clickEventListeners;
 
-    protected final GameData gameData;
+    protected GameData gameData;
 
     protected GameObjectBuilderBase gameObjectBuilder;
     protected ProjectileBuilderBase projectileBuilder;
@@ -55,19 +57,21 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
     protected PlatformBuilderBase platformBuilder;
     protected CollectableBuilderBase collectableBuilder;
 
-    protected final GameObjectProvider gameObjectProvider;
-    protected final ProjectileProvider projectileProvider;
-    protected final HudProvider hudProvider;
-    protected final PlatformProvider platformProvider;
-    protected final CollectableProvider collectableProvider;
+    protected GameObjectProvider gameObjectProvider;
+    protected ProjectileProvider projectileProvider;
+    protected HudProvider hudProvider;
+    protected PlatformProvider platformProvider;
+    protected CollectableProvider collectableProvider;
 
-    private final ArrowBuilder arrowBuilder;
-    private final LauncherEnemyBuilder launcherBuilder;
+    private ArrowBuilder arrowBuilder;
+    private LauncherEnemyBuilder launcherBuilder;
     protected Point spawnPoint;
     private ArcherBuilder archerBuilder;
     protected ArcherBow archerWeapon;
 
     private ShootingStrategy shootingStrategy;
+    
+    private ArrayList<Object> gameObjects;
 
     public GamePanelBase(PanelManager panelManager, GameData gameData) {
         super(panelManager);
@@ -91,7 +95,9 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         this.launcherBuilder = new LauncherEnemyBuilder(gameData);
 
         this.spawnPoint = new Point(400, 300);
-        this.shootingStrategy = new ShootBuff();
+        this.shootingStrategy = new ShootDefault();
+        
+        this.gameObjects = new ArrayList<>();
     }
 
 //<editor-fold defaultstate="collapsed" desc="KeyEvents">
@@ -241,6 +247,8 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         addGameObject(gameObjectProvider.build(archerBuilder, spawnPoint));
         this.archerWeapon = new ArcherBow(gameData, gameData.getMovableCharacter().PositionVector());
         addGameObject(archerWeapon);
+        
+        ((ArcherMan)(gameData.getMovableCharacter())).subscribe(this);
 
         this.archerBuilder.setArcherBow(archerWeapon);
         switchWeapon((Boostable) this.gameData.getMovableCharacter());
@@ -324,6 +332,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
 //<editor-fold defaultstate="collapsed" desc="Add and Remove Game Objects">
     protected void addGameObject(Object gameObject) {
 
+        this.gameObjects.add(gameObject);
         if (gameObject instanceof Animatable) {
             Animatable animatable = (Animatable) gameObject;
             AnimationBase animationBase = animatable.getAnimator();
@@ -377,6 +386,7 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
             Removable removable = (Removable) gameObject;
             removable.addRemovableListener(l -> removeGameObject(l.getSource()));
         }
+
     }
 
     protected void removeGameObject(Object gameObject) {
@@ -414,6 +424,16 @@ public abstract class GamePanelBase extends ManagedPanelBase implements Ancestor
         }
     }
 
+    public void respawn()
+    {
+        int lives = ((ArcherMan)(this.gameData.getMovableCharacter())).getLifeValue();
+        for(Object o : gameObjects)
+            this.removeGameObject(o);
+        gameObjects.clear();
+        this.addGameObjects();
+        ((ArcherMan)(this.gameData.getMovableCharacter())).setLifeValue(lives - 1);
+    }
+    
     public void createLauncher(Point p) {
         this.addGameObject(gameObjectProvider.build(launcherBuilder, p.getLocation()));
     }
