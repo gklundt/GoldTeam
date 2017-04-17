@@ -25,6 +25,8 @@ import goldteam.builders.CollectableLifeBuilder;
 import goldteam.builders.CollectablePermanentWeaponBoostBuilder;
 import goldteam.builders.WeaponBoostStatusBarBuilder;
 import goldteam.builders.CollectableWeaponBoostBuilder;
+import goldteam.builders.DeathGameStageBuilder;
+import goldteam.builders.DeathPlatformBuilder;
 import goldteam.builders.FlatPlatformBuilder;
 import goldteam.builders.FlyerEnemyBuilder;
 import goldteam.builders.HealthBoostStatusBarBuilder;
@@ -38,6 +40,7 @@ import goldteam.colliders.CollectableHealthCollider;
 import goldteam.colliders.CollectableLifeCollider;
 import goldteam.colliders.CollectablePermanentWeaponBoostCollider;
 import goldteam.colliders.CollectableWeaponBoostCollider;
+import goldteam.colliders.DeathPlatformCollider;
 import goldteam.colliders.EnemyArrowCollider;
 import goldteam.colliders.HorizontalPlatformArcherCollider;
 import goldteam.colliders.PitPlatformFallableCollider;
@@ -58,7 +61,7 @@ public class TestCollidersPanel extends GamePanelBase
 
     @Override
     protected void addGameObjects() {
-        this.spawnPoint = new Point(200, 0);
+        this.spawnPoint = new Point(0, 300);
         super.addGameObjects();
 
         addGameObject(new CollectableArrowCollider());
@@ -72,6 +75,7 @@ public class TestCollidersPanel extends GamePanelBase
         addGameObject (new HorizontalPlatformArcherCollider());
         addGameObject (new PitPlatformFallableCollider());
         addGameObject (new PlatformLauncherCollider());
+        addGameObject (new DeathPlatformCollider());
         addGameObject(new EnemyArrowCollider());
         addGameObject(new ArcherCollider());
         addGameObject(new WallCollider());
@@ -153,5 +157,10 @@ public class TestCollidersPanel extends GamePanelBase
         addGameObject(this.platformProvider.build(platformBuilder, new Point(320, 825), 50, 10));
         this.platformBuilder = new PitPlatformBuilder(gameData);
         addGameObject(this.platformProvider.build(platformBuilder, new Point(370, 825), 10, 10));
+        
+        this.platformBuilder = new DeathPlatformBuilder(gameData);
+        addGameObject(this.platformProvider.build(platformBuilder, new Point(450, 935), 100, 100));
+        
     }
+    
 }

@@ -39,7 +39,7 @@ public class ArcherCollider implements CollisionListener {
                 am.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
             } else {
                 deathHit.play();
-                am.setHealthDelta(Delta.create(-1.0, ModType.FIXED));
+                am.die();
             }
         }
         
